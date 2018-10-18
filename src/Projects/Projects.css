@@ -1,0 +1,8 @@
+
+.cardGroup {
+    padding-bottom: 15px;
+}
+
+.cardGroup > * {
+    padding-bottom: 15px;
+}
