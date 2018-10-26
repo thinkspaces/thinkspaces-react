@@ -38,6 +38,33 @@ const projectPage = (props) => {
     switch (shortname) {
         case "homecooked":
             title = "Homecooked"
+            subtext = "Contact us: kevin@homecooked.io"
+            text = "Homecooked is a social dining app that lets you book homecooked meals made by people in your neighborhood. Events are organized based on shared social interests and take place in the cook’s home, typically in groups of 6 or 8. Events range between $15-25/person, but ultimately the cook decides price based on cost of ingredients and time worked. Cooks make 85% and Homecooked makes a 15% cut."
+            images = [
+            {
+                src: 'https://i.imgur.com/13WJMs2.jpg',
+            },
+            ]
+            break;
+        case "visionaryhealth":
+            title = "Visionary Health"
+            subtext = "Contact us: moustafa@visionairyhealth.com"
+            text = "Launched through the support of Yale’s Tsai Center for innovative Thinking and MIT’s Sandbox Innovation Fund, Visionairy Health is an AI/Healthcare startup developing the first automated imaging screening platform — an artificially intelligent solution capable of reliably distinguishing between normal and abnormal medical images. Using our proprietary datasets of millions of images, we are training our solution to detect abnormalities in chest x-rays."
+            images = [
+            {
+                src: 'https://i.imgur.com/pWyDjs3.png',
+            },
+            ]
+            break;
+        case "pearl":
+            title = "Pearl"
+            subtext = "Contact us: brandon.canfield@yale.edu"
+            text = "Pearl is a biometric technology startup working on bringing the first global cloud-based biometric authentication platform to market! Our team believes that a robust biometric authentication platform capable of hosting massive numbers of individuals will solve problems pertaining to the verification of ownership, the empowerment of the unbanked, tax evasion, voter fraud (touchy, we know, but we want to try), and much more. As we grow, we see ourselves becoming a vehicle that promotes and furthers transparency, equity, and economic mobility."
+            images = [
+            {
+                src: 'https://i.imgur.com/JwOFwwP.png',
+            },
+            ]
             break;
         default:
             title = "Not found"

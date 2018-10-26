@@ -8,19 +8,22 @@ const ProjectCard = (props) => {
 
     let shortname = "#"
     let title = "Card title"
+    let image = "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180"
+    let text = " text here "
     if (props.shortname) { shortname = "projects/" + props.shortname }
     if (props.title) { title = props.title }
+    if (props.image) { image = props.image }
+
 
     return (
         <div>
             <Card>
                 <CardBody>
                     <CardTitle>{ title }</CardTitle>
-                    <CardSubtitle>Card subtitle</CardSubtitle>
                 </CardBody>
-                <img width="100%" src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180" alt="Card image cap" />
+                <img width="100%" src={ image } alt="Card cap"/>
                 <CardBody>
-                    <CardText>Some quick example text to build on the card title and make up the bulk of the card's content.</CardText>
+                    <CardText>{ text }</CardText>
                     <CardLink href={shortname}>View Project</CardLink>
                 </CardBody>
             </Card>

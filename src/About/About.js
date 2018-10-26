@@ -16,12 +16,11 @@ const about = (props) => {
             </div>
             <Row justify-content-center>
                 <Col md={{ size: 8, offset: 2 }}>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet risus nullam eget felis eget nunc lobortis. Pellentesque id nibh tortor id aliquet lectus proin nibh. Elit ullamcorper dignissim cras tincidunt lobortis feugiat. Tincidunt lobortis feugiat vivamus at augue. Eget egestas purus viverra accumsan in. Semper risus in hendrerit gravida rutrum quisque. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus. Massa massa ultricies mi quis hendrerit dolor magna. Cras sed felis eget velit aliquet sagittis. Condimentum id venenatis a condimentum vitae sapien pellentesque. Ac tortor dignissim convallis aenean et tortor at risus. Malesuada pellentesque elit eget gravida cum sociis. Metus dictum at tempor commodo ullamcorper a lacus.</p>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet risus nullam eget felis eget nunc lobortis. Pellentesque id nibh tortor id aliquet lectus proin nibh. Elit ullamcorper dignissim cras tincidunt lobortis feugiat. Tincidunt lobortis feugiat vivamus at augue. Eget egestas purus viverra accumsan in. Semper risus in hendrerit gravida rutrum quisque. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus. Massa massa ultricies mi quis hendrerit dolor magna. Cras sed felis eget velit aliquet sagittis. Condimentum id venenatis a condimentum vitae sapien pellentesque. Ac tortor dignissim convallis aenean et tortor at risus. Malesuada pellentesque elit eget gravida cum sociis. Metus dictum at tempor commodo ullamcorper a lacus.</p>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Amet risus nullam eget felis eget nunc lobortis. Pellentesque id nibh tortor id aliquet lectus proin nibh. Elit ullamcorper dignissim cras tincidunt lobortis feugiat. Tincidunt lobortis feugiat vivamus at augue. Eget egestas purus viverra accumsan in. Semper risus in hendrerit gravida rutrum quisque. Viverra tellus in hac habitasse platea dictumst vestibulum rhoncus. Massa massa ultricies mi quis hendrerit dolor magna. Cras sed felis eget velit aliquet sagittis. Condimentum id venenatis a condimentum vitae sapien pellentesque. Ac tortor dignissim convallis aenean et tortor at risus. Malesuada pellentesque elit eget gravida cum sociis. Metus dictum at tempor commodo ullamcorper a lacus.</p>
-                </Col>
+                    <p> Make collaboration on campus easier with Thinkspaces.</p>
+                    <p> There are a lot of talented Yalies with great ideas, but unfortunately not all the resources are there. In particular, bringing together a functional team can be difficult.</p>
+                    <p> As a result, we want to make it as easy for you to find the people you need so that you can get to working on your idea as fast as possible. Simply post whatever you are working on - creative passion project, startup, club project, anything - and utlize our network of creatives to help bring your idea to life.</p>
+                    
+                    </Col>
             </Row>
         </div>
     );
