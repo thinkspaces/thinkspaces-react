@@ -27,7 +27,7 @@ const home = (props) => {
     return (
         <div>
             <div style={headerStyle}>
-                <h2>Think paces</h2>
+                <h2>Thinkspaces</h2>
                 <h4>Find and work on projects started by Yalies</h4>
                 <Button href="https://goo.gl/forms/TWUv6iRejb64BHis2" style={buttonStyle} outline>Submit a Project</Button>
                 <Button href="/projects" style={buttonStyle} color="danger">Browse Projects</Button>
