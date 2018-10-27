@@ -31,28 +31,7 @@ const projects = (props) => {
                     />
                 </Col>
             </Row>
-            <Row className="cardGroup">
-                <Col lg>
-                    <ProjectCard />
-                </Col>
-                <Col lg>
-                    <ProjectCard />
-                </Col>
-                <Col lg>
-                    <ProjectCard />
-                </Col>
-            </Row>
-            <Row className="cardGroup">
-                <Col lg>
-                    <ProjectCard />
-                </Col>
-                <Col lg>
-                    <ProjectCard />
-                </Col>
-                <Col lg>
-                    <ProjectCard />
-                </Col>
-            </Row>
+
         </div>
     );
 }
