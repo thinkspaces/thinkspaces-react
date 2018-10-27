@@ -12,6 +12,7 @@ const ProjectCard = (props) => {
     let text = " text here "
     if (props.shortname) { shortname = "projects/" + props.shortname }
     if (props.title) { title = props.title }
+    if (props.text) {text = props.text }
     if (props.image) { image = props.image }
 
 
