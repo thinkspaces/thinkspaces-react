@@ -16,11 +16,11 @@ const projectPage = (props) => {
     let title = ""
     let subtext = ""
     
-    let aboutus = "About Us"
+    let aboutus = "About us"
     let aboutdes = "Accumsan nostra diam faucibus dis nullam magnis odio ridiculus pulvinar vestibulum, orci per est sociosqu hendrerit ultricies justo nisi venenatis, consequat mi sem tristique fringilla morbi conubia non ligula. Libero lacinia vehicula leo felis praesent curae venenatis, diam cras sapien in mattis ante morbi, sodales pharetra pretium tempor justo hac. Venenatis euismod pretium fusce class lacus ut elit tristique nulla habitant hendrerit, inceptos hac potenti at taciti laoreet nibh scelerisque velit est sagittis natoque, platea phasellus parturient efficitur vel lectus urna lacinia tempus lorem. Eu ante metus enim varius et luctus feugiat neque, phasellus maximus himenaeos tellus senectus adipiscing habitasse, auctor posuere odio ut in ultricies imperdiet. Interdum et sem suspendisse maecenas netus magnis est, porta consectetur ante tellus non massa mattis, praesent felis himenaeos primis curae habitant."
     
-    let whoweneed = "Who We Need"
-    let whodes = "This is who we need."
+    let whoweneed = ""
+    let whodes = ""
     let whodes2 = ""
     
     let images = [
@@ -44,10 +44,11 @@ const projectPage = (props) => {
     switch (shortname) {
         case "homecooked":
             title = "Homecooked"
-            subtext = "Contact us: kevin@homecooked.io"
+            subtext = "contact us: kevin@homecooked.io"
             
             aboutdes = "Homecooked is a social dining app that lets you book homecooked meals made by people in your neighborhood. Events are organized based on shared social interests and take place in the cook’s home, typically in groups of 6 or 8. Events range between $15-25/person, but ultimately the cook decides price based on cost of ingredients and time worked. Cooks make 85% and Homecooked makes a 15% cut."
 
+            whoweneed = "Who we need"
             whodes = "We’re looking for engineers who are passionate about connecting people, preferably with prior experience building an app. UI and design experience a huge plus."
 
             images = [
@@ -59,10 +60,11 @@ const projectPage = (props) => {
 
         case "visionaryhealth":
             title = "Visionary Health"
-            subtext = "Contact us: moustafa@visionairyhealth.com"
+            subtext = "contact us: moustafa@visionairyhealth.com"
             
             aboutdes = "Launched through the support of Yale’s Tsai Center for innovative Thinking and MIT’s Sandbox Innovation Fund, Visionairy Health is an AI/Healthcare startup developing the first automated imaging screening platform — an artificially intelligent solution capable of reliably distinguishing between normal and abnormal medical images. Using our proprietary datasets of millions of images, we are training our solution to detect abnormalities in chest x-rays."
             
+            whoweneed = "Who we need"
             whodes = "We are looking for people with an entrepreneurial mindset and interest in health care and/or machine learning to join our team on a part-time basis. Depending on the progress of the project, interns may be presented with the opportunity to take on a full-time leadership position in the company."
             whodes2 = "We are looking for people with an entrepreneurial mindset and interest in research, healthcare and/or Radiology to join our team on a part-tim basis. The position entails working mainly with patient data to perform different tasks such as identify different health conditions, anatomical structures, and localizing anomolies"
 
@@ -74,15 +76,46 @@ const projectPage = (props) => {
             break;
         case "pearl":
             title = "Pearl"
-            subtext = "Contact us: brandon.canfield@yale.edu"
+            subtext = "contact us: brandon.canfield@yale.edu"
             aboutdes = "Pearl is a biometric technology startup working on bringing the first global cloud-based biometric authentication platform to market! Our team believes that a robust biometric authentication platform capable of hosting massive numbers of individuals will solve problems pertaining to the verification of ownership, the empowerment of the unbanked, tax evasion, voter fraud (touchy, we know, but we want to try), and much more. As we grow, we see ourselves becoming a vehicle that promotes and furthers transparency, equity, and economic mobility."
             
+            whoweneed = "Who we need"
             whodes = "So far our team has very extensive backend development experience, and Java/Android experience, but we're spread very thin. We're looking for someone with extensive Java and Android development experience to work on our frontend. iOS development, Python, and/or machine learning experience would be a pluss, but less immediately necessary. That would just allow us to be more flexible with changing work requirements"
             whodes2 = "We're also looking for someone with extensive web security experience, who has worked with AWS, Flask, Python, Apache and Nginx, and MySQL. Ideally the experience would be related to the payment industry"
             images = [
             {
                 src: 'https://i.imgur.com/JwOFwwP.png',
             },
+            ]
+            break;
+        case "moves":
+            title = "MovesU"
+            subtext = "contact us: chris.moore@yale.edu "
+            aboutdes = "MovesU is a fun, social events app for and driven by college students. With MovesU, hosts can make events and quickly invite as well as mix-and-match from large handcrafted groups of guests to create the perfect guest list fast. Once at the door, begone list of names and a flashlight! - each guest gets a digital ticket they can show at the door of the event to show they were invited. Later on, if the event started out private, the host has the option to open up their event to be seen by everybody nearby."
+            whoweneed = "Who we need"
+            whodes = "We are looking for events of any size, from small gatherings to massive parties. It's perfect for hosts who want to quickly invite small or large customizable groups of friends to their events, and the digital tickets for each event (if you need them) make checking in at the door a breeze for both guests and the bouncers. Try us out!"
+            images = [
+            {
+                src: 'https://i.imgur.com/tsthgbV.jpg'
+            }
+            ]
+            break;
+        case "verb": 
+            title = "Verb Energy Co."
+            aboutdes = "You shouldn't have to settle for energy that doesn't make you feel good. We made Verb because we were tired of jitters, sugar crashes, and headaches. We deserved better and so do you."
+            images = [
+            {
+                src: 'https://i.imgur.com/3ebztyQ.jpg'
+            }
+            ]
+            break;
+        case "snackpass":
+            title = "Snackpass"
+            aboutdes = "Get lit discounts and never wait in line again."
+            images = [
+            {
+                src: 'https://i.imgur.com/kMhyEXX.png'
+            }
             ]
             break;
         default:
