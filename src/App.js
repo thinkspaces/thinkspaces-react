@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
+import ReactGA from 'react-ga';
 
 import DefNavbar from './Navbar/Navbar';
 import Home from './Home/Home';
@@ -10,12 +11,7 @@ import ProjectPage from './Project/Page';
 
 import {
 	Container,
-	Row,
-	Col,
-	Jumbotron,
-	Button
 } from 'reactstrap';
-
 
 import './App.css';
 
@@ -23,6 +19,10 @@ const mainContainerStyle = {
 	"margin-bottom" : "100px",
 	"margin-top" : "50px",
 }
+
+// Google Analytics
+ReactGA.initialize('UA-128353649-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 class App extends Component {
 	render() {
