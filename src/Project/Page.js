@@ -66,7 +66,7 @@ const projectPage = (props) => {
             
             whoweneed = "Who we need"
             whodes = "We are looking for people with an entrepreneurial mindset and interest in health care and/or machine learning to join our team on a part-time basis. Depending on the progress of the project, interns may be presented with the opportunity to take on a full-time leadership position in the company."
-            whodes2 = "We are looking for people with an entrepreneurial mindset and interest in research, healthcare and/or Radiology to join our team on a part-tim basis. The position entails working mainly with patient data to perform different tasks such as identify different health conditions, anatomical structures, and localizing anomolies"
+            whodes2 = "We are looking for people with an entrepreneurial mindset and interest in research, healthcare and/or Radiology to join our team on a part-tim basis. The position entails working mainly with patient data to perform different tasks such as identify different health conditions, anatomical structures, and localizing anomalies."
 
             images = [
             {
@@ -81,7 +81,7 @@ const projectPage = (props) => {
             
             whoweneed = "Who we need"
             whodes = "So far our team has very extensive backend development experience, and Java/Android experience, but we're spread very thin. We're looking for someone with extensive Java and Android development experience to work on our frontend. iOS development, Python, and/or machine learning experience would be a pluss, but less immediately necessary. That would just allow us to be more flexible with changing work requirements"
-            whodes2 = "We're also looking for someone with extensive web security experience, who has worked with AWS, Flask, Python, Apache and Nginx, and MySQL. Ideally the experience would be related to the payment industry"
+            whodes2 = "We're also looking for someone with extensive web security experience, who has worked with AWS, Flask, Python, Apache and Nginx, and MySQL. Ideally the experience would be related to the payment industry."
             images = [
             {
                 src: 'https://i.imgur.com/JwOFwwP.png',

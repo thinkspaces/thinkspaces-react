@@ -59,13 +59,13 @@ const home = (props) => {
                  <Col lg>
                     <ProjectCard title="Homecooked" shortname="homecooked"
                      image='https://i.imgur.com/1zb0koc.jpg'
-                     text = "A social dining app that lets you book homecooked meals made by people in your neighborhood"
+                     text = "A social dining app that lets you book homecooked meals made by people in your neighborhood."
                      />
                  </Col>
                 <Col lg>
                     <ProjectCard title="Visionary Health" shortname="visionaryhealth"
                     image = 'https://i.imgur.com/PKpZUP9.jpg'
-                    text = "An AI/Healthcare startup developing the first automated imaging screening platform"
+                    text = "An AI/Healthcare startup developing the first automated imaging screening platform."
                     />
                 </Col>
                 <Col lg>
