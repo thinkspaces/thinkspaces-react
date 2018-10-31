@@ -4,6 +4,10 @@ import {
     CardTitle, CardSubtitle
 } from 'reactstrap';
 
+const BoxSize = {
+    height : "420px",
+};
+
 const ProjectCard = (props) => {
 
     let shortname = "#"
@@ -17,8 +21,8 @@ const ProjectCard = (props) => {
 
 
     return (
-        <div>
-            <Card>
+        <div >
+            <Card style = {BoxSize}>
                 <CardBody>
                     <CardTitle>{ title }</CardTitle>
                 </CardBody>
