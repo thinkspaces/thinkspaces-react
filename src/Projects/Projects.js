@@ -30,7 +30,7 @@ const projects = (props) => {
                 <Col lg>
                     <ProjectCard title = "Verb" shortname="verb"
                     image = 'https://i.imgur.com/ClqgMEf.jpg'
-                    text = "A biometric technology startup bringing the first global cloud-based biometric authentication platform to market."
+                    text = "We believe people should have the energy to feel focused and alive every day."
                     />
                 </Col>
             </Row>
@@ -51,6 +51,25 @@ const projects = (props) => {
                     <ProjectCard title = "Pearl" shortname="pearl"
                     image = 'https://i.imgur.com/a51qJgk.jpg'
                     text = "A biometric technology startup bringing the first global cloud-based biometric authentication platform to market."
+                    />
+                </Col>
+            </Row>
+            <Row className="cardGroup">
+                <Col lg>
+                    <ProjectCard title="Divvy|Campus" shortname="divvy"
+                     image='https://i.imgur.com/isyYghS.jpg'
+                     text = "We put together all the apps you need as a student to enjoy the college experience. "
+                     />
+                 </Col>
+                <Col lg>
+                    <ProjectCard title="Foosbuddy" shortname="foosbuddy"
+                    text = "Creating a foosball training aid that appeals to professional players."
+                    />
+                </Col>
+                <Col lg>
+                    <ProjectCard title = "Dualflo" shortname="dualflo"
+                    image = 'https://i.imgur.com/wCBwmoA.jpg'
+                    text = "Developing a novel device to address a significant complication associated with cardiopulmonary bypass."
                     />
                 </Col>
             </Row>
