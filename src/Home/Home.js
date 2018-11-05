@@ -9,6 +9,10 @@ import {
 import ProjectCard from '../Project/Card';
 import '../Projects/Projects.css'
 
+import HomeCard from '../Home/HomeCard';
+import FeaturedCard from '../Home/FeaturedCard';
+import SubCards from '../Home/Subcards';
+
 const headerStyle = {
     "margin" : "50px 0px 50px 0px",
     "text-align": "center",
@@ -29,11 +33,13 @@ const home = (props) => {
             <div style={headerStyle}>
                 <h1>Thinkspaces</h1>
                 <h3>Find and work on projects started by Yalies</h3>
-                <Button href="https://goo.gl/forms/TWUv6iRejb64BHis2" style={buttonStyle} outline>Submit a Project</Button>
-                <Button href="/projects" style={buttonStyle} color="danger">Browse Projects</Button>
+                <Button href="https://goo.gl/forms/TWUv6iRejb64BHis2" style={buttonStyle} outline>Browse Projects</Button>
+                <Button href="/projects" style={buttonStyle} color="danger">Submit a Project</Button>
             </div>
             <br></br>
             <h3 style={trendingStyle}><span role="img" aria-label="Fire">🔥</span> Noteworthy </h3>
+
+
             <Row className="cardGroup">
                  <Col lg>
                     <ProjectCard title="MovesU" shortname="moves"
@@ -54,7 +60,7 @@ const home = (props) => {
                     />
                 </Col>
             </Row>
-            <h3 style={trendingStyle}><span role="img" aria-label="BikingMan">🚴‍</span> In Development </h3>
+            <h3 style={trendingStyle}><span role="img" aria-label="BikingMan">🚴‍</span> Up and Coming </h3>
             <Row className="cardGroup">
                  <Col lg>
                     <ProjectCard title="Homecooked" shortname="homecooked"
@@ -79,4 +85,4 @@ const home = (props) => {
     );
 }
 
-export default home; 
+export default home;

@@ -8,6 +8,9 @@ import Projects from './Projects/Projects';
 import About from './About/About';
 import Footer from './Footer/Footer';
 import ProjectPage from './Project/Page';
+import HomeCard from './Home/HomeCard';
+import FeaturedCard from './Home/FeaturedCard';
+import SubCards from './Home/Subcards';
 
 import {
 	Container,
@@ -40,5 +43,5 @@ class App extends Component {
 		)
 	}
 }
-	
+
 export default App;
