@@ -33,8 +33,8 @@ const home = (props) => {
             <div style={headerStyle}>
                 <h1>Thinkspaces</h1>
                 <h3>Find and work on projects started by Yalies</h3>
-                <Button href="https://goo.gl/forms/TWUv6iRejb64BHis2" style={buttonStyle} outline>Browse Projects</Button>
-                <Button href="/projects" style={buttonStyle} color="danger">Submit a Project</Button>
+                <Button href="/projects" style={buttonStyle} outline>Browse Projects</Button>
+                <Button href="https://goo.gl/forms/TWUv6iRejb64BHis2" style={buttonStyle} color="danger">Submit a Project</Button>
             </div>
             <br></br>
             <h3 style={trendingStyle}><span role="img" aria-label="Fire">🔥</span> Noteworthy </h3>
