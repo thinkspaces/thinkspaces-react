@@ -151,7 +151,7 @@ const projectPage = (props) => {
             whodes = "We have a diverse background of founders, we're currently looking for engineers and entrepreneurs who understand hard work pays off. We believe we can create a campus application that matters. If you have taken CS50/223 or have skills in Java or Swift, we would love to have you on the team. "
             images = [
                 {
-                    src: 'https://i.imgur.com/kMhyEXX.png'
+                    src: 'https://i.imgur.com/6GzgnQT.png'
                 },
             ]
         break;
