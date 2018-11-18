@@ -3,6 +3,9 @@ import {
     Col, Row
 } from 'reactstrap';
 import DefCarousel from '../Carousel/Carousel';
+import { EmailShareButton } from 'react-share';
+import { EmailIcon } from 'react-share';
+
 
 
 const headerStyle = {
@@ -206,7 +209,8 @@ const projectPage = (props) => {
                             <b>{ contactus }</b>
                         </Col>
                         <Col >
-                            <b>{ contact }</b>
+                            <a href = {"mailto:" + contact}> {contact}</a>
+                            <EmailShareButton href = "mailto: chris.moore@yale.edu" style = {EmailIcon}/>
                         </Col>
                     </Row>
 
