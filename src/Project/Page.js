@@ -206,7 +206,7 @@ const projectPage = (props) => {
                             <b>{ contactus }</b>
                         </Col>
                         <Col >
-                            <b>{ contact }</b>
+                            <a href = {"mailto:" + contact }> {contact}</a>
                         </Col>
                     </Row>
 
