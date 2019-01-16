@@ -6,6 +6,7 @@ import {
 
 const BoxSize = {
     height : "420px",
+    width: "290px"
 };
 
 const ProjectCard = (props) => {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
 // database
+import { db } from "../firebase";
+
 import store from '../store';
 import { observer } from 'mobx-react';
 
@@ -14,15 +16,21 @@ const headerStyle = {
     "margin-bottom" : "20px",
 }
 
+
 class projects extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
             isPending: true,
-            projects: null,
+            projects: [],
             isError: false,
         }
+    }
+
+    componentDidMount = async () => {
+        let projects = await db.getProjects();
+        this.setState({ projects });
     }
 
     // componentDidMount() {
@@ -53,18 +61,17 @@ class projects extends Component {
     // }
 
     render () {
-        console.log(store.projects.docs);
-        let projects = store.projects.docs.map((doc) => 
-            <ProjectCard 
-                title={doc.title} 
-                image="yum"
-                text="rkj"
-            />
-        )
+        const { projects } = this.state;
 
         return (
             <div>
-                {projects}
+                {projects.map(p => (
+                    <ProjectCard
+                        title={p.title}
+                        image={p.images[0]}
+                        text={p.about}
+                    />
+                ))}
                 <h2 style={headerStyle}>All Projects</h2>
                 <Row className="cardGroup">
                     <Col lg>
