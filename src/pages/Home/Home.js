@@ -2,12 +2,12 @@ import React, { Component } from "react";
 
 import { Button, Row, Col } from "reactstrap";
 
-import ProjectCard from "../Project/Card";
+import ProjectCard from "../../components/Project/Card";
 import "../Projects/Projects.css";
 
 import StackGrid from "react-stack-grid";
 
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 const headerStyle = {
   margin: "50px 0px 50px 0px",

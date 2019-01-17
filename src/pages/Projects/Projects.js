@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
 // database
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
 import { observer } from "mobx-react";
 
 // custom components
 import { Row, Col } from "reactstrap";
-import ProjectCard from "../Project/Card";
+import ProjectCard from "../../components/Project/Card";
 
 // styles
 import "./Projects.css";

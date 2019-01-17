@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import ReactGA from "react-ga";
 
-import DefNavbar from "./Navbar/Navbar";
-import Home from "./Home/Home";
-import Projects from "./Projects/Projects";
-import About from "./About/About";
-import Footer from "./Footer/Footer";
-import ProjectPage from "./Project/Page";
+import DefNavbar from "./components/Navbar/Navbar";
+import Home from "./pages/Home/Home";
+import Projects from "./pages/Projects/Projects";
+import About from "./pages/About/About";
+import Footer from "./components/Footer/Footer";
+import ProjectPage from "./components/Project/Page";
 
 import { Container } from "reactstrap";
 
