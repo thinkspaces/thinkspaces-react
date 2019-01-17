@@ -1,21 +1,21 @@
 import React, { Component } from "react";
-
+import StackGrid from "react-stack-grid";
 // database
 import { db } from "../../firebase";
 
-import { observer } from "mobx-react";
+// import { observer } from "mobx-react";
 
 // custom components
-import { Row, Col } from "reactstrap";
+// import { Row, Col } from "reactstrap";
 import ProjectCard from "../../components/Project/Card";
 
 // styles
 import "./Projects.css";
 const headerStyle = {
-  "margin-bottom": "20px"
+  marginBottom: "20px"
 };
 
-class projects extends Component {
+export default class Projects extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,11 +35,18 @@ class projects extends Component {
 
     return (
       <div>
-        {projects.map(p => (
-          <ProjectCard title={p.title} image={p.images[0]} text={p.about} />
-        ))}
         <h2 style={headerStyle}>All Projects</h2>
-        <Row className="cardGroup">
+        <StackGrid columnWidth={"33%"}>
+          {projects.map((p, i) => (
+            <ProjectCard
+              key={i}
+              title={p.title}
+              image={p.images[0]}
+              text={"handle text here"}
+            />
+          ))}
+        </StackGrid>
+        {/*<Row className="cardGroup">
           <Col lg>
             <ProjectCard
               title="MovesU"
@@ -116,9 +123,10 @@ class projects extends Component {
             />
           </Col>
         </Row>
+          */}
       </div>
     );
   }
 }
 
-export default observer(projects);
+// export default observer(projects);

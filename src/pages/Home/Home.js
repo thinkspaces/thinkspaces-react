@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-
-import { Button, Row, Col } from "reactstrap";
-
-import ProjectCard from "../../components/Project/Card";
 import "../Projects/Projects.css";
 
-import StackGrid from "react-stack-grid";
+import { Button, Row, Col } from "reactstrap";
+import ProjectCard from "../../components/Project/Card";
 
 import { db } from "../../firebase";
 
@@ -33,7 +30,6 @@ export default class Home extends Component {
   };
 
   render() {
-    const { projects } = this.state;
     return (
       <div>
         <div style={headerStyle}>
@@ -54,23 +50,9 @@ export default class Home extends Component {
         <h3 style={trendingStyle}>
           <span role="img" aria-label="Fire">
             🔥
-          </span>{" "}
-          Noteworthy{" "}
+          </span>
+          &nbsp;Noteworthy
         </h3>
-
-        <div>
-          <StackGrid columnWidth={300}>
-            {projects.map((p, i) => (
-              <ProjectCard
-                key={i}
-                title={p.title}
-                shortname={p.shortname}
-                image={p.images[0]}
-                text={"hiding text until card layout is fixed"}
-              />
-            ))}
-          </StackGrid>
-        </div>
         <Row className="cardGroup">
           <Col lg>
             <ProjectCard
@@ -100,8 +82,8 @@ export default class Home extends Component {
         <h3 style={trendingStyle}>
           <span role="img" aria-label="BikingMan">
             🚴‍
-          </span>{" "}
-          Up and Coming{" "}
+          </span>
+          &nbsp;Up and Coming
         </h3>
         <Row className="cardGroup">
           <Col lg>

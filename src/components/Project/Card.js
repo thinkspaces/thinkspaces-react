@@ -3,7 +3,8 @@ import { Card, CardText, CardBody, CardLink, CardTitle } from "reactstrap";
 
 const BoxSize = {
   height: "420px",
-  width: "290px"
+  width: "290px",
+  display: "inline-block"
 };
 
 const ProjectCard = props => {
@@ -26,18 +27,16 @@ const ProjectCard = props => {
   }
 
   return (
-    <div>
-      <Card style={BoxSize}>
-        <CardBody>
-          <CardTitle>{title}</CardTitle>
-        </CardBody>
-        <img width="288px" height="163px" src={image} alt="Card cap" />
-        <CardBody>
-          <CardText>{text}</CardText>
-          <CardLink href={shortname}>View Project</CardLink>
-        </CardBody>
-      </Card>
-    </div>
+    <Card style={BoxSize}>
+      <CardBody>
+        <CardTitle>{title}</CardTitle>
+      </CardBody>
+      <img width="288px" height="163px" src={image} alt="Card cap" />
+      <CardBody>
+        <CardText>{text}</CardText>
+        <CardLink href={shortname}>View Project</CardLink>
+      </CardBody>
+    </Card>
   );
 };
 

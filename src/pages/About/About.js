@@ -6,7 +6,7 @@ const headerStyle = {
   "text-align": "center"
 };
 
-const about = props => {
+const About = () => {
   return (
     <div>
       <div style={headerStyle}>
@@ -26,15 +26,16 @@ const about = props => {
       <br />
       <Row justify-content-center>
         <Col md={{ size: 8, offset: 2 }}>
-          <p> Make collaboration easier with Thinkspaces.</p>
           <p>
-            {" "}
+            <br />
+            Make collaboration easier with Thinkspaces.
+            <br />
+            <br />
             There are a lot of talented Yalies with great ideas, but
             unfortunately not all the resources are there. In particular,
             bringing together a functional team can be difficult.
-          </p>
-          <p>
-            {" "}
+            <br />
+            <br />
             As a result, we want to make it as easy for you to find the people
             you need so that you can get to working on your idea as fast as
             possible. Simply post whatever you are working on - creative passion
@@ -42,11 +43,11 @@ const about = props => {
             creatives to help bring your idea to life.
           </p>
           <br />
-          <b> Contact us at teamthinkspaces@gmail.com </b>
+          <b>Contact us at teamthinkspaces@gmail.com </b>
         </Col>
       </Row>
     </div>
   );
 };
 
-export default about;
+export default About;
