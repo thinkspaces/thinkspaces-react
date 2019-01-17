@@ -1,11 +1,9 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import ReactDom from 'react-dom';
-import Popup from 'react-popup';
+import PropTypes from "prop-types";
+import React, { Component } from "react";
 
 export default class FeedbackForm extends Component {
   state = {
-    feedback: '',
+    feedback: "",
     formSubmitted: false
   };
 
@@ -13,11 +11,11 @@ export default class FeedbackForm extends Component {
   handleChange = this.handleChange.bind(this);
   handleSubmit = this.handleSubmit.bind(this);
 
-  static sender = 'sender@example.com';
+  static sender = "sender@example.com";
 
   handleCancel() {
     this.setState({
-      feedback: ''
+      feedback: ""
     });
   }
 
@@ -49,7 +47,7 @@ export default class FeedbackForm extends Component {
 
   sendFeedback(templateId, senderEmail, receiverEmail, feedback) {
     window.emailjs
-      .send('gmail', templateId, {
+      .send("gmail", templateId, {
         senderEmail,
         receiverEmail,
         feedback
@@ -60,7 +58,7 @@ export default class FeedbackForm extends Component {
         });
       })
       // Handle errors here however you like
-      .catch(err => console.error('Failed to send feedback. Error: ', err));
+      .catch(err => console.error("Failed to send feedback. Error: ", err));
   }
 
   render() {
