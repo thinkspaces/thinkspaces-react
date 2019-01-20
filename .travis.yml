@@ -6,7 +6,7 @@ branches:
     - master
 # before_script:
 #   - npm install -g firebase-tools
-# script:
-#   - CI=false npm run build
+script:
+  - CI=false npm run build
 # after_success:
 #   - firebase deploy --token $FIREBASE_TOKEN

@@ -8,6 +8,7 @@ import Projects from "./pages/Projects/Projects";
 import About from "./pages/About/About";
 import Footer from "./components/Footer/Footer";
 import ProjectPage from "./components/Project/Page";
+import SignUpIn from "./pages/SignUpIn/SignUpIn";
 
 import { Container } from "reactstrap";
 
@@ -32,6 +33,7 @@ class App extends Component {
           <Route path="/projects" exact component={Projects} />
           <Route path="/about" exact component={About} />
           <Route path="/projects/:shortname" exact component={ProjectPage} />
+          <Route path="/signupin" exact component={SignUpIn} />
         </Container>
         <Footer />
       </div>

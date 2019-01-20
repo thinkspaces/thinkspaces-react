@@ -58,6 +58,9 @@ export default class DefNavbar extends Component {
               <NavItem>
                 <NavLink href="/about">About</NavLink>
               </NavItem>
+              <NavItem outline color = "danger">
+                <NavLink href="/signupin">Sign Up/In</NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Container>
