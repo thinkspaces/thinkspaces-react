@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import logo from "../../logo.png";
+import { auth } from '../../firebase';
 import {
   Collapse,
   Navbar,
@@ -17,7 +18,7 @@ export default class DefNavbar extends Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false
+      isOpen: false,
     };
   }
 
@@ -28,8 +29,20 @@ export default class DefNavbar extends Component {
     });
   }
 
+  renderIfSignedIn() {
+      var loginState = auth.isSignedIn();
+      if(loginState == true){
+        return(
+            <NavItem>
+                <NavLink href= "/profile"> My Profile </NavLink>
+            </NavItem>
+        );
+      }
+  }
+
   // render method
   render() {
+
     return (
       <Navbar color="inverse" light expand="md">
         <Container>
@@ -61,6 +74,7 @@ export default class DefNavbar extends Component {
               <NavItem outline color = "danger">
                 <NavLink href="/signupin">Sign Up/In</NavLink>
               </NavItem>
+              {this.renderIfSignedIn()}
             </Nav>
           </Collapse>
         </Container>

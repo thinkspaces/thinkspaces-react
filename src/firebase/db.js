@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { db, auth } from "./firebase";
 
 export const getProjects = async () => {
     // create projects array
@@ -22,4 +22,20 @@ export const getProjects = async () => {
     //         // console.log(doc.data());
     //     }))
     // });
+}
+
+export const createUserwithFields = async (full_name, graduation, preferred_name, email) => {
+    var user = auth.currentUser;
+    return(db.collection("users").doc(user.uid).set({
+        full_name: "",
+        preferred_name: "",
+        graduation:"",
+        email:""
+    }));
+}
+
+export const getUserProfile = async () => {
+    var user = auth.currentUser;
+    let docRef = await db.collection("users").doc(user.uid).get();
+    return docRef;
 }
