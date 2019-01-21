@@ -3,11 +3,12 @@ import "../Projects/Projects.css";
 
 import { Button, Row, Col } from "reactstrap";
 import ProjectCard from "../../components/Project/Card";
+import sizeMe from "react-sizeme";
 
 import { db } from "../../firebase";
 
 const headerStyle = {
-  margin: "50px 0px 50px 0px",
+  margin: "50px 0px",
   textAlign: "center"
 };
 
@@ -19,7 +20,7 @@ const trendingStyle = {
   padding: "5px"
 };
 
-export default class Home extends Component {
+class Home extends Component {
   state = { projects: [] };
 
   componentDidMount = async () => {
@@ -30,6 +31,8 @@ export default class Home extends Component {
   };
 
   render() {
+    const { width } = this.props.size;
+
     return (
       <div>
         <div style={headerStyle}>
@@ -53,25 +56,29 @@ export default class Home extends Component {
           </span>
           &nbsp;Noteworthy
         </h3>
-        <Row className="cardGroup">
-          <Col lg>
+        {/* <Container> */}
+        <Row>
+          <Col sm>
             <ProjectCard
+              width={width}
               title="MovesU"
               shortname="moves"
               image="https://i.imgur.com/tslXFr4.jpg"
               text="A fun, social events app for and driven by college students. For events of any size, from small gatherings to massive parties."
             />
           </Col>
-          <Col lg>
+          <Col sm>
             <ProjectCard
+              width={width}
               title="Verb Energy Co."
               shortname="verb"
               image="https://i.imgur.com/ClqgMEf.jpg"
               text="We believe people should have the energy to feel focused and alive every day."
             />
           </Col>
-          <Col lg>
+          <Col sm>
             <ProjectCard
+              width={width}
               title="Snackpass"
               shortname="snackpass"
               image="https://i.imgur.com/uy5sbwL.jpg"
@@ -85,25 +92,28 @@ export default class Home extends Component {
           </span>
           &nbsp;Up and Coming
         </h3>
-        <Row className="cardGroup">
-          <Col lg>
+        <Row>
+          <Col sm>
             <ProjectCard
+              width={width}
               title="Homecooked"
               shortname="homecooked"
               image="https://i.imgur.com/1zb0koc.jpg"
               text="A social dining app that lets you book homecooked meals made by people in your neighborhood."
             />
           </Col>
-          <Col lg>
+          <Col sm>
             <ProjectCard
+              width={width}
               title="Visionary Health"
               shortname="visionaryhealth"
               image="https://i.imgur.com/PKpZUP9.jpg"
               text="An AI/Healthcare startup developing the first automated imaging screening platform."
             />
           </Col>
-          <Col lg>
+          <Col sm>
             <ProjectCard
+              width={width}
               title="Pearl"
               shortname="pearl"
               image="https://i.imgur.com/a51qJgk.jpg"
@@ -111,7 +121,10 @@ export default class Home extends Component {
             />
           </Col>
         </Row>
+        {/* </Container> */}
       </div>
     );
   }
 }
+
+export default sizeMe()(Home);
