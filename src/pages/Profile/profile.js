@@ -1,23 +1,43 @@
 import React, { Component } from "react";
+
+import AuthUserContext from "../../components/Authentication/AuthUserContext";
+import withAuthorization from "../../components/Authentication/withAuthorization";
 import { db } from "../../firebase";
 
 class Profile extends Component {
   state = {
-    email: "",
-    full_name: "",
-    graduation: "",
-    preferred_name: ""
+    profile: null
   };
 
   componentDidMount = async () => {
-    let userProfile = await db.getUserProfile();
-    console.log("hi");
-    console.log(userProfile);
+    let profile = await db.getUserProfile();
+    this.setState({ profile: profile.data() });
   };
 
   render() {
-    return <div>Profile Page</div>;
+    const { profile } = this.state;
+    return (
+      <div>
+        <AuthUserContext.Consumer>
+          {authUser =>
+            authUser && (
+              <div>
+                {profile && (
+                  <div>
+                    <h2>{profile.full_name}</h2>
+                    <div>{profile.email}</div>
+                    <div>Graduation: {profile.graduation}</div>
+                  </div>
+                )}
+                <div>uid: {authUser.uid}</div>
+              </div>
+            )
+          }
+        </AuthUserContext.Consumer>
+      </div>
+    );
   }
 }
 
-export default Profile;
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(Profile);

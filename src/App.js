@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import ReactGA from "react-ga";
+import withAuthentication from "./components/Authentication/withAuthentication";
 
 import DefNavbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
@@ -9,7 +10,7 @@ import About from "./pages/About/About";
 import Footer from "./components/Footer/Footer";
 import ProjectPage from "./components/Project/Page";
 import SignUpIn from "./pages/SignUpIn/SignUpIn";
-import Profile from "./pages/Profile/profile";
+import Profile from "./pages/Profile/Profile";
 
 import { Container } from "reactstrap";
 
@@ -43,4 +44,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withAuthentication(App);

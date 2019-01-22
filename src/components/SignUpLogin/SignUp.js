@@ -31,21 +31,27 @@ class SignUp extends Component {
       .then(response => {
         this.setState({ email: "", password: "", error: false });
 
-        db.createUserwithFields(
-          response.user.uid,
-          full_name,
-          graduation,
-          preferred_name,
-          email
-        ).then(() => {
-          this.setState({
-            full_name: "",
-            preferred_name: "",
-            graduation: "",
-            email: ""
+        response.user
+          .updateProfile({
+            displayName: preferred_name
+          })
+          .then(() => {
+            db.createUserwithFields(
+              response.user.uid,
+              full_name,
+              graduation,
+              preferred_name,
+              email
+            ).then(() => {
+              this.setState({
+                full_name: "",
+                preferred_name: "",
+                graduation: "",
+                email: ""
+              });
+              history.push("/");
+            });
           });
-          history.push("/");
-        });
       })
       .catch(error => {
         console.log(error);
