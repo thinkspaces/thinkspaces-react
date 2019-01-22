@@ -1,20 +1,23 @@
 import React, { Component } from "react";
-
 import { db } from "../../firebase";
 
-class Profile extends React.Component {
-    state: {
-        email: "",
-        full_name: "",
-        graduation: "",
-        preferred_name: "",
-    }
+class Profile extends Component {
+  state = {
+    email: "",
+    full_name: "",
+    graduation: "",
+    preferred_name: ""
+  };
 
-    componentDidMount = async () => {
-        let userProfile = await db.getUserProfile();
+  componentDidMount = async () => {
+    let userProfile = await db.getUserProfile();
+    console.log("hi");
+    console.log(userProfile);
+  };
 
-        // update state
-        this.setState({ userProfile });
-    }
-
+  render() {
+    return <div>Profile Page</div>;
+  }
 }
+
+export default Profile;

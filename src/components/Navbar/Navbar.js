@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import logo from "../../logo.png";
-import { auth } from '../../firebase';
+// import { auth } from "../../firebase";
 import {
   Collapse,
   Navbar,
@@ -19,6 +19,7 @@ export default class DefNavbar extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
+      isSignedIn: false
     };
   }
 
@@ -29,20 +30,20 @@ export default class DefNavbar extends Component {
     });
   }
 
-  renderIfSignedIn() {
-      var loginState = auth.isSignedIn();
-      if(loginState == true){
-        return(
-            <NavItem>
-                <NavLink href= "/profile"> My Profile </NavLink>
-            </NavItem>
-        );
-      }
-  }
+  // renderIfSignedIn() {
+  //   let loginState = auth.isSignedIn();
+  //   if (loginState === true) {
+  //     return (
+  //       <NavItem>
+  //         <NavLink href="/profile"> My Profile </NavLink>
+  //       </NavItem>
+  //     );
+  //   }
+  // }
 
   // render method
   render() {
-
+    const { isSignedIn } = this.state;
     return (
       <Navbar color="inverse" light expand="md">
         <Container>
@@ -71,10 +72,15 @@ export default class DefNavbar extends Component {
               <NavItem>
                 <NavLink href="/about">About</NavLink>
               </NavItem>
-              <NavItem outline color = "danger">
+              <NavItem color="danger">
                 <NavLink href="/signupin">Sign Up/In</NavLink>
               </NavItem>
-              {this.renderIfSignedIn()}
+              {isSignedIn && (
+                <NavItem>
+                  <NavLink href="/profile"> My Profile </NavLink>
+                </NavItem>
+              )}
+              {/* {this.renderIfSignedIn()} */}
             </Nav>
           </Collapse>
         </Container>

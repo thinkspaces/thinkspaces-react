@@ -1,5 +1,8 @@
 import React from "react";
+
+import "./Footer.css";
 import { Container } from "reactstrap";
+import sizeMe from "react-sizeme";
 
 const footerStyle = {
   position: "absolute",
@@ -11,12 +14,14 @@ const footerStyle = {
   backgroundColor: "#f5f5f5"
 };
 
-const footer = () => {
+const Footer = ({ size }) => {
   return (
     <div>
       <footer className="footer" style={footerStyle}>
         <Container>
-          <span className="text-muted">
+          <span
+            className={`text-muted text-style ${size.width < 375 && "mobile"}`}
+          >
             © Thinkspaces 2018. All rights reserved.
           </span>
         </Container>
@@ -25,4 +30,4 @@ const footer = () => {
   );
 };
 
-export default footer;
+export default sizeMe()(Footer);
