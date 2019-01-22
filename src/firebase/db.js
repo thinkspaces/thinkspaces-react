@@ -45,10 +45,10 @@ export const createUserwithFields = async (
 export const getUserProfile = async () => {
   let user = auth.currentUser;
   if (user) {
-    let docRef = await db
+    let snapshot = await db
       .collection("users")
       .doc(user.uid)
       .get();
-    return docRef;
+    return snapshot;
   } else return null;
 };

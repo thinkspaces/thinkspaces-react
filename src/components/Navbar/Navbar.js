@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import logo from "../../logo.png";
 import AuthUserContext from "../Authentication/AuthUserContext";
-// import { auth } from "../../firebase";
+import { auth } from "../../firebase";
 import {
   Collapse,
   Navbar,
@@ -10,7 +10,11 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Container
+  Container,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownItem,
+  DropdownMenu
 } from "reactstrap";
 
 export default class DefNavbar extends Component {
@@ -64,9 +68,18 @@ export default class DefNavbar extends Component {
               <AuthUserContext.Consumer>
                 {authUser =>
                   authUser ? (
-                    <NavItem>
-                      <NavLink href="/profile"> My Profile </NavLink>
-                    </NavItem>
+                    <UncontrolledDropdown nav inNavbar>
+                      <DropdownToggle nav caret>
+                        {authUser.displayName}
+                      </DropdownToggle>
+                      <DropdownMenu right>
+                        <DropdownItem href="/profile">My Profile</DropdownItem>
+                        <DropdownItem divider />
+                        <DropdownItem onClick={auth.signOutUser}>
+                          Sign Out
+                        </DropdownItem>
+                      </DropdownMenu>
+                    </UncontrolledDropdown>
                   ) : (
                     <NavItem color="danger">
                       <NavLink href="/signupin">Login</NavLink>
