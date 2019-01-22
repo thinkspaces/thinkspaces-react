@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { db } from "../../firebase";
+
+import AuthUserContext from "../../components/Authentication/AuthUserContext";
+import withAuthorization from "../../components/Authentication/withAuthorization";
+import { Button } from "reactstrap";
+import { auth } from "../../firebase";
 
 class Profile extends Component {
   state = {
@@ -9,15 +13,25 @@ class Profile extends Component {
     preferred_name: ""
   };
 
-  componentDidMount = async () => {
-    let userProfile = await db.getUserProfile();
-    console.log("hi");
-    console.log(userProfile);
-  };
-
   render() {
-    return <div>Profile Page</div>;
+    return (
+      <div>
+        <h2>Profile Page</h2>
+        <Button onClick={auth.signOutUser}>Log out</Button>
+        <AuthUserContext.Consumer>
+          {authUser =>
+            authUser && (
+              <div>
+                uid:
+                {authUser.uid}
+              </div>
+            )
+          }
+        </AuthUserContext.Consumer>
+      </div>
+    );
   }
 }
 
-export default Profile;
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(Profile);
