@@ -56,7 +56,6 @@ class Home extends Component {
           </span>
           &nbsp;Noteworthy
         </h3>
-        {/* <Container> */}
         <Row>
           <Col sm>
             <ProjectCard
@@ -121,7 +120,6 @@ class Home extends Component {
             />
           </Col>
         </Row>
-        {/* </Container> */}
       </div>
     );
   }

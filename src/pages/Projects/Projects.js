@@ -36,7 +36,6 @@ class Projects extends Component {
     return (
       <div>
         <h2 style={headerStyle}>All Projects</h2>
-        {/* <Container> */}
         <Row>
           {projects.map((p, i) => (
             <Col sm key={i}>
