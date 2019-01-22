@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import logo from "../../logo.png";
+import AuthUserContext from "../Authentication/AuthUserContext";
 // import { auth } from "../../firebase";
 import {
   Collapse,
@@ -18,8 +19,7 @@ export default class DefNavbar extends Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.state = {
-      isOpen: false,
-      isSignedIn: false
+      isOpen: false
     };
   }
 
@@ -30,20 +30,8 @@ export default class DefNavbar extends Component {
     });
   }
 
-  // renderIfSignedIn() {
-  //   let loginState = auth.isSignedIn();
-  //   if (loginState === true) {
-  //     return (
-  //       <NavItem>
-  //         <NavLink href="/profile"> My Profile </NavLink>
-  //       </NavItem>
-  //     );
-  //   }
-  // }
-
   // render method
   render() {
-    const { isSignedIn } = this.state;
     return (
       <Navbar color="inverse" light expand="md">
         <Container>
@@ -72,15 +60,20 @@ export default class DefNavbar extends Component {
               <NavItem>
                 <NavLink href="/about">About</NavLink>
               </NavItem>
-              <NavItem color="danger">
-                <NavLink href="/signupin">Sign Up/In</NavLink>
-              </NavItem>
-              {isSignedIn && (
-                <NavItem>
-                  <NavLink href="/profile"> My Profile </NavLink>
-                </NavItem>
-              )}
-              {/* {this.renderIfSignedIn()} */}
+
+              <AuthUserContext.Consumer>
+                {authUser =>
+                  authUser ? (
+                    <NavItem>
+                      <NavLink href="/profile"> My Profile </NavLink>
+                    </NavItem>
+                  ) : (
+                    <NavItem color="danger">
+                      <NavLink href="/signupin">Login</NavLink>
+                    </NavItem>
+                  )
+                }
+              </AuthUserContext.Consumer>
             </Nav>
           </Collapse>
         </Container>

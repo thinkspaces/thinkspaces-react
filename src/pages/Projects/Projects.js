@@ -44,7 +44,7 @@ class Projects extends Component {
                 key={i}
                 title={p.title}
                 image={p.images[0]}
-                text={"handle text here"}
+                text={p.card_des}
                 shortname={p.shortname}
               />
             </Col>
