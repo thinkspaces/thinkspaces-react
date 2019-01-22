@@ -3,7 +3,7 @@ import { Col, Row } from "reactstrap";
 
 const headerStyle = {
   margin: "50px 0px 50px 0px",
-  "text-align": "center"
+  textAlign: "center"
 };
 
 const About = () => {
@@ -12,7 +12,7 @@ const About = () => {
       <div style={headerStyle}>
         <h2> About Thinkspaces </h2>
       </div>
-      <Row justify-content-center>
+      <Row>
         <Col md={{ size: 9, offset: 4 }}>
           <img
             width="40%"
@@ -24,7 +24,7 @@ const About = () => {
       </Row>
 
       <br />
-      <Row justify-content-center>
+      <Row>
         <Col md={{ size: 8, offset: 2 }}>
           <p>
             <br />
