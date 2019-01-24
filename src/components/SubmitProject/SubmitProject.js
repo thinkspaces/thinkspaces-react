@@ -153,8 +153,7 @@ class SubmitProject extends Component {
                 (
                     <div>
                         <h2> Sign up or Login first</h2>
-                        <Button color="danger"> Sign Up  </Button>
-                        <Button outline="danger"> Login </Button>
+                        <Button color="danger" href="/signupin"> Sign Up/In </Button>
                     </div>
                 )
               }
