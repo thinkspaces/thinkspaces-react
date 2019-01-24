@@ -69,7 +69,6 @@ export const editUserOverview = async (
 
 export const createProjectWithFields = async(
     title,
-    shortname,
     contact,
     about,
     card_des,
@@ -82,7 +81,6 @@ export const createProjectWithFields = async(
       .collection("projects")
       .add({
           title,
-          shortname,
           contact,
           about,
           card_des,

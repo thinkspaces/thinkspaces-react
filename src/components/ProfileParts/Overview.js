@@ -76,22 +76,27 @@ class ProfileOverview extends Component {
                     authUser && (
                       <div>
                         {profile && (
-                          <div >
+                          <div>
                             <Row>
                                 <Col>
                                     <Avatar name = {profile.full_name}/>
                                     <h2>{profile.full_name}</h2>
-                                    <button onClick = {this.toggleEdit}> Edit </button>
                                     <br></br>
                                     <h5>{profile.email}</h5>
                                     <h5>Graduation: {profile.graduation}</h5>
-                                    <h5>Major/School: </h5>
+                                    <br></br>
 
                                 </Col>
                                 <Col>
-                                    <h3>Skills:</h3>
-                                    <h3>Relevant Courses:</h3>
-                                    <h3>Interests:</h3>
+                                    <h4>Major/School: </h4>
+                                    <hr></hr>
+                                    <h4>Skills:</h4>
+                                    <hr></hr>
+                                    <h4>Relevant Courses:</h4>
+                                    <hr></hr>
+                                    <h4>Interests:</h4>
+                                    <br></br>
+                                    <Button color="danger" onClick = {this.toggleEdit}> Edit Profile </Button>
                                 </Col>
                             </Row>
                           </div>
