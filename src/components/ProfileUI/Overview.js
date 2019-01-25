@@ -1,0 +1,120 @@
+import React, { Component } from "react";
+import { Button, Row, Col } from "reactstrap";
+
+import { db } from "../../firebase";
+import AuthUserContext from "../../components/Authentication/AuthUserContext";
+import withAuthorization from "../../components/Authentication/withAuthorization";
+
+import Avatar from "react-avatar";
+import EditProfile from "./EditProfile";
+
+const DetailView = ({ type, value, inline }) => (
+  <div className={`${inline && "d-flex"}`}>
+    <h4 className="text-muted">{type}:&nbsp;</h4>
+    {inline ? <h4>{value}</h4> : <h5>{value}</h5>}
+  </div>
+);
+
+class ProfileOverview extends Component {
+  state = {
+    profile: null,
+    isEditing: false
+  };
+
+  toggleEdit = () => {
+    this.setState({ isEditing: !this.state.isEditing });
+  };
+
+  componentDidMount = async () => {
+    let profile = await db.getUserProfile();
+    this.setState({ profile: profile.data() });
+  };
+
+  saveChanges = async () => {
+    const { profile } = this.state;
+    await db.saveProfileChanges(profile);
+    this.setState({ isEditing: false });
+  };
+
+  onEditChange = event => {
+    this.setState({
+      profile: {
+        ...this.state.profile,
+        [event.target.id]: event.target.value
+      }
+    });
+  };
+
+  render() {
+    const { profile, isEditing } = this.state;
+    if (isEditing) {
+      return (
+        <EditProfile
+          saveChanges={this.saveChanges}
+          profile={profile}
+          onEditChange={this.onEditChange}
+          onCancel={() => this.setState({ isEditing: false })}
+        />
+      );
+    } else {
+      return (
+        <div>
+          <AuthUserContext.Consumer>
+            {authUser =>
+              authUser && (
+                <div>
+                  {profile && (
+                    <div>
+                      <Row>
+                        <Col>
+                          <Avatar name={profile.full_name} />
+                          <h2>{profile.full_name}</h2>
+                          <br />
+                          <h5>{profile.email}</h5>
+                          <h5>Graduation: {profile.graduation}</h5>
+                          <br />
+                        </Col>
+                        <Col>
+                          <DetailView
+                            type="School"
+                            value={profile.university}
+                            inline
+                          />
+                          <hr />
+                          <DetailView
+                            type="Major"
+                            value={profile.major}
+                            inline
+                          />
+                          <hr />
+                          <DetailView type="Skills" value={profile.skills} />
+                          <hr />
+                          <DetailView
+                            type="Relevant Courses"
+                            value={profile.courses}
+                          />
+                          <hr />
+                          <DetailView
+                            type="Interests"
+                            value={profile.interests}
+                          />
+                          <br />
+                          <Button color="danger" onClick={this.toggleEdit}>
+                            Edit Profile
+                          </Button>
+                        </Col>
+                      </Row>
+                    </div>
+                  )}
+                </div>
+              )
+            }
+          </AuthUserContext.Consumer>
+        </div>
+      );
+    }
+  }
+}
+
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(ProfileOverview);

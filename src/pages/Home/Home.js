@@ -42,7 +42,7 @@ class Home extends Component {
             Browse Projects
           </Button>
           <Button
-            href="https://goo.gl/forms/TWUv6iRejb64BHis2"
+            href="/submitproject"
             style={buttonStyle}
             color="danger"
           >

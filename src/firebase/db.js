@@ -52,3 +52,46 @@ export const getUserProfile = async () => {
     return snapshot;
   } else return null;
 };
+
+//how to determine what data to set and what to add
+export const saveProfileChanges = async profile => {
+  let user = auth.currentUser;
+  if (user) {
+    await db
+      .collection("users")
+      .doc(user.uid)
+      .update({
+        ...profile
+      });
+  }
+};
+// export const editUserOverview = async graduation => {
+//   let user = auth.currentUser;
+//   if (user) {
+//     let profile = await db.collection("users").doc(user.uid);
+//     db.runTransaction(function(transaction) {
+//       return transaction.update(profile, { graduation: graduation });
+//     });
+//   }
+// };
+
+export const createProjectWithFields = async (
+  title,
+  contact,
+  about,
+  card_des,
+  images,
+  links,
+  need
+) => {
+  // let user = auth.currentUser;
+  await db.collection("projects").add({
+    title,
+    contact,
+    about,
+    card_des,
+    images,
+    links,
+    need
+  });
+};

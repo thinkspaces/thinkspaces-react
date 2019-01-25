@@ -73,7 +73,9 @@ export default class DefNavbar extends Component {
                         {authUser.displayName}
                       </DropdownToggle>
                       <DropdownMenu right>
-                        <DropdownItem href="/profile">My Profile</DropdownItem>
+                        <DropdownItem href={`/profile/${authUser.uid}`}>
+                          My Profile
+                        </DropdownItem>
                         <DropdownItem divider />
                         <DropdownItem onClick={auth.signOutUser}>
                           Sign Out
