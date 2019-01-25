@@ -1,8 +1,11 @@
 import React, { Component } from "react";
 
+import { Icon } from "react-icons-kit";
+import { userCircleO } from "react-icons-kit/fa/userCircleO";
 import AuthUserContext from "../../components/Authentication/AuthUserContext";
 import withAuthorization from "../../components/Authentication/withAuthorization";
 import { db } from "../../firebase";
+import { Jumbotron, Container } from "reactstrap";
 
 class Profile extends Component {
   state = {
@@ -24,12 +27,23 @@ class Profile extends Component {
               <div>
                 {profile && (
                   <div>
-                    <h2>{profile.full_name}</h2>
-                    <div>{profile.email}</div>
-                    <div>Graduation: {profile.graduation}</div>
+                    <Jumbotron fluid>
+                      <Container fluid>
+                        <div className="d-inline-flex">
+                          <Icon size={72} icon={userCircleO} />
+                          <div style={{ marginLeft: 20 }}>
+                            <h1 className="display-4">{profile.full_name}</h1>
+                          </div>
+                        </div>
+                        <p className="lead">{profile.email}</p>
+
+                        <hr className="my-2" />
+                        <div>Graduation: {profile.graduation}</div>
+                        <div>uid: {authUser.uid}</div>
+                      </Container>
+                    </Jumbotron>
                   </div>
                 )}
-                <div>uid: {authUser.uid}</div>
               </div>
             )
           }
