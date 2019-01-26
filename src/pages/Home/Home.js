@@ -41,11 +41,7 @@ class Home extends Component {
           <Button href="/projects" style={buttonStyle} outline>
             Browse Projects
           </Button>
-          <Button
-            href="/submitproject"
-            style={buttonStyle}
-            color="danger"
-          >
+          <Button href="/submitproject" style={buttonStyle} color="danger">
             Submit a Project
           </Button>
         </div>
@@ -60,6 +56,7 @@ class Home extends Component {
           <Col sm>
             <ProjectCard
               width={width}
+              id="PW2dKtY4LCfF19HTaRbp"
               title="MovesU"
               shortname="moves"
               image="https://i.imgur.com/tslXFr4.jpg"
@@ -69,6 +66,7 @@ class Home extends Component {
           <Col sm>
             <ProjectCard
               width={width}
+              id="7N46WrDJb1HiRvmU3vnB"
               title="Verb Energy Co."
               shortname="verb"
               image="https://i.imgur.com/ClqgMEf.jpg"
@@ -78,6 +76,7 @@ class Home extends Component {
           <Col sm>
             <ProjectCard
               width={width}
+              id="lnNHVq3Zd57qK33WCZOh"
               title="Snackpass"
               shortname="snackpass"
               image="https://i.imgur.com/uy5sbwL.jpg"
@@ -95,6 +94,7 @@ class Home extends Component {
           <Col sm>
             <ProjectCard
               width={width}
+              id="BqeVjXffpd5fPu7jrU1q"
               title="Homecooked"
               shortname="homecooked"
               image="https://i.imgur.com/1zb0koc.jpg"
@@ -104,6 +104,7 @@ class Home extends Component {
           <Col sm>
             <ProjectCard
               width={width}
+              id="p8NQdZmlXVT0lx3LuKif"
               title="Visionary Health"
               shortname="visionaryhealth"
               image="https://i.imgur.com/PKpZUP9.jpg"
@@ -113,6 +114,7 @@ class Home extends Component {
           <Col sm>
             <ProjectCard
               width={width}
+              id="D2aamuEx1DM5AB3AJ55x"
               title="Pearl"
               shortname="pearl"
               image="https://i.imgur.com/a51qJgk.jpg"

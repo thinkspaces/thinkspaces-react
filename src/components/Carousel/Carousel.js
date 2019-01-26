@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-  Carousel,
-  CarouselItem,
-  CarouselIndicators,
-  CarouselCaption
-} from "reactstrap";
+import { Carousel, CarouselItem, CarouselIndicators } from "reactstrap";
 
 const imageStyle = {
   height: "auto",
@@ -56,23 +51,24 @@ class DefCarousel extends Component {
   render() {
     const { activeIndex } = this.state;
 
-    const slides = this.props.items.map(item => {
+    const slides = this.props.items.map((item, i) => {
       return (
         <CarouselItem
           onExiting={this.onExiting}
           onExited={this.onExited}
-          key={item.src}
+          key={i}
         >
           <img
-            src={item.src}
+            src={item}
             style={imageStyle}
             className="img-fluid"
-            alt={item.altText}
+            alt="carousel images"
+            // alt={item.altText}
           />
-          <CarouselCaption
+          {/* <CarouselCaption
             captionText={item.caption}
             captionHeader={item.caption}
-          />
+          /> */}
         </CarouselItem>
       );
     });

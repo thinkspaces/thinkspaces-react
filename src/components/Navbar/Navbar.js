@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import logo from "../../logo.png";
 import AuthUserContext from "../Authentication/AuthUserContext";
 import { auth } from "../../firebase";
+import { Link } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -76,9 +77,17 @@ export default class DefNavbar extends Component {
                         {authUser.displayName}
                       </DropdownToggle>
                       <DropdownMenu right>
-                        <DropdownItem href={`/profile/${authUser.uid}`}>
-                          My Profile
-                        </DropdownItem>
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={{
+                            pathname: `/profile/${
+                              authUser.displayName
+                            }.${authUser.uid.slice(0, 6)}`,
+                            state: { uid: authUser.uid }
+                          }}
+                        >
+                          <DropdownItem>My Profile</DropdownItem>
+                        </Link>
                         <DropdownItem divider />
                         <DropdownItem onClick={auth.signOutUser}>
                           Sign Out

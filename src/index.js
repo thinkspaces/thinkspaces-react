@@ -7,24 +7,10 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// REDUX
-import { createStore } from 'redux'
-import { Provider } from 'react-redux'
-import reducer from './store/reducer'
-
-// Initialize redux store
-const store = createStore(
-    reducer, 
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
-
-
 const app = (
-    <Provider store={store}>
         <BrowserRouter>
             <App/>
         </BrowserRouter>
-    </Provider>
 )
 
 ReactDOM.render(app, document.getElementById('root'));

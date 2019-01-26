@@ -9,7 +9,7 @@ export const getProjects = async () => {
 
   // traverse snapshot for documents in collection, add to array
   snapshot.forEach(doc => {
-    projects.push(doc.data());
+    projects.push({ ...doc.data(), id: doc.id });
   });
 
   return projects;
@@ -23,7 +23,6 @@ export const getProjects = async () => {
   //     }))
   // });
 };
-
 export const getProfiles = async () => {
     let profiles = [];
 
@@ -32,6 +31,14 @@ export const getProfiles = async () => {
         profiles.push(doc.data());
     });
 }
+
+export const getProjectByID = async id => {
+  let snapshot = await db
+    .collection("projects")
+    .doc(id)
+    .get();
+  return snapshot;
+};
 
 export const createUserwithFields = async (
   uid,
@@ -53,15 +60,15 @@ export const createUserwithFields = async (
     });
 };
 
-export const getUserProfile = async () => {
-  let user = auth.currentUser;
-  if (user) {
-    let snapshot = await db
-      .collection("users")
-      .doc(user.uid)
-      .get();
-    return snapshot;
-  } else return null;
+export const getUserProfile = async uid => {
+  // let user = auth.currentUser;
+  // if (user) {
+  let snapshot = await db
+    .collection("users")
+    .doc(uid)
+    .get();
+  return snapshot;
+  // } else return null;
 };
 
 //how to determine what data to set and what to add
@@ -76,15 +83,6 @@ export const saveProfileChanges = async profile => {
       });
   }
 };
-// export const editUserOverview = async graduation => {
-//   let user = auth.currentUser;
-//   if (user) {
-//     let profile = await db.collection("users").doc(user.uid);
-//     db.runTransaction(function(transaction) {
-//       return transaction.update(profile, { graduation: graduation });
-//     });
-//   }
-// };
 
 export const createProjectWithFields = async (
   title,
