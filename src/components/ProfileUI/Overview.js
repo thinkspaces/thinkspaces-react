@@ -26,8 +26,11 @@ class ProfileOverview extends Component {
   };
 
   componentDidMount = async () => {
-    let profile = await db.getUserProfile();
-    this.setState({ profile: profile.data() });
+    if (this.props.location.state) {
+      let uid = this.props.location.state.uid;
+      let profile = await db.getUserProfile(uid);
+      this.setState({ uid, profile: profile.data() });
+    }
   };
 
   saveChanges = async () => {
@@ -46,7 +49,7 @@ class ProfileOverview extends Component {
   };
 
   render() {
-    const { profile, isEditing } = this.state;
+    const { profile, isEditing, uid } = this.state;
     if (isEditing) {
       return (
         <EditProfile
@@ -99,9 +102,11 @@ class ProfileOverview extends Component {
                             value={profile.interests}
                           />
                           <br />
-                          <Button color="danger" onClick={this.toggleEdit}>
-                            Edit Profile
-                          </Button>
+                          {uid === authUser.uid && (
+                            <Button color="danger" onClick={this.toggleEdit}>
+                              Edit Profile
+                            </Button>
+                          )}
                         </Col>
                       </Row>
                     </div>

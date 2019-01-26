@@ -1,0 +1,39 @@
+.card {
+  height: 420px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(33, 33, 33.2);
+  border-radius: 0.25rem;
+  margin-bottom: 10px;
+}
+
+.cardBody {
+  padding: 20px;
+}
+
+.flexed {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.image-container {
+  margin: 0 auto;
+  height: 165px;
+  vertical-align: middle;
+}
+
+.image-container img {
+  display: block;
+  max-width: 316px;
+  max-height: 165px;
+  width: auto;
+  height: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.description-box {
+  display: flex;
+  flex: 1;
+}

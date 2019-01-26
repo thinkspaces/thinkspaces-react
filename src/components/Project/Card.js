@@ -1,5 +1,7 @@
 import React from "react";
 import sizeMe from "react-sizeme";
+import { Link } from "react-router-dom";
+import "./Card.css";
 // import { Card, CardText, CardBody, CardLink, CardTitle } from "reactstrap";
 
 // const BoxSize = {
@@ -12,27 +14,29 @@ import sizeMe from "react-sizeme";
 const ProjectCard = props => {
   return (
     <div
+      className="card"
       style={{
-        width: props.width <= 768 ? "auto" : "318px",
-        height: 420,
-        display: "flex",
-        flexDirection: "column",
-        border: "1px solid rgba(33,33,33,.2)",
-        borderRadius: ".25rem",
-        marginBottom: 10
+        width: props.width <= 768 ? "auto" : "318px"
       }}
     >
-      <div className="cardBody" style={{ padding: 20 }}>
+      <div className="cardBody">
         <h5>{props.title}</h5>
       </div>
-      <img
-        style={{ maxWidth: "316px", maxHeight: "163px" }}
-        src={props.image}
-        alt={"Card cap"}
-      />
-      <div className="cardBody" style={{ padding: 20 }}>
-        <p>{props.text}</p>
-        <a href={`projects/${props.shortname}`}>View Project</a>
+      <div className="image-container">
+        <img src={props.image} alt="Card cap" />
+      </div>
+      <div className="cardBody flexed">
+        <div className="description-box">
+          <p>{props.text}</p>
+        </div>
+        <Link
+          to={{
+            pathname: `projects/${props.shortname}`,
+            state: { id: props.id }
+          }}
+        >
+          View Project
+        </Link>
       </div>
     </div>
   );

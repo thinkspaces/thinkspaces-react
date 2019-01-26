@@ -8,7 +8,6 @@
     "bootstrap": "^4.1.3",
     "classnames": "^2.2.6",
     "firebase": "^5.5.8",
-    "firestorter": "^0.16.1",
     "jquery": "^3.3.1",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.0",
@@ -23,8 +22,7 @@
     "react-share": "^2.3.1",
     "react-sizeme": "^2.5.2",
     "reactjs-popup": "^1.3.2",
-    "reactstrap": "^6.5.0",
-    "redux": "^4.0.1"
+    "reactstrap": "^6.5.0"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -42,6 +42,7 @@ class Projects extends Component {
               <ProjectCard
                 width={width}
                 key={i}
+                id={p.id}
                 title={p.title}
                 image={p.images[0]}
                 text={p.card_des}
