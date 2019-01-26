@@ -76,7 +76,7 @@ class ProfileOverview extends Component {
                         </Col>
                         <Col>
                           <DetailView
-                            type="School"
+                            type="College"
                             value={profile.university}
                             inline
                           />

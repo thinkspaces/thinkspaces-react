@@ -24,7 +24,7 @@ export default class EditProfile extends Component {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="university">University</Label>
+            <Label for="university">College</Label>
             <Input
               id="university"
               value={profile.university}

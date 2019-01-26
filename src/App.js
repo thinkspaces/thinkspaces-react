@@ -10,7 +10,7 @@ import About from "./pages/About/About";
 import Footer from "./components/Footer/Footer";
 import ProjectPage from "./components/Project/Page";
 import SignUpIn from "./pages/SignUpIn/SignUpIn";
-import Profile from "./pages/Profile/Profile";
+import Profile from "./pages/Profile/profile";
 import SubmitProject from "./components/SubmitProject/SubmitProject";
 
 import { Container } from "reactstrap";
