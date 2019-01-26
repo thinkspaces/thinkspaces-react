@@ -12,8 +12,17 @@ class SignUp extends Component {
     error: false,
     full_name: "",
     graduation: "",
-    preferred_name: ""
+    preferred_name: "",
+    privacy: true
   };
+
+  toggleYesPrivacy = ({privacy}) => {
+      this.setState({privacy: false});
+  }
+
+  toggleNoPrivacy = ({privacy}) => {
+      this.setState({privacy: true});
+  }
 
   handleSubmit = event => {
     const {
@@ -21,7 +30,8 @@ class SignUp extends Component {
       password,
       full_name,
       graduation,
-      preferred_name
+      preferred_name,
+      privacy
     } = this.state;
 
     const { history } = this.props;
@@ -41,13 +51,15 @@ class SignUp extends Component {
               full_name,
               graduation,
               preferred_name,
-              email
+              email,
+              privacy
             ).then(() => {
               this.setState({
                 full_name: "",
                 preferred_name: "",
                 graduation: "",
-                email: ""
+                email: "",
+                privacy: true
               });
               history.push("/");
             });
@@ -65,7 +77,8 @@ class SignUp extends Component {
       password,
       full_name,
       graduation,
-      preferred_name
+      preferred_name,
+      privacy
     } = this.state;
     const isEnabled =
       email.length > 0 &&
@@ -124,6 +137,21 @@ class SignUp extends Component {
                 this.setState({ password: event.target.value })
               }
             />
+          </FormGroup>
+          <FormGroup>
+            <Label for="Privacy">Make your profile public and let projects find you</Label>
+            <Button
+              type="privacy"
+              outline color="primary"
+              value={privacy}
+              onChange={this.toggleYesPrivacy}> Yes
+            </Button>
+            <Button
+              type="privacy"
+              outline color = "primary"
+              value={privacy}
+              onChange={this.toggleNoPrivacy}> No
+            </Button>
           </FormGroup>
           <Button disabled={!isEnabled} color="danger">
             Submit

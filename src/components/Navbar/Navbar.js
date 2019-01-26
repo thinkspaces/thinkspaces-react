@@ -62,6 +62,9 @@ export default class DefNavbar extends Component {
                 <NavLink href="/projects">Projects</NavLink>
               </NavItem>
               <NavItem>
+                <NavLink href="/profiles">People</NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink href="/about">About</NavLink>
               </NavItem>
 

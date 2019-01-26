@@ -24,12 +24,22 @@ export const getProjects = async () => {
   // });
 };
 
+export const getProfiles = async () => {
+    let profiles = [];
+
+    let snapshot = await db.collection("users").where("privacy", "==", false).get();
+    snapshot.forEach(doc => {
+        profiles.push(doc.data());
+    });
+}
+
 export const createUserwithFields = async (
   uid,
   full_name,
   graduation,
   preferred_name,
-  email
+  email,
+  privacy
 ) => {
   await db
     .collection("users")
@@ -38,7 +48,8 @@ export const createUserwithFields = async (
       full_name,
       preferred_name,
       graduation,
-      email
+      email,
+      privacy
     });
 };
 
@@ -84,7 +95,7 @@ export const createProjectWithFields = async (
   links,
   need
 ) => {
-  // let user = auth.currentUser;
+  // let user = auth.currentUser;E
   await db.collection("projects").add({
     title,
     contact,

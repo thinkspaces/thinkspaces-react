@@ -12,6 +12,7 @@ import ProjectPage from "./components/Project/Page";
 import SignUpIn from "./pages/SignUpIn/SignUpIn";
 import Profile from "./pages/Profile/profile";
 import SubmitProject from "./components/SubmitProject/SubmitProject";
+import ExploreProfiles from "./pages/ExploreProfiles/ExploreProfiles";
 
 import { Container } from "reactstrap";
 
@@ -40,6 +41,7 @@ class App extends Component {
           <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/submitproject" exact component={SubmitProject} />
+          <Route pate="/exploreprofiles" exact componenet={ExploreProfiles} />
         </Container>
         <Footer />
       </div>

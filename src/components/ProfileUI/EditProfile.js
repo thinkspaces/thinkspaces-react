@@ -62,7 +62,23 @@ export default class EditProfile extends Component {
               onChange={onEditChange}
             />
           </FormGroup>
+          <FormGroup>
+            <Button
+              type="privacy"
+              outline color="primary"
+              value={profile.privacy}
+              onChange={onEditChange}> Yes
+            </Button>
+            <Button
+              type="privacy"
+              outline color = "primary"
+              value={profile.privacy}
+              onChange={onEditChange}> No
+            </Button>
+            <Label for="Privacy">Make your profile public and let projects find you</Label>
+          </FormGroup>
         </Form>
+        <br></br>
         <Button color="info" onClick={saveChanges} style={{ marginRight: 5 }}>
           Save
         </Button>
