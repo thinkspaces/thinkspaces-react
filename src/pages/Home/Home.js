@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import "../Projects/Projects.css";
 
 import { Button, Row, Col } from "reactstrap";
-import ProjectCard from "../../components/Project/Card";
+import ProjectCard from "../../components/Project/ProjectCard";
 import sizeMe from "react-sizeme";
 
 import { db } from "../../firebase";

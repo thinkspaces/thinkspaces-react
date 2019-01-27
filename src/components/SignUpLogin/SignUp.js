@@ -16,14 +16,6 @@ class SignUp extends Component {
     privacy: true
   };
 
-  toggleYesPrivacy = ({privacy}) => {
-      this.setState({privacy: false});
-  }
-
-  toggleNoPrivacy = ({privacy}) => {
-      this.setState({privacy: true});
-  }
-
   handleSubmit = event => {
     const {
       email,
@@ -138,22 +130,24 @@ class SignUp extends Component {
               }
             />
           </FormGroup>
-          <FormGroup>
-            <Label for="Privacy">Make your profile public and let projects find you</Label>
-            <Button
-              type="privacy"
-              outline color="primary"
-              value={privacy}
-              onChange={this.toggleYesPrivacy}> Yes
-            </Button>
-            <Button
-              type="privacy"
-              outline color = "primary"
-              value={privacy}
-              onChange={this.toggleNoPrivacy}> No
-            </Button>
+          <FormGroup check>
+            <Label check>
+              <Input
+                type="checkbox"
+                id="privacy"
+                checked={privacy}
+                onChange={event =>
+                  this.setState({ privacy: event.target.checked })
+                }
+              />
+              Make your profile public and let projects find you
+            </Label>
           </FormGroup>
-          <Button disabled={!isEnabled} color="danger">
+          <Button
+            style={{ marginTop: 10 }}
+            disabled={!isEnabled}
+            color="danger"
+          >
             Submit
           </Button>
         </Form>

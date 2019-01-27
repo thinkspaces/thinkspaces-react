@@ -40,10 +40,17 @@ class ProfileOverview extends Component {
   };
 
   onEditChange = event => {
+    let value = null;
+    if (event.target.type === "checkbox") {
+      value = !event.target.checked;
+    } else {
+      value = event.target.value;
+    }
+
     this.setState({
       profile: {
         ...this.state.profile,
-        [event.target.id]: event.target.value
+        [event.target.id]: value
       }
     });
   };
