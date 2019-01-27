@@ -44,7 +44,7 @@ const InfoView = ({ contact, about, need }) => (
     </Col>
     <Col>
       {contact && (
-        <div>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           {contact.map(item => (
             <a href={"mailto:" + item}>{item}</a>
           ))}

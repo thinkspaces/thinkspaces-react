@@ -1,28 +1,23 @@
 import React, { Component } from "react";
 import sizeMe from "react-sizeme";
+// import Avatar from "react-avatar";
 
 // database
 import { db } from "../../firebase";
 
 // custom components
 import { Row, Col } from "reactstrap";
-import ProjectCard from "../../components/Project/Card";
+import ProfileCard from "../../components/ProfileUI/ProfileCard";
 
 // styles
-import "./profilecard.css";
 const headerStyle = {
   marginBottom: "20px"
 };
 
-class ExploreProfiles extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isPending: true,
-      profiles: [],
-      isError: false
-    };
-  }
+class Explore extends Component {
+  state = {
+    profiles: []
+  };
 
   componentDidMount = async () => {
     let profiles = await db.getProfiles();
@@ -39,12 +34,13 @@ class ExploreProfiles extends Component {
         <Row>
           {profiles.map((p, i) => (
             <Col sm key={i}>
-              <ProjectCard
+              <ProfileCard
                 width={width}
                 key={i}
+                uid={p.uid}
+                headline={p.headline}
                 title={p.full_name}
-                graduation={p.graduation}
-                skills={p.Skills}
+                username={p.preferred_name}
               />
             </Col>
           ))}
@@ -54,4 +50,4 @@ class ExploreProfiles extends Component {
   }
 }
 
-export default sizeMe()(ExploreProfiles);
+export default sizeMe()(Explore);

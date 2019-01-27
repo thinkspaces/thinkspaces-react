@@ -17,13 +17,13 @@
   flex-direction: column;
 }
 
-.image-container {
+.project-image-container {
   margin: 0 auto;
   height: 165px;
   vertical-align: middle;
 }
 
-.image-container img {
+.project-image-container img {
   display: block;
   max-width: 316px;
   max-height: 165px;

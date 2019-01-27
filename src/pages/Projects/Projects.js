@@ -6,10 +6,9 @@ import { db } from "../../firebase";
 
 // custom components
 import { Row, Col } from "reactstrap";
-import ProjectCard from "../../components/Project/Card";
+import ProjectCard from "../../components/Project/ProjectCard";
 
 // styles
-import "./Projects.css";
 const headerStyle = {
   marginBottom: "20px"
 };

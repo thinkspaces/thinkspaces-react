@@ -23,14 +23,21 @@ export const getProjects = async () => {
   //     }))
   // });
 };
-export const getProfiles = async () => {
-    let profiles = [];
 
-    let snapshot = await db.collection("users").where("privacy", "==", false).get();
-    snapshot.forEach(doc => {
-        profiles.push(doc.data());
-    });
-}
+export const getProfiles = async () => {
+  let profiles = [];
+
+  let snapshot = await db
+    .collection("users")
+    .where("privacy", "==", false)
+    .get();
+
+  snapshot.forEach(doc => {
+    profiles.push({ ...doc.data(), uid: doc.id });
+  });
+
+  return profiles;
+};
 
 export const getProjectByID = async id => {
   let snapshot = await db
