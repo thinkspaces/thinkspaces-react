@@ -44,7 +44,7 @@ class ExploreProfiles extends Component {
                 key={i}
                 title={p.full_name}
                 graduation={p.graduation}
-                skills={p.Skills}
+                skills={p.skills}
               />
             </Col>
           ))}

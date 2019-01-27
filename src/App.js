@@ -39,7 +39,6 @@ class App extends Component {
           <Route path="/projects/:shortname" exact component={ProjectPage} />
           <Route path="/profile/:id" exact component={Profile} />
           <Route path="/signupin" exact component={SignUpIn} />
-          <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/submitproject" exact component={SubmitProject} />
           <Route pate="/exploreprofiles" exact componenet={ExploreProfiles} />
         </Container>
