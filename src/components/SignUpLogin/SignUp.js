@@ -3,13 +3,20 @@ import React, { Component } from "react";
 import { auth, db } from "../../firebase";
 
 import { withRouter } from "react-router-dom";
-import { Button, FormGroup, Label, Input, Form } from "reactstrap";
+import {
+  Button,
+  FormGroup,
+  Label,
+  Input,
+  Form,
+  FormFeedback
+} from "reactstrap";
 
 class SignUp extends Component {
   state = {
     email: "",
     password: "",
-    error: false,
+    error: null,
     full_name: "",
     graduation: "",
     preferred_name: "",
@@ -31,7 +38,7 @@ class SignUp extends Component {
     auth
       .createUser(email, password)
       .then(response => {
-        this.setState({ email: "", password: "", error: false });
+        this.setState({ email: "", password: "", error: null });
 
         response.user
           .updateProfile({
@@ -58,7 +65,7 @@ class SignUp extends Component {
           });
       })
       .catch(error => {
-        console.log(error);
+        this.setState({ error: error.message });
       });
     event.preventDefault();
   };
@@ -70,7 +77,8 @@ class SignUp extends Component {
       full_name,
       graduation,
       preferred_name,
-      privacy
+      privacy,
+      error
     } = this.state;
     const isEnabled =
       email.length > 0 &&
@@ -85,7 +93,8 @@ class SignUp extends Component {
           <FormGroup>
             <Label for="full_name">Full Name</Label>
             <Input
-              type="full_name"
+              name="full_name"
+              type="text"
               value={full_name}
               onChange={event =>
                 this.setState({ full_name: event.target.value })
@@ -115,7 +124,9 @@ class SignUp extends Component {
           <FormGroup>
             <Label for="SignUpEmail">Email</Label>
             <Input
+              autoComplete="email"
               type="email"
+              name="email"
               value={email}
               onChange={event => this.setState({ email: event.target.value })}
             />
@@ -123,12 +134,15 @@ class SignUp extends Component {
           <FormGroup>
             <Label for="SignUpPassword">Password</Label>
             <Input
+              invalid={!!error}
+              autoComplete="current-password"
               type="password"
               value={password}
               onChange={event =>
                 this.setState({ password: event.target.value })
               }
             />
+            <FormFeedback>{error}</FormFeedback>
           </FormGroup>
           <FormGroup check>
             <Label check>

@@ -2,9 +2,10 @@
   height: 420px;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(33, 33, 33.2);
+  border: 1px solid rgba(33, 33, 33, 0.2);
   border-radius: 0.25rem;
   margin-bottom: 10px;
+  min-width: 200px;
 }
 
 .cardBody {
@@ -31,9 +32,4 @@
   height: auto;
   padding-left: 10px;
   padding-right: 10px;
-}
-
-.description-box {
-  display: flex;
-  flex: 1;
 }
