@@ -36,6 +36,15 @@ export default class EditProfile extends Component {
             <Input id="major" value={profile.major} onChange={onEditChange} />
           </FormGroup>
           <FormGroup>
+            <Label for="headline">Bio</Label>
+            <Input
+              type="textarea"
+              id="headline"
+              value={profile.headline}
+              onChange={onEditChange}
+            />
+          </FormGroup>
+          <FormGroup>
             <Label for="skills">Skills</Label>
             <Input
               type="textarea"

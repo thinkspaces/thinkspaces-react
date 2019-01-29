@@ -7,6 +7,7 @@ import { db } from "../../firebase";
 // custom components
 import { Row, Col } from "reactstrap";
 import ProjectCard from "../../components/Project/ProjectCard";
+import Avatar from "react-avatar";
 
 // styles
 const headerStyle = {
@@ -28,9 +29,19 @@ class Projects extends Component {
     this.setState({ projects });
   };
 
+
   render() {
     const { width } = this.props.size;
     const { projects } = this.state;
+
+    //console.log(projects.images);
+
+    // let image;
+    // if(projects.images[0] === null) {
+    //     image = <Avatar size="100%" name={projects.title} />
+    // } else {
+    //     image = projects.images[0];
+    // }
 
     return (
       <div>
@@ -43,7 +54,7 @@ class Projects extends Component {
                 key={i}
                 id={p.id}
                 title={p.title}
-                image={p.images[0]}
+                image= {p.images}
                 text={p.card_des}
                 shortname={p.shortname}
               />

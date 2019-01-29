@@ -3,8 +3,9 @@ import React, { Component } from "react";
 import { Button, Row, Col } from "reactstrap";
 import ProjectCard from "../../components/Project/ProjectCard";
 import sizeMe from "react-sizeme";
+import SubmitProjectButton from "../../components/SubmitProject/SubmitProjectButton";
 
-import { db } from "../../firebase";
+import { db, auth } from "../../firebase";
 
 const headerStyle = {
   margin: "50px 0px",
@@ -20,7 +21,9 @@ const trendingStyle = {
 };
 
 class Home extends Component {
-  state = { projects: [] };
+    state = {
+        projects: [],
+    };
 
   componentDidMount = async () => {
     let projects = await db.getProjects();
@@ -28,6 +31,7 @@ class Home extends Component {
     // update state
     this.setState({ projects });
   };
+
 
   render() {
     const { width } = this.props.size;
@@ -40,9 +44,7 @@ class Home extends Component {
           <Button href="/projects" style={buttonStyle} outline>
             Browse Projects
           </Button>
-          <Button href="/submitproject" style={buttonStyle} color="danger">
-            Submit a Project
-          </Button>
+          <SubmitProjectButton/>
         </div>
         <br />
         <h3 style={trendingStyle}>
