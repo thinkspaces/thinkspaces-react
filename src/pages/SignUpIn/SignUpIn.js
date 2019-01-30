@@ -7,11 +7,13 @@ import { withRouter } from "react-router-dom";
 class SignUpIn extends Component {
   render() {
     return (
+    <div>
       <div style={{ maxWidth: 400 }}>
         <Login />
         <hr />
         <SignUp />
       </div>
+    </div>
     );
   }
 }

@@ -23,7 +23,7 @@ class SubmitProject extends Component {
         contact: "",
         about: "",
         card_des: "",
-        images: "",
+        images: [],
         links: "",
         need: ""
     };
@@ -58,7 +58,7 @@ class SubmitProject extends Component {
                 contact: "",
                 about: "",
                 card_des: "",
-                images: "",
+                images: [],
                 links: "",
                 need: ""
             });

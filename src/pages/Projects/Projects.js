@@ -43,7 +43,7 @@ class Projects extends Component {
                 key={i}
                 id={p.id}
                 title={p.title}
-                image={p.images[0]}
+                image={p.images}
                 text={p.card_des}
                 shortname={p.shortname}
               />
