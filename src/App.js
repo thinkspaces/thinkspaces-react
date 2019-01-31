@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import ReactGA from "react-ga";
 import withAuthentication from "./components/Authentication/withAuthentication";
+import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 import DefNavbar from "./components/Navbar/Navbar";
 import Home from "./pages/Home/Home";
@@ -41,6 +42,10 @@ class App extends Component {
           <Route path="/profile/:id" exact component={Profile} />
           <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/submitproject" exact component={SubmitProject} />
+                <MessengerCustomerChat
+                    pageId="1191043211036808"
+                    appId="295451067827152"
+                />
         </Container>
         <Footer />
       </div>
