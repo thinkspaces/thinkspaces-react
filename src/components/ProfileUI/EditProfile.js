@@ -18,7 +18,7 @@ export default class EditProfile extends Component {
           </FormGroup>
           <FormGroup>
             <Label for="ProfilePicture">Profile Picture</Label>
-            <ProfilePicture/>
+            <ProfilePicture profile = {profile}/>
           </FormGroup>
           <FormGroup>
             <Label for="graduation">Graduation</Label>
