@@ -83,6 +83,8 @@ class ProfileOverview extends Component {
                           <h5>{profile.email}</h5>
                           <h5>Graduation: {profile.graduation}</h5>
                           <br />
+                          <br />
+                          <h5> {profile.headline} </h5>
                         </Col>
                         <Col>
                           <DetailView

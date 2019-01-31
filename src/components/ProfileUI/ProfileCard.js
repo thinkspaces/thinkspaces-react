@@ -6,9 +6,10 @@ import Avatar from "react-avatar";
 
 const ProfileCard = props => (
   <div
-    className="card"
+    className="profile-card"
     style={{
-      width: props.width <= 768 ? "auto" : "318px"
+      width: props.width <= 768 ? "auto" : "318px",
+      minWidth: "200px"
     }}
   >
     <div className="image-container">
