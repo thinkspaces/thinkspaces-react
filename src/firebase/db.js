@@ -54,7 +54,8 @@ export const createUserwithFields = async (
   preferred_name,
   email,
   privacy,
-  headline
+  headline,
+  profilepicture
 ) => {
   await db
     .collection("users")
@@ -65,7 +66,8 @@ export const createUserwithFields = async (
       graduation,
       email,
       privacy,
-      headline
+      headline,
+      profilepicture
     });
 };
 
