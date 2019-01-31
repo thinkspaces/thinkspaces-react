@@ -17,7 +17,7 @@ class ProfilePicture extends Component {
     }
     handleUploadSuccess = (filename) => {
         this.setState({avatar: filename, progress: 100, isUploading: false});
-        firebase.storage().ref('images').child(filename).getDownloadURL().then(url => this.setState({avatarURL: url}));
+        storage().ref('images').child(filename).getDownloadURL().then(url => this.setState({avatarURL: url}));
     };
     render() {
         return (
@@ -34,7 +34,7 @@ class ProfilePicture extends Component {
             accept="image/*"
             name="avatar"
             randomizeFilename
-            storageRef={firebase.storage().ref('images')}
+            storageRef={storage().ref('images')}
             onUploadStart={this.handleUploadStart}
             onUploadError={this.handleUploadError}
             onUploadSuccess={this.handleUploadSuccess}
@@ -45,4 +45,4 @@ class ProfilePicture extends Component {
         );
     }
 }
-export default ProfilePage;
+export default ProfilePicture;
