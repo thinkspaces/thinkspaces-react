@@ -56,6 +56,12 @@ class ProfileOverview extends Component {
     });
   };
 
+  showProfilePicture = event => {
+      if(this.state.profile.profilepicture != null) {
+          return (<img src={this.state.profile.profilepicture}/>)
+      }
+  }
+
   render() {
     const { profile, isEditing, uid } = this.state;
     if (isEditing) {
@@ -65,6 +71,7 @@ class ProfileOverview extends Component {
           profile={profile}
           onEditChange={this.onEditChange}
           onCancel={() => this.setState({ isEditing: false })}
+          uid={uid}
         />
       );
     } else {

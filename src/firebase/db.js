@@ -110,6 +110,19 @@ export const saveProfileChanges = async profile => {
   }
 };
 
+export const saveProfilePicture = async url => {
+  let user = auth.currentUser;
+  console.log(user);
+  if (user) {
+    await db
+      .collection("users")
+      .doc(user.uid)
+      .update({
+        "profilepicture": url
+      });
+  }
+};
+
 export const createProjectWithFields = async (
   title,
   contact,

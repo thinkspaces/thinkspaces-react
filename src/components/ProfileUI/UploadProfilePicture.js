@@ -3,7 +3,30 @@ import { storage } from '../../firebase';
 import FileUploader from 'react-firebase-file-uploader';
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import firebase from 'firebase/app';
-import {db} from 'firebase';
+import {db} from "../../firebase";
+
+// class ProfilePicture extends Component {
+//     state = {
+//         selectedFile: null
+//     }
+//
+//     fileSelectedHandler = event => {
+//         this.setState = ({
+//             selectedFile: event.target.files[0]
+//         })
+//     }
+//     fileUploadHandler = () => {
+//
+//     }
+//     render() {
+//         return(
+//             <div className= "ProfilePicture">
+//                 <input type="file" onChange={this.fileSelectedHandler}/>
+//                 <Button onClick={this.fileUploadHandler}> Upload </Button>
+//             </div>
+//         )
+//     }
+// }
 
 //right now it just saves automatically. need to figure out how to change that
 class ProfilePicture extends Component {
@@ -27,9 +50,11 @@ class ProfilePicture extends Component {
          .ref('profilepictures')
          .child(filename)
          .getDownloadURL()
-         .then(url => this.setState({ avatarURL: url }));
-        this.props.profile.profilepicture = this.state.avatarURL;
-        db.saveProfileChanges(this.props.profile);
+         .then(url => {
+             console.log(url);
+             db.saveProfilePicture(url);
+             this.setState({ avatarURL: url });
+        });
     };
     // customOnChangeHandler = (event) => {
     //     const { target: { files } } = event;
@@ -53,12 +78,12 @@ class ProfilePicture extends Component {
                 <p>Progress: {this.state.progress}</p>
             }
             {this.state.avatarURL &&
-                <img src={this.state.avatarURL} />
+                <img src={this.state.avatarURL} width = "50%" height = "50%"/>
             }
             <FileUploader
                 accept="image/*"
                 name="avatar"
-                filename = {file => this.props.profile.uid}
+                filename = {file => this.props.uid}
                 storageRef={firebase.storage().ref('profilepictures')}
                 onUploadStart={this.handleUploadStart}
                 onUploadError={this.handleUploadError}
