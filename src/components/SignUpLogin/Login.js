@@ -68,7 +68,7 @@ class Login extends Component {
           </FormGroup>
           <Button disabled={!isEnabled} color="danger">
             Submit
-          </Button>
+          </Button> <a href = "/forgotpassword"> Forgot password? </a>
         </Form>
       </div>
     );

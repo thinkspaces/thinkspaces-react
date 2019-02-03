@@ -14,6 +14,7 @@ import SignUpIn from "./pages/SignUpIn/SignUpIn";
 import Profile from "./pages/Profile/profile";
 import SubmitProject from "./components/SubmitProject/SubmitProject";
 import Explore from "./pages/Explore/Explore";
+import ForgotPassword from "./components/SignUpLogin/ForgotPassword";
 
 import { Container } from "reactstrap";
 
@@ -42,6 +43,7 @@ class App extends Component {
           <Route path="/profile/:id" exact component={Profile} />
           <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/submitproject" exact component={SubmitProject} />
+          <Route path="/forgotpassword" exact component={ForgotPassword}/>
                 <MessengerCustomerChat
                     pageId="1191043211036808"
                     appId="295451067827152"

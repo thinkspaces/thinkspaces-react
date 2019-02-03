@@ -18,7 +18,7 @@ const DetailView = ({ type, value, inline }) => (
 class ProfileOverview extends Component {
   state = {
     profile: null,
-    isEditing: false
+    isEditing: false,
   };
 
   toggleEdit = () => {
@@ -35,6 +35,7 @@ class ProfileOverview extends Component {
 
   saveChanges = async () => {
     const { profile } = this.state;
+
     await db.saveProfileChanges(profile);
     this.setState({ isEditing: false });
   };

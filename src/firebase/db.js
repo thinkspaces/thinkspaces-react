@@ -47,6 +47,21 @@ export const getProjectByID = async id => {
   return snapshot;
 };
 
+export const projectLikes = async (id, likes) => {
+    //var likeNumber = db.collection("projects").doc(id).get("likes");
+    let snapshot = await db.collection("projects").doc(id).update({
+        "likes": likes + 1
+    })
+}
+export const getProjectLikes = async (id) => {
+    var docRef = db.collection("projects").doc(id);
+    docRef.get().then(function(doc) {
+        if(doc.exists) {
+            return (doc.data().likes);
+        }
+    });
+}
+
 export const createUserwithFields = async (
   uid,
   full_name,
@@ -102,7 +117,8 @@ export const createProjectWithFields = async (
   card_des,
   images,
   links,
-  need
+  need,
+  likes
 ) => {
   // let user = auth.currentUser;E
   await db.collection("projects").add({
@@ -112,6 +128,7 @@ export const createProjectWithFields = async (
     card_des,
     images,
     links,
-    need
+    need,
+    likes
   });
 };

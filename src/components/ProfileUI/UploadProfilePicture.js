@@ -15,15 +15,21 @@ class ProfilePicture extends Component {
         avatarURL: ''
     };
     handleUploadStart = () => this.setState({isUploading: true, progress: 0});
-    handleProgress = (progress) => this.setState({progress});
-    handleUploadError = (error) => {
-        this.setState({isUploading: false});
+    handleProgress = progress => this.setState({ progress });
+    handleUploadError = error => {
+        this.setState({ isUploading: false });
         console.error(error);
-    }
-    handleUploadSuccess = (filename) => {
-        this.setState({avatar: filename, progress: 100, isUploading: false});
-        firebase.storage().ref('images').child(filename).getDownloadURL().then(url => this.setState({avatarURL: url}));
-        // db.saveProfileChanges(this.avatarURL);
+    };
+    handleUploadSuccess = filename => {
+        this.setState({ avatar: filename, progress: 100, isUploading: false });
+        firebase
+         .storage()
+         .ref('profilepictures')
+         .child(filename)
+         .getDownloadURL()
+         .then(url => this.setState({ avatarURL: url }));
+        this.props.profile.profilepicture = this.state.avatarURL;
+        db.saveProfileChanges(this.props.profile);
     };
     // customOnChangeHandler = (event) => {
     //     const { target: { files } } = event;
@@ -52,8 +58,8 @@ class ProfilePicture extends Component {
             <FileUploader
                 accept="image/*"
                 name="avatar"
-                filename = {file => this.props.profile.full_name}
-                storageRef={firebase.storage().ref('images')}
+                filename = {file => this.props.profile.uid}
+                storageRef={firebase.storage().ref('profilepictures')}
                 onUploadStart={this.handleUploadStart}
                 onUploadError={this.handleUploadError}
                 onUploadSuccess={this.handleUploadSuccess}

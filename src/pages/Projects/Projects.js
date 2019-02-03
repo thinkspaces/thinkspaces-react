@@ -46,6 +46,7 @@ class Projects extends Component {
                 image={p.images}
                 text={p.card_des}
                 shortname={p.shortname}
+                likes={p.likes}
               />
             </Col>
           ))}

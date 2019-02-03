@@ -25,7 +25,8 @@ class SubmitProject extends Component {
         card_des: "",
         images: [],
         links: "",
-        need: ""
+        need: "",
+        likes: 0
     };
 
     handleSubmit = event => {
@@ -38,6 +39,7 @@ class SubmitProject extends Component {
             images,
             links,
             need,
+            likes
         } = this.state;
 
         const { history } = this.props;
@@ -50,7 +52,8 @@ class SubmitProject extends Component {
             card_des,
             images,
             links,
-            need
+            need,
+            likes
         ).then (() => {
             this.setState({
                 title: "",
@@ -60,7 +63,8 @@ class SubmitProject extends Component {
                 card_des: "",
                 images: [],
                 links: "",
-                need: ""
+                need: "",
+                likes: 0
             });
             history.push("/");
         });
@@ -76,6 +80,7 @@ class SubmitProject extends Component {
             images,
             links,
             need,
+            likes
         } = this.state;
         return(
             <AuthUserContext.Consumer>
