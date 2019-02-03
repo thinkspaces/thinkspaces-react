@@ -41,6 +41,7 @@ class Explore extends Component {
                 headline={p.headline}
                 title={p.full_name}
                 username={p.preferred_name}
+                picture = {p.profilepicture}
               />
             </Col>
           ))}

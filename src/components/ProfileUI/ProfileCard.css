@@ -34,10 +34,10 @@
 
 .image-container img {
   display: block;
-  max-width: 316px;
-  max-height: 165px;
+  max-height: 200px;
   width: auto;
   height: auto;
+  object-fit: cover;
   /* padding-left: 10px; */
   /* padding-right: 10px; */
 }

@@ -9,11 +9,16 @@ const ProfileCard = props => (
     className="profile-card"
     style={{
       width: props.width <= 768 ? "auto" : "318px",
-      minWidth: "200px"
+      minWidth: "200px",
     }}
-  >
+    >
     <div className="image-container">
-      <Avatar size="100%" name={props.title} />
+      {props.picture ? 
+        <img src={props.picture}></img> 
+        :
+        <Avatar 
+        size="100%" 
+        name={props.title}/>}
     </div>
     <div className="cardTitle">
       <h5>{props.title}</h5>
