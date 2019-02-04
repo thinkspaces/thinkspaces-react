@@ -20,7 +20,9 @@ class SignUp extends Component {
     full_name: "",
     graduation: "",
     preferred_name: "",
-    privacy: true
+    privacy: true,
+    headline: "",
+    profilepicture:[]
   };
 
   handleSubmit = event => {
@@ -30,7 +32,9 @@ class SignUp extends Component {
       full_name,
       graduation,
       preferred_name,
-      privacy
+      privacy,
+      headline,
+      profilepicture
     } = this.state;
 
     const { history } = this.props;
@@ -51,14 +55,18 @@ class SignUp extends Component {
               graduation,
               preferred_name,
               email,
-              privacy
+              privacy,
+              headline,
+              profilepicture
             ).then(() => {
               this.setState({
                 full_name: "",
                 preferred_name: "",
                 graduation: "",
                 email: "",
-                privacy: true
+                privacy: true,
+                headline:"",
+                profilepicture:[]
               });
               history.push("/");
             });
@@ -78,7 +86,9 @@ class SignUp extends Component {
       graduation,
       preferred_name,
       privacy,
-      error
+      error,
+      headline,
+      profilepicture
     } = this.state;
     const isEnabled =
       email.length > 0 &&
