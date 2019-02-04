@@ -12,6 +12,20 @@ import {
   FormFeedback
 } from "reactstrap";
 
+// <FormGroup check>
+//   <Label check>
+//     <Input
+//       type="checkbox"
+//       id="privacy"
+//       checked={privacy}
+//       onChange={event =>
+//         this.setState({ privacy: event.target.checked })
+//       }
+//     />
+//     Make your profile public and let projects find you
+//   </Label>
+// </FormGroup>
+
 class SignUp extends Component {
   state = {
     email: "",
@@ -153,19 +167,6 @@ class SignUp extends Component {
               }
             />
             <FormFeedback>{error}</FormFeedback>
-          </FormGroup>
-          <FormGroup check>
-            <Label check>
-              <Input
-                type="checkbox"
-                id="privacy"
-                checked={privacy}
-                onChange={event =>
-                  this.setState({ privacy: event.target.checked })
-                }
-              />
-              Make your profile public and let projects find you
-            </Label>
           </FormGroup>
           <Button
             style={{ marginTop: 10 }}
