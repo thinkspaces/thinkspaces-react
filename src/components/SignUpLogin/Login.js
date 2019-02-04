@@ -19,20 +19,19 @@ class Login extends Component {
     error: null
   };
 
-  handleSubmit = event => {
+  loginUser = async event => {
+    event.preventDefault();
+
     const { email, password } = this.state;
     const { history } = this.props;
 
-    auth
-      .signInUser(email, password)
-      .then(response => {
-        this.setState({ email: "", password: "", error: null });
-        history.push("/");
-      })
-      .catch(error => {
-        this.setState({ error: error.message });
-      });
-    event.preventDefault();
+    try {
+      await auth.signInUser(email, password);
+      this.setState({ email: "", password: "", error: null });
+      history.push("/");
+    } catch (error) {
+      this.setState({ error: error.message });
+    }
   };
 
   render() {
@@ -42,7 +41,7 @@ class Login extends Component {
     return (
       <div className="login">
         <h2> Login </h2>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.loginUser}>
           <FormGroup>
             <Label for="SignInEmail">Email</Label>
             <Input
@@ -68,7 +67,10 @@ class Login extends Component {
           </FormGroup>
           <Button disabled={!isEnabled} color="danger">
             Submit
-          </Button> <a href = "/forgotpassword"> Forgot password? </a>
+          </Button>
+          <a style={{ marginLeft: 10 }} href="/forgotpassword">
+            Forgot password?
+          </a>
         </Form>
       </div>
     );

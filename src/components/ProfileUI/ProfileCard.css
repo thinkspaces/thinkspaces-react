@@ -47,3 +47,14 @@
   flex: 1;
   overflow: hidden;
 }
+
+.view-button {
+  background: none !important;
+  color: #007bff;
+  border: none;
+  padding: 0 !important;
+  font: inherit;
+  /*border is optional*/
+  /* border-bottom: 1px solid #007bff; */
+  cursor: pointer;
+}

@@ -23,7 +23,9 @@ class SignUp extends Component {
     privacy: true
   };
 
-  handleSubmit = event => {
+  createProfile = async event => {
+    event.preventDefault();
+
     const {
       email,
       password,
@@ -35,39 +37,34 @@ class SignUp extends Component {
 
     const { history } = this.props;
 
-    auth
-      .createUser(email, password)
-      .then(response => {
+    try {
+      let response = await auth.createUser(email, password);
+      if (response) {
         this.setState({ email: "", password: "", error: null });
+        await response.user.updateProfile({ displayName: preferred_name });
+        await db.createUserwithFields(response.user.uid, {
+          full_name,
+          graduation,
+          preferred_name,
+          email,
+          privacy,
+          headline: "",
+          profilepicture: ""
+        });
 
-        response.user
-          .updateProfile({
-            displayName: preferred_name
-          })
-          .then(() => {
-            db.createUserwithFields(
-              response.user.uid,
-              full_name,
-              graduation,
-              preferred_name,
-              email,
-              privacy
-            ).then(() => {
-              this.setState({
-                full_name: "",
-                preferred_name: "",
-                graduation: "",
-                email: "",
-                privacy: true
-              });
-              history.push("/");
-            });
-          });
-      })
-      .catch(error => {
-        this.setState({ error: error.message });
-      });
-    event.preventDefault();
+        this.setState({
+          full_name: "",
+          preferred_name: "",
+          graduation: "",
+          email: "",
+          privacy: true
+        });
+
+        history.push("/");
+      }
+    } catch (error) {
+      this.setState({ error: error.message });
+    }
   };
 
   render() {
@@ -89,7 +86,7 @@ class SignUp extends Component {
     return (
       <div>
         <h2> Sign Up </h2>
-        <Form onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.createProfile}>
           <FormGroup>
             <Label for="full_name">Full Name</Label>
             <Input
@@ -149,9 +146,9 @@ class SignUp extends Component {
               <Input
                 type="checkbox"
                 id="privacy"
-                checked={privacy}
+                checked={!privacy}
                 onChange={event =>
-                  this.setState({ privacy: event.target.checked })
+                  this.setState({ privacy: !event.target.checked })
                 }
               />
               Make your profile public and let projects find you

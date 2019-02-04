@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-// import AuthUserContext from "../../components/Authentication/AuthUserContext";
 import withAuthorization from "../../components/Authentication/withAuthorization";
 import Overview from "../../components/ProfileUI/Overview";
 

@@ -17,22 +17,14 @@ export const isLoggedIn = () => {
   return loggedIn;
 };
 
-export const verifyUser = () => {
-    var user = auth.currentUser;
+// export const verifyUser = () => {
+//     var user = auth.currentUser;
 
-    user.sendEmailVerification().then(function() {
-      // Email sent.
-    }).catch(function(error) {
-      // An error happened.
-    });
-}
+//     user.sendEmailVerification().then(function() {
+//       // Email sent.
+//     }).catch(function(error) {
+//       // An error happened.
+//     });
+// }
 
-export const passwordResetEmail = (emailaddress) => {
-    var emailAddress = {emailaddress};
-
-    auth.sendPasswordResetEmail(emailAddress).then(function() {
-      // Email sent.
-    }).catch(function(error) {
-      // An error happened.
-    });
-}
+export const passwordResetEmail = email => auth.sendPasswordResetEmail(email);

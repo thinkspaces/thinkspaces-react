@@ -1,16 +1,10 @@
 import React, { Component } from "react";
 
-import { Button } from "reactstrap";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { auth } from "../../firebase";
 import SignUpModal from "../Modals/SignUpModal";
 
-import { auth } from "../../firebase";
-
-const buttonStyle = {
-  margin: "20px 10px"
-};
-
-class SubmitProjectButton extends Component {
+class ViewProfileButton extends Component {
   state = { modal: false };
 
   toggle = () => {
@@ -26,12 +20,18 @@ class SubmitProjectButton extends Component {
 
   render() {
     const { modal } = this.state;
-    var loggedIn = auth.isLoggedIn();
+    const { username, uid } = this.props;
+    let loggedIn = auth.isLoggedIn();
     if (loggedIn) {
       return (
-        <Button href="/submitproject" style={buttonStyle} color="danger">
-          Submit a Project
-        </Button>
+        <Link
+          to={{
+            pathname: `profile/${username}`,
+            state: { uid }
+          }}
+        >
+          View Profile
+        </Link>
       );
     } else {
       return (
@@ -41,13 +41,13 @@ class SubmitProjectButton extends Component {
             toggle={this.toggle}
             signUp={this.gotoSignUp}
           />
-          <Button onClick={this.toggle} style={buttonStyle} color="danger">
-            Submit a Project
-          </Button>
+          <button className="view-button" onClick={this.toggle}>
+            View Profile
+          </button>
         </div>
       );
     }
   }
 }
 
-export default withRouter(SubmitProjectButton);
+export default withRouter(ViewProfileButton);

@@ -1,5 +1,4 @@
-import { storage, db } from "./firebase";
-
+// import { storage, db } from "./firebase";
 
 // export const uploadPhoto = (filename, profile) => {
 //     storage.ref('images')

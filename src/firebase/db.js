@@ -48,41 +48,29 @@ export const getProjectByID = async id => {
 };
 
 export const projectLikes = async (id, likes) => {
-    //var likeNumber = db.collection("projects").doc(id).get("likes");
-    let snapshot = await db.collection("projects").doc(id).update({
-        "likes": likes + 1
-    })
-}
-export const getProjectLikes = async (id) => {
-    var docRef = db.collection("projects").doc(id);
-    docRef.get().then(function(doc) {
-        if(doc.exists) {
-            return (doc.data().likes);
-        }
+  //var likeNumber = db.collection("projects").doc(id).get("likes");
+  await db
+    .collection("projects")
+    .doc(id)
+    .update({
+      likes: likes + 1
     });
-}
+};
+export const getProjectLikes = async id => {
+  var docRef = db.collection("projects").doc(id);
+  docRef.get().then(function(doc) {
+    if (doc.exists) {
+      return doc.data().likes;
+    }
+  });
+};
 
-export const createUserwithFields = async (
-  uid,
-  full_name,
-  graduation,
-  preferred_name,
-  email,
-  privacy,
-  headline,
-  profilepicture
-) => {
+export const createUserwithFields = async (uid, profileData) => {
   await db
     .collection("users")
     .doc(uid)
     .set({
-      full_name,
-      preferred_name,
-      graduation,
-      email,
-      privacy,
-      headline,
-      profilepicture
+      ...profileData
     });
 };
 
@@ -112,36 +100,24 @@ export const saveProfileChanges = async profile => {
 
 export const saveProfilePicture = async url => {
   let user = auth.currentUser;
-  console.log(user);
+  //console.log(user);
   if (user) {
     await db
       .collection("users")
       .doc(user.uid)
       .update({
-        "profilepicture": url
+        profilepicture: url
       });
   }
 };
 
-export const createProjectWithFields = async (
-  title,
-  contact,
-  about,
-  card_des,
-  images,
-  links,
-  need,
-  likes
-) => {
-  // let user = auth.currentUser;E
+export const createProjectWithFields = async project => {
+  let user = auth.currentUser;
+  let doc = await getUserProfile(user.uid);
+  let name = doc.get("full_name");
+
   await db.collection("projects").add({
-    title,
-    contact,
-    about,
-    card_des,
-    images,
-    links,
-    need,
-    likes
+    ...project,
+    team: [{ name, uid: user.uid }]
   });
 };

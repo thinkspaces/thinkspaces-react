@@ -1,24 +1,23 @@
 import React from "react";
 import sizeMe from "react-sizeme";
-import { Link } from "react-router-dom";
 import "./ProfileCard.css";
 import Avatar from "react-avatar";
+import ViewProfileButton from "./ViewProfileButton";
 
 const ProfileCard = props => (
   <div
     className="profile-card"
     style={{
       width: props.width <= 768 ? "auto" : "318px",
-      minWidth: "200px",
+      minWidth: "200px"
     }}
-    >
+  >
     <div className="image-container">
-      {props.picture ? 
-        <img src={props.picture}></img> 
-        :
-        <Avatar 
-        size="100%" 
-        name={props.title}/>}
+      {props.picture ? (
+        <img src={props.picture} alt="profile" />
+      ) : (
+        <Avatar size="100%" name={props.title} />
+      )}
     </div>
     <div className="cardTitle">
       <h5>{props.title}</h5>
@@ -27,14 +26,10 @@ const ProfileCard = props => (
       <div className="description-box">
         <p>{props.headline}</p>
       </div>
-      <Link
-        to={{
-          pathname: `profile/${props.username}.${props.uid.slice(0, 6)}`,
-          state: { uid: props.uid }
-        }}
-      >
-        View Profile
-      </Link>
+      <ViewProfileButton
+        username={`${props.username}.${props.uid.slice(0, 6)}`}
+        uid={props.uid}
+      />
     </div>
   </div>
 );

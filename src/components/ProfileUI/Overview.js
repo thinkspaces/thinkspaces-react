@@ -18,7 +18,7 @@ const DetailView = ({ type, value, inline }) => (
 class ProfileOverview extends Component {
   state = {
     profile: null,
-    isEditing: false,
+    isEditing: false
   };
 
   toggleEdit = () => {
@@ -56,12 +56,6 @@ class ProfileOverview extends Component {
     });
   };
 
-  showProfilePicture = event => {
-      if(this.state.profile.profilepicture != null) {
-          return (<img src={this.state.profile.profilepicture}/>)
-      }
-  }
-
   render() {
     const { profile, isEditing, uid } = this.state;
     if (isEditing) {
@@ -85,7 +79,14 @@ class ProfileOverview extends Component {
                     <div>
                       <Row>
                         <Col>
-                          <Avatar name={profile.full_name} src={ this.state.profile.profilepicture ? this.state.profile.profilepicture : null } />
+                          <Avatar
+                            name={profile.full_name}
+                            src={
+                              profile.profilepicture
+                                ? profile.profilepicture
+                                : null
+                            }
+                          />
                           <h2>{profile.full_name}</h2>
                           <br />
                           <h5>{profile.email}</h5>
