@@ -20,7 +20,7 @@ class SignUp extends Component {
     full_name: "",
     graduation: "",
     preferred_name: "",
-    privacy: true
+    privacy: false
   };
 
   createProfile = async event => {
@@ -57,7 +57,7 @@ class SignUp extends Component {
           preferred_name: "",
           graduation: "",
           email: "",
-          privacy: true
+          privacy: false
         });
 
         history.push("/");
