@@ -3,6 +3,7 @@ import React, { Component } from "react";
 // import AuthUserContext from "../../components/Authentication/AuthUserContext";
 import withAuthorization from "../../components/Authentication/withAuthorization";
 import { db } from "../../firebase";
+import ProjectPictures from "./UploadProjectPictures.js";
 
 import { Button, FormGroup, Label, Input, Form } from "reactstrap";
 
@@ -76,6 +77,10 @@ class SubmitProject extends Component {
               value={contact}
               onChange={event => this.setState({ contact: event.target.value })}
             />
+          </FormGroup>
+          <FormGroup>
+            <Label for="projectpictures">Add some photos of your project!</Label>
+            <ProjectPictures />
           </FormGroup>
           <FormGroup>
             <Label for="card_des">

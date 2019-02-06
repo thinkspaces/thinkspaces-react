@@ -111,6 +111,19 @@ export const saveProfilePicture = async url => {
   }
 };
 
+export const saveProjectPicture = async url => {
+  let user = auth.currentUser;
+  //console.log(user);
+  if (user) {
+    await db
+      .collection("users")
+      .doc(user.uid)
+      .update({
+        profilepicture: url
+      });
+  }
+};
+
 export const createProjectWithFields = async project => {
   let user = auth.currentUser;
   let doc = await getUserProfile(user.uid);
