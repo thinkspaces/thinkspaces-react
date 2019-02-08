@@ -100,7 +100,6 @@ export const saveProfileChanges = async profile => {
 
 export const saveProfilePicture = async url => {
   let user = auth.currentUser;
-  //console.log(user);
   if (user) {
     await db
       .collection("users")
@@ -111,17 +110,21 @@ export const saveProfilePicture = async url => {
   }
 };
 
-export const saveProjectPicture = async url => {
-  let user = auth.currentUser;
-  //console.log(user);
-  if (user) {
+export const saveProjectPicture = async (id, url) => {
     await db
-      .collection("users")
-      .doc(user.uid)
-      .update({
-        profilepicture: url
-      });
-  }
+      .collection("projects")
+      .doc(id)
+      .update({images: [url]});
+
+};
+
+export const createPostWithFields = async (post_details, date, id) => {
+    await db
+      .collection ("projects")
+      .doc(id)
+      .collection("posts")
+      .doc(date));
+
 };
 
 export const createProjectWithFields = async project => {
