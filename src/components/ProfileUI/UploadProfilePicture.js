@@ -48,7 +48,7 @@ class ProfilePicture extends Component {
             <FileUploader
                 accept="image/*"
                 name="avatar"
-                filename = {file => this.props.uid}
+                randomizeFilename
                 storageRef={firebase.storage().ref('profilepictures')}
                 onUploadStart={this.handleUploadStart}
                 onUploadError={this.handleUploadError}

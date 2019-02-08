@@ -20,7 +20,9 @@ class SignUp extends Component {
     full_name: "",
     graduation: "",
     preferred_name: "",
-    privacy: true
+    privacy: false,
+    profilepicture:"",
+    headline:""
   };
 
   createProfile = async event => {
@@ -32,7 +34,9 @@ class SignUp extends Component {
       full_name,
       graduation,
       preferred_name,
-      privacy
+      privacy,
+      profilepicture,
+      headline
     } = this.state;
 
     const { history } = this.props;
@@ -48,16 +52,20 @@ class SignUp extends Component {
           preferred_name,
           email,
           privacy,
-          headline: "",
-          profilepicture: ""
+          headline,
+          profilepicture
         });
 
         this.setState({
-          full_name: "",
-          preferred_name: "",
-          graduation: "",
-          email: "",
-          privacy: true
+            email: "",
+            password: "",
+            error: null,
+            full_name: "",
+            graduation: "",
+            preferred_name: "",
+            privacy: false,
+            profilepicture:"",
+            headline:""
         });
 
         history.push("/");
@@ -75,7 +83,9 @@ class SignUp extends Component {
       graduation,
       preferred_name,
       privacy,
-      error
+      error,
+      headline,
+      profilepicture
     } = this.state;
     const isEnabled =
       email.length > 0 &&

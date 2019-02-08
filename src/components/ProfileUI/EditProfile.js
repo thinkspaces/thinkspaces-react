@@ -19,7 +19,7 @@ export default class EditProfile extends Component {
           </FormGroup>
           <FormGroup>
             <Label for="ProfilePicture">Profile Picture</Label>
-            <ProfilePicture uid={uid} />
+            <ProfilePicture />
           </FormGroup>
           <FormGroup>
             <Label for="graduation">Graduation</Label>
