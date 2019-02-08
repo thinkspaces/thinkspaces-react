@@ -2,9 +2,13 @@ import React, { Component } from "react";
 
 // import AuthUserContext from "../../components/Authentication/AuthUserContext";
 import withAuthorization from "../../components/Authentication/withAuthorization";
-import { db } from "../../firebase";
+import ProjectPictures from "./UploadProjectPictures.js";
+import FileUploader from 'react-firebase-file-uploader';
 
 import { Button, FormGroup, Label, Input, Form } from "reactstrap";
+
+import firebase from 'firebase/app';
+import {db} from "../../firebase";
 
 class SubmitProject extends Component {
   state = {
@@ -15,7 +19,31 @@ class SubmitProject extends Component {
     images: "",
     links: "",
     need: "",
-    likes: 0
+    likes: 0,
+
+    files: [],
+    avatar: '',
+    isUploading: false,
+    progress: 0,
+  };
+
+  handleUploadStart = () => this.setState({isUploading: true, progress: 0});
+  handleProgress = progress => this.setState({ progress });
+  handleUploadError = error => {
+      this.setState({ isUploading: false });
+      console.error(error);
+  };
+  handleUploadSuccess = filename => {
+      this.setState({ avatar: filename, progress: 100, isUploading: false });
+      firebase
+       .storage()
+       .ref('projectpictures')
+       .child(filename)
+       .getDownloadURL()
+       .then(url => {
+           console.log(url);
+           this.setState({ images: url });
+      });
   };
 
   createProject = event => {
@@ -78,6 +106,27 @@ class SubmitProject extends Component {
             />
           </FormGroup>
           <FormGroup>
+            <Label for="projectpictures">Add some photos of your project!</Label>
+            <FormGroup>
+            {this.state.isUploading &&
+                <p>Progress: {this.state.progress}</p>
+            }
+            {this.state.avatarURL &&
+                <img src={this.state.images} width = "50%" height = "50%"/>
+            }
+            <FileUploader
+                accept="image/*"
+                name="avatar"
+                randomizeFilename
+                storageRef={firebase.storage().ref('projectpictures')}
+                onUploadStart={this.handleUploadStart}
+                onUploadError={this.handleUploadError}
+                onUploadSuccess={this.handleUploadSuccess}
+                onProgress={this.handleProgress}
+            />
+            </FormGroup>
+          </FormGroup>
+          <FormGroup>
             <Label for="card_des">
               Tell us a bit about your project (in one sentence)
             </Label>
@@ -102,13 +151,6 @@ class SubmitProject extends Component {
             <Input
               value={need}
               onChange={event => this.setState({ need: event.target.value })}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="images">Drop in a photo of your project or logo!</Label>
-            <Input
-              value={images}
-              onChange={event => this.setState({ images: event.target.value })}
             />
           </FormGroup>
           <FormGroup>

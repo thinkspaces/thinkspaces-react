@@ -7,7 +7,7 @@ import {db} from "../../firebase";
 
 //right now it just saves automatically. need to figure out how to change that
 //need a way to change profile picture
-class ProfilePicture extends Component {
+class ProjectPictures extends Component {
     state = {
         files: [],
         avatar: '',
@@ -25,12 +25,12 @@ class ProfilePicture extends Component {
         this.setState({ avatar: filename, progress: 100, isUploading: false });
         firebase
          .storage()
-         .ref('profilepictures')
+         .ref('projectpictures')
          .child(filename)
          .getDownloadURL()
          .then(url => {
              console.log(url);
-             db.saveProfilePicture(url);
+             db.saveProjectPicture(url);
              this.setState({ avatarURL: url });
         });
     };
@@ -48,8 +48,8 @@ class ProfilePicture extends Component {
             <FileUploader
                 accept="image/*"
                 name="avatar"
-                filename = {file => this.props.uid}
-                storageRef={firebase.storage().ref('profilepictures')}
+                randomizeFilename
+                storageRef={firebase.storage().ref('projectpictures')}
                 onUploadStart={this.handleUploadStart}
                 onUploadError={this.handleUploadError}
                 onUploadSuccess={this.handleUploadSuccess}
@@ -60,4 +60,4 @@ class ProfilePicture extends Component {
         );
     }
 }
-export default ProfilePicture;
+export default ProjectPictures;

@@ -31,7 +31,6 @@ class Projects extends Component {
   render() {
     const { width } = this.props.size;
     const { projects } = this.state;
-
     return (
       <div>
         <h2 style={headerStyle}>All Projects</h2>
