@@ -96,7 +96,7 @@ export default class DefNavbar extends Component {
                     </UncontrolledDropdown>
                   ) : (
                     <NavItem color="danger">
-                      <NavLink href="/signupin">Sign Up/Login</NavLink>
+                      <NavLink href="/signupin">Login</NavLink>
                     </NavItem>
                   )
                 }
