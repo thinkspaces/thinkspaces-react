@@ -32,7 +32,8 @@ class SignUp extends Component {
       full_name,
       graduation,
       preferred_name,
-      privacy
+      privacy,
+      headline
     } = this.state;
 
     const { history } = this.props;
@@ -48,7 +49,7 @@ class SignUp extends Component {
           preferred_name,
           email,
           privacy,
-          headline: "",
+          headline,
           profilepicture: ""
         });
 
@@ -57,6 +58,7 @@ class SignUp extends Component {
           preferred_name: "",
           graduation: "",
           email: "",
+          headline: "",
           privacy: false
         });
 
@@ -75,6 +77,7 @@ class SignUp extends Component {
       graduation,
       preferred_name,
       privacy,
+      headline,
       error
     } = this.state;
     const isEnabled =
@@ -82,7 +85,8 @@ class SignUp extends Component {
       password.length > 0 &&
       full_name.length > 0 &&
       graduation.length > 0 &&
-      preferred_name.length > 0;
+      preferred_name.length > 0 &&
+      headline.length > 0;
     return (
       <div>
         <h2> Sign Up </h2>
@@ -115,6 +119,16 @@ class SignUp extends Component {
               value={graduation}
               onChange={event =>
                 this.setState({ graduation: event.target.value })
+              }
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="headline">Short Bio</Label>
+            <Input
+              type="headline"
+              value={headline}
+              onChange={event =>
+                this.setState({ headline: event.target.value })
               }
             />
           </FormGroup>
