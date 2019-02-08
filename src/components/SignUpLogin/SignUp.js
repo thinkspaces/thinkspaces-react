@@ -20,9 +20,13 @@ class SignUp extends Component {
     full_name: "",
     graduation: "",
     preferred_name: "",
+<<<<<<< HEAD
     privacy: false,
     profilepicture:"",
     headline:""
+=======
+    privacy: false
+>>>>>>> 7a45d1c43288999a46bb278298a47d1d0488e586
   };
 
   createProfile = async event => {
@@ -35,7 +39,10 @@ class SignUp extends Component {
       graduation,
       preferred_name,
       privacy,
+<<<<<<< HEAD
       profilepicture,
+=======
+>>>>>>> 7a45d1c43288999a46bb278298a47d1d0488e586
       headline
     } = this.state;
 
@@ -53,6 +60,7 @@ class SignUp extends Component {
           email,
           privacy,
           headline,
+<<<<<<< HEAD
           profilepicture
         });
 
@@ -66,6 +74,18 @@ class SignUp extends Component {
             privacy: false,
             profilepicture:"",
             headline:""
+=======
+          profilepicture: ""
+        });
+
+        this.setState({
+          full_name: "",
+          preferred_name: "",
+          graduation: "",
+          email: "",
+          headline: "",
+          privacy: false
+>>>>>>> 7a45d1c43288999a46bb278298a47d1d0488e586
         });
 
         history.push("/");
@@ -83,16 +103,22 @@ class SignUp extends Component {
       graduation,
       preferred_name,
       privacy,
+<<<<<<< HEAD
       error,
       headline,
       profilepicture
+=======
+      headline,
+      error
+>>>>>>> 7a45d1c43288999a46bb278298a47d1d0488e586
     } = this.state;
     const isEnabled =
       email.length > 0 &&
       password.length > 0 &&
       full_name.length > 0 &&
       graduation.length > 0 &&
-      preferred_name.length > 0;
+      preferred_name.length > 0 &&
+      headline.length > 0;
     return (
       <div>
         <h2> Sign Up </h2>
@@ -125,6 +151,16 @@ class SignUp extends Component {
               value={graduation}
               onChange={event =>
                 this.setState({ graduation: event.target.value })
+              }
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="headline">Short Bio</Label>
+            <Input
+              type="headline"
+              value={headline}
+              onChange={event =>
+                this.setState({ headline: event.target.value })
               }
             />
           </FormGroup>

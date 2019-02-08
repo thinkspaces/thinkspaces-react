@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import ProfilePicture from "./UploadProfilePicture";
 
+// <FormGroup>
+//   <Label for="ProfilePicture">Profile Picture</Label>
+//   <ProfilePicture uid={uid} />
+// </FormGroup>
+
 export default class EditProfile extends Component {
   render() {
     const { saveChanges, profile, onEditChange, onCancel, uid } = this.props;
@@ -18,10 +23,13 @@ export default class EditProfile extends Component {
             />
           </FormGroup>
           <FormGroup>
+<<<<<<< HEAD
             <Label for="ProfilePicture">Profile Picture</Label>
             <ProfilePicture />
           </FormGroup>
           <FormGroup>
+=======
+>>>>>>> 7a45d1c43288999a46bb278298a47d1d0488e586
             <Label for="graduation">Graduation</Label>
             <Input
               id="graduation"

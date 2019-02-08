@@ -118,14 +118,14 @@ export const saveProjectPicture = async (id, url) => {
 
 };
 
-export const createPostWithFields = async (post_details, date, id) => {
-    await db
-      .collection ("projects")
-      .doc(id)
-      .collection("posts")
-      .doc(date));
-
-};
+// export const createPostWithFields = async (post_details, date, id) => {
+//     await db
+//       .collection ("projects")
+//       .doc(id)
+//       .collection("posts")
+//       .doc(date));
+//
+// };
 
 export const createProjectWithFields = async project => {
   let user = auth.currentUser;

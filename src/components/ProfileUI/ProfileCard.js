@@ -4,6 +4,12 @@ import "./ProfileCard.css";
 import Avatar from "react-avatar";
 import ViewProfileButton from "./ViewProfileButton";
 
+// {props.picture ? (
+//   <img src={props.picture} alt="profile" />
+// ) : (
+//   <Avatar size="100%" name={props.title} />
+// )}
+
 const ProfileCard = props => (
   <div
     className="profile-card"
@@ -13,11 +19,7 @@ const ProfileCard = props => (
     }}
   >
     <div className="image-container">
-      {props.picture ? (
-        <img src={props.picture} alt="profile" />
-      ) : (
         <Avatar size="100%" name={props.title} />
-      )}
     </div>
     <div className="cardTitle">
       <h5>{props.title}</h5>

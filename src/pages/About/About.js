@@ -39,7 +39,7 @@ const About = () => {
             As a result, we want to make it as easy for you to find the people
             you need so that you can get to working on your idea as fast as
             possible. Simply post whatever you are working on - creative passion
-            project, startup, club project, anything - and utlize our network of
+            project, startup, club project, anything - and utilize our network of
             creatives to help bring your idea to life.
           </p>
           <br />
