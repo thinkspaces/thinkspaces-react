@@ -60,7 +60,10 @@ export default class DefNavbar extends Component {
                 <NavLink href="/">Home</NavLink>
               </NavItem> */}
               <NavItem>
-                <NavLink href="/explore">Explore</NavLink>
+                <NavLink href="/projects">Projects</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/profiles">People</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/about">About</NavLink>
