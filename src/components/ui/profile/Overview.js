@@ -10,10 +10,12 @@ import EditProfile from "./EditProfile";
 
 const ProfileHeader = ({ profile }) => (
   <Col>
-    <Avatar
-      name={profile.full_name}
-      src={profile.profilepicture ? profile.profilepicture : null}
-    />
+    <div style={{ display: "table", margin: "0 auto" }}>
+      {profile.profilepicture ? (
+          <img style = {{maxHeight: "150px", borderRadius:"50%"}} src={profile.profilepicture} alt="profile" />
+        ) : (
+          <Avatar size="150" name={profile.full_name} round/>
+      )}
     <h2>{profile.full_name}</h2>
     <br />
     <h5>{profile.email}</h5>
@@ -21,6 +23,7 @@ const ProfileHeader = ({ profile }) => (
     <br />
     <br />
     <h5> {profile.headline} </h5>
+    </div>
   </Col>
 );
 
