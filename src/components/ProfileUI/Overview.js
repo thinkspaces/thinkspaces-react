@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Row, Col } from "reactstrap";
+import { Button, Row, Col, ButtonGroup } from "reactstrap";
 
 import { db } from "../../firebase";
 import AuthUserContext from "../../components/Authentication/AuthUserContext";
@@ -7,6 +7,7 @@ import withAuthorization from "../../components/Authentication/withAuthorization
 
 import Avatar from "react-avatar";
 import EditProfile from "./EditProfile";
+import ProfilePosts from "./Posts";
 
 const DetailView = ({ type, value, inline }) => (
   <div className={`${inline && "d-flex"}`}>
@@ -14,6 +15,10 @@ const DetailView = ({ type, value, inline }) => (
     {inline ? <h4>{value}</h4> : <h5>{value}</h5>}
   </div>
 );
+
+const divStyle = {
+    marginLeft: "100px"
+}
 
 class ProfileOverview extends Component {
   state = {
@@ -127,6 +132,14 @@ class ProfileOverview extends Component {
                           )}
                         </Col>
                       </Row>
+                      <br></br>
+                      <br></br>
+                        <a href = ""> Updates | </a>
+                        <a href = ""> My Projects </a>
+                      <hr></hr>
+                      <div className = {divStyle}>
+                      <ProfilePosts id={authUser.uid}/>
+                      </div>
                     </div>
                   )}
                 </div>
