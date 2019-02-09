@@ -10,7 +10,6 @@ import ProfilePicture from "./UploadProfilePicture";
 export default class EditProfile extends Component {
   render() {
     const { saveChanges, profile, onEditChange, onCancel, uid } = this.props;
-    // console.log(uid);
     return (
       <div>
         <Form>
@@ -23,6 +22,13 @@ export default class EditProfile extends Component {
             />
           </FormGroup>
           <FormGroup>
+<<<<<<< HEAD
+=======
+            <Label for="ProfilePicture">Profile Picture</Label>
+            <ProfilePicture />
+          </FormGroup>
+          <FormGroup>
+>>>>>>> master
             <Label for="graduation">Graduation</Label>
             <Input
               id="graduation"
