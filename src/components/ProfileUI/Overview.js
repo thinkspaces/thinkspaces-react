@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Row, Col, ButtonGroup } from "reactstrap";
+import { Button, Row, Col } from "reactstrap";
 
 import { db } from "../../firebase";
 import AuthUserContext from "../../components/Authentication/AuthUserContext";
@@ -17,8 +17,8 @@ const DetailView = ({ type, value, inline }) => (
 );
 
 const divStyle = {
-    marginLeft: "100px"
-}
+  marginLeft: "100px"
+};
 
 class ProfileOverview extends Component {
   state = {
@@ -132,13 +132,16 @@ class ProfileOverview extends Component {
                           )}
                         </Col>
                       </Row>
-                      <br></br>
-                      <br></br>
-                        <a href = ""> Updates | </a>
-                        <a href = ""> My Projects </a>
-                      <hr></hr>
-                      <div className = {divStyle}>
-                      <ProfilePosts id={authUser.uid}/>
+                      <br />
+                      <br />
+                      <div className="d-flex">
+                        <a href="/">Updates</a>
+                        <div>&nbsp;|&nbsp;</div>
+                        <a href="/">My Projects</a>
+                      </div>
+                      <hr />
+                      <div className={divStyle}>
+                        <ProfilePosts id={authUser.uid} />
                       </div>
                     </div>
                   )}

@@ -1,14 +1,12 @@
 import React, { Component } from "react";
 
-// import AuthUserContext from "../../components/Authentication/AuthUserContext";
 import withAuthorization from "../../components/Authentication/withAuthorization";
-import ProjectPictures from "./UploadProjectPictures.js";
-import FileUploader from 'react-firebase-file-uploader';
+import FileUploader from "react-firebase-file-uploader";
 
 import { Button, FormGroup, Label, Input, Form } from "reactstrap";
 
-import firebase from 'firebase/app';
-import {db} from "../../firebase";
+import firebase from "firebase/app";
+import { db } from "../../firebase";
 
 class SubmitProject extends Component {
   state = {
@@ -20,29 +18,28 @@ class SubmitProject extends Component {
     links: "",
     need: "",
     likes: 0,
-
     files: [],
-    avatar: '',
+    avatar: "",
     isUploading: false,
-    progress: 0,
+    progress: 0
   };
 
-  handleUploadStart = () => this.setState({isUploading: true, progress: 0});
+  handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
   handleProgress = progress => this.setState({ progress });
   handleUploadError = error => {
-      this.setState({ isUploading: false });
-      console.error(error);
+    this.setState({ isUploading: false });
+    console.error(error);
   };
   handleUploadSuccess = filename => {
-      this.setState({ avatar: filename, progress: 100, isUploading: false });
-      firebase
-       .storage()
-       .ref('projectpictures')
-       .child(filename)
-       .getDownloadURL()
-       .then(url => {
-           console.log(url);
-           this.setState({ images: url });
+    this.setState({ avatar: filename, progress: 100, isUploading: false });
+    firebase
+      .storage()
+      .ref("projectpictures")
+      .child(filename)
+      .getDownloadURL()
+      .then(url => {
+        console.log(url);
+        this.setState({ images: url });
       });
   };
 
@@ -86,7 +83,7 @@ class SubmitProject extends Component {
   };
 
   render() {
-    const { title, contact, about, card_des, images, links, need } = this.state;
+    const { title, contact, about, card_des, links, need } = this.state;
     return (
       <div>
         <h2> Submit a Project </h2>
@@ -106,24 +103,29 @@ class SubmitProject extends Component {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="projectpictures">Add some photos of your project!</Label>
+            <Label for="projectpictures">
+              Add some photos of your project!
+            </Label>
             <FormGroup>
-            {this.state.isUploading &&
-                <p>Progress: {this.state.progress}</p>
-            }
-            {this.state.avatarURL &&
-                <img src={this.state.images} width = "50%" height = "50%"/>
-            }
-            <FileUploader
+              {this.state.isUploading && <p>Progress: {this.state.progress}</p>}
+              {this.state.avatarURL && (
+                <img
+                  src={this.state.images}
+                  alt="profile"
+                  width="50%"
+                  height="50%"
+                />
+              )}
+              <FileUploader
                 accept="image/*"
                 name="avatar"
                 randomizeFilename
-                storageRef={firebase.storage().ref('projectpictures')}
+                storageRef={firebase.storage().ref("projectpictures")}
                 onUploadStart={this.handleUploadStart}
                 onUploadError={this.handleUploadError}
                 onUploadSuccess={this.handleUploadSuccess}
                 onProgress={this.handleProgress}
-            />
+              />
             </FormGroup>
           </FormGroup>
           <FormGroup>

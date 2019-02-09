@@ -9,7 +9,7 @@ import ProfilePicture from "./UploadProfilePicture";
 
 export default class EditProfile extends Component {
   render() {
-    const { saveChanges, profile, onEditChange, onCancel, uid } = this.props;
+    const { saveChanges, profile, onEditChange, onCancel } = this.props;
     return (
       <div>
         <Form>

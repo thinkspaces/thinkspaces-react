@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Col, Row } from "reactstrap";
 import Carousel from "../Carousel/Carousel";
 import { db } from "../../firebase";
-import { Link } from "react-router-dom";
+import ViewProfileButton from "../ProfileUI/ViewProfileButton";
 
 const headerStyle = {
   margin: "50px 0px 50px 0px",
@@ -57,14 +57,14 @@ const InfoView = ({ team, contact, about, need }) => (
       {team && (
         <div>
           {team.map(member => (
-            <Link
-              to={{
-                pathname: `/profile/someuser`,
-                state: { uid: member.uid }
-              }}
-            >
-              {member.name}
-            </Link>
+            <ViewProfileButton
+              username={`${member.name.substr(
+                0,
+                member.name.indexOf(" ")
+              )}.${member.uid.slice(0, 6)}`}
+              uid={member.uid}
+              text={member.name}
+            />
           ))}
         </div>
       )}

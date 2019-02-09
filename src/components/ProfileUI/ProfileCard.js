@@ -19,7 +19,7 @@ const ProfileCard = props => (
     }}
   >
     <div className="image-container">
-        <Avatar size="100%" name={props.title} />
+      <Avatar size="100%" name={props.title} />
     </div>
     <div className="cardTitle">
       <h5>{props.title}</h5>
@@ -31,6 +31,7 @@ const ProfileCard = props => (
       <ViewProfileButton
         username={`${props.username}.${props.uid.slice(0, 6)}`}
         uid={props.uid}
+        text="View Profile"
       />
     </div>
   </div>

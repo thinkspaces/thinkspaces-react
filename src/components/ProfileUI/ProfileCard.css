@@ -51,10 +51,18 @@
 .view-button {
   background: none !important;
   color: #007bff;
-  border: none;
+  border: none !important;
+  outline: none;
   padding: 0 !important;
   font: inherit;
-  /*border is optional*/
-  /* border-bottom: 1px solid #007bff; */
   cursor: pointer;
+}
+
+.view-button:focus {
+  outline: none;
+}
+
+.view-button:hover {
+  text-decoration: underline;
+  color: #0056b3;
 }

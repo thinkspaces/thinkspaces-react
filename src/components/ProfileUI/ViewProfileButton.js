@@ -7,6 +7,10 @@ import SignUpModal from "../Modals/SignUpModal";
 class ViewProfileButton extends Component {
   state = { modal: false };
 
+  // componentDidMount = () => {
+  //   auth.currentUser
+  // }
+
   toggle = () => {
     this.setState({
       modal: !this.state.modal
@@ -20,17 +24,17 @@ class ViewProfileButton extends Component {
 
   render() {
     const { modal } = this.state;
-    const { username, uid } = this.props;
+    const { username, uid, text } = this.props;
     let loggedIn = auth.isLoggedIn();
     if (loggedIn) {
       return (
         <Link
           to={{
-            pathname: `profile/${username}`,
+            pathname: `/profile/${username}`,
             state: { uid }
           }}
         >
-          View Profile
+          {text}
         </Link>
       );
     } else {
@@ -42,7 +46,7 @@ class ViewProfileButton extends Component {
             signUp={this.gotoSignUp}
           />
           <button className="view-button" onClick={this.toggle}>
-            View Profile
+            {text}
           </button>
         </div>
       );
