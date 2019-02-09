@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 
 import { Button, Row, Col } from "reactstrap";
-import ProjectCard from "../../components/Project/ProjectCard";
+import ProjectCard from "../../components/ui/project/ProjectCard/ProjectCard";
 import sizeMe from "react-sizeme";
-import SubmitProjectButton from "../../components/SubmitProject/SubmitProjectButton";
+import SubmitProjectButton from "../../components/ui/buttons/SubmitProjectButton";
 
 import { db } from "../../firebase";
 
@@ -84,7 +84,7 @@ class Home extends Component {
             />
           </Col>
         </Row>
-        <br></br>
+        <br />
         <h3 style={trendingStyle}>
           <span role="img" aria-label="BikingMan">
             🚴‍
@@ -100,7 +100,7 @@ class Home extends Component {
               shortname="Bird-Box Blue-Book"
               image="https://i.imgur.com/3SvmD9j.jpg"
               text="Export your Yale courses to your calendar"
-              />
+            />
           </Col>
           <Col sm>
             <ProjectCard

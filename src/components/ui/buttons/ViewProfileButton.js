@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 import { Link, withRouter } from "react-router-dom";
-import { auth } from "../../firebase";
-import SignUpModal from "../Modals/SignUpModal";
+import { auth } from "../../../firebase";
+import SignUpModal from "../modals/SignUpModal";
 
 class ViewProfileButton extends Component {
   state = { modal: false };

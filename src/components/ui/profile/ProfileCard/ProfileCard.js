@@ -2,7 +2,7 @@ import React from "react";
 import sizeMe from "react-sizeme";
 import "./ProfileCard.css";
 import Avatar from "react-avatar";
-import ViewProfileButton from "./ViewProfileButton";
+import ViewProfileButton from "../../buttons/ViewProfileButton";
 
 // {props.picture ? (
 //   <img src={props.picture} alt="profile" />

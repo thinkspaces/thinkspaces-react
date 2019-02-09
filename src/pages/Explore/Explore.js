@@ -7,7 +7,7 @@ import { db } from "../../firebase";
 
 // custom components
 import { Row, Col } from "reactstrap";
-import ProfileCard from "../../components/ProfileUI/ProfileCard";
+import ProfileCard from "../../components/ui/profile/ProfileCard/ProfileCard";
 
 // styles
 const headerStyle = {
@@ -41,7 +41,7 @@ class Explore extends Component {
                 headline={p.headline}
                 title={p.full_name}
                 username={p.preferred_name}
-                picture = {p.profilepicture}
+                picture={p.profilepicture}
               />
             </Col>
           ))}

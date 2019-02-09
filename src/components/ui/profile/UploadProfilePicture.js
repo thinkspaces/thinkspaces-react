@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import FileUploader from "react-firebase-file-uploader";
 import { FormGroup } from "reactstrap";
 import firebase from "firebase/app";
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 
 //right now it just saves automatically. need to figure out how to change that
 //need a way to change profile picture

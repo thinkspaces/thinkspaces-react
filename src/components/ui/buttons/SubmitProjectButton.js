@@ -2,9 +2,9 @@ import React, { Component } from "react";
 
 import { Button } from "reactstrap";
 import { withRouter } from "react-router-dom";
-import SignUpModal from "../Modals/SignUpModal";
+import SignUpModal from "../modals/SignUpModal";
 
-import { auth } from "../../firebase";
+import { auth } from "../../../firebase";
 
 const buttonStyle = {
   margin: "20px 10px"

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Col, Row } from "reactstrap";
-import Carousel from "../Carousel/Carousel";
+import Carousel from "../../components/ui/Carousel/Carousel";
 import { db } from "../../firebase";
-import ViewProfileButton from "../ProfileUI/ViewProfileButton";
+import ViewProfileButton from "../../components/ui/buttons/ViewProfileButton";
 
 const headerStyle = {
   margin: "50px 0px 50px 0px",

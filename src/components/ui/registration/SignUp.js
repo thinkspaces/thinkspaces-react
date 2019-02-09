@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { auth, db } from "../../firebase";
+import { auth, db } from "../../../firebase";
 
 import { withRouter } from "react-router-dom";
 import {

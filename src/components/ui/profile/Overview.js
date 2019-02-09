@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Button, Row, Col } from "reactstrap";
 
-import { db } from "../../firebase";
-import AuthUserContext from "../../components/Authentication/AuthUserContext";
-import withAuthorization from "../../components/Authentication/withAuthorization";
+import { db } from "../../../firebase";
+import AuthUserContext from "../../Authentication/AuthUserContext";
+import withAuthorization from "../../Authentication/withAuthorization";
 
 import Avatar from "react-avatar";
 import EditProfile from "./EditProfile";

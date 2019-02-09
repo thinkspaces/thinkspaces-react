@@ -1,23 +1,24 @@
 import React, { Component } from "react";
 import { Route } from "react-router-dom";
-import ReactGA from "react-ga";
 import withAuthentication from "./components/Authentication/withAuthentication";
-import MessengerCustomerChat from 'react-messenger-customer-chat';
 
-import DefNavbar from "./components/Navbar/Navbar";
+import ReactGA from "react-ga";
+import MessengerCustomerChat from "react-messenger-customer-chat";
+
+import Navbar from "./components/navigation/Navbar/Navbar";
+import Footer from "./components/navigation/Footer/Footer";
+
 import Home from "./pages/Home/Home";
 import Projects from "./pages/Projects/Projects";
 import About from "./pages/About/About";
-import Footer from "./components/Footer/Footer";
-import ProjectPage from "./components/Project/Page";
+import ProjectPage from "./pages/ProjectPage/Page";
 import SignUpIn from "./pages/SignUpIn/SignUpIn";
-import Profile from "./pages/Profile/profile";
-import SubmitProject from "./components/SubmitProject/SubmitProject";
+import Profile from "./pages/Profile/Profile";
+import SubmitProject from "./pages/SubmitProject/SubmitProject";
 import Explore from "./pages/Explore/Explore";
-import ForgotPassword from "./components/SignUpLogin/ForgotPassword";
+import ForgotPassword from "./pages/Forgot/ForgotPassword";
 
 import { Container } from "reactstrap";
-
 import "./App.css";
 
 const mainContainerStyle = {
@@ -33,7 +34,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <DefNavbar />
+        <Navbar />
         <Container style={mainContainerStyle}>
           <Route path="/" exact component={Home} />
           <Route path="/projects" exact component={Projects} />
@@ -43,11 +44,11 @@ class App extends Component {
           <Route path="/profile/:id" exact component={Profile} />
           <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/submitproject" exact component={SubmitProject} />
-          <Route path="/forgotpassword" exact component={ForgotPassword}/>
-                <MessengerCustomerChat
-                    pageId="1191043211036808"
-                    appId="295451067827152"
-                />
+          <Route path="/forgotpassword" exact component={ForgotPassword} />
+          <MessengerCustomerChat
+            pageId="1191043211036808"
+            appId="295451067827152"
+          />
         </Container>
         <Footer />
       </div>

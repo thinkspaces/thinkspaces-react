@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import "./ProfileCard.css";
+import "./ProfileCard/ProfileCard.css";
 import { Button, FormGroup, Label, Input } from "reactstrap";
 
-import { db } from "../../firebase";
+import { db } from "../../../firebase";
 
 class ProfilePosts extends Component {
   state = {

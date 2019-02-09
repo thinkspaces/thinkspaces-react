@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import withAuthorization from "../../components/Authentication/withAuthorization";
-import Overview from "../../components/ProfileUI/Overview";
+import Overview from "../../components/ui/profile/Overview";
 
 class Profile extends Component {
   render() {

@@ -6,7 +6,7 @@ import { db } from "../../firebase";
 
 // custom components
 import { Row, Col } from "reactstrap";
-import ProjectCard from "../../components/Project/ProjectCard";
+import ProjectCard from "../../components/ui/project/ProjectCard/ProjectCard";
 
 // styles
 const headerStyle = {
