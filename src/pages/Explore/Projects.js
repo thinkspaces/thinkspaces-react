@@ -17,9 +17,7 @@ class Projects extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isPending: true,
-      projects: [],
-      isError: false
+      projects: []
     };
   }
 

@@ -7,7 +7,42 @@ import withAuthorization from "../../Authentication/withAuthorization";
 
 import Avatar from "react-avatar";
 import EditProfile from "./EditProfile";
-import ProfilePosts from "./Posts";
+
+const ProfileHeader = ({ profile }) => (
+  <Col>
+    <Avatar
+      name={profile.full_name}
+      src={profile.profilepicture ? profile.profilepicture : null}
+    />
+    <h2>{profile.full_name}</h2>
+    <br />
+    <h5>{profile.email}</h5>
+    <h5>Graduation: {profile.graduation}</h5>
+    <br />
+    <br />
+    <h5> {profile.headline} </h5>
+  </Col>
+);
+
+const ProfileDetails = ({ profile, toggleEdit, puid, auid }) => (
+  <Col>
+    <DetailView type="College" value={profile.university} inline />
+    <hr />
+    <DetailView type="Major" value={profile.major} inline />
+    <hr />
+    <DetailView type="Skills" value={profile.skills} />
+    <hr />
+    <DetailView type="Relevant Courses" value={profile.courses} />
+    <hr />
+    <DetailView type="Interests" value={profile.interests} />
+    <br />
+    {puid === auid && (
+      <Button color="danger" onClick={toggleEdit}>
+        Edit Profile
+      </Button>
+    )}
+  </Col>
+);
 
 const DetailView = ({ type, value, inline }) => (
   <div className={`${inline && "d-flex"}`}>
@@ -15,10 +50,6 @@ const DetailView = ({ type, value, inline }) => (
     {inline ? <h4>{value}</h4> : <h5>{value}</h5>}
   </div>
 );
-
-const divStyle = {
-  marginLeft: "100px"
-};
 
 class ProfileOverview extends Component {
   state = {
@@ -83,66 +114,14 @@ class ProfileOverview extends Component {
                   {profile && (
                     <div>
                       <Row>
-                        <Col>
-                          <Avatar
-                            name={profile.full_name}
-                            src={
-                              profile.profilepicture
-                                ? profile.profilepicture
-                                : null
-                            }
-                          />
-                          <h2>{profile.full_name}</h2>
-                          <br />
-                          <h5>{profile.email}</h5>
-                          <h5>Graduation: {profile.graduation}</h5>
-                          <br />
-                          <br />
-                          <h5> {profile.headline} </h5>
-                        </Col>
-                        <Col>
-                          <DetailView
-                            type="College"
-                            value={profile.university}
-                            inline
-                          />
-                          <hr />
-                          <DetailView
-                            type="Major"
-                            value={profile.major}
-                            inline
-                          />
-                          <hr />
-                          <DetailView type="Skills" value={profile.skills} />
-                          <hr />
-                          <DetailView
-                            type="Relevant Courses"
-                            value={profile.courses}
-                          />
-                          <hr />
-                          <DetailView
-                            type="Interests"
-                            value={profile.interests}
-                          />
-                          <br />
-                          {uid === authUser.uid && (
-                            <Button color="danger" onClick={this.toggleEdit}>
-                              Edit Profile
-                            </Button>
-                          )}
-                        </Col>
+                        <ProfileHeader profile={profile} />
+                        <ProfileDetails
+                          puid={uid}
+                          auid={authUser.uid}
+                          profile={profile}
+                          toggleEdit={this.toggleEdit}
+                        />
                       </Row>
-                      <br />
-                      <br />
-                      <div className="d-flex">
-                        <a href="/">Updates</a>
-                        <div>&nbsp;|&nbsp;</div>
-                        <a href="/">My Projects</a>
-                      </div>
-                      <hr />
-                      <div className={divStyle}>
-                        <ProfilePosts id={authUser.uid} />
-                      </div>
                     </div>
                   )}
                 </div>

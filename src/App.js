@@ -9,7 +9,6 @@ import Navbar from "./components/navigation/Navbar/Navbar";
 import Footer from "./components/navigation/Footer/Footer";
 
 import Home from "./pages/Home/Home";
-import Projects from "./pages/Projects/Projects";
 import About from "./pages/About/About";
 import ProjectPage from "./pages/ProjectPage/Page";
 import SignUpIn from "./pages/SignUpIn/SignUpIn";
@@ -37,10 +36,9 @@ class App extends Component {
         <Navbar />
         <Container style={mainContainerStyle}>
           <Route path="/" exact component={Home} />
-          <Route path="/projects" exact component={Projects} />
           <Route path="/about" exact component={About} />
           <Route path="/projects/:shortname" exact component={ProjectPage} />
-          <Route path="/profiles" exact component={Explore} />
+          <Route path="/explore" exact component={Explore} />
           <Route path="/profile/:id" exact component={Profile} />
           <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/submitproject" exact component={SubmitProject} />

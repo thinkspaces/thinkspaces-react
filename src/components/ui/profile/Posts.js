@@ -9,6 +9,7 @@ class ProfilePosts extends Component {
     post_details: "What have you been up to?",
     date: ""
   };
+
   createProject = event => {
     event.preventDefault();
     const { post_details, date } = this.state;
@@ -38,13 +39,12 @@ class ProfilePosts extends Component {
           </Label>
           <Input
             value={this.state.post_details}
-            onClick={event => this.setState({ post_details: "" })}
+            onClick={() => this.setState({ post_details: "" })}
             onChange={event =>
               this.setState({ post_details: event.target.value })
             }
           />
-          <br />
-          <Button outline color="primary">
+          <Button style={{ marginTop: 25 }} color="primary">
             Post
           </Button>
         </FormGroup>

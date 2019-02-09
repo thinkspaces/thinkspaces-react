@@ -56,14 +56,11 @@ export default class DefNavbar extends Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <NavItem>
+              {/* <NavItem>
                 <NavLink href="/">Home</NavLink>
-              </NavItem>
+              </NavItem> */}
               <NavItem>
-                <NavLink href="/projects">Projects</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/profiles">People</NavLink>
+                <NavLink href="/explore">Explore</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/about">About</NavLink>
