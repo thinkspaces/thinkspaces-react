@@ -66,24 +66,25 @@ class Home extends Component {
           <Col sm>
             <ProjectCard
               width={width}
-              id="7N46WrDJb1HiRvmU3vnB"
-              title="Verb Energy Co."
-              shortname="verb"
-              image="https://i.imgur.com/ClqgMEf.jpg"
-              text="We believe people should have the energy to feel focused and alive every day."
+              id="VdnM4yC3ja52pYdNrrP7"
+              title="Slashed"
+              shortname="Slashed-"
+              image="https://firebasestorage.googleapis.com/v0/b/thinkspaces-a730b.appspot.com/o/projectpictures%2Fd76618be-a6e1-420f-a582-f797c972a68b.png?alt=media&token=c9c2f645-3546-414e-b488-225cd0770493"
+              text="Slashed is creating a smooth map, displaying all student friendly stores in your area. "
             />
           </Col>
           <Col sm>
             <ProjectCard
               width={width}
-              id="lnNHVq3Zd57qK33WCZOh"
-              title="Snackpass"
-              shortname="snackpass"
-              image="https://i.imgur.com/uy5sbwL.jpg"
-              text="Get lit discounts and never wait in line again."
+              id="BqeVjXffpd5fPu7jrU1q"
+              title="Homecooked"
+              shortname="homecooked"
+              image="https://i.imgur.com/1zb0koc.jpg"
+              text="A social dining app that lets you book homecooked meals made by people in your neighborhood."
             />
           </Col>
         </Row>
+        <br></br>
         <h3 style={trendingStyle}>
           <span role="img" aria-label="BikingMan">
             🚴‍
@@ -94,12 +95,12 @@ class Home extends Component {
           <Col sm>
             <ProjectCard
               width={width}
-              id="BqeVjXffpd5fPu7jrU1q"
-              title="Homecooked"
-              shortname="homecooked"
-              image="https://i.imgur.com/1zb0koc.jpg"
-              text="A social dining app that lets you book homecooked meals made by people in your neighborhood."
-            />
+              id="4NBBuiCNfqRoOSqtiKI6"
+              title="Bird Box Blue Book"
+              shortname="Bird-Box Blue-Book"
+              image="https://i.imgur.com/3SvmD9j.jpg"
+              text="Export your Yale courses to your calendar"
+              />
           </Col>
           <Col sm>
             <ProjectCard
@@ -114,11 +115,11 @@ class Home extends Component {
           <Col sm>
             <ProjectCard
               width={width}
-              id="D2aamuEx1DM5AB3AJ55x"
-              title="Pearl"
-              shortname="pearl"
-              image="https://i.imgur.com/a51qJgk.jpg"
-              text="A biometric technology startup bringing the first global cloud-based biometric authentication platform to market."
+              id="qTIDaK6yicTgv27hpkS8"
+              title="FoodWave"
+              shortname="FoodWave"
+              image=""
+              text="FoodWave will be an application used by guests at hotels while on the beach."
             />
           </Col>
         </Row>
