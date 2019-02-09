@@ -134,10 +134,10 @@ class ProfileOverview extends Component {
                       </Row>
                       <br></br>
                       <br></br>
-                        <a href = ""> Updates | </a>
+                        <a href = ""> Updates| </a>
                         <a href = ""> My Projects </a>
                       <hr></hr>
-                      <div className = {divStyle}>
+                      <div>
                       <ProfilePosts id={authUser.uid}/>
                       </div>
                     </div>

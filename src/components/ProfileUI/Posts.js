@@ -14,10 +14,11 @@ class ProfilePosts extends Component {
         date: "",
     }
     createProject = event => {
+      var currentDate = new Date();
       event.preventDefault();
       const {
         post_details,
-        date
+        date = currentDate
       } = this.state;
 
       const { history } = this.props;
