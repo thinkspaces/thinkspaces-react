@@ -19,7 +19,7 @@ const ProfileCard = props => (
     }}
   >
     <div className="image-container">
-      <Avatar size="100%" name={props.title} />
+      <Avatar size="120px" name={props.title} round />
     </div>
     <div className="cardTitle">
       <h5>{props.title}</h5>

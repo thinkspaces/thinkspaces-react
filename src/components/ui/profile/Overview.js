@@ -10,17 +10,25 @@ import EditProfile from "./EditProfile";
 
 const ProfileHeader = ({ profile }) => (
   <Col>
-    <Avatar
-      name={profile.full_name}
-      src={profile.profilepicture ? profile.profilepicture : null}
-    />
-    <h2>{profile.full_name}</h2>
-    <br />
-    <h5>{profile.email}</h5>
-    <h5>Graduation: {profile.graduation}</h5>
-    <br />
-    <br />
-    <h5> {profile.headline} </h5>
+    <div style={{ marginLeft: "15%" }}>
+      <div style={{ display: "inline-flex", flexDirection: "column" }}>
+        <div style={{ display: "table", margin: "0 auto", marginBottom: 15 }}>
+          <Avatar
+            size="150px"
+            name={profile.full_name}
+            src={profile.profilepicture ? profile.profilepicture : null}
+            round
+          />
+        </div>
+        <h2 style={{ display: "inline-block" }}>{profile.full_name}</h2>
+      </div>
+      <br />
+      <h5>{profile.email}</h5>
+      <h5>Graduation: {profile.graduation}</h5>
+      <br />
+      <br />
+      <h5> {profile.headline} </h5>
+    </div>
   </Col>
 );
 
