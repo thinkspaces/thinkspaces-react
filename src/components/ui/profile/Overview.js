@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Button, Row, Col } from "reactstrap";
 
 import { db } from "../../../firebase";
-import AuthUserContext from "../../Authentication/AuthUserContext";
 import withAuthorization from "../../Authentication/withAuthorization";
 
 import Avatar from "react-avatar";
@@ -102,6 +101,7 @@ class ProfileOverview extends Component {
 
   render() {
     const { profile, isEditing, uid } = this.state;
+    const { authUser } = this.props;
     if (isEditing) {
       return (
         <EditProfile
@@ -115,27 +115,19 @@ class ProfileOverview extends Component {
     } else {
       return (
         <div>
-          <AuthUserContext.Consumer>
-            {authUser =>
-              authUser && (
-                <div>
-                  {profile && (
-                    <div>
-                      <Row>
-                        <ProfileHeader profile={profile} />
-                        <ProfileDetails
-                          puid={uid}
-                          auid={authUser.uid}
-                          profile={profile}
-                          toggleEdit={this.toggleEdit}
-                        />
-                      </Row>
-                    </div>
-                  )}
-                </div>
-              )
-            }
-          </AuthUserContext.Consumer>
+          {profile && (
+            <div>
+              <Row>
+                <ProfileHeader profile={profile} />
+                <ProfileDetails
+                  puid={uid}
+                  auid={authUser.uid}
+                  profile={profile}
+                  toggleEdit={this.toggleEdit}
+                />
+              </Row>
+            </div>
+          )}
         </div>
       );
     }

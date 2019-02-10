@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import ProfilePicture from "./UploadProfilePicture";
+// import ProfilePicture from "./UploadProfilePicture";
 
 // <FormGroup>
 //   <Label for="ProfilePicture">Profile Picture</Label>
 //   <ProfilePicture uid={uid} />
+// </FormGroup>
+// <FormGroup>
+//   <Label for="ProfilePicture">Profile Picture</Label>
+//   <ProfilePicture />
 // </FormGroup>
 
 export default class EditProfile extends Component {
@@ -20,10 +24,6 @@ export default class EditProfile extends Component {
               value={profile.full_name}
               onChange={onEditChange}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="ProfilePicture">Profile Picture</Label>
-            <ProfilePicture />
           </FormGroup>
           <FormGroup>
             <Label for="graduation">Graduation</Label>

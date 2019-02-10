@@ -1,12 +1,33 @@
 import React, { Component } from "react";
 import "./ProfileCard/ProfileCard.css";
-import { Button, FormGroup, Label, Input } from "reactstrap";
+import { Button, FormGroup, Input } from "reactstrap";
+import withAuthorization from "../../Authentication/withAuthorization";
+import AuthUserContext from "../../Authentication/AuthUserContext";
 
 import { db } from "../../../firebase";
 
+const MySocialView = ({ post_details, createPost }) => (
+  <div>
+    <h4 style={{ marginBottom: 20 }}>What have you been up to? </h4>
+    <FormGroup onSubmit={createPost}>
+      <Input
+        value={post_details}
+        onClick={() => this.setState({ post_details: "" })}
+        onChange={event => this.setState({ post_details: event.target.value })}
+        type="textarea"
+      />
+      <Button style={{ marginTop: 10 }} color="primary">
+        Post
+      </Button>
+    </FormGroup>
+  </div>
+);
+
+const GuestSocialView = () => <div>not mind</div>;
+
 class ProfilePosts extends Component {
   state = {
-    post_details: "What have you been up to?",
+    post_details: "",
     date: ""
   };
 
@@ -23,7 +44,7 @@ class ProfilePosts extends Component {
       id
     }).then(() => {
       this.setState({
-        post_details: "What have you been up to?",
+        post_details: "",
         date: ""
       });
       history.push("/");
@@ -31,26 +52,27 @@ class ProfilePosts extends Component {
   };
 
   render() {
+    const { uid } = this.props;
     return (
       <div>
-        <FormGroup onSubmit={this.createPost}>
-          <Label for="ProfilePost" type="textarea">
-            Create Post
-          </Label>
-          <Input
-            value={this.state.post_details}
-            onClick={() => this.setState({ post_details: "" })}
-            onChange={event =>
-              this.setState({ post_details: event.target.value })
-            }
-          />
-          <Button style={{ marginTop: 25 }} color="primary">
-            Post
-          </Button>
-        </FormGroup>
+        <AuthUserContext.Consumer>
+          {authUser => (
+            <div style={{ paddingLeft: 50, paddingRight: 100 }}>
+              {authUser.uid === uid ? (
+                <MySocialView
+                  post_details={this.state.post_details}
+                  createPost={this.createPost}
+                />
+              ) : (
+                <GuestSocialView />
+              )}
+            </div>
+          )}
+        </AuthUserContext.Consumer>
       </div>
     );
   }
 }
 
-export default ProfilePosts;
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(ProfilePosts);

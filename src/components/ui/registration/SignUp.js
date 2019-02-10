@@ -22,7 +22,9 @@ class SignUp extends Component {
     preferred_name: "",
     privacy: false,
     profilepicture: "",
-    headline: ""
+    headline: "",
+    major:"",
+    university:"",
   };
 
   createProfile = async event => {
@@ -36,7 +38,9 @@ class SignUp extends Component {
       preferred_name,
       privacy,
       profilepicture,
-      headline
+      headline,
+      major,
+      university
     } = this.state;
 
     const { history } = this.props;
@@ -53,7 +57,9 @@ class SignUp extends Component {
           email,
           privacy,
           headline,
-          profilepicture
+          profilepicture,
+          major,
+          university
         });
 
         this.setState({
@@ -65,7 +71,9 @@ class SignUp extends Component {
           preferred_name: "",
           privacy: false,
           profilepicture: "",
-          headline: ""
+          headline: "",
+          major:"",
+          university:""
         });
 
         history.push("/");
@@ -84,7 +92,9 @@ class SignUp extends Component {
       preferred_name,
       privacy,
       error,
-      headline
+      headline,
+      major,
+      university
     } = this.state;
     const isEnabled =
       email.length > 0 &&
@@ -92,7 +102,9 @@ class SignUp extends Component {
       full_name.length > 0 &&
       graduation.length > 0 &&
       preferred_name.length > 0 &&
-      headline.length > 0;
+      headline.length > 0 &&
+      major.length > 0 &&
+      university.length > 0;
     return (
       <div>
         <h2> Sign Up </h2>
@@ -115,6 +127,26 @@ class SignUp extends Component {
               value={preferred_name}
               onChange={event =>
                 this.setState({ preferred_name: event.target.value })
+              }
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="major">Major</Label>
+            <Input
+              type="major"
+              value={major}
+              onChange={event =>
+                this.setState({ major: event.target.value })
+              }
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="university">College or Grad School</Label>
+            <Input
+              type="university"
+              value={university}
+              onChange={event =>
+                this.setState({ university: event.target.value })
               }
             />
           </FormGroup>
