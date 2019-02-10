@@ -32,19 +32,18 @@ class ProfilePosts extends Component {
 
   render() {
     return (
-      <div>
+      <div style = {{paddingLeft: 50, paddingRight: 100}}>
+        <h3>What have you been up to? </h3>
         <FormGroup onSubmit={this.createPost}>
-          <Label for="ProfilePost" type="textarea">
-            Create Post
-          </Label>
           <Input
             value={this.state.post_details}
             onClick={() => this.setState({ post_details: "" })}
             onChange={event =>
               this.setState({ post_details: event.target.value })
             }
+            type="textarea"
           />
-          <Button style={{ marginTop: 25 }} color="primary">
+          <Button style={{ marginTop: 25}} color="primary">
             Post
           </Button>
         </FormGroup>

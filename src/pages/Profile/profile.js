@@ -8,9 +8,14 @@ import ProfilePosts from "../../components/ui/profile/Posts";
 const SocialContentSection = () => (
   <div style={{ marginTop: 70 }}>
     <div className="d-flex">
-      <a href="/">Updates</a>
-      <div>&nbsp;|&nbsp;</div>
-      <a href="/">My Projects</a>
+      <a href="/">
+      <h3>
+        Updates</h3>
+      </a>
+      <h3>&nbsp;|&nbsp;</h3>
+      <a href="/">
+      <h3>
+      My Projects</h3></a>
     </div>
     <hr />
     <div style={{ marginLeft: 10, marginRight: 10 }}>
