@@ -6,6 +6,10 @@ import ProfilePicture from "./UploadProfilePicture";
 //   <Label for="ProfilePicture">Profile Picture</Label>
 //   <ProfilePicture uid={uid} />
 // </FormGroup>
+// <FormGroup>
+//   <Label for="ProfilePicture">Profile Picture</Label>
+//   <ProfilePicture />
+// </FormGroup>
 
 export default class EditProfile extends Component {
   render() {
@@ -20,10 +24,6 @@ export default class EditProfile extends Component {
               value={profile.full_name}
               onChange={onEditChange}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="ProfilePicture">Profile Picture</Label>
-            <ProfilePicture />
           </FormGroup>
           <FormGroup>
             <Label for="graduation">Graduation</Label>
