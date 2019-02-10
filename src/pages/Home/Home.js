@@ -53,26 +53,26 @@ class Home extends Component {
           &nbsp;Noteworthy
         </h3>
         <Row>
-          <Col sm>
-            <ProjectCard
-              width={width}
-              id="PW2dKtY4LCfF19HTaRbp"
-              title="MovesU"
-              shortname="moves"
-              image="https://i.imgur.com/tslXFr4.jpg"
-              text="A fun, social events app for and driven by college students. For events of any size, from small gatherings to massive parties."
-            />
-          </Col>
-          <Col sm>
-            <ProjectCard
-              width={width}
-              id="VdnM4yC3ja52pYdNrrP7"
-              title="Slashed"
-              shortname="Slashed-"
-              image="https://firebasestorage.googleapis.com/v0/b/thinkspaces-a730b.appspot.com/o/projectpictures%2Fd76618be-a6e1-420f-a582-f797c972a68b.png?alt=media&token=c9c2f645-3546-414e-b488-225cd0770493"
-              text="Slashed is creating a smooth map, displaying all student friendly stores in your area. "
-            />
-          </Col>
+        <Col sm>
+          <ProjectCard
+            width={width}
+            id="wwUdHZ7mZ9vs7i7jEoDO"
+            title="RAMP"
+            shortname="ramp"
+            image="https://firebasestorage.googleapis.com/v0/b/thinkspaces-a730b.appspot.com/o/projectpictures%2Framp.png?alt=media&token=3a2f6c1a-34ea-4fa4-87d3-96b0b102c3b0"
+            text="RAMP is a free, intuitive, multilingual digital platform that connects the Greater New Haven community to resources such as food, education, healthcare, housing, legal assistance, and employment. We are currently looking for a volunteer Research Assistant for qualitative community-based research, Marketing Lead, and Fundraising Lead "/>
+        </Col>
+        <Col sm>
+          <ProjectCard
+            width={width}
+            id="VdnM4yC3ja52pYdNrrP7"
+            title="Slashed"
+            shortname="Slashed-"
+            image="https://firebasestorage.googleapis.com/v0/b/thinkspaces-a730b.appspot.com/o/projectpictures%2Fd76618be-a6e1-420f-a582-f797c972a68b.png?alt=media&token=c9c2f645-3546-414e-b488-225cd0770493"
+            text="Slashed is creating a smooth map, displaying all student friendly stores in your area. "
+          />
+        </Col>
+
           <Col sm>
             <ProjectCard
               width={width}
