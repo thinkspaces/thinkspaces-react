@@ -23,13 +23,12 @@ const SocialContentSection = () => (
     </div>
   </div>
 );
-
+//<SocialContentSection />
 class Profile extends Component {
   render() {
     return (
       <div>
         <Overview />
-        <SocialContentSection />
       </div>
     );
   }
