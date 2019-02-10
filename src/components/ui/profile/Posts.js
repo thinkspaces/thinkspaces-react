@@ -8,7 +8,7 @@ import { db } from "../../../firebase";
 
 const MySocialView = ({ post_details, createPost}) => (
     <div>
-        <h3>What have you been up to? </h3>
+        <h4 style={{ marginBottom: 20}}>What have you been up to? </h4>
         <FormGroup onSubmit={createPost}>
           <Input
             value={post_details}
@@ -18,7 +18,7 @@ const MySocialView = ({ post_details, createPost}) => (
             }
             type="textarea"
           />
-          <Button style={{ marginTop: 25}} color="primary">
+          <Button style={{ marginTop: 10}} color="primary">
             Post
           </Button>
         </FormGroup>
@@ -31,7 +31,7 @@ const GuestSocialView = () => (
 
 class ProfilePosts extends Component {
   state = {
-    post_details: "What have you been up to?",
+    post_details: "",
     date: ""
   };
 
@@ -48,7 +48,7 @@ class ProfilePosts extends Component {
       id
     }).then(() => {
       this.setState({
-        post_details: "What have you been up to?",
+        post_details: "",
         date: ""
       });
       history.push("/");

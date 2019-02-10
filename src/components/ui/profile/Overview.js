@@ -16,7 +16,7 @@ const ProfileHeader = ({ profile }) => (
         ) : (
           <Avatar size="150" name={profile.full_name} round/>
       )}
-    <h2>{profile.full_name}</h2>
+    <h1>{profile.full_name}</h1>
     <br />
     <h5>{profile.email}</h5>
     <h5>Graduation: {profile.graduation}</h5>
