@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import ProfilePicture from "./UploadProfilePicture";
+// import ProfilePicture from "./UploadProfilePicture";
 
 // <FormGroup>
 //   <Label for="ProfilePicture">Profile Picture</Label>

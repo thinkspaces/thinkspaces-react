@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Col, Row } from "reactstrap";
+import sizeMe from "react-sizeme";
 import Carousel from "../../components/ui/Carousel/Carousel";
 import { db } from "../../firebase";
 import ViewProfileButton from "../../components/ui/buttons/ViewProfileButton";
@@ -9,8 +10,8 @@ const headerStyle = {
   textAlign: "center"
 };
 
-const BannerSection = ({ title, images }) => (
-  <Col>
+const BannerSection = ({ width, title, images }) => (
+  <Col style={{ flexBasis: width <= 570 ? "auto" : 0 }}>
     <div style={headerStyle}>
       <h1>{title}</h1>
     </div>
@@ -27,17 +28,12 @@ const BannerSection = ({ title, images }) => (
   </Col>
 );
 
-const InfoSection = ({ contact, about, need, team }) => (
+const InfoSection = ({ links, contact, about, need, team }) => (
   <Col>
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
+    <div style={{ marginTop: 150 }} />
     <InfoView team={team} />
     <br />
-    <InfoView contact={contact} />
+    <InfoView contact={contact} links={links} />
     <br />
     <InfoView about={about} />
     <br />
@@ -45,11 +41,11 @@ const InfoSection = ({ contact, about, need, team }) => (
   </Col>
 );
 
-const InfoView = ({ team, contact, about, need }) => (
-  <Row justify-content-center>
+const InfoView = ({ team, contact, links, about, need }) => (
+  <Row>
     <Col md={3}>
       {team && <b>Team</b>}
-      {contact && <b>Contact us</b>}
+      {(contact || links) && <b>Contact us</b>}
       {about && <b>About us</b>}
       {need && <b>Who we need</b>}
     </Col>
@@ -68,26 +64,28 @@ const InfoView = ({ team, contact, about, need }) => (
           ))}
         </div>
       )}
-      {contact && (
+      {(contact || links) && (
         <div style={{ display: "flex", flexDirection: "column" }}>
-          {contact.map(item => (
-            <a href={"mailto:" + item}>{item}</a>
+          <a href={"mailto:" + contact}>{contact}</a>
+          {links.map(link => (
+            <a href={link}>{link}</a>
           ))}
         </div>
       )}
       {about && <p>{about}</p>}
       {need && (
         <div>
-          {need.map(item => (
+          {need}
+          {/* {need.map(item => (
             <p>{item}</p>
-          ))}
+          ))} */}
         </div>
       )}
     </Col>
   </Row>
 );
 
-export default class Page extends Component {
+class Page extends Component {
   state = { data: null };
 
   componentDidMount = async () => {
@@ -100,13 +98,19 @@ export default class Page extends Component {
 
   render() {
     const { data } = this.state;
+    const { width } = this.props.size;
     if (data) {
       return (
         <div>
           <Row>
-            <BannerSection title={data.title} images={data.images} />
+            <BannerSection
+              width={width}
+              title={data.title}
+              images={data.images}
+            />
             <InfoSection
-              contact={data.links}
+              links={data.links}
+              contact={data.contact}
               about={data.about}
               need={data.need}
               team={data.team}
@@ -117,3 +121,5 @@ export default class Page extends Component {
     } else return <div>no data</div>;
   }
 }
+
+export default sizeMe()(Page);

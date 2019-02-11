@@ -63,8 +63,9 @@ class SubmitProject extends Component {
       about,
       card_des,
       images: [images],
-      links: [links, contact],
-      need: [need],
+      contact,
+      links: [links],
+      need,
       likes,
       shortname: title.replace(/\s+/g, "-")
     }).then(() => {
@@ -156,10 +157,11 @@ class SubmitProject extends Component {
             />
           </FormGroup>
           <FormGroup>
-            <Label for="links"> Link to your website or social media </Label>
+            <Label for="links"> Link to your website or social media</Label>
             <Input
               value={links}
               onChange={event => this.setState({ links: event.target.value })}
+              placeholder="http://www.yourwebsite.com"
             />
           </FormGroup>
           <Button color="danger"> Submit </Button>

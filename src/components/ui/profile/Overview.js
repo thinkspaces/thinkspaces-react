@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Button, Row, Col } from "reactstrap";
 
 import { db } from "../../../firebase";
-import AuthUserContext from "../../Authentication/AuthUserContext";
 import withAuthorization from "../../Authentication/withAuthorization";
 
 import Avatar from "react-avatar";
@@ -10,19 +9,27 @@ import EditProfile from "./EditProfile";
 
 const ProfileHeader = ({ profile }) => (
   <Col>
-    <div style={{ display: "table", margin: "0 auto" }}>
-      {profile.profilepicture ? (
-          <img style = {{maxHeight: "150px", borderRadius:"50%"}} src={profile.profilepicture} alt="profile" />
-        ) : (
-          <Avatar size="150" name={profile.full_name} round/>
-      )}
-    <h1>{profile.full_name}</h1>
-    <br />
-    <h5>{profile.email}</h5>
-    <h5>Graduation: {profile.graduation}</h5>
-    <br />
-    <br />
-    <h5> {profile.headline} </h5>
+    <div style={{ marginLeft: "15%" }}>
+      <div style={{ display: "inline-flex", flexDirection: "column" }}>
+        <div style={{ display: "table", margin: "0 auto", marginBottom: 15 }}>
+          {profile.profilepicture ? (
+            <img
+              style={{ maxHeight: "150px", borderRadius: "50%" }}
+              src={profile.profilepicture}
+              alt="profile"
+            />
+          ) : (
+            <Avatar size="150" name={profile.full_name} round />
+          )}
+        </div>
+        <h2 style={{ display: "inline-block" }}>{profile.full_name}</h2>
+      </div>
+      <br />
+      <h5>{profile.email}</h5>
+      <h5>Graduation: {profile.graduation}</h5>
+      <br />
+      <br />
+      <h5> {profile.headline} </h5>
     </div>
   </Col>
 );
@@ -110,21 +117,21 @@ class ProfileOverview extends Component {
       );
     } else {
       return (
+        <div>
+          {profile && (
             <div>
-              {profile && (
-                <div>
-                  <Row>
-                    <ProfileHeader profile={profile} />
-                    <ProfileDetails
-                      puid={uid}
-                      auid={authUser.uid}
-                      profile={profile}
-                      toggleEdit={this.toggleEdit}
-                    />
-                  </Row>
-                </div>
-              )}
+              <Row>
+                <ProfileHeader profile={profile} />
+                <ProfileDetails
+                  puid={uid}
+                  auid={authUser.uid}
+                  profile={profile}
+                  toggleEdit={this.toggleEdit}
+                />
+              </Row>
             </div>
+          )}
+        </div>
       );
     }
   }
