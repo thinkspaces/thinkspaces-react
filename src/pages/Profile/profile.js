@@ -32,15 +32,22 @@ const SocialContentSection = ({ uid }) => (
     )
 
 class Profile extends Component {
+    state = { uid: null }
+
+    componentDidMount = () => {
+        if (this.props.location.state){
+            this.setState({ uid: this.props.location.state.uid });
+        }
+    }
   render() {
-    const { location } = this.props;
+    const { uid } = this.state;
     return (
       <div>
           <AuthUserContext.Consumer>
             {authUser =>
                 <div>
                     <Overview authUser={authUser} />
-                    <SocialContentSection uid={location.state.uid} />
+                    <SocialContentSection uid={uid} />
                 </div>
             }
             </AuthUserContext.Consumer>

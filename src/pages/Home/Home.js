@@ -60,7 +60,8 @@ class Home extends Component {
               title="RAMP"
               shortname="ramp"
               image="https://firebasestorage.googleapis.com/v0/b/thinkspaces-a730b.appspot.com/o/projectpictures%2Framp.png?alt=media&token=3a2f6c1a-34ea-4fa4-87d3-96b0b102c3b0"
-              text="RAMP is a free, intuitive, multilingual digital platform that connects the Greater New Haven community to resources such as food, education, healthcare, housing, legal assistance, and employment. We are currently looking for a volunteer Research Assistant for qualitative community-based research, Marketing Lead, and Fundraising Lead "/>
+              text="RAMP is a free, intuitive, multilingual digital platform that connects the Greater New Haven community to resources such as food, education, healthcare, housing, legal assistance, and employment. We are currently looking for a volunteer Research Assistant for qualitative community-based research, Marketing Lead, and Fundraising Lead "
+            />
           </Col>
           <Col sm>
             <ProjectCard

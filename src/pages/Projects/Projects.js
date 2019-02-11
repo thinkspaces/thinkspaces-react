@@ -26,6 +26,20 @@ class Projects extends Component {
     this.setState({ projects });
   };
 
+  updateLikes = i => {
+    const { projects } = this.state;
+    projects[i].likes = projects[i].likes + 1;
+    this.setState({
+      projects
+    });
+    // this.setState(prevState => ({
+    //   projects: {
+    //     ...prevState.projects,
+    //     [i.likes]: 2
+    //   }
+    // }));
+  };
+
   render() {
     const { width } = this.props.size;
     const { projects } = this.state;
@@ -44,6 +58,7 @@ class Projects extends Component {
                 text={p.card_des}
                 shortname={p.shortname}
                 likes={p.likes}
+                updateLikes={() => this.updateLikes(i)}
               />
             </Col>
           ))}

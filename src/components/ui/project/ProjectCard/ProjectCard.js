@@ -2,7 +2,7 @@ import React from "react";
 import sizeMe from "react-sizeme";
 import { Link } from "react-router-dom";
 import "./ProjectCard.css";
-// import LikeButton from "./Like";
+import LikeButton from "../Like";
 
 // custom project card without weird margin side affects
 //<LikeButton id = {props.id} likes = {props.likes}/>
@@ -16,6 +16,12 @@ const ProjectCard = props => {
       }}
     >
       <div className="cardBody">
+        <LikeButton
+          style={{ verticalAlign: "right" }}
+          likes={props.likes}
+          id={props.id}
+          updateLikes={props.updateLikes}
+        />
         <h5>{props.title} </h5>
       </div>
       <div className="project-image-container">

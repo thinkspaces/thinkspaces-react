@@ -1,4 +1,4 @@
-import { db, auth } from "./firebase";
+import { db, auth, createTimestamp } from "./firebase";
 
 export const getProjects = async () => {
   // create projects array
@@ -111,22 +111,46 @@ export const saveProfilePicture = async url => {
 };
 
 export const saveProjectPicture = async (id, url) => {
-    await db
-      .collection("projects")
-      .doc(id)
-      .update({images: [url]});
-
+  await db
+    .collection("projects")
+    .doc(id)
+    .update({ images: [url] });
 };
 
-export const createPostWithFields = async (id, postData) => {
-    await db
-      .collection ("projects")
-      .doc(id)
-      .collection("posts")
-      .add({
-          ...postData
-      })
+export const createProfilePostWithFields = async (
+  description,
+  timestamp,
+  uid
+) => {
+  let docRef = await db
+    .collection("users")
+    .doc(uid)
+    .collection("posts")
+    .add({
+      timestamp: createTimestamp(timestamp),
+      description
+    });
+  await docRef.update({
+    pid: docRef.id
+  });
 };
+
+// export const getProfilePosts = async(id) => {
+//     let posts = [];
+//
+//     let snapshot = await db
+//         .collection("users")
+//         .doc(id)
+//         .collection("posts")
+//         .doc(id)
+//         .get();
+//
+//       snapshot.forEach(doc => {
+//         posts.push({ ...doc.data() });
+//       });
+//
+//     return posts;
+// }
 
 export const createProjectWithFields = async project => {
   let user = auth.currentUser;

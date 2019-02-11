@@ -13,7 +13,7 @@ export default class SignUpModal extends Component {
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={signUp}>
-            Sign Up
+            Login/Sign Up
           </Button>
           <Button color="secondary" onClick={toggle}>
             Cancel

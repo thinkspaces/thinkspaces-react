@@ -21,4 +21,8 @@ db.settings(settings);
 const storage = firebase.storage();
 const auth = firebase.auth();
 
-export { db, auth, storage };
+const createTimestamp = (timestamp) => {
+    return firebase.firestore.Timestamp.fromDate(timestamp);
+}
+
+export { db, auth, storage, createTimestamp };
