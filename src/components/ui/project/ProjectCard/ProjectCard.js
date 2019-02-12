@@ -11,8 +11,8 @@ const ProjectCard = props => {
     <div
       className="card"
       style={{
-        width: props.width <= 768 ? "auto" : "318px",
-        minWidth: "200px"
+        // width: props.width <= 768 ? "auto" : "318px",
+        // minWidth: "200px"
       }}
     >
       <div className="cardBody">
