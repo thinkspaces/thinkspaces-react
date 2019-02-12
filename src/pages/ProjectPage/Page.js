@@ -78,9 +78,10 @@ const InfoView = ({ team, contact, about, need }) => (
       {about && <p>{about}</p>}
       {need && (
         <div>
-          {need.map(item => (
+        {need}
+          {/* {need.map(item => (
             <p>{item}</p>
-          ))}
+          ))} */}
         </div>
       )}
     </Col>
