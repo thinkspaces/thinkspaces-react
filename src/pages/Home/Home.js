@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import sizeMe from "react-sizeme";
 
-import { Button, Row, Col } from "reactstrap";
+import { Button } from "reactstrap";
+
+
+import { Card, Icon, Image } from 'semantic-ui-react'
+import sampleImg from '../../logo.png'
+
+
 import styles from './Home.module.css'
 import ProjectCard from "../../components/ui/project/ProjectCard/ProjectCard";
 import SubmitProjectButton from "../../components/ui/buttons/SubmitProjectButton";
@@ -54,6 +60,28 @@ class Home extends Component {
           &nbsp;Noteworthy
         </h3>
         <div className={styles.genericProjectGrid}>
+            <Card>
+                <Image src={sampleImg} />
+                <Card.Content>
+                    <Card.Header>Thinkspaces</Card.Header>
+                    <Card.Meta>Power to the Creators</Card.Meta>
+                    <Card.Description style={{overflow:"hidden"}}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla asperiores eius, deserunt odio error reiciendis qui aut numquam, excepturi tempore odit dolorum molestias temporibus iure labore unde. Magni, hic beatae?
+                    </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                    <a className="right floated">
+                        <Icon name='comment' />
+                        10
+                    </a>
+                    <a>
+                        <Icon name='thumbs up' />
+                        23
+                    </a>
+                </Card.Content>
+            </Card>
+
+
+
             <ProjectCard
                 width={width}
                 id="wwUdHZ7mZ9vs7i7jEoDO"
