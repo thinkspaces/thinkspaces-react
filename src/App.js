@@ -17,6 +17,7 @@ import SubmitProject from "./pages/SubmitProject/SubmitProject";
 import Explore from "./pages/Explore/Explore";
 import Projects from "./pages/Projects/Projects";
 import ForgotPassword from "./pages/Forgot/ForgotPassword";
+import ManageProjects from "./pages/ManageProjects/ManageProjects";
 
 import { Container } from "reactstrap";
 import "./App.css";
@@ -45,6 +46,7 @@ class App extends Component {
           <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/submitproject" exact component={SubmitProject} />
           <Route path="/forgotpassword" exact component={ForgotPassword} />
+          <Route path="/manageprojects" exact component={ManageProjects} />
           <MessengerCustomerChat
             pageId="1191043211036808"
             appId="295451067827152"

@@ -1,46 +1,58 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import AuthUserContext from "../../components/Authentication/AuthUserContext";
 import withAuthorization from "../../components/Authentication/withAuthorization";
 import Overview from "../../components/ui/profile/Overview";
 
+import MyProjects from "../../components/ui/profile/MyProjects";
 import ProfilePosts from "../../components/ui/profile/Posts";
 
-const SocialContentSection = ({ uid }) => (
+const SocialContentSection = ({ uid, selected }) => (
   <div style={{ marginTop: 70 }}>
     <div className="d-flex">
-      <a href="/">
+      <Link to="#updates">
         <h4>Updates</h4>
-      </a>
+      </Link>
       <h4>&nbsp;|&nbsp;</h4>
-      <a href="/">
+      <Link to="#my-projects">
         <h4>My Projects</h4>
-      </a>
+      </Link>
     </div>
     <hr />
     <div style={{ marginLeft: 10, marginRight: 10 }}>
-      <ProfilePosts uid={uid} />
+      {selected.length === 0 || selected === "#updates" ? (
+        <ProfilePosts uid={uid} />
+      ) : (
+        <MyProjects uid={uid} />
+      )}
     </div>
   </div>
 );
 
 class Profile extends Component {
-  state = { uid: null };
+  state = { uid: null, selected: "#updates" };
 
   componentDidMount = () => {
     if (this.props.location.state) {
+      console.log(this.props.location.state);
       this.setState({ uid: this.props.location.state.uid });
     }
+
+    // if (this.props.location.hash.length !== 0) {
+    //   this.setState({ selected: this.props.location.hash });
+    // }
   };
   render() {
     const { uid } = this.state;
+    const { hash } = this.props.location;
     return (
       <div>
         <AuthUserContext.Consumer>
           {authUser => (
             <div>
               <Overview authUser={authUser} />
-              <SocialContentSection uid={uid} />
+              <SocialContentSection uid={uid} selected={hash} />
             </div>
           )}
         </AuthUserContext.Consumer>

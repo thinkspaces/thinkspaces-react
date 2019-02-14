@@ -88,6 +88,19 @@ export default class DefNavbar extends Component {
                         >
                           <DropdownItem>My Profile</DropdownItem>
                         </Link>
+
+                        <DropdownItem divider />
+
+                        <Link
+                          style={{ textDecoration: "none" }}
+                          to={{
+                            pathname: "/manageprojects",
+                            state: { uid: authUser.uid }
+                          }}
+                        >
+                          <DropdownItem>ManageProjects</DropdownItem>
+                        </Link>
+
                         <DropdownItem divider />
                         <DropdownItem onClick={auth.signOutUser}>
                           Sign Out

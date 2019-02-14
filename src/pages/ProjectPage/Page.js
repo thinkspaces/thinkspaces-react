@@ -5,6 +5,18 @@ import Carousel from "../../components/ui/Carousel/Carousel";
 import { db } from "../../firebase";
 import ViewProfileButton from "../../components/ui/buttons/ViewProfileButton";
 
+// {Object.keys(team).map((member, i) => (
+//   <ViewProfileButton
+//     key={i}
+//     username={`${team[member].name.substr(
+//       0,
+//       team[member].name.indexOf(" ")
+//     )}.${team[member].uid.slice(0, 6)}`}
+//     uid={team[member].uid}
+//     text={team[member].name}
+//   />
+// ))}
+
 const headerStyle = {
   margin: "50px 0px 50px 0px",
   textAlign: "center"

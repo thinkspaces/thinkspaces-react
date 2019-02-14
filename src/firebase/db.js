@@ -24,6 +24,27 @@ export const getProjects = async () => {
   // });
 };
 
+export const getMyProjects = async uid => {
+  // console.log(auid);
+  let projects = [];
+  let querySnapshot = await db
+    .collection("projects")
+    .where("team.owner.uid", "==", uid)
+    .get();
+
+  querySnapshot.forEach(doc => {
+    console.log(doc.data());
+  });
+  // console.log(snapshot);
+  //   .then(function(querySnapshot) {
+  //     querySnapshot.forEach(function(doc) {
+  //       projects.push({ ...doc.data(), id: doc.id });
+  //     });
+  //   });
+  // console.log(projects);
+  return projects;
+};
+
 export const getProfiles = async () => {
   let profiles = [];
 
