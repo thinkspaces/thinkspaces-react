@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import "./ProfileCard/ProfileCard.css";
-import { Button, FormGroup, Label, Input, Form } from "reactstrap";
-import withAuthorization from "../../Authentication/withAuthorization";
-import AuthUserContext from "../../Authentication/AuthUserContext";
+import "../ProfileCard/ProfileCard.css";
+import { Button, FormGroup, Input, Form } from "reactstrap";
+import withAuthorization from "../../../Authentication/withAuthorization";
+import AuthUserContext from "../../../Authentication/AuthUserContext";
 
-import { db } from "../../../firebase";
+import { db } from "../../../../firebase";
 
 const MySocialView = ({ post_details, createPost, onChange }) => (
   <div>

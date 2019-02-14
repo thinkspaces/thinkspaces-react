@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { auth } from "../../firebase";
+import { auth } from "../../../firebase";
 import { Button, FormGroup, Label, Input, Form } from "reactstrap";
 
 class ForgotPassword extends Component {

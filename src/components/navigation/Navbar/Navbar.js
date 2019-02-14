@@ -56,9 +56,6 @@ export default class DefNavbar extends Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              {/* <NavItem>
-                <NavLink href="/">Home</NavLink>
-              </NavItem> */}
               <NavItem>
                 <NavLink href="/projects">Projects</NavLink>
               </NavItem>
@@ -88,19 +85,6 @@ export default class DefNavbar extends Component {
                         >
                           <DropdownItem>My Profile</DropdownItem>
                         </Link>
-
-                        <DropdownItem divider />
-
-                        <Link
-                          style={{ textDecoration: "none" }}
-                          to={{
-                            pathname: "/manageprojects",
-                            state: { uid: authUser.uid }
-                          }}
-                        >
-                          <DropdownItem>ManageProjects</DropdownItem>
-                        </Link>
-
                         <DropdownItem divider />
                         <DropdownItem onClick={auth.signOutUser}>
                           Sign Out

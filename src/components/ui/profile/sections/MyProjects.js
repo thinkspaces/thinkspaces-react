@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { auth, db } from "../../../firebase";
+// import { db } from "../../../../firebase";
 
-import AuthUserContext from "../../Authentication/AuthUserContext";
-import withAuthorization from "../../Authentication/withAuthorization";
+// import AuthUserContext from "../../../Authentication/AuthUserContext";
+import withAuthorization from "../../../Authentication/withAuthorization";
 
-import SubmitProjectButton from "../buttons/SubmitProjectButton";
+import SubmitProjectButton from "../../buttons/SubmitProjectButton";
 
 class MyProjects extends Component {
   state = {
@@ -12,8 +12,8 @@ class MyProjects extends Component {
   };
 
   componentDidMount = async () => {
-    const { uid } = this.props;
-    let snapshot = await db.getMyProjects(uid);
+    // const { uid } = this.props;
+    // let snapshot = await db.getMyProjects(uid);
     // this.setState({ projects: snapshot });
   };
 
@@ -21,7 +21,7 @@ class MyProjects extends Component {
     const { projects } = this.state;
     return (
       <div style={{ paddingLeft: 50, paddingRight: 100 }}>
-        {projects.length == 0 ? (
+        {projects.length === 0 ? (
           <div>
             <h3>No projects yet. Change that by submitting an idea!</h3>
             <SubmitProjectButton />

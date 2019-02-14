@@ -1,38 +1,58 @@
 import React from "react";
-import sizeMe from "react-sizeme";
 import "./ProfileCard.css";
 import Avatar from "react-avatar";
 import ViewProfileButton from "../../buttons/ViewProfileButton";
 
-const ProfileCard = props => (
+const Card = ({ width, children }) => (
   <div
     className="profile-card"
     style={{
-      width: props.width <= 768 ? "auto" : "318px",
-      minWidth: "200px"
+      width: width <= 768 ? "auto" : "318px"
     }}
   >
-    <div className="image-container">
-      {props.picture ? (
-        <img src={props.picture} alt="profile" size="140" />
-      ) : (
-        <Avatar size="150" name={props.title} round />
-      )}
-    </div>
-    <div className="cardTitle">
-      <h3>{props.title}</h3>
-    </div>
-    <div className="profile-cardBody flexed">
-      <div className="description-box">
-        <p>{props.headline}</p>
-      </div>
-      <ViewProfileButton
-        username={`${props.username}.${props.uid.slice(0, 6)}`}
-        uid={props.uid}
-        text="View Profile"
-      />
-    </div>
+    {children}
   </div>
 );
 
-export default sizeMe()(ProfileCard);
+const CardImage = ({ image, title }) => (
+  <div className="image-container">
+    {image ? (
+      <img src={image} alt="profile" size="140" />
+    ) : (
+      <Avatar size="150" name={title} round />
+    )}
+  </div>
+);
+
+const CardTitle = ({ title }) => (
+  <div className="cardTitle">
+    <h3>{title}</h3>
+  </div>
+);
+
+const CardBody = ({ headline, username, uid }) => (
+  <div className="profile-cardBody flexed">
+    <div className="description-box">
+      <p>{headline}</p>
+    </div>
+    <ViewProfileButton
+      username={`${username}.${uid.slice(0, 6)}`}
+      uid={uid}
+      text="View Profile"
+    />
+  </div>
+);
+
+const ProfileCard = props => (
+  <Card width={props.width}>
+    <CardImage image={props.picture} title={props.title} />
+    <CardTitle title={props.title} />
+    <CardBody
+      headline={props.headline}
+      username={props.username}
+      uid={props.uid}
+    />
+  </Card>
+);
+
+export default ProfileCard;

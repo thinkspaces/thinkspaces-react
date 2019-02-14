@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
-import { auth, db } from "../../../firebase";
+import { db } from "../../../firebase";
 import withAuthorization from "../../Authentication/withAuthorization";
 import AuthUserContext from "../../Authentication/AuthUserContext";
 import SignUpModal from "../modals/SignUpModal";
@@ -39,7 +39,7 @@ class LikeButton extends Component {
       <AuthUserContext.Consumer>
         {authUser => (
           <div>
-            {authUser.uid ? (
+            {authUser && authUser.uid ? (
               <Button
                 outline={!isLiked}
                 color="primary"
@@ -68,5 +68,5 @@ class LikeButton extends Component {
   }
 }
 
-const authCondition = authUser => !!authUser;
+const authCondition = authUser => authUser === null;
 export default withAuthorization(authCondition)(LikeButton);

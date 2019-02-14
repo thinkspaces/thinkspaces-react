@@ -14,12 +14,7 @@ const headerStyle = {
 };
 
 class Projects extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      projects: []
-    };
-  }
+  state = { projects: [] };
 
   componentDidMount = async () => {
     let projects = await db.getProjects();
@@ -41,8 +36,8 @@ class Projects extends Component {
   };
 
   render() {
-    const { width } = this.props.size;
     const { projects } = this.state;
+    const { width } = this.props.size;
     return (
       <div>
         <h2 style={headerStyle}>All Projects</h2>
@@ -67,5 +62,4 @@ class Projects extends Component {
     );
   }
 }
-
 export default sizeMe()(Projects);

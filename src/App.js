@@ -10,14 +10,13 @@ import Footer from "./components/navigation/Footer/Footer";
 
 import Home from "./pages/Home/Home";
 import About from "./pages/About/About";
-import ProjectPage from "./pages/ProjectPage/Page";
+import ProjectPage from "./pages/Projects/Page";
 import SignUpIn from "./pages/SignUpIn/SignUpIn";
 import Profile from "./pages/Profile/profile";
 import SubmitProject from "./pages/SubmitProject/SubmitProject";
 import Explore from "./pages/Explore/Explore";
 import Projects from "./pages/Projects/Projects";
-import ForgotPassword from "./pages/Forgot/ForgotPassword";
-import ManageProjects from "./pages/ManageProjects/ManageProjects";
+import ForgotPassword from "./pages/SignUpIn/Forgot/ForgotPassword";
 
 import { Container } from "reactstrap";
 import "./App.css";
@@ -39,14 +38,17 @@ class App extends Component {
         <Container style={mainContainerStyle}>
           <Route path="/" exact component={Home} />
           <Route path="/about" exact component={About} />
+          <Route path="/projects" exact component={Projects} />
           <Route path="/projects/:shortname" exact component={ProjectPage} />
           <Route path="/profiles" exact component={Explore} />
-          <Route path="/projects" exact component={Projects} />
           <Route path="/profile/:id" exact component={Profile} />
           <Route path="/signupin" exact component={SignUpIn} />
+          <Route
+            path="/signupin/forgotpassword"
+            exact
+            component={ForgotPassword}
+          />
           <Route path="/submitproject" exact component={SubmitProject} />
-          <Route path="/forgotpassword" exact component={ForgotPassword} />
-          <Route path="/manageprojects" exact component={ManageProjects} />
           <MessengerCustomerChat
             pageId="1191043211036808"
             appId="295451067827152"

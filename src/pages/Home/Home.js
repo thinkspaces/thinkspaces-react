@@ -32,6 +32,11 @@ class Home extends Component {
     this.setState({ projects });
   };
 
+  goToProjects = () => {
+    const { history } = this.props;
+    history.push("/projects");
+  };
+
   render() {
     const { width } = this.props.size;
 
@@ -40,7 +45,7 @@ class Home extends Component {
         <div style={headerStyle}>
           <h1>Thinkspaces</h1>
           <h3>Find and work on projects started by Yalies</h3>
-          <Button href="/projects" style={buttonStyle} outline>
+          <Button onClick={this.goToProjects} style={buttonStyle} outline>
             Browse Projects
           </Button>
           <SubmitProjectButton />

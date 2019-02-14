@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Col, Row } from "reactstrap";
-import sizeMe from "react-sizeme";
+// import sizeMe from "react-sizeme";
 import Carousel from "../../components/ui/Carousel/Carousel";
 import { db } from "../../firebase";
 import ViewProfileButton from "../../components/ui/buttons/ViewProfileButton";
@@ -64,8 +64,9 @@ const InfoView = ({ team, contact, links, about, need }) => (
     <Col>
       {team && (
         <div>
-          {team.map(member => (
+          {team.map((member, i) => (
             <ViewProfileButton
+              key={i}
               username={`${member.name.substr(
                 0,
                 member.name.indexOf(" ")
@@ -79,8 +80,10 @@ const InfoView = ({ team, contact, links, about, need }) => (
       {(contact || links) && (
         <div style={{ display: "flex", flexDirection: "column" }}>
           <a href={"mailto:" + contact}>{contact}</a>
-          {links.map(link => (
-            <a href={link}>{link}</a>
+          {links.map((link, i) => (
+            <a key={i} href={link}>
+              {link}
+            </a>
           ))}
         </div>
       )}
@@ -110,13 +113,13 @@ class Page extends Component {
 
   render() {
     const { data } = this.state;
-    const { width } = this.props.size;
+    // const { width } = this.props.size;
     if (data) {
       return (
         <div>
           <Row>
             <BannerSection
-              width={width}
+              // width={width}
               title={data.title}
               images={data.images}
             />
@@ -134,4 +137,4 @@ class Page extends Component {
   }
 }
 
-export default sizeMe()(Page);
+export default Page;

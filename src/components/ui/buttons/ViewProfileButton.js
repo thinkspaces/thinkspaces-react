@@ -5,11 +5,11 @@ import { auth } from "../../../firebase";
 import SignUpModal from "../modals/SignUpModal";
 
 class ViewProfileButton extends Component {
-  state = { modal: false };
+  state = { modal: false, loggedIn: false };
 
-  // componentDidMount = () => {
-  //   auth.currentUser
-  // }
+  componentDidMount = () => {
+    this.setState({ loggedIn: auth.isLoggedIn() });
+  };
 
   toggle = () => {
     this.setState({
@@ -23,9 +23,9 @@ class ViewProfileButton extends Component {
   };
 
   render() {
-    const { modal } = this.state;
+    const { modal, loggedIn } = this.state;
     const { username, uid, text } = this.props;
-    let loggedIn = auth.isLoggedIn();
+
     if (loggedIn) {
       return (
         <Link

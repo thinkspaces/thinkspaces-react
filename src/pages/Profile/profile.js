@@ -5,8 +5,8 @@ import AuthUserContext from "../../components/Authentication/AuthUserContext";
 import withAuthorization from "../../components/Authentication/withAuthorization";
 import Overview from "../../components/ui/profile/Overview";
 
-import MyProjects from "../../components/ui/profile/MyProjects";
-import ProfilePosts from "../../components/ui/profile/Posts";
+import MyProjects from "../../components/ui/profile/sections/MyProjects";
+import ProfilePosts from "../../components/ui/profile/sections/Posts";
 
 const SocialContentSection = ({ uid, selected }) => (
   <div style={{ marginTop: 70 }}>

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 import { auth } from "../../../firebase";
+import { withRouter, Link } from "react-router-dom";
 
-import { withRouter } from "react-router-dom";
 import {
   Button,
   FormGroup,
@@ -36,6 +36,7 @@ class Login extends Component {
 
   render() {
     const { email, password, error } = this.state;
+    const { match } = this.props;
     const isEnabled = email.length > 0 && password.length > 0;
 
     return (
@@ -68,9 +69,9 @@ class Login extends Component {
           <Button disabled={!isEnabled} color="danger">
             Submit
           </Button>
-          <a style={{ marginLeft: 10 }} href="/forgotpassword">
+          <Link style={{ marginLeft: 10 }} to={`${match.url}/forgotpassword`}>
             Forgot password?
-          </a>
+          </Link>
         </Form>
       </div>
     );

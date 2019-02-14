@@ -5,7 +5,7 @@
   border: 1px solid rgba(33, 33, 33, 0.2);
   border-radius: 0.25rem;
   margin-bottom: 10px;
-  min-width: 200px;
+  min-width: 318px;
 }
 
 .cardTitle {
@@ -18,7 +18,6 @@
   padding-left: 20px;
   padding-bottom: 20px;
   padding-right: 20px;
-
 }
 
 .flexed {
@@ -31,8 +30,7 @@
   margin: 0 auto;
   height: 200px;
   vertical-align: middle;
-  padding-top:27px;
-
+  padding-top: 27px;
 }
 
 .image-container img {
