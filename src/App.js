@@ -18,42 +18,45 @@ import Explore from "./pages/Explore/Explore";
 import Projects from "./pages/Projects/Projects";
 import ForgotPassword from "./pages/Forgot/ForgotPassword";
 
-import { Container } from "reactstrap";
+// import { Container } from "reactstrap";
 import "./App.css";
 
-const mainContainerStyle = {
-  marginBottom: "100px",
-  marginTop: "50px"
-};
+// const mainContainerStyle = {
+//   marginBottom: "100px",
+//   marginTop: "50px"
+// };
 
 // Google Analytics
 ReactGA.initialize("UA-128353649-1");
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <Navbar />
-        <Container style={mainContainerStyle}>
-          <Route path="/" exact component={Home} />
-          <Route path="/about" exact component={About} />
-          <Route path="/projects/:shortname" exact component={ProjectPage} />
-          <Route path="/profiles" exact component={Explore} />
-          <Route path="/projects" exact component={Projects} />
-          <Route path="/profile/:id" exact component={Profile} />
-          <Route path="/signupin" exact component={SignUpIn} />
-          <Route path="/submitproject" exact component={SubmitProject} />
-          <Route path="/forgotpassword" exact component={ForgotPassword} />
-          <MessengerCustomerChat
-            pageId="1191043211036808"
-            appId="295451067827152"
-          />
-        </Container>
-        <Footer />
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className="App">
+                {/* <Navbar /> */}
+                <div className="wrapper">
+
+                    {/* <Container style={mainContainerStyle}> */}
+                    <Route path="/" exact component={Home} />
+                    <Route path="/about" exact component={About} />
+                    <Route path="/projects/:shortname" exact component={ProjectPage} />
+                    <Route path="/profiles" exact component={Explore} />
+                    <Route path="/projects" exact component={Projects} />
+                    <Route path="/profile/:id" exact component={Profile} />
+                    <Route path="/signupin" exact component={SignUpIn} />
+                    <Route path="/submitproject" exact component={SubmitProject} />
+                    <Route path="/forgotpassword" exact component={ForgotPassword} />
+                    <MessengerCustomerChat
+                        pageId="1191043211036808"
+                        appId="295451067827152"
+                    />
+                    {/* </Container> */}
+                </div>
+                {/* <Footer /> */}
+            </div>
+        );
+    }
 }
 
 export default withAuthentication(App);

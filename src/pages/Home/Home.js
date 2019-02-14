@@ -59,13 +59,61 @@ class Home extends Component {
           </span>
           &nbsp;Noteworthy
         </h3>
+
+
+        <div className="ui card">
+  {/* <div className="image">
+    <img src={sampleImg}/>
+  </div> */}
+  <div className="content">
+    <a className="header">Kristy</a>
+    <div className="meta">
+      <span className="date">Joined in 2013</span>
+    </div>
+    <div className="description">
+      <p>
+          Kristy is an art director living in New York.ew ewfioweiof ewoifjio ewf ijewiof
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo ex ut nihil ab necessitatibus dignissimos. Iste officia adipisci excepturi blanditiis, veniam esse at soluta quo? Vel asperiores a illo in.
+      </p>
+    </div>
+  </div>
+ 
+</div>
+
+
+
+
+
+
+
+            <Card>
+                <Image src={sampleImg} />
+                <Card.Content>
+                    <Card.Header>Thinkspaces</Card.Header>
+                    <Card.Meta>Power to the Creators</Card.Meta>
+                    <Card.Description>Lorem ipsum dolor 
+                    </Card.Description>
+                </Card.Content>
+                <Card.Content extra>
+                    {/* <a className="right floated">
+                        <Icon name='comment' />
+                        10
+                    </a> */}
+                    <a>
+                        <Icon name='thumbs up' />
+                        23
+                    </a>
+                </Card.Content>
+            </Card>
+
+
         <div className={styles.genericProjectGrid}>
             <Card>
                 <Image src={sampleImg} />
                 <Card.Content>
                     <Card.Header>Thinkspaces</Card.Header>
                     <Card.Meta>Power to the Creators</Card.Meta>
-                    <Card.Description style={{overflow:"hidden"}}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nulla asperiores eius, deserunt odio error reiciendis qui aut numquam, excepturi tempore odit dolorum molestias temporibus iure labore unde. Magni, hic beatae?
+                    <Card.Description>Lorem ipsum dolor
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
