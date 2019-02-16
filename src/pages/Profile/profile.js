@@ -35,7 +35,6 @@ class Profile extends Component {
 
   componentDidMount = () => {
     if (this.props.location.state) {
-      console.log(this.props.location.state);
       this.setState({ uid: this.props.location.state.uid });
     }
 

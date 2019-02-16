@@ -25,23 +25,27 @@ export const getProjects = async () => {
 };
 
 export const getMyProjects = async uid => {
-  // console.log(auid);
   let projects = [];
-  let querySnapshot = await db
-    .collection("projects")
-    .where("team.owner.uid", "==", uid)
-    .get();
+  try {
+    let querySnapshot = await db
+      .collection("projects")
+      .where("team", "array-contains", uid)
+      .get();
 
-  querySnapshot.forEach(doc => {
-    console.log(doc.data());
-  });
-  // console.log(snapshot);
-  //   .then(function(querySnapshot) {
-  //     querySnapshot.forEach(function(doc) {
-  //       projects.push({ ...doc.data(), id: doc.id });
-  //     });
-  //   });
-  // console.log(projects);
+    querySnapshot.forEach(doc => {
+      // console.log(doc.get("title"));
+      projects.push(doc.data());
+    });
+  } catch (error) {
+    console.log("Unable to find projects via uid");
+  }
+
+  // let docRef = await db
+  //   .collection("users")
+  //   .doc("c34ednpglCg9J3mTWjtGHwwd6je2")
+  //   .get();
+
+  // console.log(docRef.data());
   return projects;
 };
 
@@ -61,11 +65,30 @@ export const getProfiles = async () => {
 };
 
 export const getProjectByID = async id => {
-  let snapshot = await db
+  //grab data via id from firestore
+  let docSnapshot = await db
     .collection("projects")
     .doc(id)
     .get();
-  return snapshot;
+
+  let data = docSnapshot.data();
+
+  if (data.team) {
+    //get names from team uids, add to data
+    let members = [];
+    await Promise.all(
+      data.team.map(async uid => {
+        let docRef = await db
+          .collection("users")
+          .doc(uid)
+          .get();
+        members.push({ uid, name: docRef.get("full_name") });
+      })
+    );
+
+    data.team = members;
+  }
+  return data;
 };
 
 export const projectLikes = async (id, likes) => {

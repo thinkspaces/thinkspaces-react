@@ -1,20 +1,15 @@
 import React, { Component } from "react";
-// import { db } from "../../../../firebase";
-
-// import AuthUserContext from "../../../Authentication/AuthUserContext";
-import withAuthorization from "../../../Authentication/withAuthorization";
+import { db } from "../../../../firebase";
 
 import SubmitProjectButton from "../../buttons/SubmitProjectButton";
 
 class MyProjects extends Component {
-  state = {
-    projects: []
-  };
+  state = { projects: [] };
 
   componentDidMount = async () => {
-    // const { uid } = this.props;
-    // let snapshot = await db.getMyProjects(uid);
-    // this.setState({ projects: snapshot });
+    const { uid } = this.props;
+    let projects = await db.getMyProjects(uid);
+    this.setState({ projects });
   };
 
   render() {
@@ -28,7 +23,9 @@ class MyProjects extends Component {
           </div>
         ) : (
           <div>
-            <div>{projects}</div>
+            {projects.map((proj, i) => (
+              <div key={i}>{proj.title}</div>
+            ))}
           </div>
         )}
       </div>
@@ -36,5 +33,4 @@ class MyProjects extends Component {
   }
 }
 
-const authCondition = authUser => !!authUser;
-export default withAuthorization(authCondition)(MyProjects);
+export default MyProjects;

@@ -1,102 +1,112 @@
 import React, { Component } from "react";
-import { Col, Row } from "reactstrap";
-// import sizeMe from "react-sizeme";
-import Carousel from "../../components/ui/Carousel/Carousel";
 import { db } from "../../firebase";
+// import sizeMe from "react-sizeme";
+
+import { Col, Row } from "reactstrap";
+
+import Carousel from "../../components/ui/Carousel/Carousel";
 import ViewProfileButton from "../../components/ui/buttons/ViewProfileButton";
 
-// {Object.keys(team).map((member, i) => (
-//   <ViewProfileButton
-//     key={i}
-//     username={`${team[member].name.substr(
-//       0,
-//       team[member].name.indexOf(" ")
-//     )}.${team[member].uid.slice(0, 6)}`}
-//     uid={team[member].uid}
-//     text={team[member].name}
-//   />
-// ))}
-
 const headerStyle = {
-  margin: "50px 0px 50px 0px",
+  margin: "50px 0px",
   textAlign: "center"
 };
 
+const BannerTitle = ({ title }) => (
+  <div style={headerStyle}>
+    <h1>{title}</h1>
+  </div>
+);
+
+const BannerImageCarousel = ({ images }) => (
+  <div style={headerStyle}>
+    {images[0].length > 0 ? (
+      <Carousel items={images} />
+    ) : (
+      <img
+        src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180"
+        alt="default cover"
+      />
+    )}
+  </div>
+);
+
 const BannerSection = ({ width, title, images }) => (
   <Col style={{ flexBasis: width <= 570 ? "auto" : 0 }}>
-    <div style={headerStyle}>
-      <h1>{title}</h1>
-    </div>
-    <div style={headerStyle}>
-      {images[0].length > 0 ? (
-        <Carousel items={images} />
-      ) : (
-        <img
-          src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180"
-          alt="default cover"
-        />
-      )}
-    </div>
+    <BannerTitle title={title} />
+    <BannerImageCarousel images={images} />
   </Col>
 );
 
 const InfoSection = ({ links, contact, about, need, team }) => (
   <Col>
     <div style={{ marginTop: 150 }} />
-    <InfoView team={team} />
+    {team && <TeamSection team={team} />}
     <br />
-    <InfoView contact={contact} links={links} />
+    {(contact || links) && <ContactSection contact={contact} links={links} />}
     <br />
-    <InfoView about={about} />
+    {about && <AboutSection about={about} />}
     <br />
-    <InfoView need={need} />
+    {need && <NeedSection need={need} />}
   </Col>
 );
 
-const InfoView = ({ team, contact, links, about, need }) => (
-  <Row>
-    <Col md={3}>
-      {team && <b>Team</b>}
-      {(contact || links) && <b>Contact us</b>}
-      {about && <b>About us</b>}
-      {need && <b>Who we need</b>}
-    </Col>
-    <Col>
-      {team && (
-        <div>
-          {team.map((member, i) => (
-            <ViewProfileButton
-              key={i}
-              username={`${member.name.substr(
-                0,
-                member.name.indexOf(" ")
-              )}.${member.uid.slice(0, 6)}`}
-              uid={member.uid}
-              text={member.name}
-            />
-          ))}
-        </div>
-      )}
-      {(contact || links) && (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <a href={"mailto:" + contact}>{contact}</a>
-          {links.map((link, i) => (
-            <a key={i} href={link}>
-              {link}
-            </a>
-          ))}
-        </div>
-      )}
-      {about && <p>{about}</p>}
-      {need && (
-        <div>
-          {need}
-          {/* {need.map(item => (
+const TeamSection = ({ team }) => (
+  <InfoView title="Team">
+    <div style={{ display: "inline-grid" }}>
+      {team.map((member, i) => (
+        <ViewProfileButton
+          key={i}
+          username={`${member.name.substr(
+            0,
+            member.name.indexOf(" ")
+          )}.${member.uid.slice(0, 6)}`}
+          uid={member.uid}
+          text={member.name}
+        />
+      ))}
+    </div>
+  </InfoView>
+);
+
+const ContactSection = ({ contact, links }) => (
+  <InfoView title="Contact us">
+    {(contact || links) && (
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <a href={"mailto:" + contact}>{contact}</a>
+        {links.map((link, i) => (
+          <a key={i} href={link}>
+            {link}
+          </a>
+        ))}
+      </div>
+    )}
+  </InfoView>
+);
+
+const AboutSection = ({ about }) => (
+  <InfoView title="About us">
+    <p>{about}</p>
+  </InfoView>
+);
+
+const NeedSection = ({ need }) => (
+  <InfoView title="Who we need">
+    <div>
+      {need}
+      {/* {need.map(item => (
             <p>{item}</p>
           ))} */}
-        </div>
-      )}
+    </div>
+  </InfoView>
+);
+
+const InfoView = ({ title, children }) => (
+  <Row>
+    <Col md={3}>
+      <b>{title}</b>
     </Col>
+    <Col>{children}</Col>
   </Row>
 );
 
@@ -106,8 +116,8 @@ class Page extends Component {
   componentDidMount = async () => {
     if (this.props.location.state) {
       let id = this.props.location.state.id;
-      let project = await db.getProjectByID(id);
-      this.setState({ data: project.data() });
+      let data = await db.getProjectByID(id);
+      this.setState({ data });
     }
   };
 
@@ -133,7 +143,20 @@ class Page extends Component {
           </Row>
         </div>
       );
-    } else return <div>no data</div>;
+    } else
+      return (
+        <div
+          style={{
+            display: "flex",
+            height: "70vh",
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          Loading ...
+        </div>
+      );
   }
 }
 
