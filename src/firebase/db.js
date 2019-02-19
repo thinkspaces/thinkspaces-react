@@ -114,7 +114,8 @@ export const createUserwithFields = async (uid, profileData) => {
     .collection("users")
     .doc(uid)
     .set({
-      ...profileData
+      ...profileData,
+      createdTimestamp : createTimestamp(new Date())
     });
 };
 
