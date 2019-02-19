@@ -4,6 +4,7 @@ import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { storage, db } from '../../../firebase/firebase'
 import styles from './EditProfile.module.css'
 import classNames from 'classnames';
+import { exception } from "react-ga";
 
 // import ProfilePicture from "./UploadProfilePicture";
 
@@ -26,10 +27,25 @@ export default class EditProfile extends Component {
             picture : props.profile.profilepicture
         }
         this.handleUploadPicture = this.handleUploadPicture.bind(this)
+        this.handleRemovePicture = this.handleRemovePicture.bind(this)
     }
 
-    handleRemovePicture = (e) => {
-
+    handleRemovePicture = async (event) => {
+        console.log("entered")
+        try {
+            let pictureRef = storage.ref('images/users/' + this.props.uid + '/profile')
+            await pictureRef.delete()
+        } catch(error) {
+            console.log(error)
+            // if error.code === "storage/object-not-found" { do X }
+        }
+        const userRef = db.collection("users").doc(this.props.uid)
+        await userRef.set({
+            profilepicture: null
+        }, { merge: true })
+        this.setState({ 
+            picture: null
+        })
     }
 
 
@@ -61,7 +77,7 @@ export default class EditProfile extends Component {
                     <img src={this.state.picture} alt="Profile" className={styles.picture} />
                     <span
                         className={classNames(styles.pictureFlexItem, styles.removePicture)}
-                        onChange={onEditChange}>
+                        onClick={this.handleRemovePicture}>
                         Remove
                     </span>
                     <input
