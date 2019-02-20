@@ -6,6 +6,8 @@ import styles from './EditProfile.module.css'
 import classNames from 'classnames';
 import { exception } from "react-ga";
 
+import placeholder from './placeholder.png'
+
 // import ProfilePicture from "./UploadProfilePicture";
 
 // <FormGroup>
@@ -74,7 +76,7 @@ export default class EditProfile extends Component {
         return (
             <div>
                 <div className={styles.pictureFlex}>
-                    <img src={this.state.picture} alt="Profile" className={styles.picture} />
+                    <img src={this.state.picture ? this.state.picture : placeholder} alt="Profile" className={styles.picture} />
                     <span
                         className={classNames(styles.pictureFlexItem, styles.removePicture)}
                         onClick={this.handleRemovePicture}>
