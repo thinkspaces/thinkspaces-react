@@ -85,7 +85,10 @@ export const projectLikes = async (id, likes) => {
 };
 
 export const getProjectLikes = async id => {
-  let doc = await db.collection("projects").doc(id).get();
+  let doc = await db
+    .collection("projects")
+    .doc(id)
+    .get();
   if (doc.exists) {
     return doc.get("likesID").size;
   } else return 0;
@@ -93,10 +96,13 @@ export const getProjectLikes = async id => {
 
 //likes (map) will already be modified from application level
 export const setProjectLikes = async (id, likes) => {
-  await db.collection("projects").doc(id).update({
-    likes
-  });
-}
+  await db
+    .collection("projects")
+    .doc(id)
+    .update({
+      likes
+    });
+};
 
 export const createUserwithFields = async (uid, profileData) => {
   await db
@@ -154,36 +160,29 @@ export const createProfilePostWithFields = async (
   description,
   timestamp,
   uid
-) => {
-  let docRef = await db
-    .collection("users")
-    .doc(uid)
-    .collection("posts")
-    .add({
-      timestamp: createTimestamp(timestamp),
-      description
-    });
-  await docRef.update({
-    pid: docRef.id
+) =>
+  await db.collection(`users/${uid}/posts`).add({
+    timestamp: createTimestamp(timestamp),
+    description
   });
-};
 
-// export const getProfilePosts = async(id) => {
-//     let posts = [];
-//
-//     let snapshot = await db
-//         .collection("users")
-//         .doc(id)
-//         .collection("posts")
-//         .doc(id)
-//         .get();
-//
-//       snapshot.forEach(doc => {
-//         posts.push({ ...doc.data() });
-//       });
-//
-//     return posts;
-// }
+export const getProfilePosts = async uid => {
+  let posts = [];
+
+  let querySnapshot = await db
+    .collection(`users/${uid}/posts`)
+    .orderBy("timestamp", "desc")
+    .get();
+
+  querySnapshot.forEach(doc => {
+    let timestamp = doc.get("timestamp");
+    let date = timestamp.toDate();
+    timestamp = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+    posts.push({ description: doc.get("description"), timestamp });
+  });
+
+  return posts;
+};
 
 export const createProjectWithFields = async project => {
   let user = auth.currentUser;

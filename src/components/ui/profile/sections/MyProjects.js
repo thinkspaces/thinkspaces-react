@@ -38,7 +38,12 @@ class MyProjects extends Component {
     const { projects } = this.state;
     const { width } = this.props.size;
     return (
-      <div style={{ paddingLeft: width <= "690" ? 0 : 50, paddingRight: 50 }}>
+      <div
+        style={{
+          paddingLeft: width <= "690" ? 0 : 50,
+          paddingRight: width <= "690" ? 0 : 50
+        }}
+      >
         {projects.length === 0 ? (
           <div>
             <h3>No projects yet. Change that by submitting an idea!</h3>
