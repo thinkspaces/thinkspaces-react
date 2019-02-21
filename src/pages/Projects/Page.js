@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import queryString from "query-string";
 import { db, auth } from "../../firebase";
 // import sizeMe from "react-sizeme";
 
@@ -126,12 +127,10 @@ class Page extends Component {
   state = { data: null, isOwner: false };
 
   componentDidMount = async () => {
-    if (this.props.location.state) {
-      let id = this.props.location.state.id;
-      let data = await db.getProjectByID(id);
-      let isOwner = auth.isCurrentAuthUser(data.owner);
-      this.setState({ data, isOwner });
-    }
+    const values = queryString.parse(this.props.location.search);
+    let data = await db.getProjectByID(values.id);
+    let isOwner = auth.isCurrentAuthUser(data.owner);
+    this.setState({ data, isOwner });
   };
 
   render() {

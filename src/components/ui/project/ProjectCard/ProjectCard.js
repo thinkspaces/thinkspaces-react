@@ -40,14 +40,7 @@ const CardTitle = ({ title }) => (
 );
 
 const ViewProjectButton = ({ id, shortname }) => (
-  <Link
-    to={{
-      pathname: `/projects/${shortname}`,
-      state: { id: id }
-    }}
-  >
-    View Project
-  </Link>
+  <Link to={`/projects/${shortname}?id=${id}`}>View Project</Link>
 );
 
 const CardBody = ({ text, shortname, id }) => (
