@@ -72,8 +72,16 @@ class ProfileOverview extends Component {
   };
 
   componentDidMount = async () => {
-    if (this.props.location.state) {
-      let uid = this.props.location.state.uid;
+    if (this.props.match.params.id) {
+      let uid = this.props.match.params.id;
+      let profile = await db.getUserProfile(uid);
+      this.setState({ uid, profile: profile.data() });
+    }
+  };
+
+  componentDidUpdate = async prevProps => {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      let uid = this.props.match.params.id;
       let profile = await db.getUserProfile(uid);
       this.setState({ uid, profile: profile.data() });
     }

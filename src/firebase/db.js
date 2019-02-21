@@ -13,15 +13,6 @@ export const getProjects = async () => {
   });
 
   return projects;
-
-  // db.collection('projects').get().then((snapshot) => {
-  //     snapshot.forEach((doc => {
-  //         projects.push(doc.data());
-  //
-  //         this.setState({ projects });
-  //         // console.log(doc.data());
-  //     }))
-  // });
 };
 
 export const getMyProjects = async uid => {
@@ -33,20 +24,12 @@ export const getMyProjects = async uid => {
       .get();
 
     querySnapshot.forEach(doc => {
-      // console.log(doc.get("title"));
-      projects.push(doc.data());
+      projects.push({ ...doc.data(), id: doc.id });
     });
   } catch (error) {
     console.log("Unable to find projects via uid");
   }
 
-  // let docRef = await db
-  //   .collection("users")
-  //   .doc("c34ednpglCg9J3mTWjtGHwwd6je2")
-  //   .get();
-
-  // console.log(docRef.data());
-  console.log(projects);
   return projects;
 };
 
@@ -144,12 +127,23 @@ export const updateLikesCount = async (id, num) => {
 };
 
 export const getProjectLikes = async id => {
-  var docRef = db.collection("projects").doc(id);
-  docRef.get().then(function(doc) {
-    if (doc.exists) {
-      return doc.data().likes;
-    }
-  });
+  let doc = await db
+    .collection("projects")
+    .doc(id)
+    .get();
+  if (doc.exists) {
+    return doc.get("likesID").size;
+  } else return 0;
+};
+
+//likes (map) will already be modified from application level
+export const setProjectLikes = async (id, likes) => {
+  await db
+    .collection("projects")
+    .doc(id)
+    .update({
+      likes
+    });
 };
 
 export const createUserwithFields = async (uid, profileData) => {
@@ -157,7 +151,8 @@ export const createUserwithFields = async (uid, profileData) => {
     .collection("users")
     .doc(uid)
     .set({
-      ...profileData
+      ...profileData,
+      createdTimestamp: createTimestamp(new Date())
     });
 };
 
@@ -208,36 +203,29 @@ export const createProfilePostWithFields = async (
   description,
   timestamp,
   uid
-) => {
-  let docRef = await db
-    .collection("users")
-    .doc(uid)
-    .collection("posts")
-    .add({
-      timestamp: createTimestamp(timestamp),
-      description
-    });
-  await docRef.update({
-    pid: docRef.id
+) =>
+  await db.collection(`users/${uid}/posts`).add({
+    timestamp: createTimestamp(timestamp),
+    description
   });
-};
 
-// export const getProfilePosts = async(id) => {
-//     let posts = [];
-//
-//     let snapshot = await db
-//         .collection("users")
-//         .doc(id)
-//         .collection("posts")
-//         .doc(id)
-//         .get();
-//
-//       snapshot.forEach(doc => {
-//         posts.push({ ...doc.data() });
-//       });
-//
-//     return posts;
-// }
+export const getProfilePosts = async uid => {
+  let posts = [];
+
+  let querySnapshot = await db
+    .collection(`users/${uid}/posts`)
+    .orderBy("timestamp", "desc")
+    .get();
+
+  querySnapshot.forEach(doc => {
+    let timestamp = doc.get("timestamp");
+    let date = timestamp.toDate();
+    timestamp = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
+    posts.push({ description: doc.get("description"), timestamp });
+  });
+
+  return posts;
+};
 
 export const createProjectWithFields = async project => {
   let user = auth.currentUser;

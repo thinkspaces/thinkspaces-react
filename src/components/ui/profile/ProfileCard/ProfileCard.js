@@ -7,7 +7,7 @@ const Card = ({ width, children }) => (
   <div
     className="profile-card"
     style={{
-      width: width <= 768 ? "auto" : "318px"
+      width: width <= 690 ? "auto" : "318px"
     }}
   >
     {children}
@@ -35,11 +35,7 @@ const CardBody = ({ headline, username, uid }) => (
     <div className="description-box">
       <p>{headline}</p>
     </div>
-    <ViewProfileButton
-      username={`${username}.${uid.slice(0, 6)}`}
-      uid={uid}
-      text="View Profile"
-    />
+    <ViewProfileButton uid={uid} text="View Profile" />
   </div>
 );
 

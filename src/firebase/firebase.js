@@ -25,4 +25,6 @@ const createTimestamp = (timestamp) => {
     return firebase.firestore.Timestamp.fromDate(timestamp);
 }
 
-export { db, auth, storage, createTimestamp };
+const FieldValue = firebase.firestore.FieldValue
+
+export { db, auth, storage, createTimestamp, FieldValue };
