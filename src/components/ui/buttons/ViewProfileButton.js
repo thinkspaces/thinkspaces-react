@@ -24,19 +24,10 @@ class ViewProfileButton extends Component {
 
   render() {
     const { modal, loggedIn } = this.state;
-    const { username, uid, text } = this.props;
+    const { uid, text } = this.props;
 
     if (loggedIn) {
-      return (
-        <Link
-          to={{
-            pathname: `/profile/${username}`,
-            state: { uid }
-          }}
-        >
-          {text}
-        </Link>
-      );
+      return <Link to={`/profile/${uid}`}>{text}</Link>;
     } else {
       return (
         <div className="d-inline">

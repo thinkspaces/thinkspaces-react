@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { db } from "../../firebase";
+import { db, auth } from "../../firebase";
 // import sizeMe from "react-sizeme";
 
-import { Col, Row } from "reactstrap";
+import { Col, Row, Button } from "reactstrap";
 
 import Carousel from "../../components/ui/Carousel/Carousel";
 import ViewProfileButton from "../../components/ui/buttons/ViewProfileButton";
@@ -55,15 +55,7 @@ const TeamSection = ({ team }) => (
   <InfoView title="Team">
     <div style={{ display: "inline-grid" }}>
       {team.map((member, i) => (
-        <ViewProfileButton
-          key={i}
-          username={`${member.name.substr(
-            0,
-            member.name.indexOf(" ")
-          )}.${member.uid.slice(0, 6)}`}
-          uid={member.uid}
-          text={member.name}
-        />
+        <ViewProfileButton key={i} uid={member.uid} text={member.name} />
       ))}
     </div>
   </InfoView>
@@ -110,19 +102,40 @@ const InfoView = ({ title, children }) => (
   </Row>
 );
 
+const LoadingView = () => (
+  <div
+    style={{
+      display: "flex",
+      height: "70vh",
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center"
+    }}
+  >
+    Loading ...
+  </div>
+);
+
+const EditProjectButton = ({ isOwner }) => (
+  <div style={{ marginTop: 20 }}>
+    {isOwner && <Button color="danger">Edit Project</Button>}
+  </div>
+);
+
 class Page extends Component {
-  state = { data: null };
+  state = { data: null, isOwner: false };
 
   componentDidMount = async () => {
     if (this.props.location.state) {
       let id = this.props.location.state.id;
       let data = await db.getProjectByID(id);
-      this.setState({ data });
+      let isOwner = auth.isCurrentAuthUser(data.owner);
+      this.setState({ data, isOwner });
     }
   };
 
   render() {
-    const { data } = this.state;
+    const { data, isOwner } = this.state;
     // const { width } = this.props.size;
     if (data) {
       return (
@@ -141,22 +154,10 @@ class Page extends Component {
               team={data.team}
             />
           </Row>
+          <EditProjectButton isOwner={isOwner} />
         </div>
       );
-    } else
-      return (
-        <div
-          style={{
-            display: "flex",
-            height: "70vh",
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          Loading ...
-        </div>
-      );
+    } else return <LoadingView />;
   }
 }
 

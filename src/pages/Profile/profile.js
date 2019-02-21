@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { SizeMe } from "react-sizeme";
 import { Link } from "react-router-dom";
 
 import AuthUserContext from "../../components/Authentication/AuthUserContext";
@@ -20,7 +21,7 @@ const SocialContentSection = ({ uid, selected }) => (
       </Link>
     </div>
     <hr />
-    <div style={{ marginLeft: 10, marginRight: 10 }}>
+    <div>
       {selected.length === 0 || selected === "#updates" ? (
         <ProfilePosts uid={uid} />
       ) : (
@@ -34,28 +35,33 @@ class Profile extends Component {
   state = { uid: null, selected: "#updates" };
 
   componentDidMount = () => {
-    if (this.props.location.state) {
-      this.setState({ uid: this.props.location.state.uid });
+    if (this.props.match.params.id) {
+      this.setState({ uid: this.props.match.params.id });
     }
 
     // if (this.props.location.hash.length !== 0) {
     //   this.setState({ selected: this.props.location.hash });
     // }
   };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.match.params.id !== this.props.match.params.id) {
+      this.setState({ uid: this.props.match.params.id });
+    }
+  };
+
   render() {
     const { uid } = this.state;
     const { hash } = this.props.location;
     return (
-      <div>
-        <AuthUserContext.Consumer>
-          {authUser => (
-            <div>
-              <Overview authUser={authUser} />
-              <SocialContentSection uid={uid} selected={hash} />
-            </div>
-          )}
-        </AuthUserContext.Consumer>
-      </div>
+      <AuthUserContext.Consumer>
+        {authUser => (
+          <div>
+            <Overview authUser={authUser} />
+            <SocialContentSection uid={uid} selected={hash} />
+          </div>
+        )}
+      </AuthUserContext.Consumer>
     );
   }
 }

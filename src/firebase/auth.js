@@ -10,6 +10,11 @@ export const signOutUser = () => auth.signOut();
 
 export const isLoggedIn = () => !!auth.currentUser;
 
+export const isCurrentAuthUser = uid => {
+  if (auth.currentUser) return auth.currentUser.uid === uid;
+  else return false;
+};
+
 // export const verifyUser = () => {
 //     var user = auth.currentUser;
 

@@ -13,15 +13,6 @@ export const getProjects = async () => {
   });
 
   return projects;
-
-  // db.collection('projects').get().then((snapshot) => {
-  //     snapshot.forEach((doc => {
-  //         projects.push(doc.data());
-  //
-  //         this.setState({ projects });
-  //         // console.log(doc.data());
-  //     }))
-  // });
 };
 
 export const getMyProjects = async uid => {
@@ -33,19 +24,12 @@ export const getMyProjects = async uid => {
       .get();
 
     querySnapshot.forEach(doc => {
-      // console.log(doc.get("title"));
-      projects.push(doc.data());
+      projects.push({ ...doc.data(), id: doc.id });
     });
   } catch (error) {
     console.log("Unable to find projects via uid");
   }
 
-  // let docRef = await db
-  //   .collection("users")
-  //   .doc("c34ednpglCg9J3mTWjtGHwwd6je2")
-  //   .get();
-
-  // console.log(docRef.data());
   return projects;
 };
 
@@ -92,7 +76,6 @@ export const getProjectByID = async id => {
 };
 
 export const projectLikes = async (id, likes) => {
-  //var likeNumber = db.collection("projects").doc(id).get("likes");
   await db
     .collection("projects")
     .doc(id)
@@ -100,14 +83,20 @@ export const projectLikes = async (id, likes) => {
       likes: likes + 1
     });
 };
+
 export const getProjectLikes = async id => {
-  var docRef = db.collection("projects").doc(id);
-  docRef.get().then(function(doc) {
-    if (doc.exists) {
-      return doc.data().likes;
-    }
-  });
+  let doc = await db.collection("projects").doc(id).get();
+  if (doc.exists) {
+    return doc.get("likesID").size;
+  } else return 0;
 };
+
+//likes (map) will already be modified from application level
+export const setProjectLikes = async (id, likes) => {
+  await db.collection("projects").doc(id).update({
+    likes
+  });
+}
 
 export const createUserwithFields = async (uid, profileData) => {
   await db

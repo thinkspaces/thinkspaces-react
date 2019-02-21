@@ -7,7 +7,7 @@ const Card = ({ width, children }) => (
   <div
     className="card"
     style={{
-      width: width <= 768 ? "auto" : "318px"
+      width: width <= 690 ? "auto" : "318px"
     }}
   >
     {children}
@@ -42,7 +42,7 @@ const CardTitle = ({ title }) => (
 const ViewProjectButton = ({ id, shortname }) => (
   <Link
     to={{
-      pathname: `projects/${shortname}`,
+      pathname: `/projects/${shortname}`,
       state: { id: id }
     }}
   >

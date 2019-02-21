@@ -76,12 +76,7 @@ export default class DefNavbar extends Component {
                       <DropdownMenu right>
                         <Link
                           style={{ textDecoration: "none" }}
-                          to={{
-                            pathname: `/profile/${
-                              authUser.displayName
-                            }.${authUser.uid.slice(0, 6)}`,
-                            state: { uid: authUser.uid }
-                          }}
+                          to={`/profile/${authUser.uid}`}
                         >
                           <DropdownItem>My Profile</DropdownItem>
                         </Link>
