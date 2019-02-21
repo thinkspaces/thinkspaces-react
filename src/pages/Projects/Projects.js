@@ -14,7 +14,10 @@ const headerStyle = {
 };
 
 class Projects extends Component {
-  state = { projects: [] };
+  state = {
+    projects: [],
+    likeStatus: false
+  };
 
   componentDidMount = async () => {
     let projects = await db.getProjects();
@@ -22,17 +25,25 @@ class Projects extends Component {
   };
 
   updateLikes = i => {
-    const { projects } = this.state;
-    projects[i].likes = projects[i].likes + 1;
-    this.setState({
-      projects
-    });
-    // this.setState(prevState => ({
-    //   projects: {
-    //     ...prevState.projects,
-    //     [i.likes]: 2
-    //   }
-    // }));
+    const { projects, likeStatus } = this.state;
+    if (!likeStatus == false && projects[i].likes > 0) {
+      projects[i].likes = projects[i].likes - 1;
+      this.setState({
+        projects
+      });
+      //console.log("before minus one", likeStatus);
+      this.setState({ likeStatus: !likeStatus });
+      //console.log("minus one", likeStatus);
+    } else {
+      projects[i].likes = projects[i].likes + 1;
+      console.log("this is like update in updateLikes", projects[i].likes);
+      this.setState({
+        projects
+      });
+      //console.log("before plus one", likeStatus);
+      this.setState({ likeStatus: !likeStatus });
+      //console.log("plus one", likeStatus);
+    }
   };
 
   render() {

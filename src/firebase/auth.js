@@ -20,4 +20,6 @@ export const isLoggedIn = () => !!auth.currentUser;
 //     });
 // }
 
+export const getUserInfo = () => auth.currentUser;
+
 export const passwordResetEmail = email => auth.sendPasswordResetEmail(email);

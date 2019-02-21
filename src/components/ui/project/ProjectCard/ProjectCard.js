@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./ProjectCard.css";
-// import LikeButton from "../Like";
+import LikeButton from "../Like";
 
 const Card = ({ width, children }) => (
   <div
@@ -27,14 +27,14 @@ const CardImage = ({ image }) => (
   </div>
 );
 
-const CardTitle = ({ title }) => (
+const CardTitle = ({ title, likes, id, updateLikes }) => (
   <div className="cardBody">
-    {/* <LikeButton
-          style={{ verticalAlign: "right" }}
-          likes={props.likes}
-          id={props.id}
-          updateLikes={props.updateLikes}
-        /> */}
+    <LikeButton
+      style={{ verticalAlign: "right" }}
+      likes={likes}
+      id={id}
+      updateLikes={updateLikes}
+    />
     <h5>{title} </h5>
   </div>
 );
@@ -62,7 +62,12 @@ const CardBody = ({ text, shortname, id }) => (
 const ProjectCard = props => {
   return (
     <Card width={props.width}>
-      <CardTitle title={props.title} />
+      <CardTitle
+        title={props.title}
+        likes={props.likes}
+        id={props.id}
+        updateLikes={props.updateLikes}
+      />
       <CardImage image={props.image} />
       <CardBody text={props.text} shortname={props.shortname} id={props.id} />
     </Card>

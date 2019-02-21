@@ -46,6 +46,7 @@ export const getMyProjects = async uid => {
   //   .get();
 
   // console.log(docRef.data());
+  console.log(projects);
   return projects;
 };
 
@@ -91,15 +92,57 @@ export const getProjectByID = async id => {
   return data;
 };
 
-export const projectLikes = async (id, likes) => {
-  //var likeNumber = db.collection("projects").doc(id).get("likes");
+export const getTopProjects = async () => {
+  let projects = [];
+  let snapshot = await db
+    .collection("projects")
+    .orderBy("likes", "desc")
+    .limit(6)
+    .get();
+  console.log(snapshot);
+
+  snapshot.forEach(doc => {
+    console.log(doc.get("title"));
+    projects.push({ ...doc.data(), id: doc.id });
+  });
+  return projects;
+};
+
+export const likeStatus = async id => {
+  let snapshot = await db
+    .collection("projects")
+    .doc(id)
+    .get();
+
+  console.log(snapshot.data().likesID);
+  return snapshot.data().likesID;
+};
+
+export const updateLikes = async (id, likesMap) => {
+  console.log(id);
   await db
     .collection("projects")
     .doc(id)
     .update({
-      likes: likes + 1
+      likesID: likesMap
     });
 };
+
+export const updateLikesCount = async (id, num) => {
+  let snapshot = await db
+    .collection("projects")
+    .doc(id)
+    .get();
+  let likesNum = snapshot.data().likes;
+  console.log("this is likesNum", likesNum);
+  await db
+    .collection("projects")
+    .doc(id)
+    .update({
+      likes: likesNum + num
+    });
+};
+
 export const getProjectLikes = async id => {
   var docRef = db.collection("projects").doc(id);
   docRef.get().then(function(doc) {

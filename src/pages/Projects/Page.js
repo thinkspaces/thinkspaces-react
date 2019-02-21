@@ -6,6 +6,14 @@ import { Col, Row } from "reactstrap";
 
 import Carousel from "../../components/ui/Carousel/Carousel";
 import ViewProfileButton from "../../components/ui/buttons/ViewProfileButton";
+import {
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinShareButton,
+  LinkedinIcon,
+  TwitterShareButton,
+  TwitterIcon
+} from "react-share";
 
 const headerStyle = {
   margin: "50px 0px",
@@ -38,9 +46,11 @@ const BannerSection = ({ width, title, images }) => (
   </Col>
 );
 
-const InfoSection = ({ links, contact, about, need, team }) => (
+const InfoSection = ({ links, contact, about, need, team, shortname }) => (
   <Col>
     <div style={{ marginTop: 150 }} />
+    {shortname && <SocialSection shortname={shortname} />}
+    <br />
     {team && <TeamSection team={team} />}
     <br />
     {(contact || links) && <ContactSection contact={contact} links={links} />}
@@ -49,6 +59,42 @@ const InfoSection = ({ links, contact, about, need, team }) => (
     <br />
     {need && <NeedSection need={need} />}
   </Col>
+);
+
+const SocialSection = ({ shortname }) => (
+  <InfoView title="Share">
+    <div style={{ display: "inline-grid" }}>
+      <Row>
+        &nbsp;
+        <FacebookShareButton
+          url={"https://thinkspaces.org/projects/" + shortname}
+          className="button is-outlined is-rounded facebook"
+        >
+          <span className="icon">
+            <FacebookIcon size={32} round={true} />
+          </span>
+        </FacebookShareButton>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <TwitterShareButton
+          url={"https://thinkspaces.org/projects/" + shortname}
+          className="button is-outlined is-rounded linkedin"
+        >
+          <span className="icon">
+            <TwitterIcon size={32} round={true} />
+          </span>
+        </TwitterShareButton>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        <LinkedinShareButton
+          url={"https://thinkspaces.org/projects/" + shortname}
+          className="button is-outlined is-rounded linkedin"
+        >
+          <span className="icon">
+            <LinkedinIcon size={32} round={true} />
+          </span>
+        </LinkedinShareButton>
+      </Row>
+    </div>
+  </InfoView>
 );
 
 const TeamSection = ({ team }) => (
@@ -139,6 +185,7 @@ class Page extends Component {
               about={data.about}
               need={data.need}
               team={data.team}
+              shortname={data.shortname}
             />
           </Row>
         </div>
