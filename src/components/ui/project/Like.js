@@ -1,13 +1,24 @@
 import React, { Component } from "react";
 import { Button } from "reactstrap";
 import { auth, db } from "../../../firebase";
-import SignUpModal from "../modals/SignUpModal";
 import { Icon } from "react-icons-kit";
 import { ic_favorite_border } from "react-icons-kit/md/ic_favorite_border";
 
 class LikeButton extends Component {
   state = {
+    isAuthUser: false,
     isLiked: false
+  };
+
+  componentDidMount = () => {
+    this.setState({ isAuthUser: auth.isLoggedIn() });
+  };
+
+  componentDidUpdate = (prevProps, prevState) => {
+    let isAuthUser = auth.isLoggedIn();
+    if (prevState.isAuthUser !== isAuthUser) {
+      this.setState({ isAuthUser });
+    }
   };
 
   handleLike = async () => {
@@ -31,10 +42,10 @@ class LikeButton extends Component {
 
   render() {
     const { likes } = this.props;
-    const { isLiked } = this.state;
+    const { isLiked, isAuthUser } = this.state;
     return (
       <div>
-        {auth.isLoggedIn() ? (
+        {isAuthUser ? (
           <Button
             outline={!isLiked}
             color="primary"
@@ -50,7 +61,8 @@ class LikeButton extends Component {
             className="float-right"
             color="primary"
             size="sm"
-            onClick={<SignUpModal />}
+            disabled
+            outline
           >
             <Icon icon={ic_favorite_border} /> {Object.keys(likes).length}
           </Button>

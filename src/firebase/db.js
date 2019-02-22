@@ -82,12 +82,11 @@ export const getTopProjects = async () => {
     .orderBy("likes", "desc")
     .limit(6)
     .get();
-  console.log(snapshot);
 
   snapshot.forEach(doc => {
-    console.log(doc.get("title"));
     projects.push({ ...doc.data(), id: doc.id });
   });
+
   return projects;
 };
 

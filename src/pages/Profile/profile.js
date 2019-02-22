@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { SizeMe } from "react-sizeme";
 import { Link } from "react-router-dom";
 
 import AuthUserContext from "../../components/Authentication/AuthUserContext";
