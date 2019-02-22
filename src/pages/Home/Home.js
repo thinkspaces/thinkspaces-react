@@ -7,8 +7,7 @@ import SubmitProjectButton from '../../components/ui/buttons/SubmitProjectButton
 
 import { db } from '../../firebase';
 
-const headerStyle = { margin: '50px 0px',
-  textAlign: 'center' };
+const headerStyle = { margin: '50px 0px', textAlign: 'center' };
 
 const buttonStyle = { margin: '20px 10px' };
 
