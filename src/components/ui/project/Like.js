@@ -1,21 +1,19 @@
-import React, { Component } from "react";
-import { Button } from "reactstrap";
-import { auth, db } from "../../../firebase";
-import { Icon } from "react-icons-kit";
-import { ic_favorite_border } from "react-icons-kit/md/ic_favorite_border";
+/* eslint camelcase: 0 */
+import React, { Component } from 'react';
+import { Button } from 'reactstrap';
+import { Icon } from 'react-icons-kit';
+import { ic_favorite_border } from 'react-icons-kit/md/ic_favorite_border';
+import { auth, db } from '../../../firebase';
 
 class LikeButton extends Component {
-  state = {
-    isAuthUser: false,
-    isLiked: false
-  };
+  state = { isAuthUser: false, isLiked: false };
 
   componentDidMount = () => {
     this.setState({ isAuthUser: auth.isLoggedIn() });
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    let isAuthUser = auth.isLoggedIn();
+    const isAuthUser = auth.isLoggedIn();
     if (prevState.isAuthUser !== isAuthUser) {
       this.setState({ isAuthUser });
     }
@@ -23,7 +21,7 @@ class LikeButton extends Component {
 
   handleLike = async () => {
     const { pid, updateLikes, likes } = this.props;
-    let uid = auth.getUserInfo().uid;
+    const { user: { uid } } = auth.getUserInfo();
 
     if (likes[uid]) {
       // remove like

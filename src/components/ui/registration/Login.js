@@ -1,25 +1,14 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { auth } from "../../../firebase";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link } from 'react-router-dom';
 
-import {
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Form,
-  FormFeedback
-} from "reactstrap";
+import { Button, FormGroup, Label, Input, Form, FormFeedback } from 'reactstrap';
+import { auth } from '../../../firebase';
 
 class Login extends Component {
-  state = {
-    email: "",
-    password: "",
-    error: null
-  };
+  state = { email: '', password: '', error: null };
 
-  loginUser = async event => {
+  loginUser = async (event) => {
     event.preventDefault();
 
     const { email, password } = this.state;
@@ -27,8 +16,8 @@ class Login extends Component {
 
     try {
       await auth.signInUser(email, password);
-      this.setState({ email: "", password: "", error: null });
-      history.push("/");
+      this.setState({ email: '', password: '', error: null });
+      history.push('/');
     } catch (error) {
       this.setState({ error: error.message });
     }
@@ -60,16 +49,14 @@ class Login extends Component {
               autoComplete="current-password"
               type="password"
               value={password}
-              onChange={event =>
-                this.setState({ password: event.target.value })
-              }
+              onChange={event => this.setState({ password: event.target.value })}
             />
             <FormFeedback>{error}</FormFeedback>
           </FormGroup>
           <Button disabled={!isEnabled} color="danger">
             Submit
           </Button>
-          <Link style={{ marginLeft: 10 }} to={`${match.url}/forgotpassword`}>
+          <Link style={{ marginLeft: 10 }} to={`${ match.url }/forgotpassword`}>
             Forgot password?
           </Link>
         </Form>

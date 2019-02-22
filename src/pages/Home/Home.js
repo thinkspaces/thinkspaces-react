@@ -1,32 +1,24 @@
-import React, { Component } from "react";
-import sizeMe from "react-sizeme";
+import React, { Component } from 'react';
+import sizeMe from 'react-sizeme';
 
-import { Button, Row, Col } from "reactstrap";
-import ProjectCard from "../../components/ui/project/ProjectCard/ProjectCard";
-import SubmitProjectButton from "../../components/ui/buttons/SubmitProjectButton";
+import { Button, Row, Col } from 'reactstrap';
+import ProjectCard from '../../components/ui/project/ProjectCard/ProjectCard';
+import SubmitProjectButton from '../../components/ui/buttons/SubmitProjectButton';
 
-import { db } from "../../firebase";
+import { db } from '../../firebase';
 
-const headerStyle = {
-  margin: "50px 0px",
-  textAlign: "center"
-};
+const headerStyle = { margin: '50px 0px',
+  textAlign: 'center' };
 
-const buttonStyle = {
-  margin: "20px 10px"
-};
+const buttonStyle = { margin: '20px 10px' };
 
-const trendingStyle = {
-  padding: "5px"
-};
+const trendingStyle = { padding: '5px' };
 
 class Home extends Component {
-  state = {
-    projects: []
-  };
+  state = { projects: [] };
 
   componentDidMount = async () => {
-    let projects = await db.getTopProjects();
+    const projects = await db.getTopProjects();
     this.setState({ projects });
   };
 
@@ -38,12 +30,12 @@ class Home extends Component {
 
   goToProjects = () => {
     const { history } = this.props;
-    history.push("/projects");
+    history.push('/projects');
   };
 
   render() {
     const { projects } = this.state;
-    const { width } = this.props.size;
+    const { size: { width } } = this.props;
     return (
       <div>
         <div style={headerStyle}>

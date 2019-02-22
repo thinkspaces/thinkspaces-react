@@ -1,19 +1,17 @@
-import React, { Component } from "react";
-import "../ProfileCard/ProfileCard.css";
-import {
-  Button,
+import React, { Component } from 'react';
+import '../ProfileCard/ProfileCard.css';
+import { Button,
   FormGroup,
   Input,
   Form,
   ListGroup,
   ListGroupItem,
   ListGroupItemHeading,
-  ListGroupItemText
-} from "reactstrap";
-import withAuthorization from "../../../Authentication/withAuthorization";
-import AuthUserContext from "../../../Authentication/AuthUserContext";
+  ListGroupItemText } from 'reactstrap';
+import withAuthorization from '../../../Authentication/withAuthorization';
+import AuthUserContext from '../../../Authentication/AuthUserContext';
 
-import { db } from "../../../../firebase";
+import { db } from '../../../../firebase';
 
 const MySocialView = ({ post_details, createPost, onChange, posts }) => (
   <div>
@@ -57,29 +55,24 @@ const GuestSocialView = ({ posts }) => (
 );
 
 class ProfilePosts extends Component {
-  state = {
-    description: "",
-    posts: []
-  };
+  state = { description: '', posts: [] };
 
   componentDidMount = async () => {
-    let posts = await db.getProfilePosts(this.props.match.params.id);
+    const { match } = this.props;
+    const posts = await db.getProfilePosts(match.params.id);
     this.setState({ posts });
   };
 
-  createPost = event => {
+  createPost = (event) => {
     event.preventDefault();
 
     const { description } = this.state;
-
-    let uid = this.props.uid;
-    let date = new Date();
+    const { uid } = this.props;
+    const date = new Date();
 
     db.createProfilePostWithFields(description, date, uid).then(() => {
-      this.setState({
-        description: "",
-        posts: [...this.state.posts, { description }]
-      });
+      this.setState(prevState => ({ description: '',
+        posts: [ ...prevState.posts, { description } ] }));
     });
   };
 
@@ -95,9 +88,7 @@ class ProfilePosts extends Component {
                 <MySocialView
                   post_details={description}
                   createPost={this.createPost}
-                  onChange={event =>
-                    this.setState({ description: event.target.value })
-                  }
+                  onChange={event => this.setState({ description: event.target.value })}
                   posts={posts}
                 />
               ) : (

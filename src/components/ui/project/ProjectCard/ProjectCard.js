@@ -1,15 +1,10 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import "./ProjectCard.css";
-import LikeButton from "../Like";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import './ProjectCard.css';
+import LikeButton from '../Like';
 
 const Card = ({ width, children }) => (
-  <div
-    className="card"
-    style={{
-      width: width <= 690 ? "auto" : "318px"
-    }}
-  >
+  <div className="card" style={{ width: width <= 690 ? 'auto' : '318px' }}>
     {children}
   </div>
 );
@@ -17,11 +12,7 @@ const Card = ({ width, children }) => (
 const CardImage = ({ image }) => (
   <div className="project-image-container">
     <img
-      src={
-        image
-          ? image
-          : "https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180"
-      }
+      src={image || 'https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180'}
       alt="project cover"
     />
   </div>
@@ -30,7 +21,7 @@ const CardImage = ({ image }) => (
 const CardTitle = ({ title, likes, pid, updateLikes }) => (
   <div className="cardBody">
     <LikeButton
-      style={{ verticalAlign: "right" }}
+      style={{ verticalAlign: 'right' }}
       likes={likes}
       pid={pid}
       updateLikes={updateLikes}
@@ -40,7 +31,7 @@ const CardTitle = ({ title, likes, pid, updateLikes }) => (
 );
 
 const ViewProjectButton = ({ id, shortname }) => (
-  <Link to={`/projects/${shortname}?id=${id}`}>View Project</Link>
+  <Link to={`/projects/${ shortname }?id=${ id }`}>View Project</Link>
 );
 
 const CardBody = ({ text, shortname, id }) => (
@@ -52,19 +43,12 @@ const CardBody = ({ text, shortname, id }) => (
   </div>
 );
 
-const ProjectCard = props => {
-  return (
-    <Card width={props.width}>
-      <CardTitle
-        title={props.title}
-        likes={props.likes}
-        pid={props.id}
-        updateLikes={props.updateLikes}
-      />
-      <CardImage image={props.image} />
-      <CardBody text={props.text} shortname={props.shortname} id={props.id} />
-    </Card>
-  );
-};
+const ProjectCard = ({ width, title, likes, updateLikes, image, text, shortname, id }) => (
+  <Card width={width}>
+    <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
+    <CardImage image={image} />
+    <CardBody text={text} shortname={shortname} id={id} />
+  </Card>
+);
 
 export default ProjectCard;

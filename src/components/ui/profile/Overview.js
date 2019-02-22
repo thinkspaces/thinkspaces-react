@@ -1,20 +1,21 @@
-import React, { Component } from "react";
-import { Button, Row, Col } from "reactstrap";
+/* eslint no-param-reassign: 0 */
+import React, { Component } from 'react';
+import { Button, Row, Col } from 'reactstrap';
 
-import { db } from "../../../firebase";
-import withAuthorization from "../../Authentication/withAuthorization";
+import Avatar from 'react-avatar';
+import { db } from '../../../firebase';
+import withAuthorization from '../../Authentication/withAuthorization';
 
-import Avatar from "react-avatar";
-import EditProfile from "./EditProfile";
+import EditProfile from './EditProfile';
 
 const ProfileHeader = ({ profile }) => (
   <Col>
-    <div style={{ marginLeft: "15%" }}>
-      <div style={{ display: "inline-flex", flexDirection: "column" }}>
-        <div style={{ display: "table", margin: "0 auto", marginBottom: 15 }}>
+    <div style={{ marginLeft: '15%' }}>
+      <div style={{ display: 'inline-flex', flexDirection: 'column' }}>
+        <div style={{ display: 'table', margin: '0 auto', marginBottom: 15 }}>
           {profile.profilepicture ? (
             <img
-              style={{ maxHeight: "150px", borderRadius: "50%" }}
+              style={{ maxHeight: '150px', borderRadius: '50%' }}
               src={profile.profilepicture}
               alt="profile"
             />
@@ -22,7 +23,7 @@ const ProfileHeader = ({ profile }) => (
             <Avatar size="150" name={profile.full_name} round />
           )}
         </div>
-        <h2 style={{ display: "inline-block" }}>{profile.full_name}</h2>
+        <h2 style={{ display: 'inline-block' }}>{profile.full_name}</h2>
       </div>
       <br />
       <h5>{profile.email}</h5>
@@ -55,34 +56,33 @@ const ProfileDetails = ({ profile, toggleEdit, puid, auid }) => (
 );
 
 const DetailView = ({ type, value, inline }) => (
-  <div className={`${inline && "d-flex"}`}>
+  <div className={`${ inline && 'd-flex' }`}>
     <h4 className="text-muted">{type}:&nbsp;</h4>
     {inline ? <h4>{value}</h4> : <h5>{value}</h5>}
   </div>
 );
 
 class ProfileOverview extends Component {
-  state = {
-    profile: null,
-    isEditing: false
-  };
+  state = { profile: null, isEditing: false };
 
   toggleEdit = () => {
-    this.setState({ isEditing: !this.state.isEditing });
+    this.setState(prevState => ({ isEditing: !prevState.isEditing }));
   };
 
   componentDidMount = async () => {
-    if (this.props.match.params.id) {
-      let uid = this.props.match.params.id;
-      let profile = await db.getUserProfile(uid);
+    const { match } = this.props;
+    if (match.params.id) {
+      const uid = match.params.id;
+      const profile = await db.getUserProfile(uid);
       this.setState({ uid, profile: profile.data() });
     }
   };
 
-  componentDidUpdate = async prevProps => {
-    if (prevProps.match.params.id !== this.props.match.params.id) {
-      let uid = this.props.match.params.id;
-      let profile = await db.getUserProfile(uid);
+  componentDidUpdate = async (prevProps) => {
+    const { match } = this.props;
+    if (prevProps.match.params.id !== match.params.id) {
+      const uid = match.params.id;
+      const profile = await db.getUserProfile(uid);
       this.setState({ uid, profile: profile.data() });
     }
   };
@@ -94,20 +94,12 @@ class ProfileOverview extends Component {
     this.setState({ isEditing: false });
   };
 
-  onEditChange = event => {
-    let value = null;
-    if (event.target.type === "checkbox") {
-      value = !event.target.checked;
-    } else {
-      value = event.target.value;
+  onEditChange = ({ target: { type, checked, value, id } }) => {
+    if (type === 'checkbox') {
+      value = !checked;
     }
 
-    this.setState({
-      profile: {
-        ...this.state.profile,
-        [event.target.id]: value
-      }
-    });
+    this.setState(prevState => ({ profile: { ...prevState.profile, [id]: value } }));
   };
 
   render() {
@@ -123,25 +115,24 @@ class ProfileOverview extends Component {
           uid={uid}
         />
       );
-    } else {
-      return (
-        <div>
-          {profile && (
-            <div>
-              <Row>
-                <ProfileHeader profile={profile} />
-                <ProfileDetails
-                  puid={uid}
-                  auid={authUser.uid}
-                  profile={profile}
-                  toggleEdit={this.toggleEdit}
-                />
-              </Row>
-            </div>
-          )}
-        </div>
-      );
     }
+    return (
+      <div>
+        {profile && (
+          <div>
+            <Row>
+              <ProfileHeader profile={profile} />
+              <ProfileDetails
+                puid={uid}
+                auid={authUser.uid}
+                profile={profile}
+                toggleEdit={this.toggleEdit}
+              />
+            </Row>
+          </div>
+        )}
+      </div>
+    );
   }
 }
 

@@ -1,25 +1,21 @@
-import React, { Component } from "react";
-import sizeMe from "react-sizeme";
+import React, { Component } from 'react';
+import sizeMe from 'react-sizeme';
 
 // database
-import { db } from "../../firebase";
+import { Row, Col } from 'reactstrap';
+import { db } from '../../firebase';
 
 // custom components
-import { Row, Col } from "reactstrap";
-import ProjectCard from "../../components/ui/project/ProjectCard/ProjectCard";
+import ProjectCard from '../../components/ui/project/ProjectCard/ProjectCard';
 
 // styles
-const headerStyle = {
-  marginBottom: "20px"
-};
+const headerStyle = { marginBottom: '20px' };
 
 class Projects extends Component {
-  state = {
-    projects: []
-  };
+  state = { projects: [] };
 
   componentDidMount = async () => {
-    let projects = await db.getProjects();
+    const projects = await db.getProjects();
     this.setState({ projects });
   };
 
@@ -31,7 +27,7 @@ class Projects extends Component {
 
   render() {
     const { projects } = this.state;
-    const { width } = this.props.size;
+    const { size: { width } } = this.props;
     return (
       <div>
         <h2 style={headerStyle}>All Projects</h2>

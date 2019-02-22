@@ -1,10 +1,6 @@
-import React, { Component } from "react";
-import logo from "../../../logo.png";
-import AuthUserContext from "../../Authentication/AuthUserContext";
-import { auth } from "../../../firebase";
-import { Link } from "react-router-dom";
-import {
-  Collapse,
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { Collapse,
   Navbar,
   NavbarToggler,
   NavbarBrand,
@@ -15,33 +11,32 @@ import {
   UncontrolledDropdown,
   DropdownToggle,
   DropdownItem,
-  DropdownMenu
-} from "reactstrap";
+  DropdownMenu } from 'reactstrap';
+import logo from '../../../logo.png';
+import AuthUserContext from '../../Authentication/AuthUserContext';
+import { auth } from '../../../firebase';
 
 export default class DefNavbar extends Component {
   // constructor
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false
-    };
+    this.state = { isOpen: false };
   }
 
   // toggle method
   toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
+    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
   }
 
   // render method
   render() {
+    const { isOpen } = this.state;
     return (
       <Navbar color="inverse" light expand="md">
         <Container>
           <NavbarBrand href="/">
-            <div style={{ display: "flex", flex: 1 }}>
+            <div style={{ display: 'flex', flex: 1 }}>
               <img
                 width="30px"
                 height="30px"
@@ -54,7 +49,7 @@ export default class DefNavbar extends Component {
             </div>
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={this.state.isOpen} navbar>
+          <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
                 <NavLink href="/projects">Projects</NavLink>
@@ -67,30 +62,24 @@ export default class DefNavbar extends Component {
               </NavItem>
 
               <AuthUserContext.Consumer>
-                {authUser =>
-                  authUser ? (
-                    <UncontrolledDropdown nav inNavbar>
-                      <DropdownToggle nav caret>
-                        {authUser.displayName}
-                      </DropdownToggle>
-                      <DropdownMenu right>
-                        <Link
-                          style={{ textDecoration: "none" }}
-                          to={`/profile/${authUser.uid}`}
-                        >
-                          <DropdownItem>My Profile</DropdownItem>
-                        </Link>
-                        <DropdownItem divider />
-                        <DropdownItem onClick={auth.signOutUser}>
-                          Sign Out
-                        </DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                  ) : (
-                    <NavItem color="danger">
-                      <NavLink href="/signupin">Login/Sign Up</NavLink>
-                    </NavItem>
-                  )
+                {authUser => (authUser ? (
+                  <UncontrolledDropdown nav inNavbar>
+                    <DropdownToggle nav caret>
+                      {authUser.displayName}
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                      <Link style={{ textDecoration: 'none' }} to={`/profile/${ authUser.uid }`}>
+                        <DropdownItem>My Profile</DropdownItem>
+                      </Link>
+                      <DropdownItem divider />
+                      <DropdownItem onClick={auth.signOutUser}>Sign Out</DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+                ) : (
+                  <NavItem color="danger">
+                    <NavLink href="/signupin">Login/Sign Up</NavLink>
+                  </NavItem>
+                ))
                 }
               </AuthUserContext.Consumer>
             </Nav>

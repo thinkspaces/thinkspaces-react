@@ -1,19 +1,19 @@
-import React, { Component } from "react";
-import { auth } from "../../../firebase";
-import { Button, FormGroup, Label, Input, Form } from "reactstrap";
+import React, { Component } from 'react';
+import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
+import { auth } from '../../../firebase';
 
 class ForgotPassword extends Component {
-  state = {
-    email: ""
-  };
+  state = { email: '' };
 
   handlePassword = () => {
-    if (this.state.email.length > 0) {
-      auth.passwordResetEmail(this.state.email);
+    const { email } = this.state;
+    if (email.length > 0) {
+      auth.passwordResetEmail(email);
     }
   };
 
   render() {
+    const { email } = this.state;
     return (
       <div style={{ maxWidth: 400 }} className="resetpassword">
         <h2> Reset Password </h2>
@@ -25,7 +25,7 @@ class ForgotPassword extends Component {
               autoComplete="username"
               name="email"
               type="email"
-              value={this.state.email}
+              value={email}
               onChange={event => this.setState({ email: event.target.value })}
             />
           </FormGroup>

@@ -1,15 +1,16 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import AuthUserContext from "./AuthUserContext";
-import { firebase } from "../../firebase";
+import AuthUserContext from './AuthUserContext';
+import { firebase } from '../../firebase';
 
-const withAuthorization = authCondition => WrappedComponent => {
+const withAuthorization = authCondition => (WrappedComponent) => {
   class WithAuthorization extends Component {
     componentDidMount() {
-      firebase.auth.onAuthStateChanged(authUser => {
+      const { history } = this.props;
+      firebase.auth.onAuthStateChanged((authUser) => {
         if (!authCondition(authUser)) {
-          this.props.history.push("/");
+          history.push('/');
         }
       });
     }

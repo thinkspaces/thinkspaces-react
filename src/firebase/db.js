@@ -1,73 +1,73 @@
-import { db, auth, createTimestamp } from "./firebase";
+import { db, auth, createTimestamp } from './firebase';
 
 export const getProjects = async () => {
   // create projects array
-  let projects = [];
+  const projects = [];
 
   // get collection reference (query snapshot)
-  let snapshot = await db.collection("projects").get();
+  const snapshot = await db.collection('projects').get();
 
   // traverse snapshot for documents in collection, add to array
-  snapshot.forEach(doc => {
+  snapshot.forEach((doc) => {
     projects.push({ ...doc.data(), id: doc.id });
   });
 
   return projects;
 };
 
-export const getMyProjects = async uid => {
-  let projects = [];
+export const getMyProjects = async (uid) => {
+  const projects = [];
   try {
-    let querySnapshot = await db
-      .collection("projects")
-      .where("team", "array-contains", uid)
+    const querySnapshot = await db
+      .collection('projects')
+      .where('team', 'array-contains', uid)
       .get();
 
-    querySnapshot.forEach(doc => {
+    querySnapshot.forEach((doc) => {
       projects.push({ ...doc.data(), id: doc.id });
     });
   } catch (error) {
-    console.log("Unable to find projects via uid");
+    console.log('Unable to find projects via uid');
   }
 
   return projects;
 };
 
 export const getProfiles = async () => {
-  let profiles = [];
+  const profiles = [];
 
-  let snapshot = await db
-    .collection("users")
-    .where("privacy", "==", false)
+  const snapshot = await db
+    .collection('users')
+    .where('privacy', '==', false)
     .get();
 
-  snapshot.forEach(doc => {
+  snapshot.forEach((doc) => {
     profiles.push({ ...doc.data(), uid: doc.id });
   });
 
   return profiles;
 };
 
-export const getProjectByID = async id => {
-  //grab data via id from firestore
-  let docSnapshot = await db
-    .collection("projects")
+export const getProjectByID = async (id) => {
+  // grab data via id from firestore
+  const docSnapshot = await db
+    .collection('projects')
     .doc(id)
     .get();
 
-  let data = docSnapshot.data();
+  const data = docSnapshot.data();
 
   if (data.team) {
-    //get names from team uids, add to data
-    let members = [];
+    // get names from team uids, add to data
+    const members = [];
     await Promise.all(
-      data.team.map(async uid => {
-        let docRef = await db
-          .collection("users")
+      data.team.map(async (uid) => {
+        const docRef = await db
+          .collection('users')
           .doc(uid)
           .get();
-        members.push({ uid, name: docRef.get("full_name") });
-      })
+        members.push({ uid, name: docRef.get('full_name') });
+      }),
     );
 
     data.team = members;
@@ -76,14 +76,14 @@ export const getProjectByID = async id => {
 };
 
 export const getTopProjects = async () => {
-  let projects = [];
-  let snapshot = await db
-    .collection("projects")
-    .orderBy("likes", "desc")
+  const projects = [];
+  const snapshot = await db
+    .collection('projects')
+    .orderBy('likes', 'desc')
     .limit(6)
     .get();
 
-  snapshot.forEach(doc => {
+  snapshot.forEach((doc) => {
     projects.push({ ...doc.data(), id: doc.id });
   });
 
@@ -92,101 +92,85 @@ export const getTopProjects = async () => {
 
 export const updateLikes = async (pid, likes) => {
   await db
-    .collection("projects")
+    .collection('projects')
     .doc(pid)
-    .update({
-      likes
-    });
+    .update({ likes });
 };
 
 export const createUserwithFields = async (uid, profileData) => {
   await db
-    .collection("users")
+    .collection('users')
     .doc(uid)
-    .set({
-      ...profileData,
-      createdTimestamp: createTimestamp(new Date())
-    });
+    .set({ ...profileData, createdTimestamp: createTimestamp(new Date()) });
 };
 
-export const getUserProfile = async uid => {
+export const getUserProfile = async (uid) => {
   // let user = auth.currentUser;
   // if (user) {
-  let snapshot = await db
-    .collection("users")
+  const snapshot = await db
+    .collection('users')
     .doc(uid)
     .get();
   return snapshot;
   // } else return null;
 };
 
-//how to determine what data to set and what to add
-export const saveProfileChanges = async profile => {
-  let user = auth.currentUser;
+// how to determine what data to set and what to add
+export const saveProfileChanges = async (profile) => {
+  const user = auth.currentUser;
   if (user) {
     await db
-      .collection("users")
+      .collection('users')
       .doc(user.uid)
-      .update({
-        ...profile
-      });
+      .update({ ...profile });
   }
 };
 
-export const saveProfilePicture = async url => {
-  let user = auth.currentUser;
+export const saveProfilePicture = async (url) => {
+  const user = auth.currentUser;
   if (user) {
     await db
-      .collection("users")
+      .collection('users')
       .doc(user.uid)
-      .update({
-        profilepicture: url
-      });
+      .update({ profilepicture: url });
   }
 };
 
 export const saveProjectPicture = async (id, url) => {
   await db
-    .collection("projects")
+    .collection('projects')
     .doc(id)
-    .update({ images: [url] });
+    .update({ images: [ url ] });
 };
 
-export const createProfilePostWithFields = async (
-  description,
-  timestamp,
-  uid
-) =>
-  await db.collection(`users/${uid}/posts`).add({
-    timestamp: createTimestamp(timestamp),
-    description
-  });
+export const createProfilePostWithFields = async (description, timestamp, uid) => {
+  await db
+    .collection(`users/${ uid }/posts`)
+    .add({ timestamp: createTimestamp(timestamp), description });
+};
 
-export const getProfilePosts = async uid => {
-  let posts = [];
+export const getProfilePosts = async (uid) => {
+  const posts = [];
 
-  let querySnapshot = await db
-    .collection(`users/${uid}/posts`)
-    .orderBy("timestamp", "desc")
+  const querySnapshot = await db
+    .collection(`users/${ uid }/posts`)
+    .orderBy('timestamp', 'desc')
     .get();
 
-  querySnapshot.forEach(doc => {
-    let timestamp = doc.get("timestamp");
-    let date = timestamp.toDate();
-    timestamp = `${date.getMonth()}/${date.getDate()}/${date.getFullYear()}`;
-    posts.push({ description: doc.get("description"), timestamp });
+  querySnapshot.forEach((doc) => {
+    let timestamp = doc.get('timestamp');
+    const date = timestamp.toDate();
+    timestamp = `${ date.getMonth() }/${ date.getDate() }/${ date.getFullYear() }`;
+    posts.push({ description: doc.get('description'), timestamp });
   });
 
   return posts;
 };
 
-export const createProjectWithFields = async project => {
-  let user = auth.currentUser;
-  let doc = await getUserProfile(user.uid);
-  let name = doc.get("full_name");
+export const createProjectWithFields = async (project) => {
+  const user = auth.currentUser;
+  const doc = await getUserProfile(user.uid);
+  const name = doc.get('full_name');
 
-  await db.collection("projects").add({
-    ...project,
-    team: [{ name, uid: user.uid }]
-  });
+  await db.collection('projects').add({ ...project, team: [ { name, uid: user.uid } ] });
 };

@@ -1,37 +1,26 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { auth, db } from "../../../firebase";
-
-import { withRouter } from "react-router-dom";
-import {
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Form,
-  FormFeedback
-} from "reactstrap";
+import { withRouter } from 'react-router-dom';
+import { Button, FormGroup, Label, Input, Form, FormFeedback } from 'reactstrap';
+import { auth, db } from '../../../firebase';
 
 class SignUp extends Component {
-  state = {
-    email: "",
-    password: "",
+  state = { email: '',
+    password: '',
     error: null,
-    full_name: "",
-    graduation: "",
-    preferred_name: "",
+    full_name: '',
+    graduation: '',
+    preferred_name: '',
     privacy: false,
-    profilepicture: "",
-    headline: "",
-    major:"",
-    university:"",
-  };
+    profilepicture: '',
+    headline: '',
+    major: '',
+    university: '' };
 
-  createProfile = async event => {
+  createProfile = async (event) => {
     event.preventDefault();
 
-    const {
-      email,
+    const { email,
       password,
       full_name,
       graduation,
@@ -40,18 +29,16 @@ class SignUp extends Component {
       profilepicture,
       headline,
       major,
-      university
-    } = this.state;
+      university } = this.state;
 
     const { history } = this.props;
 
     try {
-      let response = await auth.createUser(email, password);
+      const response = await auth.createUser(email, password);
       if (response) {
-        this.setState({ email: "", password: "", error: null });
+        this.setState({ email: '', password: '', error: null });
         await response.user.updateProfile({ displayName: preferred_name });
-        await db.createUserwithFields(response.user.uid, {
-          full_name,
+        await db.createUserwithFields(response.user.uid, { full_name,
           graduation,
           preferred_name,
           email,
@@ -59,24 +46,21 @@ class SignUp extends Component {
           headline,
           profilepicture,
           major,
-          university
-        });
+          university });
 
-        this.setState({
-          email: "",
-          password: "",
+        this.setState({ email: '',
+          password: '',
           error: null,
-          full_name: "",
-          graduation: "",
-          preferred_name: "",
+          full_name: '',
+          graduation: '',
+          preferred_name: '',
           privacy: false,
-          profilepicture: "",
-          headline: "",
-          major:"",
-          university:""
-        });
+          profilepicture: '',
+          headline: '',
+          major: '',
+          university: '' });
 
-        history.push("/");
+        history.push('/');
       }
     } catch (error) {
       this.setState({ error: error.message });
@@ -84,8 +68,7 @@ class SignUp extends Component {
   };
 
   render() {
-    const {
-      email,
+    const { email,
       password,
       full_name,
       graduation,
@@ -94,17 +77,15 @@ class SignUp extends Component {
       error,
       headline,
       major,
-      university
-    } = this.state;
-    const isEnabled =
-      email.length > 0 &&
-      password.length > 0 &&
-      full_name.length > 0 &&
-      graduation.length > 0 &&
-      preferred_name.length > 0 &&
-      headline.length > 0 &&
-      major.length > 0 &&
-      university.length > 0;
+      university } = this.state;
+    const isEnabled = email.length > 0
+      && password.length > 0
+      && full_name.length > 0
+      && graduation.length > 0
+      && preferred_name.length > 0
+      && headline.length > 0
+      && major.length > 0
+      && university.length > 0;
     return (
       <div>
         <h2> Sign Up </h2>
@@ -115,9 +96,7 @@ class SignUp extends Component {
               name="full_name"
               type="text"
               value={full_name}
-              onChange={event =>
-                this.setState({ full_name: event.target.value })
-              }
+              onChange={event => this.setState({ full_name: event.target.value })}
             />
           </FormGroup>
           <FormGroup>
@@ -125,9 +104,7 @@ class SignUp extends Component {
             <Input
               type="preferred_name"
               value={preferred_name}
-              onChange={event =>
-                this.setState({ preferred_name: event.target.value })
-              }
+              onChange={event => this.setState({ preferred_name: event.target.value })}
             />
           </FormGroup>
           <FormGroup>
@@ -135,9 +112,7 @@ class SignUp extends Component {
             <Input
               type="major"
               value={major}
-              onChange={event =>
-                this.setState({ major: event.target.value })
-              }
+              onChange={event => this.setState({ major: event.target.value })}
             />
           </FormGroup>
           <FormGroup>
@@ -145,9 +120,7 @@ class SignUp extends Component {
             <Input
               type="university"
               value={university}
-              onChange={event =>
-                this.setState({ university: event.target.value })
-              }
+              onChange={event => this.setState({ university: event.target.value })}
             />
           </FormGroup>
           <FormGroup>
@@ -155,9 +128,7 @@ class SignUp extends Component {
             <Input
               type="graduation"
               value={graduation}
-              onChange={event =>
-                this.setState({ graduation: event.target.value })
-              }
+              onChange={event => this.setState({ graduation: event.target.value })}
             />
           </FormGroup>
           <FormGroup>
@@ -165,9 +136,7 @@ class SignUp extends Component {
             <Input
               type="headline"
               value={headline}
-              onChange={event =>
-                this.setState({ headline: event.target.value })
-              }
+              onChange={event => this.setState({ headline: event.target.value })}
             />
           </FormGroup>
           <FormGroup>
@@ -187,9 +156,7 @@ class SignUp extends Component {
               autoComplete="current-password"
               type="password"
               value={password}
-              onChange={event =>
-                this.setState({ password: event.target.value })
-              }
+              onChange={event => this.setState({ password: event.target.value })}
             />
             <FormFeedback>{error}</FormFeedback>
           </FormGroup>
@@ -199,18 +166,12 @@ class SignUp extends Component {
                 type="checkbox"
                 id="privacy"
                 checked={!privacy}
-                onChange={event =>
-                  this.setState({ privacy: !event.target.checked })
-                }
+                onChange={event => this.setState({ privacy: !event.target.checked })}
               />
               Make your profile public and let projects find you
             </Label>
           </FormGroup>
-          <Button
-            style={{ marginTop: 10 }}
-            disabled={!isEnabled}
-            color="danger"
-          >
+          <Button style={{ marginTop: 10 }} disabled={!isEnabled} color="danger">
             Submit
           </Button>
         </Form>

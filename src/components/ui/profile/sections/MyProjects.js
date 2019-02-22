@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import sizeMe from "react-sizeme";
-import { db } from "../../../../firebase";
+import React, { Component } from 'react';
+import sizeMe from 'react-sizeme';
+import { Row, Col } from 'reactstrap';
+import { db } from '../../../../firebase';
 
-import { Row, Col } from "reactstrap";
-import ProjectCard from "../../project/ProjectCard/ProjectCard";
-import SubmitProjectButton from "../../buttons/SubmitProjectButton";
+import ProjectCard from '../../project/ProjectCard/ProjectCard';
+import SubmitProjectButton from '../../buttons/SubmitProjectButton';
 
 const ProjectGrid = ({ width, projects, updateLikes }) => (
   <Row>
@@ -31,7 +31,7 @@ class MyProjects extends Component {
 
   componentDidMount = async () => {
     const { uid } = this.props;
-    let projects = await db.getMyProjects(uid);
+    const projects = await db.getMyProjects(uid);
     this.setState({ projects });
   };
 
@@ -43,25 +43,16 @@ class MyProjects extends Component {
 
   render() {
     const { projects } = this.state;
-    const { width } = this.props.size;
+    const { size: { width } } = this.props;
     return (
-      <div
-        style={{
-          paddingLeft: width <= "690" ? 0 : 50,
-          paddingRight: width <= "690" ? 0 : 50
-        }}
-      >
+      <div style={{ paddingLeft: width <= '690' ? 0 : 50, paddingRight: width <= '690' ? 0 : 50 }}>
         {projects.length === 0 ? (
           <div>
             <h3>No projects yet. Change that by submitting an idea!</h3>
             <SubmitProjectButton />
           </div>
         ) : (
-          <ProjectGrid
-            width={width}
-            projects={projects}
-            updateLikes={this.updateLikes}
-          />
+          <ProjectGrid width={width} projects={projects} updateLikes={this.updateLikes} />
         )}
       </div>
     );

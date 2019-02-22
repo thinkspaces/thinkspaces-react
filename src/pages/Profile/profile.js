@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-import AuthUserContext from "../../components/Authentication/AuthUserContext";
-import withAuthorization from "../../components/Authentication/withAuthorization";
-import Overview from "../../components/ui/profile/Overview";
+import AuthUserContext from '../../components/Authentication/AuthUserContext';
+import withAuthorization from '../../components/Authentication/withAuthorization';
+import Overview from '../../components/ui/profile/Overview';
 
-import MyProjects from "../../components/ui/profile/sections/MyProjects";
-import ProfilePosts from "../../components/ui/profile/sections/Posts";
+import MyProjects from '../../components/ui/profile/sections/MyProjects';
+import ProfilePosts from '../../components/ui/profile/sections/Posts';
 
 const SocialContentSection = ({ uid, selected }) => (
   <div style={{ marginTop: 70 }}>
@@ -21,7 +21,7 @@ const SocialContentSection = ({ uid, selected }) => (
     </div>
     <hr />
     <div>
-      {selected.length === 0 || selected === "#updates" ? (
+      {selected.length === 0 || selected === '#updates' ? (
         <ProfilePosts uid={uid} />
       ) : (
         <MyProjects uid={uid} />
@@ -31,11 +31,12 @@ const SocialContentSection = ({ uid, selected }) => (
 );
 
 class Profile extends Component {
-  state = { uid: null, selected: "#updates" };
+  state = { uid: null, selected: '#updates' };
 
   componentDidMount = () => {
-    if (this.props.match.params.id) {
-      this.setState({ uid: this.props.match.params.id });
+    const { match } = this.props;
+    if (match.params.id) {
+      this.setState({ uid: match.params.id });
     }
 
     // if (this.props.location.hash.length !== 0) {
@@ -43,15 +44,16 @@ class Profile extends Component {
     // }
   };
 
-  componentDidUpdate = prevProps => {
-    if (prevProps.match.params.id !== this.props.match.params.id) {
-      this.setState({ uid: this.props.match.params.id });
+  componentDidUpdate = (prevProps) => {
+    const { match } = this.props;
+    if (prevProps.match.params.id !== match.params.id) {
+      this.setState({ uid: match.params.id });
     }
   };
 
   render() {
     const { uid } = this.state;
-    const { hash } = this.props.location;
+    const { location: { hash } } = this.props;
     return (
       <AuthUserContext.Consumer>
         {authUser => (

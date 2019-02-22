@@ -8,10 +8,10 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const app = (
-        <BrowserRouter>
-            <App/>
-        </BrowserRouter>
-)
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
 
 ReactDOM.render(app, document.getElementById('root'));
 

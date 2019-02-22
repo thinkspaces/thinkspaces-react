@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { Link, withRouter } from "react-router-dom";
-import { auth } from "../../../firebase";
-import SignUpModal from "../modals/SignUpModal";
+import { Link, withRouter } from 'react-router-dom';
+import { auth } from '../../../firebase';
+import SignUpModal from '../modals/SignUpModal';
 
 class ViewProfileButton extends Component {
   state = { modal: false, loggedIn: false };
@@ -12,14 +12,12 @@ class ViewProfileButton extends Component {
   };
 
   toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
+    this.setState(prevState => ({ modal: !prevState.modal }));
   };
 
   gotoSignUp = () => {
     const { history } = this.props;
-    history.push("/signupin");
+    history.push('/signupin');
   };
 
   render() {
@@ -27,21 +25,16 @@ class ViewProfileButton extends Component {
     const { uid, text } = this.props;
 
     if (loggedIn) {
-      return <Link to={`/profile/${uid}`}>{text}</Link>;
-    } else {
-      return (
-        <div className="d-inline">
-          <SignUpModal
-            isOpen={modal}
-            toggle={this.toggle}
-            signUp={this.gotoSignUp}
-          />
-          <button className="view-button" onClick={this.toggle}>
-            {text}
-          </button>
-        </div>
-      );
+      return <Link to={`/profile/${ uid }`}>{text}</Link>;
     }
+    return (
+      <div className="d-inline">
+        <SignUpModal isOpen={modal} toggle={this.toggle} signUp={this.gotoSignUp} />
+        <button type="button" className="view-button" onClick={this.toggle}>
+          {text}
+        </button>
+      </div>
+    );
   }
 }
 
