@@ -16,7 +16,6 @@ class SubmitProject extends Component {
     images: '',
     links: '',
     need: '',
-    likes: 0,
     files: [],
     avatar: '',
     isUploading: false,
@@ -46,7 +45,7 @@ class SubmitProject extends Component {
 
   createProject = (event) => {
     event.preventDefault();
-    const { title, contact, about, card_des, images, links, need, likes } = this.state;
+    const { title, contact, about, card_des, images, links, need } = this.state;
 
     const { history } = this.props;
 
@@ -57,7 +56,6 @@ class SubmitProject extends Component {
       contact,
       links: [ links ],
       need,
-      likes,
       shortname: title.replace(/\s+/g, '-') }).then(() => {
       this.setState({ title: '',
         contact: '',
@@ -65,8 +63,7 @@ class SubmitProject extends Component {
         card_des: '',
         images: '',
         links: '',
-        need: '',
-        likes: 0 });
+        need: '' });
       history.push('/');
     });
   };
@@ -123,11 +120,19 @@ class SubmitProject extends Component {
           </FormGroup>
           <FormGroup>
             <Label for="about">Now tell us a bit more about your project</Label>
-            <Input value={about} onChange={event => this.setState({ about: event.target.value })} />
+            <Input
+              type="textarea"
+              value={about}
+              onChange={event => this.setState({ about: event.target.value })}
+            />
           </FormGroup>
           <FormGroup>
             <Label for="need">Most importantly, what type of people are you looking for?</Label>
-            <Input value={need} onChange={event => this.setState({ need: event.target.value })} />
+            <Input
+              type="textarea"
+              value={need}
+              onChange={event => this.setState({ need: event.target.value })}
+            />
           </FormGroup>
           <FormGroup>
             <Label for="links"> Link to your website or social media</Label>

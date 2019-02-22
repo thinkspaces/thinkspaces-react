@@ -9,7 +9,14 @@ class LikeButton extends Component {
   state = { isAuthUser: false, isLiked: false };
 
   componentDidMount = () => {
-    this.setState({ isAuthUser: auth.isLoggedIn() });
+    const { likes } = this.props;
+    const user = auth.getUserInfo();
+
+    let isLiked = false;
+    if (likes[user.uid]) {
+      isLiked = true;
+    }
+    this.setState({ isAuthUser: auth.isLoggedIn(), isLiked });
   };
 
   componentDidUpdate = (prevProps, prevState) => {
@@ -19,19 +26,20 @@ class LikeButton extends Component {
     }
   };
 
-  handleLike = async () => {
+  handleLike = async (event) => {
+    event.preventDefault();
     const { pid, updateLikes, likes } = this.props;
-    const { user: { uid } } = auth.getUserInfo();
+    const user = auth.getUserInfo();
 
-    if (likes[uid]) {
+    if (likes[user.uid]) {
       // remove like
-      delete likes[uid];
+      delete likes[user.uid];
       await db.updateLikes(pid, likes);
       updateLikes(likes);
       this.setState({ isLiked: false });
     } else {
       // give like
-      likes[uid] = true;
+      likes[user.uid] = true;
       await db.updateLikes(pid, likes);
       updateLikes(likes);
       this.setState({ isLiked: true });

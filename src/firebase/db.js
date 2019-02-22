@@ -79,7 +79,7 @@ export const getTopProjects = async () => {
   const projects = [];
   const snapshot = await db
     .collection('projects')
-    .orderBy('likes', 'desc')
+    .orderBy('likesCount', 'desc')
     .limit(6)
     .get();
 
@@ -94,7 +94,7 @@ export const updateLikes = async (pid, likes) => {
   await db
     .collection('projects')
     .doc(pid)
-    .update({ likes });
+    .update({ likes, likesCount: Object.keys(likes).length });
 };
 
 export const createUserwithFields = async (uid, profileData) => {
@@ -169,8 +169,7 @@ export const getProfilePosts = async (uid) => {
 
 export const createProjectWithFields = async (project) => {
   const user = auth.currentUser;
-  const doc = await getUserProfile(user.uid);
-  const name = doc.get('full_name');
-
-  await db.collection('projects').add({ ...project, team: [ { name, uid: user.uid } ] });
+  await db
+    .collection('projects')
+    .add({ ...project, team: [ user.uid ], owner: user.uid, likes: {}, likesCount: 0 });
 };
