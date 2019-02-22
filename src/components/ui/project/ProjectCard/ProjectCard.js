@@ -27,12 +27,12 @@ const CardImage = ({ image }) => (
   </div>
 );
 
-const CardTitle = ({ title, likes, id, updateLikes }) => (
+const CardTitle = ({ title, likes, pid, updateLikes }) => (
   <div className="cardBody">
     <LikeButton
       style={{ verticalAlign: "right" }}
       likes={likes}
-      id={id}
+      pid={pid}
       updateLikes={updateLikes}
     />
     <h5>{title} </h5>
@@ -58,7 +58,7 @@ const ProjectCard = props => {
       <CardTitle
         title={props.title}
         likes={props.likes}
-        id={props.id}
+        pid={props.id}
         updateLikes={props.updateLikes}
       />
       <CardImage image={props.image} />

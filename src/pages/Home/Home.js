@@ -22,33 +22,18 @@ const trendingStyle = {
 
 class Home extends Component {
   state = {
-    projects: [],
-    likeStatus: false
+    projects: []
   };
 
   componentDidMount = async () => {
-    console.log("mounting");
     let projects = await db.getTopProjects();
-    console.log("mounted");
-    // update state
     this.setState({ projects });
   };
 
-  updateLikes = i => {
-    const { projects, likeStatus } = this.state;
-    this.setState({ likeStatus: !likeStatus });
-    if (likeStatus == false && projects[i].likes > 0) {
-      projects[i].likes = projects[i].likes - 1;
-      this.setState({
-        projects
-      });
-    } else {
-      projects[i].likes = projects[i].likes + 1;
-      console.log(projects[i].likes);
-      this.setState({
-        projects
-      });
-    }
+  updateLikes = (likes, index) => {
+    const { projects } = this.state;
+    projects[index].likes = likes;
+    this.setState({ projects });
   };
 
   goToProjects = () => {
@@ -88,7 +73,7 @@ class Home extends Component {
                 text={p.card_des}
                 shortname={p.shortname}
                 likes={p.likes}
-                updateLikes={() => this.updateLikes(i)}
+                updateLikes={likes => this.updateLikes(likes, i)}
               />
             </Col>
           ))}
@@ -111,7 +96,7 @@ class Home extends Component {
                 text={p.card_des}
                 shortname={p.shortname}
                 likes={p.likes}
-                updateLikes={() => this.updateLikes(i)}
+                updateLikes={likes => this.updateLikes(likes, i)}
               />
             </Col>
           ))}

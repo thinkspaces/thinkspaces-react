@@ -15,8 +15,7 @@ const headerStyle = {
 
 class Projects extends Component {
   state = {
-    projects: [],
-    likeStatus: false
+    projects: []
   };
 
   componentDidMount = async () => {
@@ -24,26 +23,10 @@ class Projects extends Component {
     this.setState({ projects });
   };
 
-  updateLikes = i => {
-    const { projects, likeStatus } = this.state;
-    if (!likeStatus == false && projects[i].likes > 0) {
-      projects[i].likes = projects[i].likes - 1;
-      this.setState({
-        projects
-      });
-      //console.log("before minus one", likeStatus);
-      this.setState({ likeStatus: !likeStatus });
-      //console.log("minus one", likeStatus);
-    } else {
-      projects[i].likes = projects[i].likes + 1;
-      console.log("this is like update in updateLikes", projects[i].likes);
-      this.setState({
-        projects
-      });
-      //console.log("before plus one", likeStatus);
-      this.setState({ likeStatus: !likeStatus });
-      //console.log("plus one", likeStatus);
-    }
+  updateLikes = (likes, index) => {
+    const { projects } = this.state;
+    projects[index].likes = likes;
+    this.setState({ projects });
   };
 
   render() {
@@ -64,7 +47,7 @@ class Projects extends Component {
                 text={p.card_des}
                 shortname={p.shortname}
                 likes={p.likes}
-                updateLikes={() => this.updateLikes(i)}
+                updateLikes={likes => this.updateLikes(likes, i)}
               />
             </Col>
           ))}

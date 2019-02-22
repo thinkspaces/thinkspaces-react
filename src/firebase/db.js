@@ -91,56 +91,10 @@ export const getTopProjects = async () => {
   return projects;
 };
 
-export const likeStatus = async id => {
-  let snapshot = await db
-    .collection("projects")
-    .doc(id)
-    .get();
-
-  console.log(snapshot.data().likesID);
-  return snapshot.data().likesID;
-};
-
-export const updateLikes = async (id, likesMap) => {
-  console.log(id);
+export const updateLikes = async (pid, likes) => {
   await db
     .collection("projects")
-    .doc(id)
-    .update({
-      likesID: likesMap
-    });
-};
-
-export const updateLikesCount = async (id, num) => {
-  let snapshot = await db
-    .collection("projects")
-    .doc(id)
-    .get();
-  let likesNum = snapshot.data().likes;
-  console.log("this is likesNum", likesNum);
-  await db
-    .collection("projects")
-    .doc(id)
-    .update({
-      likes: likesNum + num
-    });
-};
-
-export const getProjectLikes = async id => {
-  let doc = await db
-    .collection("projects")
-    .doc(id)
-    .get();
-  if (doc.exists) {
-    return doc.get("likesID").size;
-  } else return 0;
-};
-
-//likes (map) will already be modified from application level
-export const setProjectLikes = async (id, likes) => {
-  await db
-    .collection("projects")
-    .doc(id)
+    .doc(pid)
     .update({
       likes
     });

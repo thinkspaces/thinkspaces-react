@@ -6,7 +6,7 @@ import { Row, Col } from "reactstrap";
 import ProjectCard from "../../project/ProjectCard/ProjectCard";
 import SubmitProjectButton from "../../buttons/SubmitProjectButton";
 
-const ProjectGrid = ({ width, projects }) => (
+const ProjectGrid = ({ width, projects, updateLikes }) => (
   <Row>
     {projects.map((p, i) => (
       <Col sm key={i}>
@@ -19,6 +19,7 @@ const ProjectGrid = ({ width, projects }) => (
           text={p.card_des}
           shortname={p.shortname}
           likes={p.likes}
+          updateLikes={likes => updateLikes(likes, i)}
         />
       </Col>
     ))}
@@ -31,6 +32,12 @@ class MyProjects extends Component {
   componentDidMount = async () => {
     const { uid } = this.props;
     let projects = await db.getMyProjects(uid);
+    this.setState({ projects });
+  };
+
+  updateLikes = (likes, index) => {
+    const { projects } = this.state;
+    projects[index].likes = likes;
     this.setState({ projects });
   };
 
@@ -50,7 +57,11 @@ class MyProjects extends Component {
             <SubmitProjectButton />
           </div>
         ) : (
-          <ProjectGrid width={width} projects={projects} />
+          <ProjectGrid
+            width={width}
+            projects={projects}
+            updateLikes={this.updateLikes}
+          />
         )}
       </div>
     );
