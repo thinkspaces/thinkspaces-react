@@ -7,14 +7,13 @@ import { FacebookIcon,
   LinkedinIcon,
   TwitterShareButton,
   TwitterIcon } from 'react-share';
-import Modal from './Modal'
+import Modal from './Modal';
 import { db, auth } from '../../firebase';
 
 import Carousel from '../../components/ui/Carousel/Carousel';
 import ViewProfileButton from '../../components/ui/buttons/ViewProfileButton';
 
-const headerStyle = { margin: '50px 0px',
-  textAlign: 'center' };
+const headerStyle = { margin: '50px 0px', textAlign: 'center' };
 
 const BannerTitle = ({ title }) => (
   <div style={headerStyle}>
@@ -47,27 +46,34 @@ const InfoSection = ({ title, links, contact, about, need, team, shortname, proj
     <div style={{ marginTop: 150 }} />
     {shortname && <SocialSection shortname={shortname} />}
     <br />
+    {contact && <ModalSection title={title} contact={contact} projectId={projectId} />}
+    <br />
     {team && <TeamSection team={team} />}
     <br />
-    {(contact || links) && <ContactSection contact={contact} links={links} />}
+    {links && <ContactSection links={links} />}
     <br />
     {about && <AboutSection about={about} />}
     <br />
     {need && <NeedSection need={need} />}
     <br />
+  </Col>
+);
+
+const ModalSection = ({ title, contact, projectId }) => (
+  <InfoView title="">
     <Modal
       buttonLabel={`Contact ${ title }`}
       modalBody={<a href={`mailto:${ contact }`}>{contact}</a>}
       projectId={projectId}
     />
-  </Col>
+  </InfoView>
 );
 
 const SocialSection = ({ shortname }) => (
-  <InfoView title="Share">
+  <InfoView title="">
     <div style={{ display: 'inline-grid' }}>
       <Row>
-        &nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;
         <FacebookShareButton
           url={`https://thinkspaces.org/projects/${ shortname }`}
           className="button is-outlined is-rounded facebook"
@@ -109,11 +115,11 @@ const TeamSection = ({ team }) => (
   </InfoView>
 );
 
-const ContactSection = ({ contact, links }) => (
-  <InfoView title="Contact us">
-    {(contact || links) && (
+// <a href={`mailto:${ contact }`}>{contact}</a>
+const ContactSection = ({ links }) => (
+  <InfoView title="Links">
+    {links && (
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <a href={`mailto:${ contact }`}>{contact}</a>
         {links.map((link, i) => (
           <a key={i} href={link}>
             {link}
@@ -202,7 +208,8 @@ class Page extends Component {
           <EditProjectButton isOwner={isOwner} />
         </div>
       );
-    } return <LoadingView />;
+    }
+    return <LoadingView />;
   }
 }
 
