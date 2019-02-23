@@ -14,9 +14,10 @@ class LikeButton extends Component {
     const { likes } = this.props;
     const user = auth.getUserInfo();
     let isLiked = false;
-    if (user !== null && likes[user.uid]) {
+    if (user && likes[user.uid]) {
       isLiked = true;
     }
+
     this.setState({ isAuthUser: auth.isLoggedIn(), isLiked });
   };
 
@@ -28,7 +29,7 @@ class LikeButton extends Component {
   };
 
   handleLike = async (event) => {
-    event.preventDefault();
+    event.stopPropagation();
     const { pid, updateLikes, likes } = this.props;
     const user = auth.getUserInfo();
 

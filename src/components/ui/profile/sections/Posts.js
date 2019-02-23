@@ -8,8 +8,7 @@ import { Button,
   ListGroupItem,
   ListGroupItemHeading,
   ListGroupItemText } from 'reactstrap';
-import { Icon } from 'react-icons-kit';
-import { threeHorizontal } from 'react-icons-kit/entypo/threeHorizontal';
+
 import withAuthorization from '../../../Authentication/withAuthorization';
 import AuthUserContext from '../../../Authentication/AuthUserContext';
 

@@ -29,7 +29,6 @@ const SocialContentSection = ({ uid, selected }) => (
     </div>
   </div>
 );
-// <SocialContentSection />
 class Profile extends Component {
   state = { uid: null, selected: '#updates' };
 
