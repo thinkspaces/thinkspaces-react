@@ -173,3 +173,21 @@ export const createProjectWithFields = async (project) => {
     .collection('projects')
     .add({ ...project, team: [ user.uid ], owner: user.uid, likes: {}, likesCount: 0 });
 };
+
+export const recordInteraction = async (projectId) => {
+  const user = await auth.currentUser
+  // get the user
+  const userRef = user ? db.collection('users').doc(user.uid) : null
+  if (!userRef) {
+    return
+  }
+  // get the project
+  const projectRef = db.collection('projects').doc(projectId)
+  //   record the interaction
+  await db
+    .collection('interactions')
+    .doc()
+    .set({ project: projectRef,
+      user: userRef,
+      timestamp: createTimestamp(new Date()) }, { merge: true })
+}

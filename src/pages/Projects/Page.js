@@ -7,6 +7,7 @@ import { FacebookIcon,
   LinkedinIcon,
   TwitterShareButton,
   TwitterIcon } from 'react-share';
+import Modal from './Modal'
 import { db, auth } from '../../firebase';
 
 import Carousel from '../../components/ui/Carousel/Carousel';
@@ -41,7 +42,7 @@ const BannerSection = ({ width, title, images }) => (
   </Col>
 );
 
-const InfoSection = ({ links, contact, about, need, team, shortname }) => (
+const InfoSection = ({ title, links, contact, about, need, team, shortname, projectId }) => (
   <Col>
     <div style={{ marginTop: 150 }} />
     {shortname && <SocialSection shortname={shortname} />}
@@ -53,6 +54,12 @@ const InfoSection = ({ links, contact, about, need, team, shortname }) => (
     {about && <AboutSection about={about} />}
     <br />
     {need && <NeedSection need={need} />}
+    <br />
+    <Modal
+      buttonLabel={`Contact ${ title }`}
+      modalBody={<a href={`mailto:${ contact }`}>{contact}</a>}
+      projectId={projectId}
+    />
   </Col>
 );
 
@@ -160,18 +167,18 @@ const EditProjectButton = ({ isOwner }) => (
 );
 
 class Page extends Component {
-  state = { data: null, isOwner: false };
+  state = { data: null, isOwner: false, id: null };
 
   componentDidMount = async () => {
     const { location } = this.props;
     const values = queryString.parse(location.search);
     const data = await db.getProjectByID(values.id);
     const isOwner = auth.isCurrentAuthUser(data.owner);
-    this.setState({ data, isOwner });
+    this.setState({ data, isOwner, id: values.id });
   };
 
   render() {
-    const { data, isOwner } = this.state;
+    const { data, isOwner, id } = this.state;
     if (data) {
       return (
         <div>
@@ -182,12 +189,14 @@ class Page extends Component {
               images={data.images}
             />
             <InfoSection
+              title={data.title}
               links={data.links}
               contact={data.contact}
               about={data.about}
               need={data.need}
               team={data.team}
               shortname={data.shortname}
+              projectId={id}
             />
           </Row>
           <EditProjectButton isOwner={isOwner} />
