@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './ProjectCard.css';
-import LikeButton from '../Like';
+import LikeButton from '../../buttons/Like';
 
 const Card = ({ width, children }) => (
   <div className="card" style={{ width: width <= 690 ? 'auto' : '318px' }}>

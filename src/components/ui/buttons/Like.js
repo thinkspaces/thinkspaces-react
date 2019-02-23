@@ -3,17 +3,18 @@ import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import { Icon } from 'react-icons-kit';
 import { ic_favorite_border } from 'react-icons-kit/md/ic_favorite_border';
+import { withRouter } from 'react-router-dom';
 import { auth, db } from '../../../firebase';
+import CantLikeModal from '../modals/CantLikeModal';
 
 class LikeButton extends Component {
-  state = { isAuthUser: false, isLiked: false };
+  state = { isAuthUser: false, isLiked: false, modal: false };
 
   componentDidMount = () => {
     const { likes } = this.props;
     const user = auth.getUserInfo();
-
     let isLiked = false;
-    if (likes[user.uid]) {
+    if (user !== null && likes[user.uid]) {
       isLiked = true;
     }
     this.setState({ isAuthUser: auth.isLoggedIn(), isLiked });
@@ -46,9 +47,20 @@ class LikeButton extends Component {
     }
   };
 
+  toggle = () => {
+    console.log('toggle');
+    this.setState(prevState => ({ modal: !prevState.modal }));
+  };
+
+  gotoSignUp = () => {
+    console.log('signing');
+    const { history } = this.props;
+    history.push('/signupin');
+  };
+
   render() {
     const { likes } = this.props;
-    const { isLiked, isAuthUser } = this.state;
+    const { isLiked, isAuthUser, modal } = this.state;
     return (
       <div>
         {isAuthUser ? (
@@ -62,20 +74,16 @@ class LikeButton extends Component {
             <Icon icon={ic_favorite_border} /> {Object.keys(likes).length}
           </Button>
         ) : (
-          <Button
-            href="/signupin"
-            className="float-right"
-            color="primary"
-            size="sm"
-            disabled
-            outline
-          >
-            <Icon icon={ic_favorite_border} /> {Object.keys(likes).length}
-          </Button>
+          <div className="d-inline">
+            <CantLikeModal isOpen={modal} toggle={this.toggle} signUp={this.gotoSignUp} />
+            <Button className="float-right" color="primary" size="sm" onClick={this.toggle} outline>
+              <Icon icon={ic_favorite_border} /> {Object.keys(likes).length}
+            </Button>
+          </div>
         )}
       </div>
     );
   }
 }
 
-export default LikeButton;
+export default withRouter(LikeButton);
