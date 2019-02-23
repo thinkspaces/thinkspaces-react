@@ -154,7 +154,7 @@ export const getProfilePosts = async (uid) => {
 
   const querySnapshot = await db
     .collection(`users/${ uid }/posts`)
-    .orderBy('timestamp', 'desc')
+    .orderBy('timestamp', 'asc')
     .get();
 
   querySnapshot.forEach((doc) => {
