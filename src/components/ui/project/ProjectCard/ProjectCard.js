@@ -1,10 +1,12 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+/* eslint jsx-a11y/click-events-have-key-events: 0 */
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import './ProjectCard.css';
 import LikeButton from '../Like';
 
-const Card = ({ width, children }) => (
-  <div className="card" style={{ width: width <= 690 ? 'auto' : '318px' }}>
+const Card = ({ width, children, onClick }) => (
+  <div onClick={onClick} className="card" style={{ width: width <= 690 ? 'auto' : '318px' }}>
     {children}
   </div>
 );
@@ -26,7 +28,7 @@ const CardTitle = ({ title, likes, pid, updateLikes }) => (
       pid={pid}
       updateLikes={updateLikes}
     />
-    <h5>{title} </h5>
+    <h5 className="project-cardTitle">{title}</h5>
   </div>
 );
 
@@ -43,12 +45,21 @@ const CardBody = ({ text, shortname, id }) => (
   </div>
 );
 
-const ProjectCard = ({ width, title, likes, updateLikes, image, text, shortname, id }) => (
-  <Card width={width}>
-    <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
-    <CardImage image={image} />
-    <CardBody text={text} shortname={shortname} id={id} />
-  </Card>
-);
+class ProjectCard extends Component {
+  openProject = () => {
+    const { history, id, shortname } = this.props;
+    history.push(`/projects/${ shortname }?id=${ id }`);
+  };
 
-export default ProjectCard;
+  render() {
+    const { width, title, likes, updateLikes, image, text, shortname, id } = this.props;
+    return (
+      <Card width={width} onClick={this.openProject}>
+        <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
+        <CardImage image={image} />
+        <CardBody text={text} shortname={shortname} id={id} />
+      </Card>
+    );
+  }
+}
+export default withRouter(ProjectCard);

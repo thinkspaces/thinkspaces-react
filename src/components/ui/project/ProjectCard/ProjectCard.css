@@ -8,6 +8,15 @@
   min-width: 318px !important;
 }
 
+.project-cardTitle:hover {
+  text-decoration: underline;
+  color: #0056b3;
+}
+
+.card:hover {
+  cursor: pointer;
+}
+
 .cardBody {
   padding: 20px;
 }

@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import React, { Component } from 'react';
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-import { storage, db } from "../../../firebase/firebase";
-import styles from "./EditProfile.module.css";
-import classNames from "classnames";
+import classNames from 'classnames';
+import { storage, db } from '../../../firebase/firebase';
+import styles from './EditProfile.module.css';
 
-import placeholder from "./placeholder.png";
+import placeholder from './placeholder.png';
 
 // import ProfilePicture from "./UploadProfilePicture";
 
@@ -22,69 +22,46 @@ export default class EditProfile extends Component {
   constructor(props) {
     super(props);
     console.log(props.profile);
-    this.state = {
-      working: false,
-      picture: props.profile.profilepicture
-    };
+    this.state = { working: false, picture: props.profile.profilepicture };
     this.handleUploadPicture = this.handleUploadPicture.bind(this);
     this.handleRemovePicture = this.handleRemovePicture.bind(this);
   }
 
-  handleRemovePicture = async event => {
-    console.log("entered");
+  handleRemovePicture = async () => {
+    const { uid } = this.props;
+    console.log('entered');
     try {
-      let pictureRef = storage.ref(
-        "images/users/" + this.props.uid + "/profile"
-      );
+      const pictureRef = storage.ref(`images/users/${ uid }/profile`);
       await pictureRef.delete();
     } catch (error) {
       console.log(error);
       // if error.code === "storage/object-not-found" { do X }
     }
-    const userRef = db.collection("users").doc(this.props.uid);
-    await userRef.set(
-      {
-        profilepicture: null
-      },
-      { merge: true }
-    );
-    this.setState({
-      picture: null
-    });
+    const userRef = db.collection('users').doc(uid);
+    await userRef.set({ profilepicture: null }, { merge: true });
+    this.setState({ picture: null });
   };
 
-  handleUploadPicture = async event => {
+  handleUploadPicture = async (event) => {
+    const { uid } = this.props;
     // upload and overwrite
-    let pictureRef = storage.ref("images/users/" + this.props.uid + "/profile");
-    let file = event.target.files[0];
-    await this.setState({
-      working: true
-    });
+    const pictureRef = storage.ref(`images/users/${ uid }/profile`);
+    const file = event.target.files[0];
+    await this.setState({ working: true });
     await pictureRef.put(file);
     const pictureURL = await pictureRef.getDownloadURL();
-    const userRef = db.collection("users").doc(this.props.uid);
-    await userRef.set(
-      {
-        profilepicture: pictureURL
-      },
-      { merge: true }
-    );
-    this.setState({
-      picture: pictureURL,
-      working: false
-    });
+    const userRef = db.collection('users').doc(uid);
+    await userRef.set({ profilepicture: pictureURL }, { merge: true });
+    this.setState({ picture: pictureURL, working: false });
   };
 
   render() {
+    const { picture, working } = this.state;
     const { saveChanges, profile, onEditChange, onCancel } = this.props;
     return (
       <div>
         <div className={styles.pictureFlex}>
-          <img
-            src={this.state.picture ? this.state.picture : placeholder}
-            alt="Profile"
-            className={styles.picture}
-          />
+          <img src={picture || placeholder} alt="Profile" className={styles.picture} />
           <span
             className={classNames(styles.pictureFlexItem, styles.removePicture)}
             onClick={this.handleRemovePicture}
@@ -94,43 +71,28 @@ export default class EditProfile extends Component {
           <input
             type="file"
             accept="image/*"
-            className={classNames(
-              styles.pictureFlexItem,
-              styles.uploadNewPicture
-            )}
+            className={classNames(styles.pictureFlexItem, styles.uploadNewPicture)}
             onChange={this.handleUploadPicture}
             placeholder="Upload new"
           />
           {/* "spinner" */}
           <span className={classNames(styles.pictureFlexItem, styles.spinner)}>
-            {this.state.working ? "Uploading..." : null}
+            {working ? 'Uploading...' : null}
           </span>
         </div>
 
         <Form>
           <FormGroup>
             <Label for="Name">Name</Label>
-            <Input
-              id="full_name"
-              value={profile.full_name}
-              onChange={onEditChange}
-            />
+            <Input id="full_name" value={profile.full_name} onChange={onEditChange} />
           </FormGroup>
           <FormGroup>
             <Label for="graduation">Graduation</Label>
-            <Input
-              id="graduation"
-              value={profile.graduation}
-              onChange={onEditChange}
-            />
+            <Input id="graduation" value={profile.graduation} onChange={onEditChange} />
           </FormGroup>
           <FormGroup>
             <Label for="university">College</Label>
-            <Input
-              id="university"
-              value={profile.university}
-              onChange={onEditChange}
-            />
+            <Input id="university" value={profile.university} onChange={onEditChange} />
           </FormGroup>
           <FormGroup>
             <Label for="major">Major</Label>
@@ -138,30 +100,15 @@ export default class EditProfile extends Component {
           </FormGroup>
           <FormGroup>
             <Label for="headline">Bio</Label>
-            <Input
-              type="textarea"
-              id="headline"
-              value={profile.headline}
-              onChange={onEditChange}
-            />
+            <Input type="textarea" id="headline" value={profile.headline} onChange={onEditChange} />
           </FormGroup>
           <FormGroup>
             <Label for="skills">Skills</Label>
-            <Input
-              type="textarea"
-              id="skills"
-              value={profile.skills}
-              onChange={onEditChange}
-            />
+            <Input type="textarea" id="skills" value={profile.skills} onChange={onEditChange} />
           </FormGroup>
           <FormGroup>
             <Label for="courses">Relevant Courses</Label>
-            <Input
-              type="textarea"
-              id="courses"
-              value={profile.courses}
-              onChange={onEditChange}
-            />
+            <Input type="textarea" id="courses" value={profile.courses} onChange={onEditChange} />
           </FormGroup>
           <FormGroup>
             <Label for="interests">Interests</Label>
