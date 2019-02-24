@@ -12,7 +12,7 @@ import { Collapse,
   DropdownToggle,
   DropdownItem,
   DropdownMenu } from 'reactstrap';
-import logo from '../../../logo.png';
+import logo from '../../../logo-circle.png';
 import AuthUserContext from '../../Authentication/AuthUserContext';
 import { auth } from '../../../firebase';
 
