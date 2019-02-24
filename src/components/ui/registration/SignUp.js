@@ -83,7 +83,6 @@ class SignUp extends Component {
       && full_name.length > 0
       && graduation.length > 0
       && preferred_name.length > 0
-      && headline.length > 0
       && major.length > 0
       && university.length > 0;
     return (
