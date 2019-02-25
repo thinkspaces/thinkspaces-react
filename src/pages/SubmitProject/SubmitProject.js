@@ -1,7 +1,7 @@
+/* eslint camelcase: 0 */
 import React, { Component } from 'react';
 
 import FileUploader from 'react-firebase-file-uploader';
-
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 
 import firebase from 'firebase/app';
@@ -46,7 +46,6 @@ class SubmitProject extends Component {
   createProject = (event) => {
     event.preventDefault();
     const { title, contact, about, card_des, images, links, need } = this.state;
-
     const { history } = this.props;
 
     db.createProjectWithFields({ title,

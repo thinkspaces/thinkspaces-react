@@ -7,7 +7,7 @@ import { FacebookIcon,
   LinkedinIcon,
   TwitterShareButton,
   TwitterIcon } from 'react-share';
-import Modal from './Modal';
+import ContactModal from '../../components/ui/modals/ContactModal';
 import { db, auth } from '../../firebase';
 
 import Carousel from '../../components/ui/Carousel/Carousel';
@@ -45,23 +45,17 @@ const InfoSection = ({ title, links, contact, about, need, team, shortname, proj
   <Col>
     <div style={{ marginTop: 150 }} />
     {shortname && <SocialSection shortname={shortname} />}
-    <br />
     {contact && <ModalSection title={title} contact={contact} projectId={projectId} />}
-    <br />
     {team && <TeamSection team={team} />}
-    <br />
-    {links && <ContactSection links={links} />}
-    <br />
+    {links[0].length > 0 && <ContactSection links={links} />}
     {about && <AboutSection about={about} />}
-    <br />
     {need && <NeedSection need={need} />}
-    <br />
   </Col>
 );
 
 const ModalSection = ({ title, contact, projectId }) => (
-  <InfoView title="">
-    <Modal
+  <InfoView>
+    <ContactModal
       buttonLabel={`Contact ${ title }`}
       modalBody={<a href={`mailto:${ contact }`}>{contact}</a>}
       projectId={projectId}
@@ -70,37 +64,34 @@ const ModalSection = ({ title, contact, projectId }) => (
 );
 
 const SocialSection = ({ shortname }) => (
-  <InfoView title="">
-    <div style={{ display: 'inline-grid' }}>
-      <Row>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <FacebookShareButton
-          url={`https://thinkspaces.org/projects/${ shortname }`}
-          className="button is-outlined is-rounded facebook"
-        >
-          <span className="icon">
-            <FacebookIcon size={32} round />
-          </span>
-        </FacebookShareButton>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <TwitterShareButton
-          url={`https://thinkspaces.org/projects/${ shortname }`}
-          className="button is-outlined is-rounded linkedin"
-        >
-          <span className="icon">
-            <TwitterIcon size={32} round />
-          </span>
-        </TwitterShareButton>
-        &nbsp;&nbsp;&nbsp;&nbsp;
-        <LinkedinShareButton
-          url={`https://thinkspaces.org/projects/${ shortname }`}
-          className="button is-outlined is-rounded linkedin"
-        >
-          <span className="icon">
-            <LinkedinIcon size={32} round />
-          </span>
-        </LinkedinShareButton>
-      </Row>
+  <InfoView>
+    <div className="d-flex">
+      <FacebookShareButton
+        style={{ marginRight: 10 }}
+        url={`https://thinkspaces.org/projects/${ shortname }`}
+        className="button is-outlined is-rounded facebook"
+      >
+        <span className="icon">
+          <FacebookIcon size={32} round />
+        </span>
+      </FacebookShareButton>
+      <TwitterShareButton
+        style={{ marginRight: 10 }}
+        url={`https://thinkspaces.org/projects/${ shortname }`}
+        className="button is-outlined is-rounded linkedin"
+      >
+        <span className="icon">
+          <TwitterIcon size={32} round />
+        </span>
+      </TwitterShareButton>
+      <LinkedinShareButton
+        url={`https://thinkspaces.org/projects/${ shortname }`}
+        className="button is-outlined is-rounded linkedin"
+      >
+        <span className="icon">
+          <LinkedinIcon size={32} round />
+        </span>
+      </LinkedinShareButton>
     </div>
   </InfoView>
 );
@@ -115,7 +106,6 @@ const TeamSection = ({ team }) => (
   </InfoView>
 );
 
-// <a href={`mailto:${ contact }`}>{contact}</a>
 const ContactSection = ({ links }) => (
   <InfoView title="Links">
     {links && (
@@ -138,17 +128,12 @@ const AboutSection = ({ about }) => (
 
 const NeedSection = ({ need }) => (
   <InfoView title="Who we need">
-    <div>
-      {need}
-      {/* {need.map(item => (
-            <p>{item}</p>
-          ))} */}
-    </div>
+    <div>{need}</div>
   </InfoView>
 );
 
 const InfoView = ({ title, children }) => (
-  <Row>
+  <Row style={{ marginBottom: 20 }}>
     <Col md={3}>
       <b>{title}</b>
     </Col>

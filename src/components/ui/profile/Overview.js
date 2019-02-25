@@ -1,5 +1,6 @@
 /* eslint no-param-reassign: 0 */
 import React, { Component } from 'react';
+import ReactGA from 'react-ga';
 import { Button, Row, Col } from 'reactstrap';
 
 import Avatar from 'react-avatar';
@@ -35,7 +36,7 @@ const ProfileHeader = ({ profile }) => (
   </Col>
 );
 
-const ProfileDetails = ({ profile, toggleEdit, puid, auid }) => (
+const ProfileDetails = ({ profile, toggleEdit, isMyProfile }) => (
   <Col>
     <DetailView type="College" value={profile.university} inline />
     <hr />
@@ -47,7 +48,7 @@ const ProfileDetails = ({ profile, toggleEdit, puid, auid }) => (
     <hr />
     <DetailView type="Interests" value={profile.interests} />
     <br />
-    {puid === auid && (
+    {isMyProfile && (
       <Button color="danger" onClick={toggleEdit}>
         Edit Profile
       </Button>
@@ -88,9 +89,16 @@ class ProfileOverview extends Component {
   };
 
   saveChanges = async () => {
-    const { profile } = this.state;
+    const { profile, uid } = this.state;
 
+    ReactGA.event({ category: 'Edit Profile', action: 'Saved', label: uid });
     await db.saveProfileChanges(profile);
+    this.setState({ isEditing: false });
+  };
+
+  onCancel = () => {
+    const { uid } = this.state;
+    ReactGA.event({ category: 'Edit Profile', action: 'Canceled', label: uid });
     this.setState({ isEditing: false });
   };
 
@@ -111,7 +119,7 @@ class ProfileOverview extends Component {
           saveChanges={this.saveChanges}
           profile={profile}
           onEditChange={this.onEditChange}
-          onCancel={() => this.setState({ isEditing: false })}
+          onCancel={this.onCancel}
           uid={uid}
         />
       );
@@ -123,8 +131,7 @@ class ProfileOverview extends Component {
             <Row>
               <ProfileHeader profile={profile} />
               <ProfileDetails
-                puid={uid}
-                auid={authUser.uid}
+                isMyProfile={uid === authUser.uid}
                 profile={profile}
                 toggleEdit={this.toggleEdit}
               />

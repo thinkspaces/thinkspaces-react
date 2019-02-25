@@ -21,10 +21,7 @@ import placeholder from './placeholder.png';
 export default class EditProfile extends Component {
   constructor(props) {
     super(props);
-    console.log(props.profile);
     this.state = { working: false, picture: props.profile.profilepicture };
-    this.handleUploadPicture = this.handleUploadPicture.bind(this);
-    this.handleRemovePicture = this.handleRemovePicture.bind(this);
   }
 
   handleRemovePicture = async () => {

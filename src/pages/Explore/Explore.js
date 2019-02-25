@@ -20,7 +20,6 @@ const Profiles = ({ profiles, width }) => (
             uid={p.uid}
             headline={p.headline}
             title={p.full_name}
-            username={p.preferred_name}
             picture={p.profilepicture}
           />
         </Col>

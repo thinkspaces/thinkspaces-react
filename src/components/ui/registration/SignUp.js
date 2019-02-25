@@ -1,66 +1,54 @@
+/* eslint camelcase: 0, no-param-reassign: 0, max-len: 0 */
 import React, { Component } from 'react';
 
 import { withRouter } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, FormFeedback } from 'reactstrap';
+import FinishProfileModal from '../modals/FinishProfileModal';
 import { auth, db } from '../../../firebase';
 
 class SignUp extends Component {
-  state = { email: '',
-    password: '',
+  state = { modal: false,
+    profile: { email: '',
+      password: '',
+      full_name: '',
+      graduation: '',
+      preferred_name: '',
+      privacy: false,
+      headline: '',
+      major: '',
+      university: '' },
     error: null,
-    full_name: '',
-    graduation: '',
-    preferred_name: '',
-    privacy: false,
-    profilepicture: '',
-    headline: '',
-    major: '',
-    university: '' };
+    uid: '' };
+
+  toggle = () => this.setState(prevState => ({ modal: !prevState.modal }));
+
+  onCloseFinish = async (event) => {
+    event.preventDefault();
+    const { profile, uid } = this.state;
+    const { history } = this.props;
+    delete profile.password;
+    await db.createUserwithFields(uid, profile);
+
+    history.push('/');
+  };
+
+  onValueChange = ({ target: { id, checked, type, value } }) => {
+    if (type === 'checkbox') {
+      value = !checked;
+    }
+    this.setState(prevState => ({ profile: { ...prevState.profile, [id]: value } }));
+  };
 
   createProfile = async (event) => {
     event.preventDefault();
-
-    const { email,
-      password,
-      full_name,
-      graduation,
-      preferred_name,
-      privacy,
-      profilepicture,
-      headline,
-      major,
-      university } = this.state;
-
-    const { history } = this.props;
+    const { profile } = this.state;
 
     try {
-      const response = await auth.createUser(email, password);
+      const response = await auth.createUser(profile.email, profile.password);
       if (response) {
-        this.setState({ email: '', password: '', error: null });
-        await response.user.updateProfile({ displayName: preferred_name });
-        await db.createUserwithFields(response.user.uid, { full_name,
-          graduation,
-          preferred_name,
-          email,
-          privacy,
-          headline,
-          profilepicture,
-          major,
-          university });
-
-        this.setState({ email: '',
-          password: '',
-          error: null,
-          full_name: '',
-          graduation: '',
-          preferred_name: '',
-          privacy: false,
-          profilepicture: '',
-          headline: '',
-          major: '',
-          university: '' });
-
-        history.push('/');
+        this.setState({ uid: response.user.uid });
+        await response.user.updateProfile({ displayName: profile.full_name.replace(/ .*/, '') });
+        this.toggle();
       }
     } catch (error) {
       this.setState({ error: error.message });
@@ -68,85 +56,24 @@ class SignUp extends Component {
   };
 
   render() {
-    const { email,
-      password,
-      full_name,
-      graduation,
-      preferred_name,
-      privacy,
-      error,
-      headline,
-      major,
-      university } = this.state;
-    const isEnabled = email.length > 0
-      && password.length > 0
-      && full_name.length > 0
-      && graduation.length > 0
-      && preferred_name.length > 0
-      && headline.length > 0
-      && major.length > 0
-      && university.length > 0;
+    const { modal, profile, error } = this.state;
+    const isEnabled = profile.email.length > 0 && profile.password.length > 0 && profile.full_name.length > 0;
     return (
       <div>
         <h2> Sign Up </h2>
-        <Form onSubmit={this.createProfile}>
+        <Form>
           <FormGroup>
             <Label for="full_name">Full Name</Label>
-            <Input
-              name="full_name"
-              type="text"
-              value={full_name}
-              onChange={event => this.setState({ full_name: event.target.value })}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="preferred_name">Preferred Name</Label>
-            <Input
-              type="preferred_name"
-              value={preferred_name}
-              onChange={event => this.setState({ preferred_name: event.target.value })}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="major">Major</Label>
-            <Input
-              type="major"
-              value={major}
-              onChange={event => this.setState({ major: event.target.value })}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="university">College or Grad School</Label>
-            <Input
-              type="university"
-              value={university}
-              onChange={event => this.setState({ university: event.target.value })}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="graduation">Graduation Year</Label>
-            <Input
-              type="graduation"
-              value={graduation}
-              onChange={event => this.setState({ graduation: event.target.value })}
-            />
-          </FormGroup>
-          <FormGroup>
-            <Label for="headline">Short Bio</Label>
-            <Input
-              type="headline"
-              value={headline}
-              onChange={event => this.setState({ headline: event.target.value })}
-            />
+            <Input id="full_name" value={profile.full_name} onChange={this.onValueChange} />
           </FormGroup>
           <FormGroup>
             <Label for="SignUpEmail">Email</Label>
             <Input
               autoComplete="email"
               type="email"
-              name="email"
-              value={email}
-              onChange={event => this.setState({ email: event.target.value })}
+              id="email"
+              value={profile.email}
+              onChange={this.onValueChange}
             />
           </FormGroup>
           <FormGroup>
@@ -154,9 +81,10 @@ class SignUp extends Component {
             <Input
               invalid={!!error}
               autoComplete="current-password"
+              id="password"
               type="password"
-              value={password}
-              onChange={event => this.setState({ password: event.target.value })}
+              value={profile.password}
+              onChange={this.onValueChange}
             />
             <FormFeedback>{error}</FormFeedback>
           </FormGroup>
@@ -165,13 +93,25 @@ class SignUp extends Component {
               <Input
                 type="checkbox"
                 id="privacy"
-                checked={!privacy}
-                onChange={event => this.setState({ privacy: !event.target.checked })}
+                checked={!profile.privacy}
+                onChange={this.onValueChange}
               />
               Make your profile public and let projects find you
             </Label>
           </FormGroup>
-          <Button style={{ marginTop: 10 }} disabled={!isEnabled} color="danger">
+          <FinishProfileModal
+            isOpen={modal}
+            toggle={this.toggle}
+            onClose={this.onCloseFinish}
+            profile={profile}
+            onChange={this.onValueChange}
+          />
+          <Button
+            onClick={this.createProfile}
+            style={{ marginTop: 10 }}
+            disabled={!isEnabled}
+            color="danger"
+          >
             Submit
           </Button>
         </Form>

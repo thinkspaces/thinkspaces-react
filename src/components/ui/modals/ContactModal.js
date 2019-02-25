@@ -1,16 +1,15 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
-
 import React, { useState } from 'react';
+import ReactGA from 'react-ga';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
-import { db } from '../../firebase';
 
-const modal = ({ buttonLabel, className, modalBody, projectId }) => {
+const ContactModal = ({ buttonLabel, className, modalBody, projectId }) => {
   const [ modalState, setModal ] = useState(false);
 
-  const toggleRecord = async () => {
+  const toggleRecord = () => {
     // record interaction when button clicked
+    ReactGA.event({ category: 'User', action: 'Contacted Project', label: projectId });
     setModal(!modalState);
-    await db.recordInteraction(projectId);
   };
 
   const toggle = () => {
@@ -19,7 +18,7 @@ const modal = ({ buttonLabel, className, modalBody, projectId }) => {
 
   return (
     <div>
-      <Button outline color="danger" onClick={toggleRecord}>
+      <Button color="primary" onClick={toggleRecord}>
         {buttonLabel}
       </Button>
       <Modal isOpen={modalState} toggle={toggle} className={className}>
@@ -30,4 +29,4 @@ const modal = ({ buttonLabel, className, modalBody, projectId }) => {
   );
 };
 
-export default modal;
+export default ContactModal;

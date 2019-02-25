@@ -48,13 +48,12 @@ class LikeButton extends Component {
     }
   };
 
-  toggle = () => {
-    console.log('toggle');
+  toggle = (event) => {
+    event.stopPropagation();
     this.setState(prevState => ({ modal: !prevState.modal }));
   };
 
   gotoSignUp = () => {
-    console.log('signing');
     const { history } = this.props;
     history.push('/signupin');
   };
@@ -75,7 +74,7 @@ class LikeButton extends Component {
             <Icon icon={ic_favorite_border} /> {Object.keys(likes).length}
           </Button>
         ) : (
-          <div className="d-inline">
+          <div>
             <CantLikeModal isOpen={modal} toggle={this.toggle} signUp={this.gotoSignUp} />
             <Button className="float-right" color="primary" size="sm" onClick={this.toggle} outline>
               <Icon icon={ic_favorite_border} /> {Object.keys(likes).length}
