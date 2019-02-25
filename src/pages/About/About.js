@@ -1,8 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 
-const headerStyle = { margin: '50px 0px 50px 0px',
-  textAlign: 'center' };
+const headerStyle = { margin: '50px 0px 50px 0px', textAlign: 'center' };
 
 const About = () => (
   <div>
@@ -21,21 +20,22 @@ const About = () => (
       <Col md={{ size: 8, offset: 2 }}>
         <p>
           <br />
-            Make collaboration easier with Thinkspaces.
+          <h3>Make collaboration easier with Thinkspaces. </h3>
           <br />
+          <h3>
+            We help you connect with the creatives and intellectuals who get things done, just like
+            you. Expand beyond your network to build a better future with people who have different
+            skills but the same vision.
+          </h3>
           <br />
-            There are a lot of talented Yalies with great ideas, but unfortunately not all the
-            resources are there. In particular, bringing together a functional team can be
-            difficult.
-          <br />
-          <br />
-            As a result, we want to make it as easy for you to find the people you need so that you
-            can get to working on your idea as fast as possible. Simply post whatever you are
-            working on - creative passion project, startup, club project, anything - and utilize our
-            network of creatives to help bring your idea to life.
+          <h3>
+            Simply post whatever you are working on - creative passion project, startup, club
+            project, anything - to find people to pursue your idea with you. Or get involved in a
+            meaningful project from Thinkspaces, and do good things together.
+          </h3>
         </p>
         <br />
-        <b>Contact us at teamthinkspaces@gmail.com </b>
+        <h3>Contact us at teamthinkspaces@gmail.com </h3>
       </Col>
     </Row>
   </div>

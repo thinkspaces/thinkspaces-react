@@ -3,12 +3,13 @@ import sizeMe from 'react-sizeme';
 
 // database
 import { Row, Col } from 'reactstrap';
-import { db } from '../../firebase';
+import { db, auth } from '../../firebase';
 
 // custom components
 import ProfileCard from '../../components/ui/profile/ProfileCard/ProfileCard';
+import SignUpModal from '../../components/ui/modals/SignUpModal';
 
-const Profiles = ({ profiles, width }) => (
+const Profiles = ({ profiles, width, openProfile }) => (
   <div>
     <h2 style={{ marginBottom: '20px' }}>Find People</h2>
     <Row>
@@ -21,6 +22,7 @@ const Profiles = ({ profiles, width }) => (
             headline={p.headline}
             title={p.full_name}
             picture={p.profilepicture}
+            openProfile={() => openProfile(p.uid)}
           />
         </Col>
       ))}
@@ -29,20 +31,38 @@ const Profiles = ({ profiles, width }) => (
 );
 
 class Explore extends Component {
-  state = { profiles: [] };
+  state = { profiles: [], modal: false, loggedIn: false };
 
   componentDidMount = async () => {
     const profiles = await db.getProfiles();
-    this.setState({ profiles });
+    this.setState({ profiles, loggedIn: auth.isLoggedIn() });
+  };
+
+  toggle = () => this.setState(prevState => ({ modal: !prevState.modal }));
+
+  gotoSignUp = () => {
+    const { history } = this.props;
+    history.push('/signupin');
+  };
+
+  openProfile = (uid) => {
+    const { loggedIn } = this.state;
+    if (loggedIn) {
+      const { history } = this.props;
+      history.push(`/profile/${ uid }`);
+    } else {
+      this.toggle();
+    }
   };
 
   render() {
     const { size: { width } } = this.props;
-    const { profiles } = this.state;
+    const { profiles, modal } = this.state;
 
     return (
       <div>
-        <Profiles width={width} profiles={profiles} />
+        <SignUpModal isOpen={modal} toggle={this.toggle} signUp={this.gotoSignUp} />
+        <Profiles width={width} profiles={profiles} openProfile={this.openProfile} />
       </div>
     );
   }

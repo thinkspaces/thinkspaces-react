@@ -1,10 +1,15 @@
+/* eslint jsx-a11y/click-events-have-key-events: 0 */
+/* eslint jsx-a11y/no-static-element-interactions: 0 */
 import React from 'react';
 import './ProfileCard.css';
 import Avatar from 'react-avatar';
-import ViewProfileButton from '../../buttons/ViewProfileButton';
 
-const Card = ({ width, children }) => (
-  <div className="profile-card" style={{ width: width <= 690 ? 'auto' : '318px' }}>
+const Card = ({ width, children, onClick }) => (
+  <div
+    onClick={onClick}
+    className="profile-card"
+    style={{ width: width <= 690 ? 'auto' : '318px' }}
+  >
     {children}
   </div>
 );
@@ -21,24 +26,25 @@ const CardImage = ({ image, title }) => (
 
 const CardTitle = ({ title }) => (
   <div className="cardTitle">
-    <h3>{title}</h3>
+    <div id="profile-title">
+      <h3>{title}</h3>
+    </div>
   </div>
 );
 
-const CardBody = ({ headline, uid }) => (
-  <div className="profile-cardBody flexed">
+const CardBody = ({ headline }) => (
+  <div className="card-border flexed">
     <div className="description-box">
       <p>{headline}</p>
     </div>
-    <ViewProfileButton uid={uid} text="View Profile" />
   </div>
 );
 
-const ProfileCard = ({ width, picture, title, headline, uid }) => (
-  <Card width={width}>
+const ProfileCard = ({ width, picture, title, headline, openProfile }) => (
+  <Card width={width} onClick={openProfile}>
     <CardImage image={picture} title={title} />
     <CardTitle title={title} />
-    <CardBody headline={headline} uid={uid} />
+    <CardBody headline={headline} />
   </Card>
 );
 
