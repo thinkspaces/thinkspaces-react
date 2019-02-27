@@ -7,11 +7,13 @@ import { FacebookIcon,
   LinkedinIcon,
   TwitterShareButton,
   TwitterIcon } from 'react-share';
+
 import ContactModal from '../../components/ui/modals/ContactModal';
 import { db, auth } from '../../firebase';
 
 import Carousel from '../../components/ui/Carousel/Carousel';
 import ViewProfileButton from '../../components/ui/buttons/ViewProfileButton';
+import EditProject from '../../components/ui/project/sections/EditProject';
 
 const headerStyle = { margin: '50px 0px', textAlign: 'center' };
 
@@ -41,13 +43,13 @@ const BannerSection = ({ width, title, images }) => (
   </Col>
 );
 
-const InfoSection = ({ title, links, contact, about, need, team, shortname, projectId }) => (
+const InfoSection = ({ title, links, contact, about, need, team, projectId }) => (
   <Col>
     <div style={{ marginTop: 150 }} />
-    {shortname && <SocialSection shortname={shortname} />}
+    {title && <SocialSection title={title} id={projectId} />}
     {contact && <ModalSection title={title} contact={contact} projectId={projectId} />}
     {team && <TeamSection team={team} />}
-    {links[0].length > 0 && <ContactSection links={links} />}
+    {links.length > 0 && <ContactSection links={links} />}
     {about && <AboutSection about={about} />}
     {need && <NeedSection need={need} />}
   </Col>
@@ -63,12 +65,12 @@ const ModalSection = ({ title, contact, projectId }) => (
   </InfoView>
 );
 
-const SocialSection = ({ shortname }) => (
+const SocialSection = ({ title, id }) => (
   <InfoView>
     <div className="d-flex">
       <FacebookShareButton
         style={{ marginRight: 10 }}
-        url={`https://thinkspaces.org/projects/${ shortname }`}
+        url={`https://thinkspaces.org/projects/${ title }?id=${ id }`}
         className="button is-outlined is-rounded facebook"
       >
         <span className="icon">
@@ -77,7 +79,7 @@ const SocialSection = ({ shortname }) => (
       </FacebookShareButton>
       <TwitterShareButton
         style={{ marginRight: 10 }}
-        url={`https://thinkspaces.org/projects/${ shortname }`}
+        url={`https://thinkspaces.org/projects/${ title }?id=${ id }`}
         className="button is-outlined is-rounded linkedin"
       >
         <span className="icon">
@@ -85,7 +87,7 @@ const SocialSection = ({ shortname }) => (
         </span>
       </TwitterShareButton>
       <LinkedinShareButton
-        url={`https://thinkspaces.org/projects/${ shortname }`}
+        url={`https://thinkspaces.org/projects/${ title }?id=${ id }`}
         className="button is-outlined is-rounded linkedin"
       >
         <span className="icon">
@@ -108,15 +110,9 @@ const TeamSection = ({ team }) => (
 
 const ContactSection = ({ links }) => (
   <InfoView title="Links">
-    {links && (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {links.map((link, i) => (
-          <a key={i} href={link}>
-            {link}
-          </a>
-        ))}
-      </div>
-    )}
+    <div>
+      <a href={links}>{links}</a>
+    </div>
   </InfoView>
 );
 
@@ -153,44 +149,77 @@ const LoadingView = () => (
   </div>
 );
 
-const EditProjectButton = ({ isOwner }) => (
-  <div style={{ marginTop: 20 }}>{isOwner && <Button color="danger">Edit Project</Button>}</div>
+const EditProjectButton = ({ isOwner, onEdit }) => (
+  <div style={{ marginTop: 20 }}>
+    {isOwner && (
+      <Button color="danger" onClick={onEdit}>
+        Edit Project
+      </Button>
+    )}
+  </div>
 );
 
 class Page extends Component {
-  state = { data: null, isOwner: false, id: null };
+  state = { isEditing: false, project: null, isOwner: false, pid: null };
 
   componentDidMount = async () => {
     const { location } = this.props;
     const values = queryString.parse(location.search);
-    const data = await db.getProjectByID(values.id);
-    const isOwner = auth.isCurrentAuthUser(data.owner);
-    this.setState({ data, isOwner, id: values.id });
+    const project = await db.getProjectByID(values.id);
+    const isOwner = auth.isCurrentAuthUser(project.owner);
+    this.setState({ project, isOwner, pid: values.id });
+  };
+
+  saveChanges = async () => {
+    const { project, pid } = this.state;
+
+    // ReactGA.event({ category: 'Edit Profile', action: 'Saved', label: uid });
+    await db.saveProjectChanges(project, pid);
+    this.setState({ isEditing: false });
+  };
+
+  onCancel = () => {
+    // const { uid } = this.state;
+    // ReactGA.event({ category: 'Edit Profile', action: 'Canceled', label: uid });
+    this.setState({ isEditing: false });
+  };
+
+  onEditChange = ({ target: { value, id } }) => {
+    this.setState(prevState => ({ project: { ...prevState.project, [id]: value } }));
   };
 
   render() {
-    const { data, isOwner, id } = this.state;
-    if (data) {
+    const { isEditing, project, isOwner, pid } = this.state;
+    if (isEditing) {
+      return (
+        <EditProject
+          project={project}
+          saveChanges={this.saveChanges}
+          onEditChange={this.onEditChange}
+          onCancel={this.onCancel}
+        />
+      );
+    }
+    if (!isEditing && project) {
       return (
         <div>
           <Row>
             <BannerSection
               // width={width}
-              title={data.title}
-              images={data.images}
+              title={project.title}
+              images={project.images}
             />
             <InfoSection
-              title={data.title}
-              links={data.links}
-              contact={data.contact}
-              about={data.about}
-              need={data.need}
-              team={data.team}
-              shortname={data.shortname}
-              projectId={id}
+              title={project.title}
+              links={project.links}
+              contact={project.contact}
+              about={project.about}
+              need={project.need}
+              team={project.team}
+              projectId={pid}
             />
           </Row>
-          <EditProjectButton isOwner={isOwner} />
+          <EditProjectButton isOwner={isOwner} onEdit={() => this.setState({ isEditing: true })} />
         </div>
       );
     }

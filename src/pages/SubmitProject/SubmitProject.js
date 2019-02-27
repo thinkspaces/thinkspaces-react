@@ -53,9 +53,8 @@ class SubmitProject extends Component {
       card_des,
       images: [ images ],
       contact,
-      links: [ links ],
-      need,
-      shortname: title.replace(/\s+/g, '-') }).then(() => {
+      links,
+      need }).then(() => {
       this.setState({ title: '',
         contact: '',
         about: '',

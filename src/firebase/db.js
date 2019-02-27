@@ -48,6 +48,20 @@ export const getProfiles = async () => {
   return profiles;
 };
 
+export const saveProjectChanges = async (project, pid) => {
+  const team = [];
+  project.team.forEach((member) => {
+    team.push(member.uid);
+  });
+
+  // project.team = team;
+
+  await db
+    .collection('projects')
+    .doc(pid)
+    .update({ ...project, team });
+};
+
 export const getProjectByID = async (id) => {
   // grab data via id from firestore
   const docSnapshot = await db

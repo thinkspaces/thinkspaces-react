@@ -17,7 +17,6 @@ const ProjectGrid = ({ width, projects, updateLikes }) => (
           title={p.title}
           image={p.images[0]}
           text={p.card_des}
-          shortname={p.shortname}
           likes={p.likes}
           updateLikes={likes => updateLikes(likes, i)}
         />

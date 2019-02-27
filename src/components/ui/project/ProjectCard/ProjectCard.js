@@ -44,8 +44,8 @@ const CardBody = ({ text }) => (
 
 class ProjectCard extends Component {
   openProject = () => {
-    const { history, id, shortname } = this.props;
-    history.push(`/projects/${ shortname }?id=${ id }`);
+    const { history, id, title } = this.props;
+    history.push(`/projects/${ title.replace(/\s+/g, '-') }?id=${ id }`);
   };
 
   render() {

@@ -62,7 +62,6 @@ class Home extends Component {
                 title={p.title}
                 image={p.images[0]}
                 text={p.card_des}
-                shortname={p.shortname}
                 likes={p.likes}
                 updateLikes={likes => this.updateLikes(likes, i)}
               />
@@ -85,7 +84,6 @@ class Home extends Component {
                 title={p.title}
                 image={p.images[0]}
                 text={p.card_des}
-                shortname={p.shortname}
                 likes={p.likes}
                 updateLikes={likes => this.updateLikes(likes, i)}
               />
