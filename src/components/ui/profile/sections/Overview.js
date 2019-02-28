@@ -4,10 +4,10 @@ import ReactGA from 'react-ga';
 import { Button, Row, Col } from 'reactstrap';
 
 import Avatar from 'react-avatar';
-import { db } from '../../../firebase';
-import withAuthorization from '../../Authentication/withAuthorization';
+import { db } from '../../../../firebase';
+import withAuthorization from '../../../Authentication/withAuthorization';
 
-import EditProfile from './EditProfile';
+import EditProfile from './EditProfile/EditProfile';
 
 const ProfileHeader = ({ profile }) => (
   <Col>
@@ -110,6 +110,10 @@ class ProfileOverview extends Component {
     this.setState(prevState => ({ profile: { ...prevState.profile, [id]: value } }));
   };
 
+  onPictureChange = (profilepicture = '') => {
+    this.setState(prevState => ({ profile: { ...prevState.profile, profilepicture } }));
+  };
+
   render() {
     const { profile, isEditing, uid } = this.state;
     const { authUser } = this.props;
@@ -120,6 +124,7 @@ class ProfileOverview extends Component {
           profile={profile}
           onEditChange={this.onEditChange}
           onCancel={this.onCancel}
+          onPictureChange={this.onPictureChange}
           uid={uid}
         />
       );
