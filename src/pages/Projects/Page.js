@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { SizeMe } from 'react-sizeme';
 import queryString from 'query-string';
+
 import { Col, Row, Button } from 'reactstrap';
 import { FacebookIcon,
   FacebookShareButton,
@@ -37,7 +39,7 @@ const BannerImageCarousel = ({ images }) => (
 );
 
 const BannerSection = ({ width, title, images }) => (
-  <Col style={{ flexBasis: width <= 570 ? 'auto' : 0 }}>
+  <Col style={{ flexBasis: width < 720 ? 'auto' : 0 }}>
     <BannerTitle title={title} />
     <BannerImageCarousel images={images} />
   </Col>
@@ -203,22 +205,22 @@ class Page extends Component {
     if (!isEditing && project) {
       return (
         <div>
-          <Row>
-            <BannerSection
-              // width={width}
-              title={project.title}
-              images={project.images}
-            />
-            <InfoSection
-              title={project.title}
-              links={project.links}
-              contact={project.contact}
-              about={project.about}
-              need={project.need}
-              team={project.team}
-              projectId={pid}
-            />
-          </Row>
+          <SizeMe>
+            {({ size }) => (
+              <Row>
+                <BannerSection width={size.width} title={project.title} images={project.images} />
+                <InfoSection
+                  title={project.title}
+                  links={project.links}
+                  contact={project.contact}
+                  about={project.about}
+                  need={project.need}
+                  team={project.team}
+                  projectId={pid}
+                />
+              </Row>
+            )}
+          </SizeMe>
           <EditProjectButton isOwner={isOwner} onEdit={() => this.setState({ isEditing: true })} />
         </div>
       );

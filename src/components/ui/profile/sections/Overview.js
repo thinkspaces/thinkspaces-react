@@ -1,37 +1,59 @@
-/* eslint no-param-reassign: 0 */
+/* eslint no-param-reassign: 0, camelcase: 0 */
 import React, { Component } from 'react';
+
 import ReactGA from 'react-ga';
 import { Button, Row, Col } from 'reactstrap';
-
 import Avatar from 'react-avatar';
+
+import { SizeMe } from 'react-sizeme';
+import { withRouter } from 'react-router-dom';
 import { db } from '../../../../firebase';
-import withAuthorization from '../../../Authentication/withAuthorization';
 
 import EditProfile from './EditProfile/EditProfile';
 
-const ProfileHeader = ({ profile }) => (
-  <Col>
-    <div style={{ marginLeft: '15%' }}>
-      <div style={{ display: 'inline-flex', flexDirection: 'column' }}>
-        <div style={{ display: 'table', margin: '0 auto', marginBottom: 15 }}>
-          {profile.profilepicture ? (
-            <img
-              style={{ maxHeight: '150px', borderRadius: '50%' }}
-              src={profile.profilepicture}
-              alt="profile"
-            />
-          ) : (
-            <Avatar size="150" name={profile.full_name} round />
-          )}
-        </div>
-        <h2 style={{ display: 'inline-block' }}>{profile.full_name}</h2>
-      </div>
-      <br />
-      <h5>{profile.email}</h5>
-      <h5>Graduation: {profile.graduation}</h5>
-      <br />
-      <br />
-      <h5> {profile.headline} </h5>
+const ProfileHeaderBody = ({ headline }) => (
+  <div style={{ marginTop: 30 }}>
+    <h5> {headline} </h5>
+  </div>
+);
+
+const ProfileHeaderDetails = ({ email, graduation }) => (
+  <div style={{ marginTop: 10 }}>
+    <h5>{email}</h5>
+    <h5>Graduation: {graduation}</h5>
+  </div>
+);
+
+const ProfileHeaderImage = ({ profilepicture, full_name, email, graduation }) => (
+  <div>
+    <div style={{ display: 'inline-flex', flexDirection: 'column' }}>
+      <ProfileImage profilepicture={profilepicture} full_name={full_name} />
+      <h2 style={{ display: 'inline-block' }}>{full_name}</h2>
+    </div>
+    <ProfileHeaderDetails email={email} graduation={graduation} />
+  </div>
+);
+
+const ProfileImage = ({ profilepicture, full_name }) => (
+  <div style={{ display: 'table', margin: '0 auto', marginBottom: 15 }}>
+    {profilepicture ? (
+      <img style={{ maxHeight: '150px', borderRadius: '50%' }} src={profilepicture} alt="profile" />
+    ) : (
+      <Avatar size="150" name={full_name} round />
+    )}
+  </div>
+);
+
+const ProfileHeader = ({ profile, width }) => (
+  <Col style={{ flexBasis: width < 720 ? 'auto' : 0, marginBottom: width < 720 ? '80px' : 0 }}>
+    <div style={{ marginLeft: width < 720 ? 0 : '15%' }}>
+      <ProfileHeaderImage
+        profilepicture={profile.profilepicture}
+        full_name={profile.full_name}
+        email={profile.email}
+        graduation={profile.graduation}
+      />
+      <ProfileHeaderBody headline={profile.headline} />
     </div>
   </Col>
 );
@@ -133,14 +155,18 @@ class ProfileOverview extends Component {
       <div>
         {profile && (
           <div>
-            <Row>
-              <ProfileHeader profile={profile} />
-              <ProfileDetails
-                isMyProfile={uid === authUser.uid}
-                profile={profile}
-                toggleEdit={this.toggleEdit}
-              />
-            </Row>
+            <SizeMe>
+              {({ size }) => (
+                <Row>
+                  <ProfileHeader profile={profile} width={size.width} />
+                  <ProfileDetails
+                    isMyProfile={uid === authUser.uid}
+                    profile={profile}
+                    toggleEdit={this.toggleEdit}
+                  />
+                </Row>
+              )}
+            </SizeMe>
           </div>
         )}
       </div>
@@ -148,5 +174,4 @@ class ProfileOverview extends Component {
   }
 }
 
-const authCondition = authUser => !!authUser;
-export default withAuthorization(authCondition)(ProfileOverview);
+export default withRouter(ProfileOverview);
