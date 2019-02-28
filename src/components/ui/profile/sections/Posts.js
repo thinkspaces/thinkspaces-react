@@ -36,7 +36,11 @@ const MySocialView = ({ post_details, createPost, onChange, posts }) => (
         .map((post, i) => (
           <div key={i}>
             <hr />
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}>
+            <div
+              style={{ display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: 10 }}
+            >
               <div>{post.timestamp}</div>
             </div>
             <div style={{ marginLeft: 20, marginRight: 20, marginBottom: 30 }}>
