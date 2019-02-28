@@ -1,6 +1,6 @@
 /* eslint camelcase: 0 */
 import React, { Component } from 'react';
-
+import { SizeMe } from 'react-sizeme';
 import { Button, FormGroup, Input, Form } from 'reactstrap';
 import PostDropdown from '../../dropdowns/PostDropdown';
 
@@ -126,19 +126,26 @@ class ProfilePosts extends Component {
       <div>
         <AuthUserContext.Consumer>
           {authUser => (
-            <div style={{ paddingLeft: 50, paddingRight: 100 }}>
-              {authUser.uid === uid ? (
-                <AuthSocialView
-                  post_details={description}
-                  createPost={this.createPost}
-                  onChange={event => this.setState({ description: event.target.value })}
-                  posts={posts}
-                  onRemovePost={this.onRemovePost}
-                />
-              ) : (
-                <GuestSocialView posts={posts} />
+            <SizeMe>
+              {({ size }) => (
+                <div
+                  style={{ paddingLeft: size.width < 720 ? 0 : 50,
+                    paddingRight: size.width < 720 ? 0 : 100 }}
+                >
+                  {authUser.uid === uid ? (
+                    <AuthSocialView
+                      post_details={description}
+                      createPost={this.createPost}
+                      onChange={event => this.setState({ description: event.target.value })}
+                      posts={posts}
+                      onRemovePost={this.onRemovePost}
+                    />
+                  ) : (
+                    <GuestSocialView posts={posts} />
+                  )}
+                </div>
               )}
-            </div>
+            </SizeMe>
           )}
         </AuthUserContext.Consumer>
       </div>
