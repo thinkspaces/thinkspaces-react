@@ -6,7 +6,7 @@ import { Row, Col } from 'reactstrap';
 import { db, auth } from '../../firebase';
 
 // custom components
-import ProfileCard from '../../components/ui/profile/ProfileCard/ProfileCard';
+import ProfileCard from '../../components/ui/cards/ProfileCard/ProfileCard';
 import SignUpModal from '../../components/ui/modals/SignUpModal';
 
 const Profiles = ({ profiles, width, openProfile }) => (

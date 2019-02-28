@@ -6,7 +6,7 @@ import { Row, Col } from 'reactstrap';
 import { db } from '../../firebase';
 
 // custom components
-import ProjectCard from '../../components/ui/project/ProjectCard/ProjectCard';
+import ProjectCard from '../../components/ui/cards/ProjectCard/ProjectCard';
 
 // styles
 const headerStyle = { marginBottom: '20px' };
