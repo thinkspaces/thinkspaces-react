@@ -3,7 +3,7 @@ import sizeMe from 'react-sizeme';
 import { Row, Col } from 'reactstrap';
 import { db } from '../../../../firebase';
 
-import ProjectCard from '../../project/ProjectCard/ProjectCard';
+import ProjectCard from '../../cards/ProjectCard/ProjectCard';
 import SubmitProjectButton from '../../buttons/SubmitProjectButton';
 
 const ProjectGrid = ({ width, projects, updateLikes }) => (

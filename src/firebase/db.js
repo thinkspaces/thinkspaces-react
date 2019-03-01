@@ -137,7 +137,7 @@ export const saveProfileChanges = async (profile) => {
   }
 };
 
-export const saveProfilePicture = async (url) => {
+export const updateProfilePicture = async (url = '') => {
   const user = auth.currentUser;
   if (user) {
     await db
@@ -155,9 +155,10 @@ export const saveProjectPicture = async (id, url) => {
 };
 
 export const createProfilePostWithFields = async (description, timestamp, uid) => {
-  await db
+  const docRef = await db
     .collection(`users/${ uid }/posts`)
     .add({ timestamp: createTimestamp(timestamp), description });
+  return docRef.id;
 };
 
 export const getProfilePosts = async (uid) => {
@@ -172,10 +173,17 @@ export const getProfilePosts = async (uid) => {
     let timestamp = doc.get('timestamp');
     const date = timestamp.toDate();
     timestamp = `${ date.getMonth() }/${ date.getDate() }/${ date.getFullYear() }`;
-    posts.push({ description: doc.get('description'), timestamp });
+    posts.push({ description: doc.get('description'), timestamp, pid: doc.id });
   });
 
   return posts;
+};
+
+export const removePost = async (uid, pid) => {
+  await db
+    .collection(`users/${ uid }/posts`)
+    .doc(pid)
+    .delete();
 };
 
 export const createProjectWithFields = async (project) => {

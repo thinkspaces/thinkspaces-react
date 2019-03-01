@@ -1,11 +1,12 @@
-// import { storage, db } from "./firebase";
+import { storage } from './firebase';
 
-// export const uploadPhoto = (filename, profile) => {
-//     storage.ref('images')
-//     .child(filename)
-//     .getDownloadURL()
-//     .then(url => this.setState({avatarURL: url}));
-//     this.profile.profilepicture = avatarURL
-//
-//     db.saveProfileChanges(profile);
-// };
+export const uploadProfileImage = async (uid, file) => {
+  const pictureRef = storage.ref(`images/users/${ uid }/profile`);
+  await pictureRef.put(file);
+  return pictureRef.getDownloadURL();
+};
+
+export const removeProfileImage = async (uid) => {
+  const pictureRef = storage.ref(`images/users/${ uid }/profile`);
+  await pictureRef.delete();
+};

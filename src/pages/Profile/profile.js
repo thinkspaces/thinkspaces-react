@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import AuthUserContext from '../../components/Authentication/AuthUserContext';
 import withAuthorization from '../../components/Authentication/withAuthorization';
-import Overview from '../../components/ui/profile/Overview';
+import Overview from '../../components/ui/profile/sections/Overview';
 
 import MyProjects from '../../components/ui/profile/sections/MyProjects';
 import ProfilePosts from '../../components/ui/profile/sections/Posts';
@@ -30,17 +30,13 @@ const SocialContentSection = ({ uid, selected }) => (
   </div>
 );
 class Profile extends Component {
-  state = { uid: null, selected: '#updates' };
+  state = { uid: null };
 
   componentDidMount = () => {
     const { match } = this.props;
     if (match.params.id) {
       this.setState({ uid: match.params.id });
     }
-
-    // if (this.props.location.hash.length !== 0) {
-    //   this.setState({ selected: this.props.location.hash });
-    // }
   };
 
   componentDidUpdate = (prevProps) => {
