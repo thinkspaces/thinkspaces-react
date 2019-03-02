@@ -6,7 +6,11 @@ import './ProjectCard.css';
 import LikeButton from '../../buttons/Like';
 
 const Card = ({ width, children, onClick }) => (
-  <div onClick={onClick} className="card" style={{ width: width <= 690 ? 'auto' : '318px' }}>
+  <div
+    onClick={onClick}
+    className="project-card"
+    style={{ width: width <= 690 ? 'auto' : '318px' }}
+  >
     {children}
   </div>
 );
