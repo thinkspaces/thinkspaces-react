@@ -9,9 +9,12 @@ import { FacebookIcon,
   LinkedinIcon,
   TwitterShareButton,
   TwitterIcon } from 'react-share';
+import BaseContainer from '../../components/navigation/BaseContainer/BaseContainer';
 
 import ContactModal from '../../components/ui/modals/ContactModal';
+
 import { db, auth } from '../../firebase';
+import withAuthorization from '../../components/Authentication/withAuthorization';
 
 import Carousel from '../../components/ui/Carousel/Carousel';
 import ViewProfileButton from '../../components/ui/buttons/ViewProfileButton';
@@ -194,17 +197,19 @@ class Page extends Component {
     const { isEditing, project, isOwner, pid } = this.state;
     if (isEditing) {
       return (
-        <EditProject
-          project={project}
-          saveChanges={this.saveChanges}
-          onEditChange={this.onEditChange}
-          onCancel={this.onCancel}
-        />
+        <BaseContainer>
+          <EditProject
+            project={project}
+            saveChanges={this.saveChanges}
+            onEditChange={this.onEditChange}
+            onCancel={this.onCancel}
+          />
+        </BaseContainer>
       );
     }
     if (!isEditing && project) {
       return (
-        <div>
+        <BaseContainer>
           <SizeMe>
             {({ size }) => (
               <Row>
@@ -222,11 +227,12 @@ class Page extends Component {
             )}
           </SizeMe>
           <EditProjectButton isOwner={isOwner} onEdit={() => this.setState({ isEditing: true })} />
-        </div>
+        </BaseContainer>
       );
     }
     return <LoadingView />;
   }
 }
 
-export default Page;
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(Page);

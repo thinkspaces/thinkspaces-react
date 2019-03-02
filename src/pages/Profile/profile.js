@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import BaseContainer from '../../components/navigation/BaseContainer/BaseContainer';
+
 import AuthUserContext from '../../components/Authentication/AuthUserContext';
 import withAuthorization from '../../components/Authentication/withAuthorization';
 import Overview from '../../components/ui/profile/sections/Overview';
@@ -52,10 +54,10 @@ class Profile extends Component {
     return (
       <AuthUserContext.Consumer>
         {authUser => (
-          <div>
+          <BaseContainer>
             <Overview authUser={authUser} />
             <SocialContentSection uid={uid} selected={hash} />
-          </div>
+          </BaseContainer>
         )}
       </AuthUserContext.Consumer>
     );

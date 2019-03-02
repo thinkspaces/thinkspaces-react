@@ -1,0 +1,118 @@
+.landing-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.landing-header {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 40%;
+  padding: 10px 0px;
+}
+
+.landing-header h1 {
+  font-family: "Abril Fatface", cursive;
+}
+
+.login-button-container {
+  /* padding: 12px 6px; */
+  margin-top: 10px;
+  margin-right: 30px;
+}
+
+.yellow-row {
+  background-color: #ffe03f;
+}
+
+.white-row {
+  background-color: white;
+}
+
+.think-section {
+  width: 45%;
+  margin-top: 40px;
+  margin-left: 45%;
+  margin-right: 10%;
+}
+
+.think-section p {
+  font-size: 15pt;
+  line-height: 2.5rem;
+}
+
+.cards-section {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.cards-section.projects {
+  margin-top: 150px;
+  margin-bottom: 80px;
+}
+
+.cards-section.profiles {
+  margin-bottom: 150px;
+}
+
+.landing-banner-container {
+  position: relative;
+}
+
+.landing-banner {
+  display: flex;
+  flex-direction: row;
+  height: 420px;
+}
+
+.landing-banner h1 {
+  margin-left: 10%;
+  margin-top: 50px;
+  margin-right: 5%;
+  width: 50%;
+  font-size: 50pt;
+  font-weight: 650;
+}
+
+.logo-image-container {
+  width: 400px;
+  margin-top: 10px;
+  margin-right: 10%;
+}
+
+.logo-image-container img {
+  display: block;
+  max-width: 450px;
+  width: 100%;
+  /* height: auto; */
+}
+
+.registration-box {
+  background-color: white;
+  position: absolute;
+  left: 10%;
+  top: 75%;
+  padding: 15px 20px;
+  /* min-width: 25%; */
+  width: 300px;
+  height: auto;
+  border: 8px solid black;
+}
+
+.input-container {
+  margin-bottom: 20px;
+}
+
+.button-area {
+  padding-top: 15px;
+  display: flex;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.submit-button {
+  background-color: #ffe03f !important;
+  color: black !important;
+  border-radius: 0% !important;
+  border-width: 0pt !important;
+}

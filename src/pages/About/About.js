@@ -1,10 +1,13 @@
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 
+import BaseContainer from '../../components/navigation/BaseContainer/BaseContainer';
+import withAuthorization from '../../components/Authentication/withAuthorization';
+
 const headerStyle = { margin: '50px 0px 50px 0px', textAlign: 'center' };
 
 const About = () => (
-  <div>
+  <BaseContainer>
     <div style={headerStyle}>
       <h2> About Thinkspaces </h2>
     </div>
@@ -18,7 +21,7 @@ const About = () => (
     <br />
     <Row>
       <Col md={{ size: 8, offset: 2 }}>
-        <p>
+        <div>
           <br />
           <h3>Make collaboration easier with Thinkspaces. </h3>
           <br />
@@ -33,12 +36,13 @@ const About = () => (
             project, anything - to find people to pursue your idea with you. Or get involved in a
             meaningful project from Thinkspaces, and do good things together.
           </h3>
-        </p>
+        </div>
         <br />
         <h3>Contact us at teamthinkspaces@gmail.com </h3>
       </Col>
     </Row>
-  </div>
+  </BaseContainer>
 );
 
-export default About;
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(About);

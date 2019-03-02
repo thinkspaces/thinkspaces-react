@@ -5,6 +5,8 @@ import FileUploader from 'react-firebase-file-uploader';
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 
 import firebase from 'firebase/app';
+import BaseContainer from '../../components/navigation/BaseContainer/BaseContainer';
+
 import withAuthorization from '../../components/Authentication/withAuthorization';
 import { db } from '../../firebase';
 
@@ -78,7 +80,7 @@ class SubmitProject extends Component {
       progress,
       images } = this.state;
     return (
-      <div>
+      <BaseContainer>
         <h2> Submit a Project </h2>
         <Form onSubmit={this.createProject}>
           <FormGroup>
@@ -142,7 +144,7 @@ class SubmitProject extends Component {
           </FormGroup>
           <Button color="danger"> Submit </Button>
         </Form>
-      </div>
+      </BaseContainer>
     );
   }
 }

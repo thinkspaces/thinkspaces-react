@@ -17,7 +17,7 @@ class Login extends Component {
     try {
       await auth.signInUser(email, password);
       this.setState({ email: '', password: '', error: null });
-      history.push('/');
+      history.push('/home');
     } catch (error) {
       this.setState({ error: error.message });
     }
