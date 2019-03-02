@@ -53,7 +53,7 @@ class Login extends Component {
             />
             <FormFeedback>{error}</FormFeedback>
           </FormGroup>
-          <Button disabled={!isEnabled} color="danger">
+          <Button disabled={!isEnabled} color="danger" className="submit-button">
             Submit
           </Button>
           <Link style={{ marginLeft: 10 }} to={`${ match.url }/forgotpassword`}>

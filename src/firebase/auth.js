@@ -6,7 +6,7 @@ export const signInUser = (email, password) => auth.signInWithEmailAndPassword(e
 
 export const signOutUser = () => auth.signOut();
 
-export const isLoggedIn = async () => !!auth.currentUser;
+export const isLoggedIn = () => !!auth.currentUser;
 
 export const isCurrentAuthUser = (uid) => {
   if (auth.currentUser) return auth.currentUser.uid === uid;

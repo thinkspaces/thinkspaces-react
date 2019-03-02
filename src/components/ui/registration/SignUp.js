@@ -41,9 +41,12 @@ class SignUp extends Component {
 
   createProfile = async (event) => {
     event.preventDefault();
+
+    // will notify landing page checkAuthorization to stop auto reroute
     const { onSubmit } = this.props;
     onSubmit();
 
+    // continue with profile creation
     const { profile } = this.state;
     try {
       const response = await auth.createUser(profile.email, profile.password);
