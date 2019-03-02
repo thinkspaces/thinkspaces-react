@@ -9,13 +9,20 @@ import SignUp from '../../components/ui/registration/SignUp';
 import checkAuthorization from '../../components/Authentication/checkAuthorization';
 import { db } from '../../firebase';
 
-const LandingHeader = ({ onLogin }) => (
+const LandingHeader = ({ onLogin, onAbout }) => (
   <div className="white-row landing-header">
     <h1>Thinkspaces</h1>
-    <div className="login-button-container">
-      <Button className="submit-button" onClick={onLogin}>
-        Login
-      </Button>
+    <div className="landing-nav">
+      <div className="login-button-container">
+        <Button className="about-button" onClick={onAbout}>
+          About
+        </Button>
+      </div>
+      <div>
+        <Button className="submit-button" onClick={onLogin}>
+          Login
+        </Button>
+      </div>
     </div>
   </div>
 );
@@ -100,13 +107,19 @@ class LandingPage extends Component {
     history.push('/signupin');
   };
 
+  onAbout = (event) => {
+    event.preventDefault();
+    const { history } = this.props;
+    history.push('/about');
+  };
+
   render() {
     const { onSubmit } = this.props;
     const { projects, profiles } = this.state;
 
     return (
       <div className="landing-container">
-        <LandingHeader onLogin={this.onLogin} />
+        <LandingHeader onLogin={this.onLogin} onAbout={this.onAbout} />
         <div className="landing-banner-container">
           <LandingBanner />
           <RegisterArea onSubmit={onSubmit} />
