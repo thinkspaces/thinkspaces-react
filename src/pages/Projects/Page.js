@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SizeMe } from 'react-sizeme';
 import queryString from 'query-string';
+import { Link } from 'react-router-dom';
 
 import { Col, Row, Button } from 'reactstrap';
 import { FacebookIcon,
@@ -16,8 +17,17 @@ import { db, auth } from '../../firebase';
 import Carousel from '../../components/ui/Carousel/Carousel';
 import ViewProfileButton from '../../components/ui/buttons/ViewProfileButton';
 import EditProject from '../../components/ui/project/sections/EditProject';
+import ProjectPosts from '../../components/ui/project/sections/ProjectPosts';
 
 const headerStyle = { margin: '50px 0px', textAlign: 'center' };
+
+const SocialContentSection = ({ isOwner, projectId }) => (
+  <div style={{ marginTop: 70 }}>
+    <h4>Updates</h4>
+    <hr />
+    <ProjectPosts isOwner={isOwner} projectId={projectId} />
+  </div>
+);
 
 const BannerTitle = ({ title }) => (
   <div style={headerStyle}>
@@ -152,7 +162,7 @@ const LoadingView = () => (
 );
 
 const EditProjectButton = ({ isOwner, onEdit }) => (
-  <div style={{ marginTop: 20 }}>
+  <div style={{ marginLeft: 500 }}>
     {isOwner && (
       <Button color="danger" onClick={onEdit}>
         Edit Project
@@ -205,6 +215,7 @@ class Page extends Component {
     if (!isEditing && project) {
       return (
         <div>
+          <EditProjectButton isOwner={isOwner} onEdit={() => this.setState({ isEditing: true })} />
           <SizeMe>
             {({ size }) => (
               <Row>
@@ -221,7 +232,7 @@ class Page extends Component {
               </Row>
             )}
           </SizeMe>
-          <EditProjectButton isOwner={isOwner} onEdit={() => this.setState({ isEditing: true })} />
+          <SocialContentSection isOwner={isOwner} projectId={pid} />
         </div>
       );
     }
