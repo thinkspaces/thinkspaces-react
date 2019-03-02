@@ -4,26 +4,11 @@
   flex-direction: column;
 }
 
-.landing-header {
-  display: flex;
-  justify-content: space-between;
-  margin-left: 40%;
-  padding: 10px 0px;
-}
-
-.landing-header h1 {
-  font-family: "Abril Fatface", cursive;
-}
-
 .landing-nav {
   display: flex;
   flex-direction: row;
   margin-right: 30px;
   margin-top: 10px;
-}
-
-.login-button-container {
-  margin-right: 10px;
 }
 
 .yellow-row {
@@ -39,6 +24,14 @@
   margin-top: 40px;
   margin-left: 45%;
   margin-right: 10%;
+  margin-bottom: 180px;
+}
+
+.think-section.mobile {
+  margin-top: 400px;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 80px;
 }
 
 .think-section p {
@@ -52,7 +45,6 @@
 }
 
 .cards-section.projects {
-  margin-top: 150px;
   margin-bottom: 80px;
 }
 
@@ -79,17 +71,30 @@
   font-weight: 650;
 }
 
+.landing-banner.mobile h1 {
+  margin-right: 1%;
+  font-size: 34pt;
+}
+
 .logo-image-container {
-  width: 400px;
+  width: 450px;
   margin-top: 10px;
   margin-right: 10%;
+}
+
+.logo-image-container.mobile {
+  margin-right: 5%;
+  margin-top: 20px;
+}
+
+.logo-image-container.mobile img {
+  height: auto;
 }
 
 .logo-image-container img {
   display: block;
   max-width: 450px;
   width: 100%;
-  /* height: auto; */
 }
 
 .registration-box {
@@ -99,32 +104,7 @@
   top: 75%;
   padding: 15px 20px;
   /* min-width: 25%; */
-  width: 300px;
+  width: 330px;
   height: auto;
   border: 8px solid black;
-}
-
-.input-container {
-  margin-bottom: 20px;
-}
-
-.button-area {
-  padding-top: 15px;
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-}
-
-.submit-button {
-  background-color: #ffe03f !important;
-  color: black !important;
-  border-radius: 0% !important;
-  border-width: 0pt !important;
-}
-
-.about-button {
-  background-color: #34393c !important;
-  color: #ffe03f !important;
-  border-radius: 0% !important;
-  border-width: 0pt !important;
 }

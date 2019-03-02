@@ -1,36 +1,21 @@
 import React, { Component } from 'react';
 import './LandingPage.css';
 
-import { Button, Row, Col } from 'reactstrap';
+import { SizeMe } from 'react-sizeme';
+
+import { Row, Col } from 'reactstrap';
 import ProjectCard from '../../components/ui/cards/ProjectCard/ProjectCard';
 import ProfileCard from '../../components/ui/cards/ProfileCard/ProfileCard';
 import SignUp from '../../components/ui/registration/SignUp';
+import LandingNavbar from '../../components/navigation/Navbar/LandingNavbar';
 
 import checkAuthorization from '../../components/Authentication/checkAuthorization';
 import { db } from '../../firebase';
 
-const LandingHeader = ({ onLogin, onAbout }) => (
-  <div className="white-row landing-header">
-    <h1>Thinkspaces</h1>
-    <div className="landing-nav">
-      <div className="login-button-container">
-        <Button className="about-button" onClick={onAbout}>
-          About
-        </Button>
-      </div>
-      <div>
-        <Button className="submit-button" onClick={onLogin}>
-          Login
-        </Button>
-      </div>
-    </div>
-  </div>
-);
-
-const LandingBanner = () => (
-  <div className="landing-banner yellow-row">
+const LandingBanner = ({ mobile }) => (
+  <div className={`yellow-row landing-banner ${ mobile && 'mobile' }`}>
     <h1>Change the way you collaborate.</h1>
-    <div className="logo-image-container">
+    <div className={`logo-image-container ${ mobile && 'mobile' }`}>
       <img width="400" height="400" alt="thinking" src="https://i.imgur.com/E1LnmWB.png" />
     </div>
   </div>
@@ -42,9 +27,9 @@ const RegisterArea = ({ onSubmit }) => (
   </div>
 );
 
-const ThinkTogetherSection = () => (
+const ThinkTogetherSection = ({ mobile }) => (
   <div className="white-row">
-    <div className="think-section">
+    <div className={`think-section ${ mobile && 'mobile' }`}>
       <h1>Think Together</h1>
       <p>
         We help you connect with all the creatives and intellectuals who get things done, just like
@@ -101,33 +86,25 @@ class LandingPage extends Component {
     this.setState({ projects, profiles });
   };
 
-  onLogin = (event) => {
-    event.preventDefault();
-    const { history } = this.props;
-    history.push('/signupin');
-  };
-
-  onAbout = (event) => {
-    event.preventDefault();
-    const { history } = this.props;
-    history.push('/about');
-  };
-
   render() {
     const { onSubmit } = this.props;
     const { projects, profiles } = this.state;
 
     return (
-      <div className="landing-container">
-        <LandingHeader onLogin={this.onLogin} onAbout={this.onAbout} />
-        <div className="landing-banner-container">
-          <LandingBanner />
-          <RegisterArea onSubmit={onSubmit} />
-        </div>
-        <ThinkTogetherSection />
-        <ProjectSection projects={projects} />
-        <PeopleSection profiles={profiles} />
-      </div>
+      <SizeMe>
+        {({ size }) => (
+          <div className="landing-container">
+            <LandingNavbar />
+            <div className="landing-banner-container">
+              <LandingBanner mobile={size.width < 925} />
+              <RegisterArea onSubmit={onSubmit} />
+            </div>
+            <ThinkTogetherSection mobile={size.width < 925} />
+            <ProjectSection projects={projects} />
+            <PeopleSection profiles={profiles} />
+          </div>
+        )}
+      </SizeMe>
     );
   }
 }
