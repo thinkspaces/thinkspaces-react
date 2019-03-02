@@ -4,16 +4,20 @@ import { withRouter } from 'react-router-dom';
 import AuthUserContext from './AuthUserContext';
 import { firebase } from '../../firebase';
 
+let unsubscribe;
+
 const withAuthorization = authCondition => (WrappedComponent) => {
   class WithAuthorization extends Component {
     componentDidMount() {
       const { history } = this.props;
-      firebase.auth.onAuthStateChanged((authUser) => {
+      unsubscribe = firebase.auth.onAuthStateChanged((authUser) => {
         if (!authCondition(authUser)) {
           history.push('/');
         }
       });
     }
+
+    componentWillUnmount = () => unsubscribe();
 
     render() {
       return (

@@ -8,7 +8,7 @@ import { auth, db } from '../../../firebase';
 import CantLikeModal from '../modals/CantLikeModal';
 
 class LikeButton extends Component {
-  state = { isAuthUser: false, isLiked: false, modal: false };
+  state = { isLiked: false, modal: false };
 
   componentDidMount = () => {
     const { likes } = this.props;
@@ -18,14 +18,7 @@ class LikeButton extends Component {
       isLiked = true;
     }
 
-    this.setState({ isAuthUser: auth.isLoggedIn(), isLiked });
-  };
-
-  componentDidUpdate = (prevProps, prevState) => {
-    const isAuthUser = auth.isLoggedIn();
-    if (prevState.isAuthUser !== isAuthUser) {
-      this.setState({ isAuthUser });
-    }
+    this.setState({ isLiked });
   };
 
   handleLike = async (event) => {
@@ -59,8 +52,8 @@ class LikeButton extends Component {
   };
 
   render() {
-    const { likes } = this.props;
-    const { isLiked, isAuthUser, modal } = this.state;
+    const { likes, isAuthUser } = this.props;
+    const { isLiked, modal } = this.state;
     return (
       <div>
         {isAuthUser ? (

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 import { auth } from '../../../firebase';
+import BaseContainer from '../../../components/navigation/BaseContainer/BaseContainer';
 
 class ForgotPassword extends Component {
   state = { email: '' };
@@ -15,25 +16,27 @@ class ForgotPassword extends Component {
   render() {
     const { email } = this.state;
     return (
-      <div style={{ maxWidth: 400 }} className="resetpassword">
-        <h2> Reset Password </h2>
-        <Form onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Label for="SignInEmail">Enter email</Label>
-            <br />
-            <Input
-              autoComplete="username"
-              name="email"
-              type="email"
-              value={email}
-              onChange={event => this.setState({ email: event.target.value })}
-            />
-          </FormGroup>
-          <Button outline color="primary" onClick={this.handlePassword}>
-            Send Reset Email
-          </Button>
-        </Form>
-      </div>
+      <BaseContainer displayLinks={false}>
+        <div style={{ maxWidth: 400 }} className="resetpassword">
+          <h2> Reset Password </h2>
+          <Form onSubmit={this.handleSubmit}>
+            <FormGroup>
+              <Label for="SignInEmail">Enter email</Label>
+              <br />
+              <Input
+                autoComplete="username"
+                name="email"
+                type="email"
+                value={email}
+                onChange={event => this.setState({ email: event.target.value })}
+              />
+            </FormGroup>
+            <Button outline color="primary" onClick={this.handlePassword}>
+              Send Reset Email
+            </Button>
+          </Form>
+        </div>
+      </BaseContainer>
     );
   }
 }

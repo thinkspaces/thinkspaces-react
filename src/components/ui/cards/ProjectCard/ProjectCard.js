@@ -6,7 +6,11 @@ import './ProjectCard.css';
 import LikeButton from '../../buttons/Like';
 
 const Card = ({ width, children, onClick }) => (
-  <div onClick={onClick} className="card" style={{ width: width <= 690 ? 'auto' : '318px' }}>
+  <div
+    onClick={onClick}
+    className="project-card"
+    style={{ width: width <= 690 ? 'auto' : '318px' }}
+  >
     {children}
   </div>
 );
@@ -20,13 +24,14 @@ const CardImage = ({ image }) => (
   </div>
 );
 
-const CardTitle = ({ title, likes, pid, updateLikes }) => (
+const CardTitle = ({ title, likes, pid, updateLikes, isAuthUser }) => (
   <div className="card-border">
     <LikeButton
       style={{ verticalAlign: 'right' }}
       likes={likes}
       pid={pid}
       updateLikes={updateLikes}
+      isAuthUser={isAuthUser}
     />
     <div id="project-title">
       <h5>{title}</h5>
@@ -49,10 +54,16 @@ class ProjectCard extends Component {
   };
 
   render() {
-    const { width, title, likes, updateLikes, image, id, text } = this.props;
+    const { width, title, likes, updateLikes, image, id, text, isAuthUser } = this.props;
     return (
       <Card width={width} onClick={this.openProject}>
-        <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
+        <CardTitle
+          title={title}
+          likes={likes}
+          pid={id}
+          updateLikes={updateLikes}
+          isAuthUser={isAuthUser}
+        />
         <CardImage image={image} />
         <CardBody text={text} />
       </Card>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import sizeMe from 'react-sizeme';
+import { SizeMe } from 'react-sizeme';
 
-// database
 import { Row, Col } from 'reactstrap';
+import BaseContainer from '../../components/navigation/BaseContainer/BaseContainer';
+
+import withAuthorization from '../../components/Authentication/withAuthorization';
 import { db, auth } from '../../firebase';
 
 // custom components
@@ -56,16 +58,20 @@ class Explore extends Component {
   };
 
   render() {
-    const { size: { width } } = this.props;
     const { profiles, modal } = this.state;
 
     return (
-      <div>
+      <BaseContainer>
         <SignUpModal isOpen={modal} toggle={this.toggle} signUp={this.gotoSignUp} />
-        <Profiles width={width} profiles={profiles} openProfile={this.openProfile} />
-      </div>
+        <SizeMe>
+          {({ size }) => (
+            <Profiles width={size.width} profiles={profiles} openProfile={this.openProfile} />
+          )}
+        </SizeMe>
+      </BaseContainer>
     );
   }
 }
 
-export default sizeMe()(Explore);
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(Explore);

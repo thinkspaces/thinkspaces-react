@@ -1,0 +1,110 @@
+.landing-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.landing-nav {
+  display: flex;
+  flex-direction: row;
+  margin-right: 30px;
+  margin-top: 10px;
+}
+
+.yellow-row {
+  background-color: #ffe03f;
+}
+
+.white-row {
+  background-color: white;
+}
+
+.think-section {
+  width: 45%;
+  margin-top: 40px;
+  margin-left: 45%;
+  margin-right: 10%;
+  margin-bottom: 180px;
+}
+
+.think-section.mobile {
+  margin-top: 400px;
+  width: 80%;
+  margin-left: 10%;
+  margin-bottom: 80px;
+}
+
+.think-section p {
+  font-size: 15pt;
+  line-height: 2.5rem;
+}
+
+.cards-section {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.cards-section.projects {
+  margin-bottom: 80px;
+}
+
+.cards-section.profiles {
+  margin-bottom: 150px;
+}
+
+.landing-banner-container {
+  position: relative;
+}
+
+.landing-banner {
+  display: flex;
+  flex-direction: row;
+  height: 420px;
+}
+
+.landing-banner h1 {
+  margin-left: 10%;
+  margin-top: 50px;
+  margin-right: 5%;
+  width: 50%;
+  font-size: 50pt;
+  font-weight: 650;
+}
+
+.landing-banner.mobile h1 {
+  margin-right: 1%;
+  font-size: 34pt;
+}
+
+.logo-image-container {
+  width: 450px;
+  margin-top: 10px;
+  margin-right: 10%;
+}
+
+.logo-image-container.mobile {
+  margin-right: 5%;
+  margin-top: 20px;
+}
+
+.logo-image-container.mobile img {
+  height: auto;
+}
+
+.logo-image-container img {
+  display: block;
+  max-width: 450px;
+  width: 100%;
+}
+
+.registration-box {
+  background-color: white;
+  position: absolute;
+  left: 10%;
+  top: 75%;
+  padding: 15px 20px;
+  /* min-width: 25%; */
+  width: 330px;
+  height: auto;
+  border: 8px solid black;
+}

@@ -29,7 +29,7 @@ class SignUp extends Component {
     delete profile.password;
     await db.createUserwithFields(uid, profile);
 
-    history.push('/');
+    history.push('/home');
   };
 
   onValueChange = ({ target: { id, checked, type, value } }) => {
@@ -41,8 +41,13 @@ class SignUp extends Component {
 
   createProfile = async (event) => {
     event.preventDefault();
-    const { profile } = this.state;
 
+    // will notify landing page checkAuthorization to stop auto reroute
+    const { onSubmit } = this.props;
+    onSubmit();
+
+    // continue with profile creation
+    const { profile } = this.state;
     try {
       const response = await auth.createUser(profile.email, profile.password);
       if (response) {
@@ -109,6 +114,7 @@ class SignUp extends Component {
           <Button
             onClick={this.createProfile}
             style={{ marginTop: 10 }}
+            className="submit-button"
             disabled={!isEnabled}
             color="danger"
           >

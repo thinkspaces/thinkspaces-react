@@ -13,16 +13,6 @@ export const isCurrentAuthUser = (uid) => {
   return false;
 };
 
-// export const verifyUser = () => {
-//     var user = auth.currentUser;
-
-//     user.sendEmailVerification().then(function() {
-//       // Email sent.
-//     }).catch(function(error) {
-//       // An error happened.
-//     });
-// }
-
 export const getUserInfo = () => auth.currentUser;
 
 export const passwordResetEmail = email => auth.sendPasswordResetEmail(email);

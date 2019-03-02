@@ -89,6 +89,37 @@ export const getProjectByID = async (id) => {
   return data;
 };
 
+export const getLandingProjects = async () => {
+  const projects = [];
+  const snapshot = await db
+    .collection('projects')
+    .orderBy('likesCount', 'desc')
+    .limit(3)
+    .get();
+
+  snapshot.forEach((doc) => {
+    projects.push({ ...doc.data(), id: doc.id });
+  });
+
+  return projects;
+};
+
+export const getLandingProfiles = async () => {
+  const profiles = [];
+
+  const snapshot = await db
+    .collection('users')
+    .where('privacy', '==', false)
+    .limit(3)
+    .get();
+
+  snapshot.forEach((doc) => {
+    profiles.push({ ...doc.data(), uid: doc.id });
+  });
+
+  return profiles;
+};
+
 export const getTopProjects = async () => {
   const projects = [];
   const snapshot = await db
