@@ -196,6 +196,7 @@ export const createProjectPostWithFields = async (description, timestamp, projec
   const docRef = await db
     .collection(`projects/${ projectId }/posts`)
     .add({ timestamp: createTimestamp(timestamp), description });
+  console.log(docRef.id);
   return docRef.id;
 };
 
@@ -213,11 +214,12 @@ export const getProfilePosts = async (uid) => {
     timestamp = `${ date.getMonth() }/${ date.getDate() }/${ date.getFullYear() }`;
     posts.push({ description: doc.get('description'), timestamp, pid: doc.id });
   });
-
+  console.log(posts);
   return posts;
 };
 
 export const getProjectPosts = async (projectId) => {
+  console.log(projectId);
   const posts = [];
 
   const querySnapshot = await db
@@ -240,6 +242,13 @@ export const removePost = async (uid, pid) => {
     .collection(`users/${ uid }/posts`)
     .doc(pid)
     .delete();
+};
+
+export const editPost = async (uid, pid, description) => {
+  await db
+    .collection(`users/${ uid }/posts`)
+    .doc(pid)
+    .update({ description });
 };
 
 export const removeProjectPost = async (projectId, pid) => {

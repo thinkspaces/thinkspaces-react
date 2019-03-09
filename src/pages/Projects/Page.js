@@ -165,7 +165,7 @@ const LoadingView = () => (
 );
 
 const EditProjectButton = ({ isOwner, onEdit }) => (
-  <div style={{ marginLeft: 500 }}>
+  <div>
     {isOwner && (
       <Button color="danger" onClick={onEdit}>
         Edit Project
@@ -219,26 +219,31 @@ class Page extends Component {
     }
     if (!isEditing && project) {
       return (
-        <div>
-          <EditProjectButton isOwner={isOwner} onEdit={() => this.setState({ isEditing: true })} />
-          <SizeMe>
-            {({ size }) => (
-              <Row>
-                <BannerSection width={size.width} title={project.title} images={project.images} />
-                <InfoSection
-                  title={project.title}
-                  links={project.links}
-                  contact={project.contact}
-                  about={project.about}
-                  need={project.need}
-                  team={project.team}
-                  projectId={pid}
-                />
-              </Row>
-            )}
-          </SizeMe>
-          <SocialContentSection isOwner={isOwner} projectId={pid} />
-        </div>
+        <BaseContainer>
+          <div>
+            <EditProjectButton
+              isOwner={isOwner}
+              onEdit={() => this.setState({ isEditing: true })}
+            />
+            <SizeMe>
+              {({ size }) => (
+                <Row>
+                  <BannerSection width={size.width} title={project.title} images={project.images} />
+                  <InfoSection
+                    title={project.title}
+                    links={project.links}
+                    contact={project.contact}
+                    about={project.about}
+                    need={project.need}
+                    team={project.team}
+                    projectId={pid}
+                  />
+                </Row>
+              )}
+            </SizeMe>
+            <SocialContentSection isOwner={isOwner} projectId={pid} />
+          </div>
+        </BaseContainer>
       );
     }
     return <LoadingView />;

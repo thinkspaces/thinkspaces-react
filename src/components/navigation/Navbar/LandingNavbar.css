@@ -3,9 +3,10 @@
   flex: 1;
 }
 
-.landing-brand h1 {
-  margin: 0 auto;
-  font-family: "Abril Fatface", cursive;
+.landing-brand h2 {
+  margin: 0;
+  margin-left: 50;
+  /* font-family: 'Abril Fatface', cursive; */
 }
 
 .submit-button {
@@ -16,13 +17,10 @@
 }
 
 .landing-style {
-  font-family: "Abril Fatface", cursive;
   background-color: white !important;
-  color: #ffe03f !important;
 }
 
 .about-button {
-  font-family: "Abril Fatface", cursive;
   background-color: white !important;
   color: black !important;
   border-radius: 0% !important;

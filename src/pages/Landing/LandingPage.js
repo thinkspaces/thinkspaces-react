@@ -13,10 +13,13 @@ import checkAuthorization from '../../components/Authentication/checkAuthorizati
 import { db } from '../../firebase';
 
 const LandingBanner = ({ mobile }) => (
-  <div className={`yellow-row landing-banner ${ mobile && 'mobile' }`}>
-    <h1>Change the way you collaborate.</h1>
-    <div className={`logo-image-container ${ mobile && 'mobile' }`}>
-      <img width="400" height="400" alt="thinking" src="https://i.imgur.com/E1LnmWB.png" />
+  <div className="purple-row landing-banner">
+    <div />
+    <div className={`yellow-row landing-banner ${ mobile && 'mobile' }`}>
+      <h1>Change the way you collaborate.</h1>
+      <div className={`logo-image-container ${ mobile && 'mobile' }`}>
+        <img width="400" height="400" alt="thinking" src="https://i.imgur.com/E1LnmWB.png" />
+      </div>
     </div>
   </div>
 );
@@ -40,9 +43,30 @@ const ThinkTogetherSection = ({ mobile }) => (
   </div>
 );
 
+const StatsSection = () => (
+  <div>
+    <hr />
+    <div style={{ paddingRight: 100 }}>
+      <Row>
+        <Col>
+          <h2>40+ Projects</h2>
+        </Col>
+        <Col>
+          <h2>100+ Profiles</h2>
+        </Col>
+        <Col>
+          <h2>300+ Users</h2>
+        </Col>
+      </Row>
+    </div>
+    <hr />
+  </div>
+);
+
 const ProjectSection = ({ projects }) => (
   <div className="white-row cards-section projects">
     <h2>Find your next endeavor</h2>
+    <br />
     <Row>
       {projects.map((proj, i) => (
         <Col sm key={i}>
@@ -53,6 +77,8 @@ const ProjectSection = ({ projects }) => (
             image={proj.images[0]}
             likes={proj.likes}
           />
+          <br />
+          <br />
         </Col>
       ))}
     </Row>
@@ -61,7 +87,8 @@ const ProjectSection = ({ projects }) => (
 
 const PeopleSection = ({ profiles }) => (
   <div className="white-row cards-section profiles">
-    <h2>Do more together</h2>
+    <h2>Keep good company</h2>
+    <br />
     <Row>
       {profiles.map((p, i) => (
         <Col sm key={i}>
@@ -100,6 +127,9 @@ class LandingPage extends Component {
               <RegisterArea onSubmit={onSubmit} />
             </div>
             <ThinkTogetherSection mobile={size.width < 925} />
+            <br />
+            <br />
+            <StatsSection />
             <ProjectSection projects={projects} />
             <PeopleSection profiles={profiles} />
           </div>

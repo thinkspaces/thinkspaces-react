@@ -3,6 +3,9 @@ import { SizeMe } from 'react-sizeme';
 import { Button, FormGroup, Input, Form } from 'reactstrap';
 import PostDropdown from '../../dropdowns/PostDropdown';
 
+import withAuthorization from '../../../Authentication/withAuthorization';
+import AuthUserContext from '../../../Authentication/AuthUserContext';
+
 import { db } from '../../../../firebase';
 
 const PostInput = ({ createPost, post_details, onChange }) => (
@@ -85,12 +88,12 @@ const GuestSocialView = ({ posts }) => (
   </div>
 );
 
-class ProfilePosts extends Component {
+class ProjectPosts extends Component {
   state = { description: '', posts: [] };
 
   componentDidMount = async () => {
-    const { match } = this.props;
-    const posts = await db.getProjectPosts(match.params.id);
+    const { projectId } = this.props;
+    const posts = await db.getProjectPosts(projectId);
     this.setState({ posts });
   };
 
@@ -122,29 +125,34 @@ class ProfilePosts extends Component {
     const { posts, description } = this.state;
     return (
       <div>
-        <SizeMe>
-          {({ size }) => (
-            <div
-              style={{ paddingLeft: size.width < 720 ? 0 : 50,
-                paddingRight: size.width < 720 ? 0 : 100 }}
-            >
-              {isOwner ? (
-                <AuthSocialView
-                  post_details={description}
-                  createPost={this.createPost}
-                  onChange={event => this.setState({ description: event.target.value })}
-                  posts={posts}
-                  onRemovePost={this.onRemovePost}
-                />
-              ) : (
-                <GuestSocialView posts={posts} />
+        <AuthUserContext.Consumer>
+          {authUser => (
+            <SizeMe>
+              {({ size }) => (
+                <div
+                  style={{ paddingLeft: size.width < 720 ? 0 : 50,
+                    paddingRight: size.width < 720 ? 0 : 100 }}
+                >
+                  {isOwner ? (
+                    <AuthSocialView
+                      post_details={description}
+                      createPost={this.createPost}
+                      onChange={event => this.setState({ description: event.target.value })}
+                      posts={posts}
+                      onRemovePost={this.onRemovePost}
+                    />
+                  ) : (
+                    <GuestSocialView posts={posts} />
+                  )}
+                </div>
               )}
-            </div>
+            </SizeMe>
           )}
-        </SizeMe>
+        </AuthUserContext.Consumer>
       </div>
     );
   }
 }
 
-export default ProfilePosts;
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(ProjectPosts);

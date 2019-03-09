@@ -12,19 +12,30 @@
 }
 
 .yellow-row {
-  background-color: #ffe03f;
+  background-color: #f8e571;
+}
+.purple-row {
+  background-color: #006d4f;
 }
 
 .white-row {
   background-color: white;
 }
 
+.lightyellow-row {
+  background-color: #ffe19f;
+}
+
+.secondlightyellow-row {
+  background-color: #ffd579;
+}
+
 .think-section {
   width: 45%;
   margin-top: 40px;
-  margin-left: 45%;
+  margin-left: 40%;
   margin-right: 10%;
-  margin-bottom: 180px;
+  margin-bottom: 50px;
 }
 
 .think-section.mobile {
@@ -32,6 +43,11 @@
   width: 80%;
   margin-left: 10%;
   margin-bottom: 80px;
+}
+
+.think-section h1 {
+  color: #000000;
+  line-height: 5rem;
 }
 
 .think-section p {
@@ -45,7 +61,7 @@
 }
 
 .cards-section.projects {
-  margin-bottom: 80px;
+  /* margin-bottom: 80px; */
 }
 
 .cards-section.profiles {
@@ -59,16 +75,17 @@
 .landing-banner {
   display: flex;
   flex-direction: row;
-  height: 420px;
+  height: 550px;
 }
 
 .landing-banner h1 {
   margin-left: 10%;
-  margin-top: 50px;
+  margin-top: 120px;
   margin-right: 5%;
   width: 50%;
-  font-size: 50pt;
+  font-size: 60pt;
   font-weight: 650;
+  color: #000000;
 }
 
 .landing-banner.mobile h1 {
@@ -78,8 +95,8 @@
 
 .logo-image-container {
   width: 450px;
-  margin-top: 10px;
-  margin-right: 10%;
+  margin-top: 70px;
+  margin-right: 18%;
 }
 
 .logo-image-container.mobile {
@@ -94,14 +111,15 @@
 .logo-image-container img {
   display: block;
   max-width: 450px;
-  width: 100%;
+  width: 110%;
+  height: 85%;
 }
 
 .registration-box {
   background-color: white;
   position: absolute;
   left: 10%;
-  top: 75%;
+  top: 65%;
   padding: 15px 20px;
   /* min-width: 25%; */
   width: 330px;
