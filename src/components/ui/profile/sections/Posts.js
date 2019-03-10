@@ -56,7 +56,7 @@ const AuthPostFeed = ({ posts, onRemovePost, onEditPost }) => (
           <PostHeader
             timestamp={post.timestamp}
             onRemovePost={() => onRemovePost(posts.length - (i + 1))}
-            onEditPost={onEditPost}
+            onEditPost={() => onEditPost(posts.length - (i + 1))}
           />
           <PostBody description={post.description} />
         </Post>
@@ -126,9 +126,10 @@ class ProfilePosts extends Component {
     this.setState({ posts });
   };
 
-  onEditPost = async () => {
+  onEditPost = async (index) => {
     const { editable } = this.state;
     this.setState({ editable: !editable });
+    this.setState({ index });
   };
 
   onSavePost = async () => {
@@ -143,8 +144,6 @@ class ProfilePosts extends Component {
     const { posts, description, editable, index } = this.state;
     console.log('index', index);
     console.log('posts', posts);
-    console.log(this.state.description);
-    const realIndex = posts.length - (index + 1);
     return (
       <div>
         <AuthUserContext.Consumer>
@@ -157,9 +156,9 @@ class ProfilePosts extends Component {
                 >
                   {editable ? (
                     <EditPostModal
-                      post={posts[realIndex].pid}
+                      post={posts[index].pid}
                       onSavePost={this.onSavePost}
-                      description={posts[realIndex].description}
+                      description={posts[index].description}
                       onChange={event => this.setState({ description: event.target.value })}
                       editable={editable}
                       toggle={this.onEditPost}

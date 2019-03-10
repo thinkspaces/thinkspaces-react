@@ -1,31 +1,31 @@
 .picture {
-    border-radius: 50%;
-    max-height: 50px;
-    object-fit: cover;
+  border-radius: 50% !important;
+  max-height: 50px;
+  object-fit: cover;
 }
 
 .pictureFlex {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .pictureFlexItem {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 
 .removePicture {
-    cursor: pointer;
-    font-weight: bold;
-    color: #c0392b;
+  cursor: pointer;
+  font-weight: bold;
+  color: #c0392b;
 }
 
 .uploadNewPicture {
-    cursor: pointer;
-    font-weight: bold;  
-    color: #2980b9;
+  cursor: pointer;
+  font-weight: bold;
+  color: #2980b9;
 }
 
 .spinner {
-    font-size: 0.8rem;
+  font-size: 0.8rem;
 }
