@@ -34,7 +34,7 @@ class LandingNavbar extends Component {
                 src={logo}
                 alt="Logo"
               /> */}
-              <h2>Thinkspaces</h2>
+              <h3>Thinkspaces</h3>
             </div>
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />

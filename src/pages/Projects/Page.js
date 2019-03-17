@@ -24,11 +24,25 @@ import ProjectPosts from '../../components/ui/project/sections/ProjectPosts';
 
 const headerStyle = { margin: '50px 0px', textAlign: 'center' };
 
-const SocialContentSection = ({ isOwner, projectId }) => (
+const SocialContentSection = ({ isOwner, projectId, ourstory, selected }) => (
   <div style={{ marginTop: 70 }}>
-    <h4>Updates</h4>
+    <div className="d-flex">
+      <Link to="#ourstory">
+        <h4>Our Story</h4>
+      </Link>
+      <h4>&nbsp;|&nbsp;</h4>
+      <Link to="#updates">
+        <h4>Updates</h4>
+      </Link>
+    </div>
     <hr />
-    <ProjectPosts isOwner={isOwner} projectId={projectId} />
+    <div>
+      {selected.length === 0 || selected === '#ourstory' ? (
+        <div style={{ padding: '0px 100px' }}>{ourstory}</div>
+      ) : (
+        <ProjectPosts isOwner={isOwner} projectId={projectId} />
+      )}
+    </div>
   </div>
 );
 
@@ -181,6 +195,7 @@ class Page extends Component {
     const { location } = this.props;
     const values = queryString.parse(location.search);
     const project = await db.getProjectByID(values.id);
+    console.log(project);
     const isOwner = auth.isCurrentAuthUser(project.owner);
     this.setState({ project, isOwner, pid: values.id });
   };
@@ -205,6 +220,7 @@ class Page extends Component {
 
   render() {
     const { isEditing, project, isOwner, pid } = this.state;
+    const { location: { hash } } = this.props;
     if (isEditing) {
       return (
         <BaseContainer>
@@ -233,7 +249,7 @@ class Page extends Component {
                     title={project.title}
                     links={project.links}
                     contact={project.contact}
-                    about={project.about}
+                    about={project.card_des}
                     need={project.need}
                     team={project.team}
                     projectId={pid}
@@ -241,7 +257,12 @@ class Page extends Component {
                 </Row>
               )}
             </SizeMe>
-            <SocialContentSection isOwner={isOwner} projectId={pid} />
+            <SocialContentSection
+              isOwner={isOwner}
+              projectId={pid}
+              ourstory={project.about}
+              selected={hash}
+            />
           </div>
         </BaseContainer>
       );

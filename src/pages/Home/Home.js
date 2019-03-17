@@ -49,7 +49,7 @@ class Home extends Component {
       <BaseContainer>
         <div style={headerStyle}>
           <h1>Thinkspaces</h1>
-          <h3>Find and work on projects started by Yalies</h3>
+          <h3>Change the way you collaborate</h3>
           <Button onClick={this.goToProjects} style={buttonStyle} outline>
             Browse Projects
           </Button>

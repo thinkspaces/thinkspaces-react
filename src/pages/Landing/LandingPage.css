@@ -4,30 +4,43 @@
   flex-direction: column;
 }
 
+.stats-section {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-right: 250px;
+  margin-left: 250px;
+}
+
+.stats-section.mobile {
+  display: flex;
+  justify-content: space-between;
+}
+
+.change {
+  width: 50%;
+  float: left;
+}
+
+.illustration {
+  width: 50%;
+  float: left;
+}
+
 .landing-nav {
   display: flex;
   flex-direction: row;
-  margin-right: 30px;
+  margin-right: px;
   margin-top: 10px;
 }
 
 .yellow-row {
   background-color: #f8e571;
 }
-.purple-row {
-  background-color: #006d4f;
-}
 
 .white-row {
   background-color: white;
-}
-
-.lightyellow-row {
-  background-color: #ffe19f;
-}
-
-.secondlightyellow-row {
-  background-color: #ffd579;
 }
 
 .think-section {
@@ -80,10 +93,10 @@
 
 .landing-banner h1 {
   margin-left: 10%;
-  margin-top: 120px;
+  margin-top: 100px;
   margin-right: 5%;
   width: 50%;
-  font-size: 60pt;
+  font-size: 55pt;
   font-weight: 650;
   color: #000000;
 }

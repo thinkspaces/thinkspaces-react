@@ -21,7 +21,9 @@ class SubmitProject extends Component {
     files: [],
     avatar: '',
     isUploading: false,
-    progress: 0 };
+    progress: 0,
+    tags: [],
+    category: false };
 
   handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
 
@@ -47,7 +49,7 @@ class SubmitProject extends Component {
 
   createProject = (event) => {
     event.preventDefault();
-    const { title, contact, about, card_des, images, links, need } = this.state;
+    const { title, contact, about, card_des, images, links, need, tags } = this.state;
     const { history } = this.props;
 
     db.createProjectWithFields({ title,
@@ -63,9 +65,18 @@ class SubmitProject extends Component {
         card_des: '',
         images: '',
         links: '',
-        need: '' });
+        need: '',
+        category: [] });
       history.push('/');
     });
+  };
+
+  onValueChange = ({ target: { id, checked, type } }) => {
+    console.log(id);
+    if (checked) {
+      db.addTags({ id });
+    }
+    this.setState({ tags: [ id ] });
   };
 
   render() {
@@ -78,7 +89,8 @@ class SubmitProject extends Component {
       isUploading,
       avatarURL,
       progress,
-      images } = this.state;
+      images,
+      category } = this.state;
     return (
       <BaseContainer>
         <h2> Submit a Project </h2>
@@ -111,8 +123,27 @@ class SubmitProject extends Component {
               />
             </FormGroup>
           </FormGroup>
+          Choose your project category
+          <FormGroup check>
+            <Label check>
+              <Input type="checkbox" id="art" onChange={this.onValueChange} />
+              Arts
+            </Label>
+          </FormGroup>
+          <FormGroup check>
+            <Label check>
+              <Input type="checkbox" id="health" onChange={this.onValueChange} />
+              Health & Wellness
+            </Label>
+          </FormGroup>
+          <FormGroup check>
+            <Label check>
+              <Input type="checkbox" id="tech" onChange={this.onValueChange} />
+              Tech
+            </Label>
+          </FormGroup>
           <FormGroup>
-            <Label for="card_des">Tell us a bit about your project (in one sentence)</Label>
+            <Label for="card_des">What is your project (in one sentence)</Label>
             <Input
               value={card_des}
               onChange={event => this.setState({ card_des: event.target.value })}

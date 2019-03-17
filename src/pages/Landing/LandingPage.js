@@ -13,11 +13,11 @@ import checkAuthorization from '../../components/Authentication/checkAuthorizati
 import { db } from '../../firebase';
 
 const LandingBanner = ({ mobile }) => (
-  <div className="purple-row landing-banner">
+  <div className=" landing-banner">
     <div />
-    <div className={`yellow-row landing-banner ${ mobile && 'mobile' }`}>
-      <h1>Change the way you collaborate.</h1>
-      <div className={`logo-image-container ${ mobile && 'mobile' }`}>
+    <div className={`landing-banner ${ mobile && 'mobile' }`}>
+      <h1>Change the way you collaborate</h1>
+      <div className={`logo-image-container  ${ mobile && 'mobile' }`}>
         <img width="400" height="400" alt="thinking" src="https://i.imgur.com/E1LnmWB.png" />
       </div>
     </div>
@@ -46,19 +46,13 @@ const ThinkTogetherSection = ({ mobile }) => (
 const StatsSection = () => (
   <div>
     <hr />
-    <div style={{ paddingRight: 100 }}>
-      <Row>
-        <Col>
-          <h2>40+ Projects</h2>
-        </Col>
-        <Col>
-          <h2>100+ Profiles</h2>
-        </Col>
-        <Col>
-          <h2>300+ Users</h2>
-        </Col>
-      </Row>
+    <br />
+    <div className="stats-section">
+      <h2>30+ Projects</h2>
+      <h2>60+ Profiles</h2>
+      <h2>300+ Users</h2>
     </div>
+    <br />
     <hr />
   </div>
 );
@@ -128,8 +122,9 @@ class LandingPage extends Component {
             </div>
             <ThinkTogetherSection mobile={size.width < 925} />
             <br />
-            <br />
             <StatsSection />
+            <br />
+            <br />
             <ProjectSection projects={projects} />
             <PeopleSection profiles={profiles} />
           </div>
