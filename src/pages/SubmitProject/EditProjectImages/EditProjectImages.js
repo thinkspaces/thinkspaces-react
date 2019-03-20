@@ -37,6 +37,7 @@ const EditProjectImages = props => {
     }
 
     const handleShuffleClick = async () => {
+        setLoading(true);
         let file = null
         try {
             const result = await axios.get("https://randomillustration.herokuapp.com/")
@@ -47,6 +48,7 @@ const EditProjectImages = props => {
         }
         setImagePreviews([URL.createObjectURL(file), ...imagePreviews])
         setImageFiles([file, ...imageFiles]);
+        setLoading(false);
     }
 
     const handleRemoveImage = (index) => {
