@@ -4,6 +4,11 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
+
+// Font Awesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faPlus, faCircleNotch, faTimes, faRandom } from '@fortawesome/free-solid-svg-icons'
+
 // import { Container } from 'reactstrap';
 import withAuthentication from './components/Authentication/withAuthentication';
 
@@ -26,6 +31,9 @@ import './App.css';
 // Google Analytics
 ReactGA.initialize('UA-128353649-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
+
+// Font Awesome
+library.add(faPlus, faTimes, faCircleNotch, faRandom)
 
 class App extends Component {
   render() {

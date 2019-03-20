@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* eslint camelcase: 0 */
 import React, { Component } from 'react';
 
@@ -6,6 +7,8 @@ import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 
 import firebase from 'firebase/app';
 import BaseContainer from '../../components/navigation/BaseContainer/BaseContainer';
+
+import EditProjectImages from './EditProjectImages/EditProjectImages'
 
 import withAuthorization from '../../components/Authentication/withAuthorization';
 import { db } from '../../firebase';
@@ -106,6 +109,11 @@ class SubmitProject extends Component {
               onChange={event => this.setState({ contact: event.target.value })}
             />
           </FormGroup>
+
+            <EditProjectImages/>
+
+
+
           <FormGroup>
             <Label for="projectpictures">Add some photos of your project!</Label>
             <FormGroup>
