@@ -143,7 +143,7 @@ const EditProjectImages = props => {
         <SortableImagePreviewList 
         previews={imagePreviews} 
         onSortEnd={onSortEnd}
-        axis="x"
+        axis="xy"
         distance={2} />
         <div className={styles.helptext}>
             Reorder images by their relative importance. The first image will be used on the Projects page view.<br></br>
