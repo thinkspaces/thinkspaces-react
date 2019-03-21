@@ -1,4 +1,3 @@
-/* eslint-disable */
 /* eslint camelcase: 0 */
 import React, { Component } from 'react';
 
@@ -11,7 +10,8 @@ import BaseContainer from '../../components/navigation/BaseContainer/BaseContain
 import EditProjectImages from './EditProjectImages/EditProjectImages'
 
 import withAuthorization from '../../components/Authentication/withAuthorization';
-import { db } from '../../firebase';
+import { storage, db } from '../../firebase';
+import { db as rawDb } from '../../firebase/firebase';
 
 class SubmitProject extends Component {
   state = { title: '',
@@ -19,6 +19,7 @@ class SubmitProject extends Component {
     about: '',
     card_des: '',
     images: '',
+    imageFiles: [],
     links: '',
     need: '',
     files: [],
@@ -27,6 +28,10 @@ class SubmitProject extends Component {
     progress: 0,
     tags: [],
     category: false };
+
+    handleUploadImages = (imageFiles) => {
+      this.setState({ imageFiles: [ ...imageFiles ] })
+    }
 
   handleUploadStart = () => this.setState({ isUploading: true, progress: 0 });
 
@@ -50,28 +55,39 @@ class SubmitProject extends Component {
       });
   };
 
-  createProject = (event) => {
+  createProject = async (event) => {
     event.preventDefault();
-    const { title, contact, about, card_des, images, links, need, tags } = this.state;
+
+    // prepare the fields
+    const { title, contact, about, card_des, images, imageFiles, links, need, tags } = this.state;
     const { history } = this.props;
 
-    db.createProjectWithFields({ title,
+    const pid = await db.createProjectWithFields({ title,
       about,
       card_des,
-      images: [ images ],
       contact,
+      images,
       links,
-      need }).then(() => {
-      this.setState({ title: '',
-        contact: '',
-        about: '',
-        card_des: '',
-        images: '',
-        links: '',
-        need: '',
-        category: [] });
-      history.push('/');
-    });
+      need })
+
+    // upload necessary images
+    const imageURLs = await storage.uploadProjectImages(pid, imageFiles)
+
+    // update the project with the image URLs
+    await rawDb.collection('projects').doc(pid).set({ images: imageURLs }, { merge: true })
+
+    // reset form
+    this.setState({ title: '',
+      contact: '',
+      about: '',
+      card_des: '',
+      images: '',
+      imageFiles: [],
+      links: '',
+      need: '',
+      category: [] });
+
+    history.push('/');
   };
 
   onValueChange = ({ target: { id, checked, type } }) => {
@@ -110,9 +126,7 @@ class SubmitProject extends Component {
             />
           </FormGroup>
 
-            <EditProjectImages/>
-
-
+          <EditProjectImages handleUploadImages={this.handleUploadImages} />
 
           <FormGroup>
             <Label for="projectpictures">Add some photos of your project!</Label>
@@ -141,7 +155,7 @@ class SubmitProject extends Component {
           <FormGroup check>
             <Label check>
               <Input type="checkbox" id="health" onChange={this.onValueChange} />
-              Health & Wellness
+              Health {'&'} Wellness
             </Label>
           </FormGroup>
           <FormGroup check>

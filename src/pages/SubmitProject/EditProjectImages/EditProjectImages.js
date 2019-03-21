@@ -5,8 +5,6 @@ import styles from './EditProjectImages.module.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 
-
-
 // helper function
 const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list);
@@ -48,6 +46,7 @@ const EditProjectImages = props => {
         }
         setImagePreviews([URL.createObjectURL(file), ...imagePreviews])
         setImageFiles([file, ...imageFiles]);
+        props.handleUploadImages(imageFiles)
         setLoading(false);
     }
 
@@ -60,6 +59,7 @@ const EditProjectImages = props => {
 
         setImagePreviews(cpyPreviews)
         setImageFiles(cpyFiles)
+        props.handleUploadImages(cpyFiles)
     }
 
     const SortableImagePreview = SortableElement(({ preview, index }) =>
@@ -115,6 +115,7 @@ const EditProjectImages = props => {
         setLoading(true);
         setImageFiles([file, ...imageFiles]);
         setImagePreviews([URL.createObjectURL(file), ...imagePreviews])
+        props.handleUploadImages(imageFiles)
         setLoading(false);
     };
 
@@ -133,6 +134,7 @@ const EditProjectImages = props => {
 
         setImagePreviews(reorderedImagePreviews);
         setImageFiles(reorderedImageFiles);
+        props.handleUploadImages(reorderedImageFiles);
     }
 
   return (

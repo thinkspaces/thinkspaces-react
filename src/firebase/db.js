@@ -260,7 +260,13 @@ export const removeProjectPost = async (projectId, pid) => {
 
 export const createProjectWithFields = async (project) => {
   const user = auth.currentUser;
-  await db
+  const projectRef = await db
     .collection('projects')
-    .add({ ...project, team: [ user.uid ], owner: user.uid, likes: {}, likesCount: 0 });
+    .add({ ...project,
+      team: [ user.uid ],
+      owner: user.uid,
+      likes: {},
+      likesCount: 0,
+      createdTimestamp: createTimestamp(new Date()) });
+  return projectRef.id
 };
