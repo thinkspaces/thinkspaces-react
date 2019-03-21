@@ -127,8 +127,8 @@ class ProfilePosts extends Component {
   };
 
   onEditPost = async (index) => {
-    const { editable } = this.state;
-    this.setState({ editable: !editable });
+    const { editable, posts } = this.state;
+    this.setState({ editable: !editable, description: posts[index].description });
     this.setState({ index });
   };
 
@@ -158,7 +158,7 @@ class ProfilePosts extends Component {
                     <EditPostModal
                       post={posts[index].pid}
                       onSavePost={this.onSavePost}
-                      description={posts[index].description}
+                      description={description}
                       onChange={event => this.setState({ description: event.target.value })}
                       editable={editable}
                       toggle={this.onEditPost}
