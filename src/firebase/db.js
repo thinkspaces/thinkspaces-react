@@ -161,6 +161,13 @@ export const createProfilePostWithFields = async (description, timestamp, uid) =
   return docRef.id;
 };
 
+export const createProjectPostWithFields = async (description, timestamp, projectId) => {
+  const docRef = await db
+    .collection(`project/${ projectId }/posts`)
+    .add({ timestamp: createTimestamp(timestamp), description });
+  return docRef.id;
+};
+
 export const getProfilePosts = async (uid) => {
   const posts = [];
 
@@ -189,6 +196,20 @@ export const removePost = async (uid, pid) => {
 export const editPost = async (uid, pid, description) => {
   await db
     .collection(`users/${ uid }/posts`)
+    .doc(pid)
+    .update({ description });
+};
+
+export const removeProjectPost = async (projectId, pid) => {
+  await db
+    .collection(`projects/${ projectId }/posts`)
+    .doc(pid)
+    .delete();
+};
+
+export const editProjectPost = async (projectId, pid, description) => {
+  await db
+    .collection(`projects/${ projectId }/posts`)
     .doc(pid)
     .update({ description });
 };

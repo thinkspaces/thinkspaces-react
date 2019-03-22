@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { SizeMe } from 'react-sizeme';
 import queryString from 'query-string';
+import { Link } from 'react-router-dom';
 
 import { Col, Row, Button } from 'reactstrap';
 import { FacebookIcon,
@@ -16,8 +17,31 @@ import { db, auth } from '../../firebase';
 import Carousel from '../../components/ui/Carousel/Carousel';
 import ViewProfileButton from '../../components/ui/buttons/ViewProfileButton';
 import EditProject from '../../components/ui/project/sections/EditProject';
+import ProjectPosts from '../../components/ui/project/sections/ProjectPosts';
 
 const headerStyle = { margin: '50px 0px', textAlign: 'center' };
+
+const SocialContentSection = ({ isOwner, projectId, ourstory, selected }) => (
+  <div style={{ marginTop: 70 }}>
+    <div className="d-flex">
+      <Link to="#ourstory">
+        <h4>Our Story</h4>
+      </Link>
+      <h4>&nbsp;|&nbsp;</h4>
+      <Link to="#updates">
+        <h4>Updates</h4>
+      </Link>
+    </div>
+    <hr />
+    <div>
+      {selected.length === 0 || selected === '#ourstory' ? (
+        <div style={{ padding: '0px 100px' }}>{ourstory}</div>
+      ) : (
+        <ProjectPosts isOwner={isOwner} projectId={projectId} />
+      )}
+    </div>
+  </div>
+);
 
 const BannerTitle = ({ title }) => (
   <div style={headerStyle}>
@@ -192,6 +216,7 @@ class Page extends Component {
 
   render() {
     const { isEditing, project, isOwner, pid } = this.state;
+    const { location: { hash } } = this.props;
     if (isEditing) {
       return (
         <EditProject
@@ -205,6 +230,7 @@ class Page extends Component {
     if (!isEditing && project) {
       return (
         <div>
+          <EditProjectButton isOwner={isOwner} onEdit={() => this.setState({ isEditing: true })} />
           <SizeMe>
             {({ size }) => (
               <Row>
@@ -213,7 +239,7 @@ class Page extends Component {
                   title={project.title}
                   links={project.links}
                   contact={project.contact}
-                  about={project.about}
+                  about={project.card_des}
                   need={project.need}
                   team={project.team}
                   projectId={pid}
@@ -221,7 +247,12 @@ class Page extends Component {
               </Row>
             )}
           </SizeMe>
-          <EditProjectButton isOwner={isOwner} onEdit={() => this.setState({ isEditing: true })} />
+          <SocialContentSection
+            isOwner={isOwner}
+            projectId={pid}
+            ourstory={project.about}
+            selected={hash}
+          />
         </div>
       );
     }
