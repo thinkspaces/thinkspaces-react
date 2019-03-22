@@ -109,10 +109,10 @@ class ProfilePosts extends Component {
     event.preventDefault();
 
     const { description } = this.state;
-    const { uid } = this.props;
+    const { isOwner, projectId } = this.props;
     let date = new Date();
 
-    const docId = await db.createProjectPostWithFields(description, date, uid);
+    const docId = await db.createProjectPostWithFields(description, date, projectId);
     date = `${ date.getMonth() }/${ date.getDate() }/${ date.getFullYear() }`;
     this.setState(prevState => ({ description: '',
       posts: [ ...prevState.posts, { description, timestamp: date, pid: docId } ] }));
