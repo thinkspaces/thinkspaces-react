@@ -100,8 +100,8 @@ class ProfilePosts extends Component {
   state = { description: '', posts: [], editable: false, index: 0 };
 
   componentDidMount = async () => {
-    const { match } = this.props;
-    const posts = await db.getProfilePosts(match.params.id);
+    const { projectId } = this.props;
+    const posts = await db.getProjectPosts(projectId);
     this.setState({ posts });
   };
 
