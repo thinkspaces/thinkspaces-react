@@ -186,6 +186,13 @@ export const removePost = async (uid, pid) => {
     .delete();
 };
 
+export const editPost = async (uid, pid, description) => {
+  await db
+    .collection(`users/${ uid }/posts`)
+    .doc(pid)
+    .update({ description });
+};
+
 export const createProjectWithFields = async (project) => {
   const user = auth.currentUser;
   await db

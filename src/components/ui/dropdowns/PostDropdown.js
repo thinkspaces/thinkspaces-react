@@ -13,7 +13,7 @@ class PostDropdown extends Component {
   };
 
   render() {
-    const { onRemovePost } = this.props;
+    const { onRemovePost, onEditPost } = this.props;
     const { dropdown } = this.state;
     return (
       <Dropdown isOpen={dropdown} toggle={this.toggle}>
@@ -22,6 +22,7 @@ class PostDropdown extends Component {
         </DropdownToggle>
         <DropdownMenu right>
           <DropdownItem onClick={onRemovePost}>Remove Post</DropdownItem>
+          <DropdownItem onClick={onEditPost}> Edit Post</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );
