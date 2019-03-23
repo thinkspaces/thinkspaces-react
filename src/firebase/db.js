@@ -187,7 +187,7 @@ export const getProfilePosts = async (uid) => {
 };
 
 export const getProjectPosts = async (projectId) => {
-  console.log(projectId);
+  // console.log(projectId);
   const posts = [];
 
   const querySnapshot = await db
@@ -227,7 +227,7 @@ export const removeProjectPost = async (projectId, pid) => {
 };
 
 export const editProjectPost = async (projectId, pid, description) => {
-  console.log(pid);
+  // console.log(pid);
   await db
     .collection(`projects/${ projectId }/posts`)
     .doc(pid)
