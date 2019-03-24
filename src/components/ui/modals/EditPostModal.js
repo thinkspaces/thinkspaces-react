@@ -6,9 +6,10 @@ import { Button,
   ModalFooter,
   Form,
   FormGroup,
+  Label,
   Input } from 'reactstrap';
 
-const EditPostModal = ({ onSavePost, description, onChange, editable, toggle }) => (
+const EditPostModal = ({ post, onSavePost, description, onChange, editable, toggle }) => (
   <Modal isOpen={editable} toggle={toggle} keyboard={false} backdrop="static">
     <ModalHeader>Edit post</ModalHeader>
     <ModalBody>

@@ -6,6 +6,8 @@ import PostDropdown from '../../dropdowns/PostDropdown';
 import EditPostModal from '../../modals/EditPostModal';
 
 import withAuthorization from '../../../Authentication/withAuthorization';
+import AuthUserContext from '../../../Authentication/AuthUserContext';
+
 import { db } from '../../../../firebase';
 
 const PostInput = ({ createPost, post_details, onChange }) => (
@@ -31,7 +33,7 @@ const Post = ({ children, index }) => (
   </div>
 );
 
-const PostHeader = ({ timestamp, onRemovePost, canEdit, onEditPost }) => (
+const PostHeader = ({ timestamp, onRemovePost, canEdit, onEditPost, onSavePost }) => (
   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
     <p>{timestamp}</p>
     {canEdit !== false && <PostDropdown onRemovePost={onRemovePost} onEditPost={onEditPost} />}
@@ -107,7 +109,7 @@ class ProfilePosts extends Component {
     event.preventDefault();
 
     const { description } = this.state;
-    const { projectId } = this.props;
+    const { isOwner, projectId } = this.props;
     let date = new Date();
 
     const docId = await db.createProjectPostWithFields(description, date, projectId);
@@ -131,10 +133,11 @@ class ProfilePosts extends Component {
   };
 
   onSavePost = async () => {
-    const { posts, description, index } = this.state;
+    const { editable, posts, description, index } = this.state;
+    console.log(description);
+    console.log(index);
+    this.setState({ editable: !editable });
     const { projectId } = this.props;
-
-    this.setState(prevState => ({ editable: !prevState.editable }));
     await db.editProjectPost(projectId, posts[index].pid, description);
     const newPost = [ ...posts ];
     newPost[index].description = description;
@@ -142,39 +145,50 @@ class ProfilePosts extends Component {
   };
 
   render() {
-    const { isOwner } = this.props;
-    const { posts, description, editable } = this.state;
+    const { isOwner, projectId } = this.props;
+    const { posts, description, editable, index } = this.state;
+    console.log(projectId);
     return (
-      <SizeMe>
-        {({ size }) => (
-          <div
-            style={{ paddingLeft: size.width < 720 ? 0 : 50,
-              paddingRight: size.width < 720 ? 0 : 100 }}
-          >
-            <div>
-              {isOwner ? (
-                <AuthSocialView
-                  post_details={description}
-                  createPost={this.createPost}
-                  onChange={event => this.setState({ description: event.target.value })}
-                  posts={posts}
-                  onRemovePost={this.onRemovePost}
-                  onEditPost={this.onEditPost}
-                />
-              ) : (
-                <GuestSocialView posts={posts} />
+      <div>
+        <AuthUserContext.Consumer>
+          {authUser => (
+            <SizeMe>
+              {({ size }) => (
+                <div
+                  style={{ paddingLeft: size.width < 720 ? 0 : 50,
+                    paddingRight: size.width < 720 ? 0 : 100 }}
+                >
+                  {editable ? (
+                    <EditPostModal
+                      post={posts[index].pid}
+                      onSavePost={this.onSavePost}
+                      description={description}
+                      onChange={event => this.setState({ description: event.target.value })}
+                      editable={editable}
+                      toggle={event => this.setState({ editable: !editable })}
+                    />
+                  ) : (
+                    <div>
+                      {isOwner ? (
+                        <AuthSocialView
+                          post_details={description}
+                          createPost={this.createPost}
+                          onChange={event => this.setState({ description: event.target.value })}
+                          posts={posts}
+                          onRemovePost={this.onRemovePost}
+                          onEditPost={this.onEditPost}
+                        />
+                      ) : (
+                        <GuestSocialView posts={posts} />
+                      )}
+                    </div>
+                  )}
+                </div>
               )}
-            </div>
-            <EditPostModal
-              onSavePost={this.onSavePost}
-              description={description}
-              onChange={event => this.setState({ description: event.target.value })}
-              editable={editable}
-              toggle={() => this.setState({ editable: !editable })}
-            />
-          </div>
-        )}
-      </SizeMe>
+            </SizeMe>
+          )}
+        </AuthUserContext.Consumer>
+      </div>
     );
   }
 }
