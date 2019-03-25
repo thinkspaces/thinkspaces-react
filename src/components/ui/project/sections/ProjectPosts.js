@@ -6,8 +6,6 @@ import PostDropdown from '../../dropdowns/PostDropdown';
 import EditPostModal from '../../modals/EditPostModal';
 
 import withAuthorization from '../../../Authentication/withAuthorization';
-import AuthUserContext from '../../../Authentication/AuthUserContext';
-
 import { db } from '../../../../firebase';
 
 const PostInput = ({ createPost, post_details, onChange }) => (
@@ -33,7 +31,7 @@ const Post = ({ children, index }) => (
   </div>
 );
 
-const PostHeader = ({ timestamp, onRemovePost, canEdit, onEditPost, onSavePost }) => (
+const PostHeader = ({ timestamp, onRemovePost, canEdit, onEditPost }) => (
   <div style={{ display: 'flex', justifyContent: 'space-between' }}>
     <p>{timestamp}</p>
     {canEdit !== false && <PostDropdown onRemovePost={onRemovePost} onEditPost={onEditPost} />}
@@ -109,7 +107,7 @@ class ProfilePosts extends Component {
     event.preventDefault();
 
     const { description } = this.state;
-    const { isOwner, projectId } = this.props;
+    const { projectId } = this.props;
     let date = new Date();
 
     const docId = await db.createProjectPostWithFields(description, date, projectId);
@@ -133,10 +131,9 @@ class ProfilePosts extends Component {
   };
 
   onSavePost = async () => {
-    const { editable, posts, description, index } = this.state;
-    console.log(description);
-    console.log(index);
-    this.setState({ editable: !editable });
+    const { posts, description, index } = this.state;
+    this.setState(prevState => ({ editable: !prevState.editable }));
+
     const { projectId } = this.props;
     await db.editProjectPost(projectId, posts[index].pid, description);
     const newPost = [ ...posts ];
@@ -145,50 +142,43 @@ class ProfilePosts extends Component {
   };
 
   render() {
-    const { isOwner, projectId } = this.props;
+    const { isOwner } = this.props;
     const { posts, description, editable, index } = this.state;
-    console.log(projectId);
     return (
-      <div>
-        <AuthUserContext.Consumer>
-          {authUser => (
-            <SizeMe>
-              {({ size }) => (
-                <div
-                  style={{ paddingLeft: size.width < 720 ? 0 : 50,
-                    paddingRight: size.width < 720 ? 0 : 100 }}
-                >
-                  {editable ? (
-                    <EditPostModal
-                      post={posts[index].pid}
-                      onSavePost={this.onSavePost}
-                      description={description}
-                      onChange={event => this.setState({ description: event.target.value })}
-                      editable={editable}
-                      toggle={event => this.setState({ editable: !editable })}
-                    />
-                  ) : (
-                    <div>
-                      {isOwner ? (
-                        <AuthSocialView
-                          post_details={description}
-                          createPost={this.createPost}
-                          onChange={event => this.setState({ description: event.target.value })}
-                          posts={posts}
-                          onRemovePost={this.onRemovePost}
-                          onEditPost={this.onEditPost}
-                        />
-                      ) : (
-                        <GuestSocialView posts={posts} />
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </SizeMe>
-          )}
-        </AuthUserContext.Consumer>
-      </div>
+      <SizeMe>
+        {({ size }) => (
+          <div
+            style={{ paddingLeft: size.width < 720 ? 0 : 50,
+              paddingRight: size.width < 720 ? 0 : 100 }}
+          >
+            {editable ? (
+              <EditPostModal
+                post={posts[index].pid}
+                onSavePost={this.onSavePost}
+                description={description}
+                onChange={event => this.setState({ description: event.target.value })}
+                editable={editable}
+                toggle={() => this.setState({ editable: !editable })}
+              />
+            ) : (
+              <div>
+                {isOwner ? (
+                  <AuthSocialView
+                    post_details={description}
+                    createPost={this.createPost}
+                    onChange={event => this.setState({ description: event.target.value })}
+                    posts={posts}
+                    onRemovePost={this.onRemovePost}
+                    onEditPost={this.onEditPost}
+                  />
+                ) : (
+                  <GuestSocialView posts={posts} />
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </SizeMe>
     );
   }
 }
