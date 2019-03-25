@@ -48,8 +48,9 @@ class LikeButton extends Component {
     }
   };
 
-  toggle = () => {
+  toggle = (event) => {
     console.log('toggle');
+    event.stopPropagation();
     this.setState(prevState => ({ modal: !prevState.modal }));
   };
 
