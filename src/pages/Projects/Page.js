@@ -87,6 +87,7 @@ const ModalSection = ({ title, contact, projectId }) => (
       buttonLabel={`Contact ${ title }`}
       modalBody={<a href={`mailto:${ contact }`}>{contact}</a>}
       projectId={projectId}
+      type="project"
     />
   </InfoView>
 );

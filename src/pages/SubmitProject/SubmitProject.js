@@ -1,6 +1,7 @@
 /* eslint camelcase: 0 */
 import React, { Component } from 'react';
 
+import ReactGA from 'react-ga';
 import FileUploader from 'react-firebase-file-uploader';
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 
@@ -47,6 +48,7 @@ class SubmitProject extends Component {
     event.preventDefault();
     const { title, contact, about, card_des, images, links, need } = this.state;
     const { history } = this.props;
+    ReactGA.event({ category: 'Acquisition', action: 'Submitted a project', label: title });
 
     db.createProjectWithFields({ title,
       about,

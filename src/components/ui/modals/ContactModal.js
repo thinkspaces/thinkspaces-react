@@ -3,12 +3,16 @@ import React, { useState } from 'react';
 import ReactGA from 'react-ga';
 import { Button, Modal, ModalHeader, ModalBody } from 'reactstrap';
 
-const ContactModal = ({ buttonLabel, className, modalBody, projectId }) => {
+const ContactModal = ({ buttonLabel, className, modalBody, projectId, type }) => {
   const [ modalState, setModal ] = useState(false);
 
   const toggleRecord = () => {
     // record interaction when button clicked
-    ReactGA.event({ category: 'User', action: 'Contacted Project', label: projectId });
+    if (type === 'project') {
+      ReactGA.event({ category: 'Connections', action: 'Contacted Project', label: buttonLabel });
+    } else {
+      ReactGA.event({ category: 'Connections', action: 'Contacted Profile', label: buttonLabel });
+    }
     setModal(!modalState);
   };
 

@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import './ProjectCard.css';
+import ReactGA from 'react-ga';
 import LikeButton from '../../buttons/Like';
 
 const Card = ({ width, children, onClick }) => (
@@ -45,6 +46,7 @@ const CardBody = ({ text }) => (
 class ProjectCard extends Component {
   openProject = () => {
     const { history, id, title } = this.props;
+    ReactGA.event({ category: 'Engagement', action: 'Clicked on project', label: title });
     history.push(`/projects/${ title.replace(/\s+/g, '-') }?id=${ id }`);
   };
 

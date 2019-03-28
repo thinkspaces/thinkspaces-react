@@ -7,6 +7,7 @@ import Avatar from 'react-avatar';
 
 import { SizeMe } from 'react-sizeme';
 import { withRouter } from 'react-router-dom';
+import ContactModal from '../../modals/ContactModal';
 import { db } from '../../../../firebase';
 
 import EditProfile from './EditProfile/EditProfile';
@@ -17,9 +18,15 @@ const ProfileHeaderBody = ({ headline }) => (
   </div>
 );
 
-const ProfileHeaderDetails = ({ email, graduation }) => (
+const ProfileHeaderDetails = ({ fullname, email, graduation }) => (
   <div style={{ marginTop: 10 }}>
-    <h5>{email}</h5>
+    <ContactModal
+      buttonLabel={`Contact ${ fullname }`}
+      modalBody={<a href={`mailto:${ email }`}>{email}</a>}
+      projectId={fullname}
+      type="profile"
+    />
+    <br />
     <h5>Graduation: {graduation}</h5>
   </div>
 );
@@ -30,7 +37,7 @@ const ProfileHeaderImage = ({ profilepicture, full_name, email, graduation }) =>
       <ProfileImage profilepicture={profilepicture} full_name={full_name} />
       <h2 style={{ display: 'inline-block' }}>{full_name}</h2>
     </div>
-    <ProfileHeaderDetails email={email} graduation={graduation} />
+    <ProfileHeaderDetails fullname={full_name} email={email} graduation={graduation} />
   </div>
 );
 
@@ -113,14 +120,18 @@ class ProfileOverview extends Component {
   saveChanges = async () => {
     const { profile, uid } = this.state;
 
-    ReactGA.event({ category: 'Edit Profile', action: 'Saved', label: uid });
+    ReactGA.event({ category: 'Acquisition',
+      action: 'Sign up - completed profile user flow',
+      label: uid });
     await db.saveProfileChanges(profile);
     this.setState({ isEditing: false });
   };
 
   onCancel = () => {
     const { uid } = this.state;
-    ReactGA.event({ category: 'Edit Profile', action: 'Canceled', label: uid });
+    ReactGA.event({ category: 'Acquisition',
+      action: 'Sign up - did not complete profile user flow',
+      label: uid });
     this.setState({ isEditing: false });
   };
 

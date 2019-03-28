@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import sizeMe from 'react-sizeme';
+import ReactGA from 'react-ga';
 
 // database
 import { Row, Col } from 'reactstrap';
@@ -22,7 +23,7 @@ const Profiles = ({ profiles, width, openProfile }) => (
             headline={p.headline}
             title={p.full_name}
             picture={p.profilepicture}
-            openProfile={() => openProfile(p.uid)}
+            openProfile={() => openProfile(p.uid, p.major)}
           />
         </Col>
       ))}
@@ -45,12 +46,18 @@ class Explore extends Component {
     history.push('/signupin');
   };
 
-  openProfile = (uid) => {
+  openProfile = (uid, major) => {
     const { loggedIn } = this.state;
     if (loggedIn) {
       const { history } = this.props;
+      ReactGA.event({ category: 'Engagement',
+        action: 'Clicked on profile - user was logged in',
+        label: major });
       history.push(`/profile/${ uid }`);
     } else {
+      ReactGA.event({ category: 'Engagement',
+        action: 'Clicked on profile - user was not logged in',
+        label: major });
       this.toggle();
     }
   };
@@ -58,7 +65,6 @@ class Explore extends Component {
   render() {
     const { size: { width } } = this.props;
     const { profiles, modal } = this.state;
-
     return (
       <div>
         <SignUpModal isOpen={modal} toggle={this.toggle} signUp={this.gotoSignUp} />
