@@ -3,14 +3,21 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-brands-svg-icons": "^5.8.1",
+    "@fortawesome/free-regular-svg-icons": "^5.8.1",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "ajv": "^6.9.1",
     "axios": "^0.18.0",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "firebase": "^5.8.3",
+    "i": "^0.3.6",
     "jquery": "^3.3.1",
     "mobx": "^5.9.0",
     "mobx-react": "^5.4.3",
+    "npm": "^6.9.0",
     "query-string": "^6.2.0",
     "react": "^16.8.2",
     "react-avatar": "^3.5.0",
@@ -25,8 +32,10 @@
     "react-scripts": "^2.1.5",
     "react-share": "^2.4.0",
     "react-sizeme": "^2.5.2",
+    "react-sortable-hoc": "^1.8.3",
     "reactjs-popup": "^1.3.2",
-    "reactstrap": "^6.5.0"
+    "reactstrap": "^6.5.0",
+    "uuid": "^3.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

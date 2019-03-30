@@ -659,9 +659,9 @@ Here is an example:
 
 ```js
 import React from 'react';
-import logo from './logo.png'; // Tell Webpack this JS file uses this image
+import logo from './src/assets/logo.png'; // Tell Webpack this JS file uses this image
 
-console.log(logo); // /logo.84287d09.png
+// console.log(logo); // /logo.84287d09.png
 
 function Header() {
   // Import result is the URL of your image
@@ -677,7 +677,7 @@ This works in CSS too:
 
 ```css
 .Logo {
-  background-image: url(./logo.png);
+  background-image: url(./src/assets/logo.png);
 }
 ```
 

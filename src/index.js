@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
-import ScrollToTop from './components/tools/ScrollToTop';
+import ScrollToTop from './components/utils/ScrollToTop';
 
 import './index.css';
-import App from './App';
+import App from './components/app';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
