@@ -33,7 +33,6 @@ class LikeButton extends Component {
     event.stopPropagation();
     const { pid, updateLikes, likes } = this.props;
     const user = auth.getUserInfo();
-    console.log(user);
     if (likes[user.uid]) {
       // remove like
       await db.updateLikes(pid, likes);

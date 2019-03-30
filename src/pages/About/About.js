@@ -35,7 +35,7 @@ const About = () => (
           </h3>
         </p>
         <br />
-        <h3>Contact us at teamthinkspaces@ergmail.com </h3>
+        <h3>Contact us at teamthinkspaces@gmail.com </h3>
       </Col>
     </Row>
   </div>
