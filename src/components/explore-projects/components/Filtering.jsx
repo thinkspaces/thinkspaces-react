@@ -10,71 +10,145 @@ import { Dropdown,
   Input,
   Form } from 'reactstrap';
 
-const FilterOptions = ({ locationDropdown, typeDropdown, toggle }) => (
-  <div>
-    <Row>
-      <Col>
-        <Dropdown isOpen={locationDropdown} toggle={toggle}>
-          <DropdownToggle caret onClick={() => toggle(0)} tag="span">
+const FilterOptions = ({ addTag,
+  location,
+  type,
+  discipine,
+  toggleLocation,
+  toggleType,
+  toggleDiscipline,
+  toggle }) => (
+    <div>
+      <Row>
+        <Col>
+          <Dropdown isOpen={toggleLocation} toggle={() => toggle('toggleLocation')}>
+            <DropdownToggle caret tag="span">
             Location
-          </DropdownToggle>
-          <DropdownMenu>
-            <div onClick={() => addTag(location, 'Yale')}> Yale </div>
-            <div onClick={toggle}> Harvard </div>
-            <div onClick={toggle}> Radford </div>
-            <div onClick={toggle}> University of New Haven </div>
-          </DropdownMenu>
-        </Dropdown>
-      </Col>
-      <Col>
-        <Dropdown isOpen={typeDropdown} toggle={toggle}>
-          <DropdownToggle caret onClick={toggle} tag="span">
+            </DropdownToggle>
+            <DropdownMenu>
+              <div>
+                <Label>
+                  <Input type="checkbox" onChange={() => addTag(location, 'location', 'Yale')} />
+                Yale
+                </Label>
+              </div>
+              <div>
+                <Label>
+                  <Input type="checkbox" onChange={() => addTag(location, 'location', 'Harvard')} />
+                Harvard
+                </Label>
+              </div>
+              <div>
+                <Label>
+                  <Input type="checkbox" onChange={() => addTag(location, 'location', 'Radford')} />
+                Radford
+                </Label>
+              </div>
+              <div>
+                <Label>
+                  <Input
+                    type="checkbox"
+                    onChange={() => addTag(location, 'location', 'University of New Haven')}
+                  />
+                University of New Haven
+                </Label>
+              </div>
+            </DropdownMenu>
+          </Dropdown>
+        </Col>
+        <Col>
+          <Dropdown isOpen={toggleType} toggle={() => toggle('toggleType')}>
+            <DropdownToggle caret tag="span">
             Type
-          </DropdownToggle>
-          <DropdownMenu>
-            <div onClick={toggle}> Startup </div>
-            <div onClick={toggle}> Nonprofit </div>
-            <div onClick={toggle}> Passion Project </div>
-            <div onClick={toggle}> Club Project </div>
-          </DropdownMenu>
-        </Dropdown>
-      </Col>
-    </Row>
+            </DropdownToggle>
+            <DropdownMenu>
+              <div onClick={toggle}> Startup </div>
+              <div onClick={toggle}> Nonprofit </div>
+              <div onClick={toggle}> Passion Project </div>
+              <div onClick={toggle}> Club Project </div>
+            </DropdownMenu>
+          </Dropdown>
+        </Col>
+        <Col>
+          <Dropdown isOpen={toggleDiscipline} toggle={() => toggle('toggleDiscipline')}>
+            <DropdownToggle caret tag="span">
+            Discipline
+            </DropdownToggle>
+            <DropdownMenu>
+              <div onClick={toggle}> Arts </div>
+              <div onClick={toggle}> Engineering </div>
+              <div onClick={toggle}> Food </div>
+              <div onClick={toggle}> Film </div>
+              <div onClick={toggle}> Health </div>
+              <div onClick={toggle}> Humanities </div>
+              <div onClick={toggle}> Tech </div>
+              <div onClick={toggle}> Science </div>
+            </DropdownMenu>
+          </Dropdown>
+        </Col>
+      </Row>
+    </div>
+);
+
+const SearchBar = ({ location }) => (
+  <div>
+    <Input placeholder="Filter projects" value={location} type="textarea" />
   </div>
 );
 
-class SearchBar extends Component {
-  render() {
-    return (
-      <Form>
-        <Input />
-      </Form>
-    );
-  }
-}
-
 class FilterProjects extends Component {
-  state = { location: [], type: [], toggleType: false, toggleDiscipline: false };
+  state = { location: [],
+    type: [],
+    discipline: [],
+    toggleLocation: false,
+    toggleType: false,
+    toggleDiscipline: false };
+
+  // onValueChange = ({ target: { id, checked, type, value } }) => {
+  //   if (type === 'checkbox') {
+  //     value = !checked;
+  //   }
+  //   this.setState(prevState => ({ profile: { ...prevState.profile, [id]: value } }));
+  // };
 
   // case swtich
   // figure out the events
-  addTag = (array, tag) => {
-    this.setState({});
+  addTag = (array, type, tag) => {
+    const newArray = array.slice();
+    newArray.push(tag);
+    console.log(newArray);
+    if (type === 'location') {
+      this.setState({ location: newArray });
+    }
   };
 
-  toggle = (index) => {
-    const { filterOptions } = this.state;
-    const newFilter = [ ...filterOptions ];
-    newFilter[index] = !newFilter[index];
-    this.state({ filterOptions: newFilter });
+  toggle = (type) => {
+    if (type === 'toggleType') {
+      this.setState({ toggleType: !this.state.toggleType });
+    } else if (type === 'toggleLocation') {
+      this.setState({ toggleLocation: !this.state.toggleLocation });
+    } else {
+      this.setState({ toggleDiscipline: !this.state.toggleDiscipline });
+    }
   };
 
   render() {
-    const { filterOptions } = this.state;
+    console.log('type location', this.state.toggleLocation);
+    console.log('type type', this.state.toggleType);
+    console.log('type discipline', this.state.toggleDiscipline);
     return (
       <div>
-        <SearchBar />
-        <FilterOptions filterOptions={filterOptions} toggle={this.toggle} />
+        <SearchBar location={this.state.location} />
+        <FilterOptions
+          addTag={this.addTag}
+          location={this.state.location}
+          type={this.state.type}
+          discipline={this.state.discipine}
+          toggleLocation={this.state.toggleLocation}
+          toggleType={this.state.toggleType}
+          toggleDiscipline={this.state.toggleDiscipline}
+          toggle={this.toggle}
+        />
       </div>
     );
   }
