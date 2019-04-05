@@ -7,7 +7,7 @@ import { db } from '../../firebase';
 
 // custom components
 import ProjectCard from '../shared/project-card';
-import FilterProjects from './components/Filtering.jsx';
+import Filtering from './components/Filtering.jsx';
 
 // styles
 const headerStyle = { marginBottom: '20px' };
@@ -32,7 +32,7 @@ class ExploreProjects extends Component {
     return (
       <div>
         <h2 style={headerStyle}>All Projects</h2>
-        <FilterProjects />
+        <Filtering />
         <br />
         <Row>
           {projects.map((p, i) => (

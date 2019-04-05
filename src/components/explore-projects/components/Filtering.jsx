@@ -9,6 +9,16 @@ import { Dropdown,
   Label,
   Input,
   Form } from 'reactstrap';
+import Tag from '../../shared/tag';
+
+const DropdownElement = ({ state_array, state_type, label, addTag }) => (
+  <div>
+    <Label>
+      <Input type="checkbox" onChange={() => addTag(state_array, state_type, label)} />
+      {label}
+    </Label>
+  </div>
+);
 
 const FilterOptions = ({ addTag,
   location,
@@ -26,33 +36,30 @@ const FilterOptions = ({ addTag,
             Location
             </DropdownToggle>
             <DropdownMenu>
-              <div>
-                <Label>
-                  <Input type="checkbox" onChange={() => addTag(location, 'location', 'Yale')} />
-                Yale
-                </Label>
-              </div>
-              <div>
-                <Label>
-                  <Input type="checkbox" onChange={() => addTag(location, 'location', 'Harvard')} />
-                Harvard
-                </Label>
-              </div>
-              <div>
-                <Label>
-                  <Input type="checkbox" onChange={() => addTag(location, 'location', 'Radford')} />
-                Radford
-                </Label>
-              </div>
-              <div>
-                <Label>
-                  <Input
-                    type="checkbox"
-                    onChange={() => addTag(location, 'location', 'University of New Haven')}
-                  />
-                University of New Haven
-                </Label>
-              </div>
+              <DropdownElement
+                state_array={location}
+                state_type="location"
+                label="Yale"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={location}
+                state_type="location"
+                label="Harvard"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={location}
+                state_type="location"
+                label="Radford"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={location}
+                state_type="location"
+                label="University of New Haven"
+                addTag={addTag}
+              />
             </DropdownMenu>
           </Dropdown>
         </Col>
@@ -62,10 +69,25 @@ const FilterOptions = ({ addTag,
             Type
             </DropdownToggle>
             <DropdownMenu>
-              <div onClick={toggle}> Startup </div>
-              <div onClick={toggle}> Nonprofit </div>
-              <div onClick={toggle}> Passion Project </div>
-              <div onClick={toggle}> Club Project </div>
+              <DropdownElement state_array={type} state_type="type" label="Startup" addTag={addTag} />
+              <DropdownElement
+                state_array={type}
+                state_type="type"
+                label="Nonprofit"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={type}
+                state_type="type"
+                label="Passion Project"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={type}
+                state_type="type"
+                label="Club Project"
+                addTag={addTag}
+              />
             </DropdownMenu>
           </Dropdown>
         </Col>
@@ -75,14 +97,54 @@ const FilterOptions = ({ addTag,
             Discipline
             </DropdownToggle>
             <DropdownMenu>
-              <div onClick={toggle}> Arts </div>
-              <div onClick={toggle}> Engineering </div>
-              <div onClick={toggle}> Food </div>
-              <div onClick={toggle}> Film </div>
-              <div onClick={toggle}> Health </div>
-              <div onClick={toggle}> Humanities </div>
-              <div onClick={toggle}> Tech </div>
-              <div onClick={toggle}> Science </div>
+              <DropdownElement
+                state_array={type}
+                state_type="discipline"
+                label="Arts"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={type}
+                state_type="discipline"
+                label="Engineering"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={type}
+                state_type="discipline"
+                label="Food"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={type}
+                state_type="discipline"
+                label="Film"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={type}
+                state_type="discipline"
+                label="Health"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={type}
+                state_type="discipline"
+                label="Humanities"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={type}
+                state_type="discipline"
+                label="Tech"
+                addTag={addTag}
+              />
+              <DropdownElement
+                state_array={type}
+                state_type="discipline"
+                label="Science"
+                addTag={addTag}
+              />
             </DropdownMenu>
           </Dropdown>
         </Col>
@@ -90,13 +152,27 @@ const FilterOptions = ({ addTag,
     </div>
 );
 
-const SearchBar = ({ location }) => (
+const SearchBar = ({ location, type, discipline, handleCancel }) => (
   <div>
-    <Input placeholder="Filter projects" value={location} type="textarea" />
+    {location.map((tag, index) => (
+      <Tag text={tag} type="location" key={index} array={location} handleCancel={handleCancel} />
+    ))}
+    {type.map((tag, index) => (
+      <Tag text={tag} type="type" key={index} array={type} handleCancel={handleCancel} />
+    ))}
+    {discipline.map((tag, index) => (
+      <Tag
+        text={tag}
+        type="discipline"
+        key={index}
+        array={discipline}
+        handleCancel={handleCancel}
+      />
+    ))}
   </div>
 );
 
-class FilterProjects extends Component {
+class Filtering extends Component {
   state = { location: [],
     type: [],
     discipline: [],
@@ -111,14 +187,32 @@ class FilterProjects extends Component {
   //   this.setState(prevState => ({ profile: { ...prevState.profile, [id]: value } }));
   // };
 
-  // case swtich
-  // figure out the events
+  handleCancel = (text, index, array, type) => {
+    console.log(index);
+    if (type == 'location') {
+      array.splice(index, 1);
+      console.log(array);
+      console.log(index);
+      this.setState({ location: array });
+    } else if (type == 'type') {
+      array.splice(index, 1);
+      console.log(array);
+      this.setState({ type: array });
+    }
+  };
+
   addTag = (array, type, tag) => {
+    console.log(array);
+    console.log(type);
     const newArray = array.slice();
     newArray.push(tag);
     console.log(newArray);
-    if (type === 'location') {
+    if (type == 'location') {
       this.setState({ location: newArray });
+    } else if (type == 'type') {
+      this.setState({ type: newArray });
+    } else if (type == 'discipline') {
+      this.setState({ type: newArray });
     }
   };
 
@@ -133,12 +227,14 @@ class FilterProjects extends Component {
   };
 
   render() {
-    console.log('type location', this.state.toggleLocation);
-    console.log('type type', this.state.toggleType);
-    console.log('type discipline', this.state.toggleDiscipline);
     return (
       <div>
-        <SearchBar location={this.state.location} />
+        <SearchBar
+          location={this.state.location}
+          type={this.state.type}
+          discipline={this.state.discipline}
+          handleCancel={this.handleCancel}
+        />
         <FilterOptions
           addTag={this.addTag}
           location={this.state.location}
@@ -154,4 +250,4 @@ class FilterProjects extends Component {
   }
 }
 
-export default FilterProjects;
+export default Filtering;
