@@ -39,7 +39,9 @@ class ProjectPage extends Component {
 
     ReactGA.event({ category: 'Engagement', action: 'Edit Project', label: project.title });
     await db.saveProjectChanges(project, pid);
-    this.setState({ isEditing: false });
+    // this.setState({ isEditing: false });
+    // temporary, until more streamlined project editing implemented
+    window.location.reload();
   };
 
   onCancel = () => {
@@ -58,6 +60,7 @@ class ProjectPage extends Component {
     if (isEditing) {
       return (
         <EditProject
+          pid={pid}
           project={project}
           saveChanges={this.saveChanges}
           onEditChange={this.onEditChange}

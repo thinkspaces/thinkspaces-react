@@ -56,6 +56,9 @@ export const saveProjectChanges = async (project, pid) => {
 
   // project.team = team;
 
+  // temporary fix to prevent EditProjectImages breaking
+  delete project.images
+
   await db
     .collection('projects')
     .doc(pid)
@@ -242,7 +245,14 @@ export const createProjectWithFields = async (project) => {
       team: [ user.uid ],
       owner: user.uid,
       likes: {},
+      images: [],
       likesCount: 0,
       createdTimestamp: createTimestamp(new Date()) });
   return projectRef.id
 };
+
+export const setProjectImages = async (pid, imageURLs) => {
+  await db.collection('projects')
+    .doc(pid)
+    .update({ images: imageURLs })
+}
