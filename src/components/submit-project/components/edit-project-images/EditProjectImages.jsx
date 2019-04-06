@@ -1,75 +1,139 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import styles from './EditProjectImages.module.css';
-
-// helper function
-const reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [ removed ] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
-  return result;
-};
-
-const urltoFile = async (url, filename, mimeType) => {
-  try {
-    const res = await fetch(url);
-    const buf = await res.arrayBuffer();
-    return new File([ buf ], filename, { type: mimeType });
-  } catch (e) {
-    console.log(e);
-  }
-};
+import dragReorder from '../../../utils/dragReorder';
+import urlToFile from '../../../utils/urlToFile';
+import { downloadProjectImages, uploadProjectImages, deleteProjectImages } from '../../../../firebase/storage';
+import { setProjectImages } from '../../../../firebase/db';
 
 const EditProjectImages = (props) => {
+  const { pid } = props;
+
+  // the state
   const [ loading, setLoading ] = useState(false);
   const [ imageFiles, setImageFiles ] = useState([]);
   const [ imagePreviews, setImagePreviews ] = useState([]);
-  //   useEffect(() => console.log(imagePreviews, imageFiles))
 
+  /**
+* retrieves existing images from Cloud Storage via Firestore
+* meant to be run once on mount
+*/
+  const handleExistingImages = async () => {
+    setLoading(true);
+    const images = await downloadProjectImages(pid)
+    setImageFiles([ ...images.imageFiles ]);
+    setImagePreviews([ ...images.imagePreviews ]);
+    setLoading(false);
+  }
+
+  // retrieve existing images on mount
+  useEffect(() => {
+    handleExistingImages()
+  }, [])
+
+  // used to make a custom file input button
   const inputRef = React.createRef();
   const handleInputClick = () => {
     inputRef.current.click();
   };
 
+  /**
+   * syncs Cloud Storage and Firestore with the files in real time
+   */
+  const handleSyncImages = async (imageFilesForSync) => {
+    // delete the old images
+    await deleteProjectImages(pid);
+    // upload the new ones to Cloud Storage
+    const imageURLs = await uploadProjectImages(pid, imageFilesForSync);
+    // update Firestore
+    await setProjectImages(pid, imageURLs);
+  }
+
+  /**
+   * retrieves a random, stock illustration
+   */
   const handleShuffleClick = async () => {
     setLoading(true);
+    // make a request to external service, which returns a random image as base64 string
     let file = null;
     try {
       const result = await axios.get('https://randomillustration.herokuapp.com/');
       const data = `data:image/png;base64,${ result.data }`;
-      file = await urltoFile(data, 'stock.png', 'image/*');
+      // use helper method to convert base64 string to image file object
+      file = await urlToFile(data, 'stock.png', 'image/*');
     } catch (e) {
       console.log(e);
     }
+    // sync to Storage + Db and update state
+    await handleSyncImages([ file, ...imageFiles ]);
     setImagePreviews([ URL.createObjectURL(file), ...imagePreviews ]);
     setImageFiles([ file, ...imageFiles ]);
-    props.handleUploadImages(imageFiles);
     setLoading(false);
   };
 
-  const handleRemoveImage = (index) => {
+  /**
+   * removes the image
+   */
+  const handleRemoveImage = async (index) => {
+    setLoading(true);
+    // create copies of the state with the image removed
     const cpyPreviews = [ ...imagePreviews ];
     cpyPreviews.splice(index, 1);
-
     const cpyFiles = [ ...imageFiles ];
     cpyFiles.splice(index, 1);
-
+    // sync to Storage + Db and update state
+    await handleSyncImages(cpyFiles);
     setImagePreviews(cpyPreviews);
     setImageFiles(cpyFiles);
-    props.handleUploadImages(cpyFiles);
+    setLoading(false);
   };
 
+  /**
+ * when a user uploads a file on their computer
+ * @param {*} event : on click
+ */
+  const handleAddImage = async (event) => {
+    const { target: { files } } = event;
+    const file = files[0];
+    setLoading(true);
+    await handleSyncImages([ file, ...imageFiles ]);
+    setImageFiles([ file, ...imageFiles ]);
+    setImagePreviews([ URL.createObjectURL(file), ...imagePreviews ]);
+    setLoading(false);
+  };
+
+  /**
+   * when a user drags and drops to reorder the images
+   */
+  const onSortEnd = async ({ oldIndex, newIndex }) => {
+    setLoading(true);
+    const reorderedImagePreviews = dragReorder(imagePreviews, oldIndex, newIndex);
+    const reorderedImageFiles = dragReorder(imageFiles, oldIndex, newIndex);
+    await handleSyncImages(reorderedImageFiles);
+    setImagePreviews(reorderedImagePreviews);
+    setImageFiles(reorderedImageFiles);
+    setLoading(false);
+  };
+
+  /**
+   * React component which is used to implement the drag-drop behavior
+   * wraps each image thumbnail
+   */
   const SortableImagePreview = SortableElement(({ preview, index }) => (
     <div className={styles.image}>
-      <img src={preview} className={styles.imageDOM} />
-      <div onClick={() => handleRemoveImage(index)} className={styles.imageCross}>
+      <img src={preview} className={styles.imageDOM} alt="preview" />
+      <button type="button" onClick={() => handleRemoveImage(index)} className={styles.imageCross}>
         <FontAwesomeIcon icon="times" />
-      </div>
+      </button>
     </div>
   ));
 
+  /**
+   * React component which is used to implement the drag-drop behavior
+   * wraps all thumbnails and other interactive elements
+   */
   const SortableImagePreviewList = SortableContainer(({ previews }) => (
     <div className={styles.images}>
       {/* loading placeholder */}
@@ -84,12 +148,15 @@ const EditProjectImages = (props) => {
       ))}
       {/* add image input */}
       <div className={styles.placeholder}>
-        <div className={styles.placeholderItem} onClick={handleInputClick}>
+        {/* your own image */}
+        <button type="button" className={styles.placeholderItem} onClick={handleInputClick}>
           <FontAwesomeIcon icon="plus" />
-        </div>
-        <div className={styles.placeholderItem} onClick={handleShuffleClick}>
+        </button>
+        {/* a random image */}
+        <button type="button" className={styles.placeholderItem} onClick={handleShuffleClick}>
           <FontAwesomeIcon icon="random" />
-        </div>
+        </button>
+        {/* hidden input */}
         <input
           ref={inputRef}
           type="file"
@@ -100,26 +167,6 @@ const EditProjectImages = (props) => {
       </div>
     </div>
   ));
-
-  const handleAddImage = async (event) => {
-    const { target: { files } } = event;
-    const file = files[0];
-    setLoading(true);
-    setImageFiles([ file, ...imageFiles ]);
-    setImagePreviews([ URL.createObjectURL(file), ...imagePreviews ]);
-    props.handleUploadImages(imageFiles);
-    setLoading(false);
-  };
-
-  const onSortEnd = ({ oldIndex, newIndex }) => {
-    const reorderedImagePreviews = reorder(imagePreviews, oldIndex, newIndex);
-
-    const reorderedImageFiles = reorder(imageFiles, oldIndex, newIndex);
-
-    setImagePreviews(reorderedImagePreviews);
-    setImageFiles(reorderedImageFiles);
-    props.handleUploadImages(reorderedImageFiles);
-  };
 
   return (
     <div className={styles.wrapper}>

@@ -12,11 +12,11 @@ const BannerTitle = ({ title }) => (
 
 const BannerImageCarousel = ({ images }) => (
   <div style={headerStyle}>
-    {images[0].length > 0 ? (
+    {images.length > 0 ? (
       <Carousel items={images} />
     ) : (
       <img
-        src="https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180"
+        src="https://via.placeholder.com/300"
         alt="default cover"
       />
     )}

@@ -13,9 +13,6 @@ const config = { apiKey: 'AIzaSyALiBQLn0FFSlEL1bKqdRg6C9EpAZWflwg',
 firebase.initializeApp(config);
 
 const db = firebase.firestore();
-const settings = { /* your settings... */ timestampsInSnapshots: true };
-db.settings(settings);
-
 const storage = firebase.storage();
 const auth = firebase.auth();
 
