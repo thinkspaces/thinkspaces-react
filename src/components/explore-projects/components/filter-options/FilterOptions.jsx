@@ -1,21 +1,56 @@
 import React from 'react';
-import { Dropdown, DropdownMenu, DropdownToggle, Row, Col, Label, Input, Button } from 'reactstrap';
-import './FilterOptions';
+import { Dropdown,
+  DropdownMenu,
+  DropdownToggle,
+  DropdownItem,
+  Row,
+  Col,
+  Label,
+  Input,
+  Button } from 'reactstrap';
+import './FilterOptions.css';
 
 const DropdownElement = ({ checked, index, type, label, onSelect }) => (
-  <div>
-    <Label>
-      <Input type="checkbox" checked={checked} onChange={() => onSelect(type, index)} />
+  <DropdownItem onClick={() => onSelect(type, index)}>
+    <Label check>
+      <Input type="checkbox" checked={checked} />
       {label}
     </Label>
-  </div>
+  </DropdownItem>
 );
 
-const FilterOptions = ({ location,
-  type,
-  discipline,
+const FilterButton = () => (
+  <Button style={{ marginRight: 30, marginLeft: 20 }} outline="primary">
+    Filter
+  </Button>
+);
+
+const FilterDropdown = ({ isOpen, toggle, title, type, filterItems, onSelect }) => (
+  <Col>
+    <Dropdown style={{ marginTop: 5 }} isOpen={isOpen} toggle={toggle}>
+      <DropdownToggle caret tag="span">
+        {title}
+      </DropdownToggle>
+      <DropdownMenu>
+        {filterItems.map((item, i) => (
+          <DropdownElement
+            type={type}
+            index={i}
+            label={item.label}
+            onSelect={onSelect}
+            checked={item.checked}
+          />
+        ))}
+      </DropdownMenu>
+    </Dropdown>
+  </Col>
+);
+
+const FilterOptions = ({ locations,
+  types,
+  disciplines,
   skills,
-  commitment,
+  commitments,
   onSelect,
   toggleLocation,
   toggleType,
@@ -26,116 +61,47 @@ const FilterOptions = ({ location,
     <div>
       <hr />
       <Row>
-        <Button style={{ marginRight: 30, marginLeft: 20 }} outline="primary">
-          {' '}
-        Filter{' '}
-        </Button>
-        <Col>
-          <Dropdown
-            style={{ marginTop: 5 }}
-            isOpen={toggleLocation}
-            toggle={() => toggle('toggleLocation')}
-          >
-            <DropdownToggle caret tag="span">
-            Location
-            </DropdownToggle>
-            <DropdownMenu style={{ paddingLeft: 30, paddingRight: 20, paddingTop: 10 }}>
-              {location.map((item, i) => (
-                <DropdownElement
-                  type="location"
-                  index={i}
-                  label={item.label}
-                  onSelect={onSelect}
-                  checked={item.checked}
-                />
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-        </Col>
-        <Col>
-          <Dropdown style={{ marginTop: 5 }} isOpen={toggleType} toggle={() => toggle('toggleType')}>
-            <DropdownToggle caret tag="span">
-            Type
-            </DropdownToggle>
-            <DropdownMenu>
-              {type.map((item, i) => (
-                <DropdownElement
-                  type="type"
-                  index={i}
-                  label={item.label}
-                  onSelect={onSelect}
-                  checked={item.checked}
-                />
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-        </Col>
-        <Col>
-          <Dropdown
-            style={{ marginTop: 5 }}
-            isOpen={toggleDiscipline}
-            toggle={() => toggle('toggleDiscipline')}
-          >
-            <DropdownToggle caret tag="span">
-            Discipline
-            </DropdownToggle>
-            <DropdownMenu>
-              {discipline.map((item, i) => (
-                <DropdownElement
-                  type="discipline"
-                  index={i}
-                  label={item.label}
-                  onSelect={onSelect}
-                  checked={item.checked}
-                />
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-        </Col>
-        <Col>
-          <Dropdown
-            style={{ marginTop: 5 }}
-            isOpen={toggleSkills}
-            toggle={() => toggle('toggleSkills')}
-          >
-            <DropdownToggle caret tag="span">
-            Skills
-            </DropdownToggle>
-            <DropdownMenu>
-              {skills.map((item, i) => (
-                <DropdownElement
-                  type="skills"
-                  index={i}
-                  label={item.label}
-                  onSelect={onSelect}
-                  checked={item.checked}
-                />
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-        </Col>
-        <Col>
-          <Dropdown
-            style={{ marginTop: 5 }}
-            isOpen={toggleCommitment}
-            toggle={() => toggle('toggleCommitment')}
-          >
-            <DropdownToggle caret tag="span">
-            Commitment
-            </DropdownToggle>
-            <DropdownMenu>
-              {commitment.map((item, i) => (
-                <DropdownElement
-                  type="commitment"
-                  index={i}
-                  label={item.label}
-                  onSelect={onSelect}
-                  checked={item.checked}
-                />
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-        </Col>
+        <FilterButton />
+        <FilterDropdown
+          title="Location"
+          type="locations"
+          isOpen={toggleLocation}
+          toggle={() => toggle('toggleLocation')}
+          onSelect={onSelect}
+          filterItems={locations}
+        />
+        <FilterDropdown
+          title="Type"
+          type="types"
+          isOpen={toggleType}
+          toggle={() => toggle('toggleType')}
+          onSelect={onSelect}
+          filterItems={types}
+        />
+        <FilterDropdown
+          title="Discipline"
+          type="disciplines"
+          isOpen={toggleDiscipline}
+          toggle={() => toggle('toggleDiscipline')}
+          onSelect={onSelect}
+          filterItems={disciplines}
+        />
+        <FilterDropdown
+          title="Skills"
+          type="skills"
+          isOpen={toggleSkills}
+          toggle={() => toggle('toggleSkills')}
+          onSelect={onSelect}
+          filterItems={skills}
+        />
+        <FilterDropdown
+          title="Commitment"
+          type="commitments"
+          isOpen={toggleCommitment}
+          toggle={() => toggle('toggleCommitment')}
+          onSelect={onSelect}
+          filterItems={commitments}
+        />
       </Row>
       <hr />
     </div>

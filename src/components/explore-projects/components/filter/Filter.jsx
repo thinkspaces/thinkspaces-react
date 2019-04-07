@@ -3,21 +3,21 @@ import React, { Component } from 'react';
 import FilterOptions from '../filter-options';
 import SearchBar from '../search-bar';
 
-const locations = [
+const _locations = [
   { label: 'Yale' },
   { label: 'Harvard' },
   { label: 'Radford' },
   { label: 'University of New Haven' },
 ];
 
-const types = [
+const _types = [
   { label: 'Startup' },
   { label: 'Nonprofit' },
   { label: 'Passion Project' },
   { label: 'Club Project' },
 ];
 
-const disciplines = [
+const _disciplines = [
   { label: 'Arts' },
   { label: 'Engineering' },
   { label: 'Food' },
@@ -28,7 +28,7 @@ const disciplines = [
   { label: 'Science' },
 ];
 
-const skills = [
+const _skills = [
   { label: 'Analysis' },
   { label: 'Graphic Design' },
   { label: 'Film' },
@@ -41,14 +41,14 @@ const skills = [
   { label: 'Consulting' },
 ];
 
-const commitment = [ { label: 'High' }, { label: 'Medium' }, { label: 'Low' } ];
+const _commitments = [ { label: 'High' }, { label: 'Medium' }, { label: 'Low' } ];
 
 class Filter extends Component {
-  state = { location: [],
-    type: [],
-    discipline: [],
+  state = { locations: [],
+    types: [],
+    disciplines: [],
     skills: [],
-    commitment: [],
+    commitments: [],
     toggleLocation: false,
     toggleType: false,
     toggleDiscipline: false,
@@ -56,11 +56,11 @@ class Filter extends Component {
     toggleCommitment: false };
 
   componentDidMount = () => {
-    this.setState({ location: locations.map(item => ({ ...item, checked: false })),
-      type: types.map(item => ({ ...item, checked: false })),
-      discipline: disciplines.map(item => ({ ...item, checked: false })),
-      skills: skills.map(item => ({ ...item, checked: false })),
-      commitment: commitment.map(item => ({ ...item, checked: false })) });
+    this.setState({ locations: _locations.map(item => ({ ...item, checked: false })),
+      types: _types.map(item => ({ ...item, checked: false })),
+      disciplines: _disciplines.map(item => ({ ...item, checked: false })),
+      skills: _skills.map(item => ({ ...item, checked: false })),
+      commitments: _commitments.map(item => ({ ...item, checked: false })) });
   };
 
   toggleItem = (type, index) => {
@@ -73,11 +73,11 @@ class Filter extends Component {
   toggle = type => this.setState(prevState => ({ [type]: !prevState[type] }));
 
   render() {
-    const { location,
-      type,
-      discipline,
+    const { locations,
+      types,
+      disciplines,
       skills,
-      commitment,
+      commitments,
       toggleType,
       toggleLocation,
       toggleDiscipline,
@@ -86,19 +86,19 @@ class Filter extends Component {
     return (
       <div>
         <SearchBar
-          location={location}
-          type={type}
-          discipline={discipline}
+          locations={locations}
+          types={types}
+          disciplines={disciplines}
           skills={skills}
-          commitment={commitment}
+          commitments={commitments}
           handleCancel={this.toggleItem}
         />
         <FilterOptions
-          location={location}
-          type={type}
-          discipline={discipline}
+          locations={locations}
+          types={types}
+          disciplines={disciplines}
           skills={skills}
-          commitment={commitment}
+          commitments={commitments}
           onSelect={this.toggleItem}
           toggleLocation={toggleLocation}
           toggleType={toggleType}
