@@ -28,18 +28,39 @@ const disciplines = [
   { label: 'Science' },
 ];
 
+const skills = [
+  { label: 'Analysis' },
+  { label: 'Graphic Design' },
+  { label: 'Film' },
+  { label: 'Writing' },
+  { label: 'Marketing' },
+  { label: 'Programming' },
+  { label: 'Engineering' },
+  { label: 'Research' },
+  { label: 'Management' },
+  { label: 'Consulting' },
+];
+
+const commitment = [ { label: 'High' }, { label: 'Medium' }, { label: 'Low' } ];
+
 class Filter extends Component {
   state = { location: [],
     type: [],
     discipline: [],
+    skills: [],
+    commitment: [],
     toggleLocation: false,
     toggleType: false,
-    toggleDiscipline: false };
+    toggleDiscipline: false,
+    toggleSkills: false,
+    toggleCommitment: false };
 
   componentDidMount = () => {
     this.setState({ location: locations.map(item => ({ ...item, checked: false })),
       type: types.map(item => ({ ...item, checked: false })),
-      discipline: disciplines.map(item => ({ ...item, checked: false })) });
+      discipline: disciplines.map(item => ({ ...item, checked: false })),
+      skills: skills.map(item => ({ ...item, checked: false })),
+      commitment: commitment.map(item => ({ ...item, checked: false })) });
   };
 
   toggleItem = (type, index) => {
@@ -52,23 +73,38 @@ class Filter extends Component {
   toggle = type => this.setState(prevState => ({ [type]: !prevState[type] }));
 
   render() {
-    const { location, type, discipline, toggleType, toggleLocation, toggleDiscipline } = this.state;
+    const { location,
+      type,
+      discipline,
+      skills,
+      commitment,
+      toggleType,
+      toggleLocation,
+      toggleDiscipline,
+      toggleSkills,
+      toggleCommitment } = this.state;
     return (
       <div>
         <SearchBar
           location={location}
           type={type}
           discipline={discipline}
+          skills={skills}
+          commitment={commitment}
           handleCancel={this.toggleItem}
         />
         <FilterOptions
           location={location}
           type={type}
           discipline={discipline}
+          skills={skills}
+          commitment={commitment}
           onSelect={this.toggleItem}
           toggleLocation={toggleLocation}
           toggleType={toggleType}
           toggleDiscipline={toggleDiscipline}
+          toggleSkills={toggleSkills}
+          toggleCommitment={toggleCommitment}
           toggle={this.toggle}
         />
       </div>
