@@ -25,6 +25,14 @@
   margin-top: 20px;
 }
 
+.card-tag {
+  box-sizing: content-box;
+  width: 30px;
+  border-radius: 0.25rem;
+  justify-content: center;
+  background-color: #c0c0c0;
+}
+
 .flexed {
   display: flex;
   flex: 1;

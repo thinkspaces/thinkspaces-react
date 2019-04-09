@@ -43,6 +43,12 @@ const CardBody = ({ text }) => (
   </div>
 );
 
+const CardTag = () => (
+  <div className="profile-tag">
+    <p>Tag</p>
+  </div>
+);
+
 class ProjectCard extends Component {
   openProject = () => {
     const { history, id, title } = this.props;
@@ -57,6 +63,7 @@ class ProjectCard extends Component {
         <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
         <CardImage image={image} />
         <CardBody text={text} />
+        <CardTag />
       </Card>
     );
   }
