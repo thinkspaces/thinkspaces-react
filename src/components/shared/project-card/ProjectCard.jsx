@@ -14,10 +14,7 @@ const Card = ({ width, children, onClick }) => (
 
 const CardImage = ({ image }) => (
   <div className="project-image-container">
-    <img
-      src={image || 'https://placeholdit.imgix.net/~text?txtsize=33&txt=318%C3%97180&w=318&h=180'}
-      alt="project cover"
-    />
+    <img src={image || 'https://via.placeholder.com/300'} alt="project cover" />
   </div>
 );
 

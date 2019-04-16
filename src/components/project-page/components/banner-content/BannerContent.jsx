@@ -15,10 +15,7 @@ const BannerImageCarousel = ({ images }) => (
     {images.length > 0 ? (
       <Carousel items={images} />
     ) : (
-      <img
-        src="https://via.placeholder.com/300"
-        alt="default cover"
-      />
+      <img src="https://via.placeholder.com/300" alt="default cover" />
     )}
   </div>
 );
