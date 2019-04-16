@@ -37,8 +37,10 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_ENV=staging react-scripts start",
+    "start:staging": "REACT_APP_ENV=staging react-scripts start",
+    "start:production": "REACT_APP_ENV=production react-scripts start",
+    "build": "REACT_APP_ENV=production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
