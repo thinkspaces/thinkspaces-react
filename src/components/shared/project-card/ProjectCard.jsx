@@ -43,9 +43,9 @@ const CardBody = ({ text }) => (
   </div>
 );
 
-const CardTag = () => (
-  <div className="profile-tag">
-    <p>Tag</p>
+const CardTag = ({ title }) => (
+  <div className="card-tag">
+    <span>#{title}</span>
   </div>
 );
 
@@ -63,7 +63,11 @@ class ProjectCard extends Component {
         <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
         <CardImage image={image} />
         <CardBody text={text} />
-        <CardTag />
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <CardTag title="tech" />
+          <CardTag title="yale" />
+          <CardTag title="high" />
+        </div>
       </Card>
     );
   }

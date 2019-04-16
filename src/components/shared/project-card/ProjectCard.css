@@ -26,11 +26,14 @@
 }
 
 .card-tag {
-  box-sizing: content-box;
-  width: 30px;
-  border-radius: 0.25rem;
-  justify-content: center;
-  background-color: #c0c0c0;
+  width: min-content;
+  margin: 5px;
+  color: #007bff;
+  /* box-sizing: content-box; */
+  /* width: 30px; */
+  /* border-radius: 0.25rem; */
+  /* justify-content: center; */
+  /* background-color: #c0c0c0; */
 }
 
 .flexed {
