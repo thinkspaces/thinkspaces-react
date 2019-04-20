@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import EditProjectImages from '../../../submit-project/components/edit-project-images'
 
-const EditProject = ({ saveChanges, project, onEditChange, onCancel }) => (
+const EditProject = ({ saveChanges, project, pid, onEditChange, onCancel }) => (
   <div>
     <Form>
       <FormGroup>
@@ -12,23 +13,6 @@ const EditProject = ({ saveChanges, project, onEditChange, onCancel }) => (
         <Label for="contact">Contact Email</Label>
         <Input id="contact" value={project.contact} onChange={onEditChange} />
       </FormGroup>
-      {/* <FormGroup>
-            <Label for="projectpictures">Add some photos of your project!</Label>
-            <FormGroup>
-              {isUploading && <p>Progress: {progress}</p>}
-              {avatarURL && <img src={images} alt="profile" width="50%" height="50%" />}
-              <FileUploader
-                accept="image/*"
-                name="avatar"
-                randomizeFilename
-                storageRef={firebase.storage().ref('projectpictures')}
-                onUploadStart={this.handleUploadStart}
-                onUploadError={this.handleUploadError}
-                onUploadSuccess={this.handleUploadSuccess}
-                onProgress={this.handleProgress}
-              />
-            </FormGroup>
-          </FormGroup> */}
       <FormGroup>
         <Label for="card_des">Tell us a bit about your project (in one sentence)</Label>
         <Input id="card_des" value={project.card_des} onChange={onEditChange} />
@@ -50,6 +34,7 @@ const EditProject = ({ saveChanges, project, onEditChange, onCancel }) => (
           placeholder="http://www.yourwebsite.com"
         />
       </FormGroup>
+      <EditProjectImages pid={pid} />
     </Form>
     <br />
     <Button color="info" onClick={saveChanges} style={{ marginRight: 5 }}>
