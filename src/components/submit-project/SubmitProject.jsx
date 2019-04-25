@@ -3,58 +3,27 @@ import React, { Component } from 'react';
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 import withAuthorization from '../utils/withAuthorization';
 import { db } from '../../firebase';
+import InputFilters from './components/input-filters';
 
 class SubmitProject extends Component {
-  state = { title: '',
-    contact: '',
-    about: '',
-    card_des: '',
-    links: '',
-    need: '',
-    tags: [],
-    category: false };
+  state = { title: '', contact: '', about: '', card_des: '', links: '', need: '' };
 
   createProject = async (event) => {
     event.preventDefault();
 
     // prepare the fields
-    const { title, contact, about, card_des, links, need, tags } = this.state;
+    const { title, contact, about, card_des, links, need } = this.state;
     const { history } = this.props;
 
-    await db.createProjectWithFields({ title,
-      about,
-      card_des,
-      contact,
-      links,
-      need });
-
-    // reset form
-    this.setState({ title: '',
-      contact: '',
-      about: '',
-      card_des: '',
-      links: '',
-      need: '',
-      category: [] });
+    await db.createProjectWithFields({ title, about, card_des, contact, links, need });
+    await // reset form
+    this.setState({ title: '', contact: '', about: '', card_des: '', links: '', need: '' });
 
     history.push('/');
   };
 
-  onValueChange = ({ target: { id, checked, type } }) => {
-    if (checked) {
-      db.addTags({ id });
-    }
-    this.setState({ tags: [ id ] });
-  };
-
   render() {
-    const { title,
-      contact,
-      about,
-      card_des,
-      links,
-      need,
-      category } = this.state;
+    const { title, contact, about, card_des, links, need, category } = this.state;
     return (
       <>
         <h2> Submit a Project </h2>
@@ -71,27 +40,11 @@ class SubmitProject extends Component {
             />
           </FormGroup>
           Choose your project category
-          <FormGroup check>
-            <Label check>
-              <Input type="checkbox" id="art" onChange={this.onValueChange} />
-              Arts
-            </Label>
-          </FormGroup>
-          <FormGroup check>
-            <Label check>
-              <Input type="checkbox" id="health" onChange={this.onValueChange} />
-              Health {'&'} Wellness
-            </Label>
-          </FormGroup>
-          <FormGroup check>
-            <Label check>
-              <Input type="checkbox" id="tech" onChange={this.onValueChange} />
-              Tech
-            </Label>
-          </FormGroup>
+          <InputFilters />
           <FormGroup>
-            <Label for="card_des">What is your project (in one sentence)</Label>
+            <Label for="card_des">Tell us a bit about your project</Label>
             <Input
+              type="textarea"
               value={card_des}
               onChange={event => this.setState({ card_des: event.target.value })}
             />
@@ -127,5 +80,5 @@ class SubmitProject extends Component {
   }
 }
 
-const authCondition = authUser => !!authUser;
-export default withAuthorization(authCondition)(SubmitProject);
+// const authCondition = authUser => !!authUser;
+// export default withAuthorization(authCondition)(SubmitProject);

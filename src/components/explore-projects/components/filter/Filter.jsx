@@ -66,6 +66,7 @@ class Filter extends Component {
   toggleItem = (type, index) => {
     // eslint-disable-next-line react/destructuring-assignment
     const items = [ ...this.state[type] ];
+    console.log(items);
     items[index].checked = !items[index].checked;
     this.setState({ [type]: items });
   };
