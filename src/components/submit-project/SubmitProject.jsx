@@ -80,5 +80,5 @@ class SubmitProject extends Component {
   }
 }
 
-// const authCondition = authUser => !!authUser;
-// export default withAuthorization(authCondition)(SubmitProject);
+const authCondition = authUser => !!authUser;
+export default withAuthorization(authCondition)(SubmitProject);

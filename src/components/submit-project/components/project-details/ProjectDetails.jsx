@@ -2,49 +2,32 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 
-const _types = [
-  { label: 'Startup' },
-  { label: 'Nonprofit' },
-  { label: 'Passion Project' },
-  { label: 'Club Project' },
-];
-
 class ProjectDetails extends Component {
-  state = { types: [] };
-
-  componentDidMount = () => {
-    this.setState({ types: _types.map(item => ({ ...item, checked: false })) });
-  };
-
-  toggleItem = (type, index) => {
-    const items = [ ...this.state[type] ];
-    items[index].checked = !items[index].checked;
-    this.setState({ [type]: items });
-  };
-
-  toggle = type => this.setState(prevState => ({ [type]: !prevState[type] }));
-
   render() {
-    const { types } = this.state;
-    console.log(this.state.types);
+    console.log(this.props.types);
     return (
       <div>
         <FormGroup>
           <Label for="about">Now tell us a bit more about your project</Label>
-          <Input
-            type="textarea"
-            value={about}
-            onChange={event => this.setState({ about: event.target.value })}
-          />
+          <Input type="textarea" value={this.props.about} onChange={this.props.onChangeAbout} />
         </FormGroup>
-        <InputFilters />
+        <h3> Project Type </h3>
+        <FormGroup>
+          <Label check>
+            <Input
+              title="Startup"
+              type="checkbox"
+              onChange={() => this.props.toggleItem('types', 0)}
+            />
+            Startup
+          </Label>
+        </FormGroup>
         <FormGroup>
           <Label check>
             <Input
               title="Nonprofit"
               type="checkbox"
-              state="types"
-              onChange={() => this.toggleItem('types', 1)}
+              onChange={() => this.props.toggleItem('types', 1)}
             />
             Nonprofit
           </Label>
@@ -54,8 +37,7 @@ class ProjectDetails extends Component {
             <Input
               title="Passion Project"
               type="checkbox"
-              state="types"
-              onChange={() => this.toggleItem('types', 2)}
+              onChange={() => this.props.toggleItem('types', 2)}
             />
             Passion Project
           </Label>
@@ -65,8 +47,7 @@ class ProjectDetails extends Component {
             <Input
               title="Club Project"
               type="checkbox"
-              state="types"
-              onChange={() => this.toggleItem('types', 2)}
+              onChange={() => this.props.toggleItem('types', 2)}
             />
             Club Project
           </Label>

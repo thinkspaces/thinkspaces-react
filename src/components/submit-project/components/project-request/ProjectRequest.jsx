@@ -1,76 +1,144 @@
 /* eslint camelcase: 0 */
 import React, { Component } from 'react';
-import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
-
-const _types = [
-  { label: 'Startup' },
-  { label: 'Nonprofit' },
-  { label: 'Passion Project' },
-  { label: 'Club Project' },
-];
+import { Row, Col, Button, FormGroup, Label, Input, Form } from 'reactstrap';
 
 class ProjectRequest extends Component {
-  state = { types: [] };
-
-  componentDidMount = () => {
-    this.setState({ types: _types.map(item => ({ ...item, checked: false })) });
-  };
-
-  toggleItem = (type, index) => {
-    const items = [ ...this.state[type] ];
-    items[index].checked = !items[index].checked;
-    this.setState({ [type]: items });
-  };
-
-  toggle = type => this.setState(prevState => ({ [type]: !prevState[type] }));
-
   render() {
-    const { types } = this.state;
-    console.log(this.state.types);
     return (
       <div>
         <FormGroup>
+          <Label for="need">Most importantly, what type of people are you looking for?</Label>
+          <Input type="textarea" value={this.props.need} onChange={this.props.onChangeNeed} />
+        </FormGroup>
+        <div>
+          <Row>
+            <Col>
+              <h5>Skills Needed</h5>
+              <FormGroup>
+                <Label check>
+                  <Input
+                    title="Analysis"
+                    type="checkbox"
+                    onChange={() => this.props.toggleItem('skills', 0)}
+                  />
+                  Analysis
+                </Label>
+              </FormGroup>
+              <FormGroup>
+                <Label check>
+                  <Input
+                    title="Graphic Design"
+                    type="checkbox"
+                    onChange={() => this.props.toggleItem('skills', 1)}
+                  />
+                  Graphic Design
+                </Label>
+              </FormGroup>
+              <FormGroup>
+                <Label check>
+                  <Input
+                    title="Film"
+                    type="checkbox"
+                    onChange={() => this.props.toggleItem('skills', 2)}
+                  />
+                  Film
+                </Label>
+              </FormGroup>
+              <FormGroup>
+                <Label check>
+                  <Input
+                    title="Writing"
+                    type="checkbox"
+                    onChange={() => this.props.toggleItem('skills', 3)}
+                  />
+                  Writing
+                </Label>
+              </FormGroup>
+            </Col>
+            <Col>
+              <FormGroup>
+                <Label check>
+                  <Input
+                    title="Marketing"
+                    type="checkbox"
+                    onChange={() => this.props.toggleItem('skills', 4)}
+                  />
+                  Marketing
+                </Label>
+              </FormGroup>
+              <FormGroup>
+                <Label check>
+                  <Input
+                    title="Programming"
+                    type="checkbox"
+                    onChange={() => this.props.toggleItem('skills', 5)}
+                  />
+                  Programming
+                </Label>
+              </FormGroup>
+              <FormGroup>
+                <Label check>
+                  <Input
+                    title="Engineering"
+                    type="checkbox"
+                    onChange={() => this.props.toggleItem('skills', 6)}
+                  />
+                  Engineering
+                </Label>
+              </FormGroup>
+              <FormGroup>
+                <Label check>
+                  <Input
+                    title="Research"
+                    type="checkbox"
+                    onChange={() => this.props.toggleItem('skills', 7)}
+                  />
+                  Research
+                </Label>
+              </FormGroup>
+              <FormGroup>
+                <Label check>
+                  <Input
+                    title="Management"
+                    type="checkbox"
+                    onChange={() => this.props.toggleItem('skills', 8)}
+                  />
+                  Management
+                </Label>
+              </FormGroup>
+            </Col>
+          </Row>
+        </div>
+
+        <h5>Commitment Level</h5>
+        <FormGroup>
           <Label check>
             <Input
-              title="Startup"
+              title="High"
               type="checkbox"
-              state="types"
-              onChange={() => this.toggleItem('types', 0)}
+              onChange={() => this.props.toggleItem('commitments', 0)}
             />
-            Startup
+            High
           </Label>
         </FormGroup>
         <FormGroup>
           <Label check>
             <Input
-              title="Nonprofit"
+              title="Medium"
               type="checkbox"
-              state="types"
-              onChange={() => this.toggleItem('types', 1)}
+              onChange={() => this.props.toggleItem('commitments', 1)}
             />
-            Nonprofit
+            Medium
           </Label>
         </FormGroup>
         <FormGroup>
           <Label check>
             <Input
-              title="Passion Project"
+              title="Low"
               type="checkbox"
-              state="types"
-              onChange={() => this.toggleItem('types', 2)}
+              onChange={() => this.props.toggleItem('commitments', 2)}
             />
-            Passion Project
-          </Label>
-        </FormGroup>
-        <FormGroup>
-          <Label check>
-            <Input
-              title="Club Project"
-              type="checkbox"
-              state="types"
-              onChange={() => this.toggleItem('types', 2)}
-            />
-            Club Project
+            Low
           </Label>
         </FormGroup>
       </div>
@@ -78,4 +146,4 @@ class ProjectRequest extends Component {
   }
 }
 
-export default InputFilters;
+export default ProjectRequest;

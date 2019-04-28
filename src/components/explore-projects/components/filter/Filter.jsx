@@ -23,7 +23,7 @@ const _disciplines = [
   { label: 'Food' },
   { label: 'Film' },
   { label: 'Health' },
-  { label: 'Humanities' },
+  { label: 'Human Rights' },
   { label: 'Tech' },
   { label: 'Science' },
 ];
@@ -38,7 +38,6 @@ const _skills = [
   { label: 'Engineering' },
   { label: 'Research' },
   { label: 'Management' },
-  { label: 'Consulting' },
 ];
 
 const _commitments = [ { label: 'High' }, { label: 'Medium' }, { label: 'Low' } ];

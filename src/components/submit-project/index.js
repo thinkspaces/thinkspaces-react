@@ -1,1 +1,1 @@
-export { default } from './SubmitProject';
+export { default } from './SubmitProjectFlow';

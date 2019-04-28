@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
 import withAuthorization from '../utils/withAuthorization';
 import { db } from '../../firebase';
-import InputFilters from './components/input-filters';
 import GeneralProjectInfo from './components/general-project-info';
 import ProjectDetails from './components/project-details';
 import ProjectRequest from './components/project-request';
@@ -42,8 +41,8 @@ const _skills = [
   { label: 'Engineering' },
   { label: 'Research' },
   { label: 'Management' },
-  { label: 'Consulting' },
 ];
+const _commitments = [ { label: 'High' }, { label: 'Medium' }, { label: 'Low' } ];
 
 class SubmitProjectFlow extends Component {
   state = { step: 1,
@@ -56,7 +55,8 @@ class SubmitProjectFlow extends Component {
     types: [],
     disciplines: [],
     locations: [],
-    skills: [] };
+    skills: [],
+    commitments: [] };
 
   onSubmit = async (event) => {
     event.preventDefault();
@@ -76,7 +76,19 @@ class SubmitProjectFlow extends Component {
     this.setState({ step: this.state.step++ });
   };
 
-  render() {
+  componentDidMount = () => {
+    this.setState({ types: _types.map(item => ({ ...item, checked: false })) });
+    this.setState({ commitments: _commitments.map(item => ({ ...item, checked: false })) });
+    this.setState({ skills: _skills.map(item => ({ ...item, checked: false })) });
+  };
+
+  toggleItem = (type, index) => {
+    const items = [ ...this.state[type] ];
+    items[index].checked = !items[index].checked;
+    this.setState({ [type]: items });
+  };
+
+  renderSwitch(step) {
     const { title,
       contact,
       about,
@@ -87,34 +99,59 @@ class SubmitProjectFlow extends Component {
       types,
       disciplines,
       locations,
-      skills } = this.state;
+      skills,
+      commitments } = this.state;
+    console.log(this.state.step);
+    switch (step) {
+      case 1:
+        return (
+          <div>
+            <GeneralProjectInfo
+              title={title}
+              links={links}
+              card_des={card_des}
+              contact={contact}
+              onChangeTitle={event => this.setState({ title: event.target.value })}
+              onChangeLinks={event => this.setState({ links: event.target.value })}
+              onChangeCardDes={event => this.setState({ card_des: event.target.value })}
+              onChangeContact={event => this.setState({ contact: event.target.value })}
+            />
+            <Button onClick={event => this.setState({ step: 2 })}> Next </Button>
+          </div>
+        );
+      case 2:
+        return (
+          <div>
+            <ProjectDetails
+              about={about}
+              onChangeAbout={event => this.setState({ about: event.target.value })}
+              types={types}
+              toggleItem={this.toggleItem}
+            />
+            <Button onClick={event => this.setState({ step: 3 })}> Next </Button>
+          </div>
+        );
+      case 3:
+        return (
+          <div>
+            <ProjectRequest
+              need={need}
+              onChangeNeed={event => this.setState({ need: event.target.value })}
+              skills={skills}
+              commitment={commitments}
+              toggleItem={this.toggleItem}
+            />
+            <Button onClick={this.onSubmit}> Submit </Button>
+          </div>
+        );
+    }
+  }
+
+  render() {
     return (
       <div>
-        {() => {
-          switch (this.state.step) {
-            case 1:
-              return (
-                <GeneralProjectInfo
-                  title={title}
-                  links={links}
-                  card_des={card_des}
-                  contact={contact}
-                  onNextStep={this.onNextStep}
-                />
-              );
-            case 2:
-              return (
-                <ProjectDetails
-                  about={about}
-                  types={types}
-                  disciplines={disciplines}
-                  onNextStep={this.onNextStep}
-                />
-              );
-            case 3:
-              return <ProjectRequest skills={skills} need={need} onSubimt={this.onSubmit} />;
-          }
-        }}
+        <h2> Submit a Project </h2>
+        {this.renderSwitch(this.state.step)}
       </div>
     );
   }
