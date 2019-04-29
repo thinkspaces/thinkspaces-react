@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import './ProjectCard.css';
 import ReactGA from 'react-ga';
+import { Row, Col } from 'reactstrap';
 import LikeButton from '../like-button';
 
 const Card = ({ width, children, onClick }) => (
@@ -20,14 +21,8 @@ const CardImage = ({ image }) => (
 
 const CardTitle = ({ title, likes, pid, updateLikes }) => (
   <div className="card-border">
-    <LikeButton
-      style={{ verticalAlign: 'right' }}
-      likes={likes}
-      pid={pid}
-      updateLikes={updateLikes}
-    />
     <div id="project-title">
-      <h5>{title}</h5>
+      <h4>{title}</h4>
     </div>
   </div>
 );
@@ -35,7 +30,7 @@ const CardTitle = ({ title, likes, pid, updateLikes }) => (
 const CardBody = ({ text }) => (
   <div className="card-border card-body flexed">
     <div className="description-box">
-      <p>{text}</p>
+      <h5>{text}</h5>
     </div>
   </div>
 );
@@ -56,16 +51,21 @@ class ProjectCard extends Component {
   render() {
     const { width, title, likes, updateLikes, image, id, text } = this.props;
     return (
-      <Card width={width} onClick={this.openProject}>
-        <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
-        <CardImage image={image} />
-        <CardBody text={text} />
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <CardTag title="tech" />
-          <CardTag title="yale" />
-          <CardTag title="high" />
-        </div>
-      </Card>
+      <div>
+        <Card width={width} onClick={this.openProject}>
+          <Row>
+            <Col>
+              <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
+              <CardTag title="tech" />
+            </Col>
+            <CardImage image={image} />
+          </Row>
+          <CardBody text={text} />
+          <div className="like-button">
+            <LikeButton likes={likes} pid={id} updateLikes={updateLikes} />
+          </div>
+        </Card>
+      </div>
     );
   }
 }
