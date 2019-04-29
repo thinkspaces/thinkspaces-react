@@ -30,7 +30,7 @@ const CardTitle = ({ title, likes, pid, updateLikes }) => (
 const CardBody = ({ text }) => (
   <div className="card-border card-body flexed">
     <div className="description-box">
-      <h5>{text}</h5>
+      <h5 style={{ lineHeight: 1.3 }}>{text}</h5>
     </div>
   </div>
 );
@@ -58,7 +58,7 @@ class ProjectCard extends Component {
               <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
               <CardTag title="tech" />
             </Col>
-            <CardImage image={image} />
+            {image != null ? <CardImage image={image} /> : <p />}
           </Row>
           <CardBody text={text} />
           <div className="like-button">
