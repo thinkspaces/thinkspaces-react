@@ -2,6 +2,20 @@
   padding-right: 40%;
   padding-left: 10%;
 }
+
+.formStyle p {
+  color: #808080;
+  font-weight: bold;
+}
+
+.textStyle {
+  font-weight: bold;
+}
+
+.inputStyle {
+  margin-bottom: 20px;
+}
+
 .titleStyle {
   padding-right: 30%;
   padding-left: 10%;
@@ -27,5 +41,4 @@
 .nextButton {
   margin-top: 20px;
   float: right;
-  color: green;
 }

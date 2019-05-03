@@ -32,35 +32,14 @@ const _disciplines = [
   { label: 'Science' },
 ];
 
-const _skills = [
-  { label: 'Analysis' },
-  { label: 'Graphic Design' },
-  { label: 'Film' },
-  { label: 'Writing' },
-  { label: 'Marketing' },
-  { label: 'Programming' },
-  { label: 'Engineering' },
-  { label: 'Research' },
-  { label: 'Management' },
+const _status = [
+  { label: 'Ideation' },
+  { label: 'Beta' },
+  { label: 'Alpha' },
+  { label: 'Launched' },
 ];
-const _commitments = [ { label: 'High' }, { label: 'Medium' }, { label: 'Low' } ];
 
-// const ProgressBar = props => (
-//   <div className="progress-bar">
-//     <Filler step={this.props.step} />
-//   </div>
-// );
-//
-// const Filler = (props) => {
-//   switch (this.props.step) {
-//     case 1:
-//       return <div className="filler" style={{ width: '${33}%' }} />;
-//     case 2:
-//       return <div className="filler" style={{ width: '${66}%' }} />;
-//     case 3:
-//       return <div className="filler" style={{ width: '${100}%' }} />;
-//   }
-// };
+const _progress = [ { label: 'Fast' }, { label: 'Steady' }, { label: 'Slower than Desired' } ];
 
 class SubmitProjectFlow extends Component {
   state = { step: 1,
@@ -69,23 +48,51 @@ class SubmitProjectFlow extends Component {
     about: '',
     card_des: '',
     links: '',
+    role: '',
     need: '',
+    location: '',
+    communication: '',
+    challenges: '',
     types: [],
     disciplines: [],
-    locations: [],
-    skills: [],
-    commitments: [] };
+    status: [] };
 
   onSubmit = async (event) => {
     event.preventDefault();
 
     // prepare the fields
-    const { title, contact, about, card_des, links, need } = this.state;
+    const { title,
+      contact,
+      about,
+      card_des,
+      links,
+      role,
+      need,
+      communication,
+      challenges,
+      location } = this.state;
     const { history } = this.props;
 
-    await db.createProjectWithFields({ title, about, card_des, contact, links, need });
+    await db.createProjectWithFields({ title,
+      about,
+      card_des,
+      contact,
+      links,
+      need,
+      communication,
+      location,
+      challenges });
     await // reset form
-    this.setState({ title: '', contact: '', about: '', card_des: '', links: '', need: '' });
+    this.setState({ title: '',
+      contact: '',
+      about: '',
+      card_des: '',
+      links: '',
+      need: '',
+      role: '',
+      communication: '',
+      challenges: '',
+      communication: '' });
 
     history.push('/');
   };
@@ -96,8 +103,8 @@ class SubmitProjectFlow extends Component {
 
   componentDidMount = () => {
     this.setState({ types: _types.map(item => ({ ...item, checked: false })) });
-    this.setState({ commitments: _commitments.map(item => ({ ...item, checked: false })) });
-    this.setState({ skills: _skills.map(item => ({ ...item, checked: false })) });
+    this.setState({ disciplines: _disciplines.map(item => ({ ...item, checked: false })) });
+    this.setState({ status: _status.map(item => ({ ...item, checked: false })) });
   };
 
   toggleItem = (type, index) => {
@@ -113,12 +120,17 @@ class SubmitProjectFlow extends Component {
       card_des,
       links,
       need,
+      role,
+      communication,
       category,
       types,
       disciplines,
       locations,
       skills,
-      commitments } = this.state;
+      commitments,
+      location,
+      challenges,
+      status } = this.state;
     console.log(this.state.step);
     switch (step) {
       case 1:
@@ -137,6 +149,8 @@ class SubmitProjectFlow extends Component {
               links={links}
               card_des={card_des}
               contact={contact}
+              location={locations}
+              onChangeLocation={event => this.setState({ location: event.target.value })}
               onChangeTitle={event => this.setState({ title: event.target.value })}
               onChangeLinks={event => this.setState({ links: event.target.value })}
               onChangeCardDes={event => this.setState({ card_des: event.target.value })}
@@ -166,18 +180,27 @@ class SubmitProjectFlow extends Component {
             <ProjectDetails
               about={about}
               onChangeAbout={event => this.setState({ about: event.target.value })}
+              challenges={challenges}
+              onChangeChallenges={event => this.setState({ challenges: event.target.value })}
+              status={status}
               types={types}
               toggleItem={this.toggleItem}
             />
-            <div onClick={event => this.setState({ step: 1 })}>Back</div>
+            <Button
+              style={{ marginTop: 20 }}
+              color="primary"
+              outline="true"
+              onClick={event => this.setState({ step: 1 })}
+            >
+              Back
+            </Button>
             <Button
               className="nextButton"
               color="primary"
               outline="true"
               onClick={event => this.setState({ step: 3 })}
             >
-              {' '}
-              Next{' '}
+              Next
             </Button>
           </div>
         );
@@ -191,15 +214,25 @@ class SubmitProjectFlow extends Component {
                 <div className="filler" style={{ width: '100%' }} />
               </div>
             </Row>
-
+            <br />
             <ProjectRequest
+              role={role}
+              onChangeRole={event => this.setState({ role: event.target.value })}
               need={need}
               onChangeNeed={event => this.setState({ need: event.target.value })}
-              skills={skills}
+              communication={communication}
+              onChangeCommunication={event => this.setState({ communication: event.target.value })}
               commitment={commitments}
               toggleItem={this.toggleItem}
             />
-            <div onClick={event => this.setState({ step: 2 })}>Back</div>
+            <Button
+              style={{ marginTop: 20 }}
+              color="primary"
+              outline="true"
+              onClick={event => this.setState({ step: 2 })}
+            >
+              Back
+            </Button>
             <Button className="nextButton" color="primary" outline="true" onClick={this.onSubmit}>
               {' '}
               Submit{' '}
