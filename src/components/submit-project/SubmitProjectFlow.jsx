@@ -7,39 +7,47 @@ import ProjectDetails from './components/project-details';
 import ProjectRequest from './components/project-request';
 import './SubmitProjectFlow.css';
 
-const _locations = [
-  { label: 'Yale' },
-  { label: 'Harvard' },
-  { label: 'Radford' },
-  { label: 'University of New Haven' },
-];
+const _types = [ 'Startup', 'Nonprofit', 'Passion Project', 'Club Project' ];
 
-const _types = [
-  { label: 'Startup' },
-  { label: 'Nonprofit' },
-  { label: 'Passion Project' },
-  { label: 'Club Project' },
-];
+const _disciplines = [ 'Arts', 'Community', 'Health', 'Politics', 'Tech', 'Science' ];
 
-const _disciplines = [
-  { label: 'Arts' },
-  { label: 'Engineering' },
-  { label: 'Food' },
-  { label: 'Film' },
-  { label: 'Health' },
-  { label: 'Humanities' },
-  { label: 'Tech' },
-  { label: 'Science' },
-];
+const _status = [ 'Ideation', 'Beta', 'Alpha', 'Launched' ];
 
-const _status = [
-  { label: 'Ideation' },
-  { label: 'Beta' },
-  { label: 'Alpha' },
-  { label: 'Launched' },
-];
-
-const _progress = [ { label: 'Fast' }, { label: 'Steady' }, { label: 'Slower than Desired' } ];
+// toggleItem = (type, index) => {
+//   console.log(type);
+//   switch (type) {
+//     case 'types': {
+//       console.log('clicked');
+//       if (!this.state.types.includes(_types[index])) {
+//         this.state.types.push(_types[index]);
+//         this.setState({ types: this.state.types });
+//       } else {
+//         this.state.types.pop(_types[index]);
+//         this.setState({ types: this.state.types });
+//       }
+//     }
+//     case 'status': {
+//       console.log('clicked status');
+//       if (!this.state.status.includes(_status[index])) {
+//         this.state.status.push(_status[index]);
+//         this.setState({ status: this.state.status });
+//       } else {
+//         this.state.status.pop(_status[index]);
+//         this.setState({ status: this.state.status });
+//       }
+//     }
+//     case 'disciplines': {
+//       console.log('clicked disciplines');
+//       if (!this.state.disciplines.includes(_disciplines[index])) {
+//         this.state.disciplines.push(_disciplines[index]);
+//         this.setState({ disciplines: this.state.disciplines });
+//       } else {
+//         this.state.disciplines.pop(_disciplines[index]);
+//         this.setState({ disciplines: this.state.disciplines });
+//       }
+//     }
+//   }
+// };
 
 class SubmitProjectFlow extends Component {
   state = { step: 1,
@@ -70,7 +78,10 @@ class SubmitProjectFlow extends Component {
       need,
       communication,
       challenges,
-      location } = this.state;
+      location,
+      types,
+      status,
+      disciplines } = this.state;
     const { history } = this.props;
 
     await db.createProjectWithFields({ title,
@@ -79,9 +90,13 @@ class SubmitProjectFlow extends Component {
       contact,
       links,
       need,
+      role,
       communication,
       location,
-      challenges });
+      challenges,
+      types,
+      status,
+      disciplines });
     await // reset form
     this.setState({ title: '',
       contact: '',
@@ -92,7 +107,9 @@ class SubmitProjectFlow extends Component {
       role: '',
       communication: '',
       challenges: '',
-      communication: '' });
+      types: [],
+      status: [],
+      disciplines: [] });
 
     history.push('/');
   };
@@ -101,16 +118,39 @@ class SubmitProjectFlow extends Component {
     this.setState({ step: this.state.step++ });
   };
 
-  componentDidMount = () => {
-    this.setState({ types: _types.map(item => ({ ...item, checked: false })) });
-    this.setState({ disciplines: _disciplines.map(item => ({ ...item, checked: false })) });
-    this.setState({ status: _status.map(item => ({ ...item, checked: false })) });
+  // componentDidMount = () => {
+  //   this.setState({ types_: _types.map(item => ({ ...item, checked: false })) });
+  //   this.setState({ status_: _status.map(item => ({ ...item, checked: false })) });
+  // };
+
+  toggleTypes = (index) => {
+    if (!this.state.types.includes(_types[index])) {
+      this.state.types.push(_types[index]);
+      this.setState({ types: this.state.types });
+    } else {
+      this.state.types.pop(_types[index]);
+      this.setState({ types: this.state.types });
+    }
   };
 
-  toggleItem = (type, index) => {
-    const items = [ ...this.state[type] ];
-    items[index].checked = !items[index].checked;
-    this.setState({ [type]: items });
+  toggleStatus = (index) => {
+    if (!this.state.status.includes(_status[index])) {
+      this.state.status.push(_status[index]);
+      this.setState({ status: this.state.status });
+    } else {
+      this.state.status.pop(_status[index]);
+      this.setState({ status: this.state.status });
+    }
+  };
+
+  toggleDiscipline = (index) => {
+    if (!this.state.disciplines.includes(_disciplines[index])) {
+      this.state.disciplines.push(_disciplines[index]);
+      this.setState({ disciplines: this.state.disciplines });
+    } else {
+      this.state.disciplines.pop(_disciplines[index]);
+      this.setState({ disciplines: this.state.disciplines });
+    }
   };
 
   renderSwitch(step) {
@@ -131,7 +171,7 @@ class SubmitProjectFlow extends Component {
       location,
       challenges,
       status } = this.state;
-    console.log(this.state.step);
+    console.log('disciplines', this.state.disciplines);
     switch (step) {
       case 1:
         return (
@@ -184,7 +224,10 @@ class SubmitProjectFlow extends Component {
               onChangeChallenges={event => this.setState({ challenges: event.target.value })}
               status={status}
               types={types}
-              toggleItem={this.toggleItem}
+              disciplines={disciplines}
+              toggleDiscipline={this.toggleDiscipline}
+              toggleTypes={this.toggleTypes}
+              toggleStatus={this.toggleStatus}
             />
             <Button
               style={{ marginTop: 20 }}
@@ -233,7 +276,7 @@ class SubmitProjectFlow extends Component {
             >
               Back
             </Button>
-            <Button className="nextButton" color="primary" outline="true" onClick={this.onSubmit}>
+            <Button className="nextButton" color="danger" outline="true" onClick={this.onSubmit}>
               {' '}
               Submit{' '}
             </Button>
