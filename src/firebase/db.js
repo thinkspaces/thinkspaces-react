@@ -297,12 +297,14 @@ export const getTags = async (bucket = 'all') => {
             tags: query.docs.map(doc => ({ ...doc.data(), id: doc.id })) };
         }),
       );
-      // return all the bucket items
+      // return all the bucket items (this is an array)
       return allTags;
     }
   }
 
-  // single bucket only
-  const query = await db.doc(`tag-buckets/${ bucket }`).collection('tags').get();
-  return query.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+  // single bucket only (also returned as an array)
+  const bucketQuery = await db.doc(`tag-buckets/${ bucket }`).get();
+  const bucketData = bucketQuery.data();
+  const tagsQuery = await db.doc(`tag-buckets/${ bucket }`).collection('tags').get();
+  return [ { ...bucketData, id: bucketQuery.id, tags: tagsQuery.docs.map(doc => ({ ...doc.data(), id: doc.id })) } ]
 }

@@ -1,7 +1,7 @@
 .dashboard {
     display: grid;
     grid-template-columns: 0.3fr 1fr;
-    min-height: 50vh;
+    /* min-height: 50vh; */
 }
 
 @media (max-width: 768px) {

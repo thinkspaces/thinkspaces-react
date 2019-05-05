@@ -28,7 +28,7 @@ const ProjectTagsForm = (props) => {
 
   const handleSetup = async () => {
     const project = await getProject(pid)
-    const tags = await getTags()
+    const tags = await getTags('project-category')
     setAllTags(tags)
     console.log(tags)
     // setInitData({ name, description });
@@ -41,9 +41,9 @@ const ProjectTagsForm = (props) => {
   const renderTagBuckets = () => {
     const content = []
     allTags.forEach((bucket, index, array) => {
-      content.push(<h2>{bucket.name}</h2>);
+      content.push(<h3>{ bucket.name }</h3>);
       bucket.tags.forEach((tag, index, array) => {
-        content.push(<span>{ tag.name }</span>)
+        content.push(<p>{ tag.name }</p>)
       })
     })
 
@@ -53,16 +53,17 @@ const ProjectTagsForm = (props) => {
   return (
     <>
       <h2>Tags</h2>
+      {renderTagBuckets()}
       <div className={styles.wrapper}>
         <Formik
           onSubmit={(values, actions) => handleSave(values, actions)}
           render={({ errors, status, touched, isSubmitting }) => (
             <Form>
-              <h5>Project category</h5>
-              <span>Choose up to three to categorize your project</span>
-              { renderTagBuckets() }
-
-              <ErrorMessage name="name" component="div" className={styles.error} />
+              <ErrorMessage
+                name="name"
+                component="div"
+                className={styles.error}
+              />
 
               {/* status stuff */}
               {status && status.msg && <div>{status.msg}</div>}
@@ -72,7 +73,7 @@ const ProjectTagsForm = (props) => {
                   disabled={isSubmitting}
                   className="defBtn"
                 >
-                    Save
+                                  Save
                 </button>
                 {isSubmitting ? (
                   <div className="fade-in-animation">
