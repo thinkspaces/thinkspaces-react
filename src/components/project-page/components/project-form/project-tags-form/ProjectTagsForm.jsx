@@ -12,9 +12,9 @@ const schema = Yup.object().shape({ name: Yup.string()
 description: Yup.string()
   .required('Required') });
 
-const ProjectDescriptionForm = (props) => {
+const ProjectTagsForm = (props) => {
   const { pid } = props
-  const [ initData, setInitData ] = useState({ name: '', description: '' })
+  const [ allTags, setAllTags ] = useState([]);
   const [ success, setSuccess ] = useState(false);
 
   const handleSave = async (values, actions) => {
@@ -28,10 +28,8 @@ const ProjectDescriptionForm = (props) => {
 
   const handleSetup = async () => {
     const project = await getProject(pid)
-    // const { tags } = project;
-    // console.log(tags)
-
     const tags = await getTags()
+    setAllTags(tags)
     console.log(tags)
     // setInitData({ name, description });
   }
@@ -39,6 +37,18 @@ const ProjectDescriptionForm = (props) => {
   useEffect(() => {
     handleSetup();
   }, []);
+
+  const renderTagBuckets = () => {
+    const content = []
+    allTags.forEach((bucket, index, array) => {
+      content.push(<h2>{bucket.name}</h2>);
+      bucket.tags.forEach((tag, index, array) => {
+        content.push(<span>{ tag.name }</span>)
+      })
+    })
+
+    return content
+  }
 
   return (
     <>
@@ -48,26 +58,13 @@ const ProjectDescriptionForm = (props) => {
           onSubmit={(values, actions) => handleSave(values, actions)}
           render={({ errors, status, touched, isSubmitting }) => (
             <Form>
-              <h5>Category</h5>
+              <h5>Project category</h5>
               <span>Choose up to three to categorize your project</span>
-              <div className={styles.fieldCombo}>
-                <Field
-                  type="checkbox"
-                  name="name"
-                  value="Hello"
-                />
-                <ErrorMessage name="name" component="div" className={styles.error} />
-              </div>
-              <h5>Description</h5>
-              <div className={styles.fieldCombo}>
-                <Field
-                  component="textarea"
-                  name="description"
-                  placeholder="A brief description of your idea"
-                  className="text-input"
-                />
-                <ErrorMessage name="description" component="div" className={styles.error} />
-              </div>
+              { renderTagBuckets() }
+
+              <ErrorMessage name="name" component="div" className={styles.error} />
+
+              {/* status stuff */}
               {status && status.msg && <div>{status.msg}</div>}
               <div className={styles.save}>
                 <button
@@ -99,4 +96,4 @@ const ProjectDescriptionForm = (props) => {
   );
 }
 
-export default ProjectDescriptionForm
+export default ProjectTagsForm

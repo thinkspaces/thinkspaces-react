@@ -277,19 +277,27 @@ export const getProject = async (pid) => {
 export const getTags = async (bucket = 'all') => {
   // all buckets
   if (bucket === 'all') {
+    // get all the bucket docs
     const bucketQuery = await db.collection('tag-buckets').get()
+    // if non empty
     if (bucketQuery && bucketQuery.docs) {
-      const bucketIds = bucketQuery.docs.map(doc => doc.id);
+      // transform the query into actual data
+      const bucketData = bucketQuery.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      // compile all the tags
       const allTags = await Promise.all(
-        bucketIds.map(async (bucketId) => {
+        // for each bucket
+        bucketData.map(async (bucketDataItem) => {
+          // get all the tag docs
           const query = await db
-            .doc(`tag-buckets/${ bucketId }`)
+            .doc(`tag-buckets/${ bucketDataItem.id }`)
             .collection('tags')
             .get();
-          return { bucket: bucketId,
+          // add the tags and construct a final bucket item
+          return { ...bucketDataItem,
             tags: query.docs.map(doc => ({ ...doc.data(), id: doc.id })) };
         }),
       );
+      // return all the bucket items
       return allTags;
     }
   }
