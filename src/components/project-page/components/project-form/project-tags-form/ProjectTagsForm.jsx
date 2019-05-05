@@ -28,7 +28,7 @@ const ProjectTagsForm = (props) => {
 
   const handleSetup = async () => {
     const project = await getProject(pid)
-    const tags = await getTags('project-category')
+    const tags = await getTags()
     setAllTags(tags)
     console.log(tags)
     // setInitData({ name, description });
@@ -38,27 +38,30 @@ const ProjectTagsForm = (props) => {
     handleSetup();
   }, []);
 
-  const renderTagBuckets = () => {
-    const content = []
-    allTags.forEach((bucket, index, array) => {
-      content.push(<h3>{ bucket.name }</h3>);
-      bucket.tags.forEach((tag, index, array) => {
-        content.push(<p>{ tag.name }</p>)
-      })
-    })
-
-    return content
-  }
-
   return (
     <>
       <h2>Tags</h2>
-      {renderTagBuckets()}
       <div className={styles.wrapper}>
         <Formik
           onSubmit={(values, actions) => handleSave(values, actions)}
           render={({ errors, status, touched, isSubmitting }) => (
             <Form>
+              {allTags.map(bucket => (
+                <>
+                  <h3>{bucket.name}</h3>
+                  {bucket.tags.map(tag => (
+                    <>
+                      <li>
+                        <Field
+                          type="checkbox"
+                          name={tag.id}
+                        />
+                        <p>{tag.name}</p>
+                      </li>
+                    </>
+                  ))}
+                </>
+              ))}
               <ErrorMessage
                 name="name"
                 component="div"
