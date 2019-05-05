@@ -1,0 +1,37 @@
+.dashboard {
+    display: grid;
+    grid-template-columns: 0.3fr 1fr;
+    min-height: 50vh;
+}
+
+.sidebar {
+    border: 0.5px solid var(--color-grey);;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    overflow: hidden;
+}
+
+.rightPanel {
+    padding: 25px;
+    border: 0.5px solid var(--color-grey);
+    border-left-width: 0px!important;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.sidebarItem {
+    all: unset;
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--color-subtle); 
+}
+
+.sidebarItem:focus {
+    outline-color: var(--color-grey);
+    outline-width: 3px;
+}
+
+.sidebarItem:hover {
+    background-color: var(--color-subtle);
+}

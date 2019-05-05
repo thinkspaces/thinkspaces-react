@@ -1,82 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 // import EditProjectImages from '../../../submit-project/components/edit-project-images'
 import ProjectImagesForm from '../project-form/project-images-form'
 import ProjectDescriptionForm from '../project-form/project-description-form';
+import styles from './EditProject.module.css'
 
-const EditProject = ({ saveChanges, project, pid, onEditChange, onCancel }) => (
-  <div>
-    <Form>
-      <FormGroup>
-        <Label for="title">Project Name</Label>
-        <Input
-          id="title"
-          value={project.title}
-          onChange={onEditChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="contact">Contact Email</Label>
-        <Input
-          id="contact"
-          value={project.contact}
-          onChange={onEditChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="card_des">
-                    Tell us a bit about your project (in one sentence)
-        </Label>
-        <Input
-          id="card_des"
-          value={project.card_des}
-          onChange={onEditChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="about">
-                    Now tell us a bit more about your project
-        </Label>
-        <Input
-          type="textarea"
-          id="about"
-          value={project.about}
-          onChange={onEditChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="need">
-                    Most importantly, what type of people are you looking for?
-        </Label>
-        <Input
-          type="textarea"
-          id="need"
-          value={project.need}
-          onChange={onEditChange}
-        />
-      </FormGroup>
-      <FormGroup>
-        <Label for="links"> Link to your website or social media</Label>
-        <Input
-          value={project.links}
-          id="links"
-          onChange={onEditChange}
-          placeholder="http://www.yourwebsite.com"
-        />
-      </FormGroup>
-      {/* <EditProjectImages pid={pid} />
-             */}
-      <ProjectImagesForm pid={pid} />
-      <ProjectDescriptionForm pid={pid} />
-    </Form>
-    <br />
-    <Button color="info" onClick={saveChanges} style={{ marginRight: 5 }}>
-            Save
-    </Button>
-    <Button color="danger" onClick={onCancel}>
-            Cancel
-    </Button>
-  </div>
-);
+const EditProject = (props) => {
+  const { pid } = props
+  const [ currentForm, setCurrentForm ] = useState(<ProjectDescriptionForm pid={pid} />)
+
+  const handleSidebar = (event) => {
+    switch (event.target.name) {
+      case 'description':
+        setCurrentForm(<ProjectDescriptionForm pid={pid} />)
+        break;
+      case 'images':
+        setCurrentForm(<ProjectImagesForm pid={pid} />);
+        break;
+      default:
+        setCurrentForm(<ProjectDescriptionForm pid={pid} />)
+        break;
+    }
+  }
+
+  return (
+    <>
+      <h2>Edit Project</h2>
+      <div className={styles.dashboard}>
+        <div className={styles.sidebar}>
+          <button type="button" name="description" className={styles.sidebarItem} onClick={handleSidebar}>Description</button>
+          <button type="button" name="links" className={styles.sidebarItem} onClick={handleSidebar}>Links</button>
+          <button type="button" name="images" className={styles.sidebarItem} onClick={handleSidebar}>Images</button>
+          <button type="button" name="team" className={styles.sidebarItem} onClick={handleSidebar}>Team</button>
+        </div>
+        <div className={styles.rightPanel}>
+          { currentForm }
+        </div>
+      </div>
+    </>
+  )
+};
 
 export default EditProject;
