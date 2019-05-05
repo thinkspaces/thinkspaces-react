@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 // import EditProjectImages from '../../../submit-project/components/edit-project-images'
 import ProjectImagesForm from '../project-form/project-images-form'
+import ProjectDescriptionForm from '../project-form/project-description-form';
 
 const EditProject = ({ saveChanges, project, pid, onEditChange, onCancel }) => (
   <div>
@@ -24,7 +25,7 @@ const EditProject = ({ saveChanges, project, pid, onEditChange, onCancel }) => (
       </FormGroup>
       <FormGroup>
         <Label for="card_des">
-                        Tell us a bit about your project (in one sentence)
+                    Tell us a bit about your project (in one sentence)
         </Label>
         <Input
           id="card_des"
@@ -34,7 +35,7 @@ const EditProject = ({ saveChanges, project, pid, onEditChange, onCancel }) => (
       </FormGroup>
       <FormGroup>
         <Label for="about">
-                        Now tell us a bit more about your project
+                    Now tell us a bit more about your project
         </Label>
         <Input
           type="textarea"
@@ -45,8 +46,7 @@ const EditProject = ({ saveChanges, project, pid, onEditChange, onCancel }) => (
       </FormGroup>
       <FormGroup>
         <Label for="need">
-                        Most importantly, what type of people are you
-                        looking for?
+                    Most importantly, what type of people are you looking for?
         </Label>
         <Input
           type="textarea"
@@ -56,10 +56,7 @@ const EditProject = ({ saveChanges, project, pid, onEditChange, onCancel }) => (
         />
       </FormGroup>
       <FormGroup>
-        <Label for="links">
-          {' '}
-                        Link to your website or social media
-        </Label>
+        <Label for="links"> Link to your website or social media</Label>
         <Input
           value={project.links}
           id="links"
@@ -68,19 +65,16 @@ const EditProject = ({ saveChanges, project, pid, onEditChange, onCancel }) => (
         />
       </FormGroup>
       {/* <EditProjectImages pid={pid} />
-                 */}
+             */}
       <ProjectImagesForm pid={pid} />
+      <ProjectDescriptionForm pid={pid} />
     </Form>
     <br />
-    <Button
-      color="info"
-      onClick={saveChanges}
-      style={{ marginRight: 5 }}
-    >
-                Save
+    <Button color="info" onClick={saveChanges} style={{ marginRight: 5 }}>
+            Save
     </Button>
     <Button color="danger" onClick={onCancel}>
-                Cancel
+            Cancel
     </Button>
   </div>
 );

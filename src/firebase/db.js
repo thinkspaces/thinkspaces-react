@@ -256,3 +256,18 @@ export const setProjectImages = async (pid, imageURLs) => {
     .doc(pid)
     .update({ images: imageURLs })
 }
+
+export const setProject = async (pid, obj) => {
+  await db.collection('projects')
+    .doc(pid)
+    .set( obj, { merge: true })
+}
+
+export const getProject = async (pid) => {
+  const docSnapshot = await db
+    .collection('projects')
+    .doc(pid)
+    .get();
+  const data = docSnapshot.data();
+  return data
+}
