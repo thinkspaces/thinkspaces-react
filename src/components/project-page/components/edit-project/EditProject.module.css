@@ -4,6 +4,25 @@
     min-height: 50vh;
 }
 
+@media (max-width: 768px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-row-gap: 10px;
+    }
+
+    .sidebar {
+        border-radius: 5px;
+    }
+
+    .rightPanel {
+        border: 0.5px solid var(--color-grey);
+        border-radius: 5px;
+        border-left-width: 0.5px!important;
+    }
+    
+}
+
 .sidebar {
     border: 0.5px solid var(--color-grey);;
     border-top-left-radius: 5px;
@@ -14,7 +33,7 @@
 .rightPanel {
     padding: 25px;
     border: 0.5px solid var(--color-grey);
-    border-left-width: 0px!important;
+    border-left-width: 0px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }

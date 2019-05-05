@@ -32,6 +32,7 @@ const EditProject = (props) => {
           <button type="button" name="links" className={styles.sidebarItem} onClick={handleSidebar}>Links</button>
           <button type="button" name="images" className={styles.sidebarItem} onClick={handleSidebar}>Images</button>
           <button type="button" name="team" className={styles.sidebarItem} onClick={handleSidebar}>Team</button>
+          <button type="button" name="tags" className={styles.sidebarItem} onClick={handleSidebar}>Tags</button>
         </div>
         <div className={styles.rightPanel}>
           { currentForm }
