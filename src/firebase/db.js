@@ -271,3 +271,30 @@ export const getProject = async (pid) => {
   const data = docSnapshot.data();
   return data
 }
+
+// tags
+
+export const getTags = async (bucket = 'all') => {
+  // all buckets
+  if (bucket === 'all') {
+    const bucketQuery = await db.collection('tag-buckets').get()
+    if (bucketQuery && bucketQuery.docs) {
+      const bucketIds = bucketQuery.docs.map(doc => doc.id);
+      const allTags = await Promise.all(
+        bucketIds.map(async (bucketId) => {
+          const query = await db
+            .doc(`tag-buckets/${ bucketId }`)
+            .collection('tags')
+            .get();
+          return { bucket: bucketId,
+            tags: query.docs.map(doc => ({ ...doc.data(), id: doc.id })) };
+        }),
+      );
+      return allTags;
+    }
+  }
+
+  // single bucket only
+  const query = await db.doc(`tag-buckets/${ bucket }`).collection('tags').get();
+  return query.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+}

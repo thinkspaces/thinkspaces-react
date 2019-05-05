@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 // import EditProjectImages from '../../../submit-project/components/edit-project-images'
 import ProjectImagesForm from '../project-form/project-images-form'
 import ProjectDescriptionForm from '../project-form/project-description-form';
+import ProjectTagsForm from '../project-form/project-tags-form';
 import styles from './EditProject.module.css'
 
 const EditProject = (props) => {
@@ -16,6 +17,9 @@ const EditProject = (props) => {
         break;
       case 'images':
         setCurrentForm(<ProjectImagesForm pid={pid} />);
+        break;
+      case 'tags':
+        setCurrentForm(<ProjectTagsForm pid={pid} />);
         break;
       default:
         setCurrentForm(<ProjectDescriptionForm pid={pid} />)

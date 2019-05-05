@@ -14,14 +14,14 @@ registerPlugin(FilePondPluginImagePreview);
 
 const ProjectImagesForm = (props) => {
   const { pid } = props
-  const [ imageFiles, setFiles ] = useState([])
+  const [ files, setFiles ] = useState([])
   const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
 
   const handleSave = async () => {
     setLoading(true);
     await deleteProjectImages(pid);
-    const imageURLs = await uploadProjectImages(pid, imageFiles);
+    const imageURLs = await uploadProjectImages(pid, files);
     await setProjectImages(pid, imageURLs);
     setLoading(false);
     setSuccess(true);
@@ -51,7 +51,7 @@ const ProjectImagesForm = (props) => {
       <FilePond
         onupdatefiles={fileItems => handleUpdateFiles(fileItems)}
         allowMultiple
-        files={imageFiles}
+        files={files}
       />
       <div className={styles.save}>
         <button type="button" className="defBtn" onClick={handleSave}>
