@@ -49,17 +49,18 @@ const ProjectTagsForm = (props) => {
               {allTags.map(bucket => (
                 <>
                   <h3>{bucket.name}</h3>
-                  {bucket.tags.map(tag => (
-                    <>
-                      <li>
+                  <div className={styles.bucketWrapper}>
+                    {bucket.tags.map(tag => (
+                      <div className={styles.checkboxCombo}>
                         <Field
                           type="checkbox"
                           name={tag.id}
                         />
-                        <p>{tag.name}</p>
-                      </li>
-                    </>
-                  ))}
+                        <div>{tag.name}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <hr />
                 </>
               ))}
               <ErrorMessage

@@ -33,3 +33,20 @@
     color: red;
     display: block;
 }
+
+.bucketWrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 100px));
+    grid-template-rows: repeat(auto-fit);
+    grid-row-gap: 10px;
+    grid-column-gap: 25px;
+}
+
+.checkboxCombo {
+    display: flex;
+    align-items: center;
+}
+
+.checkboxCombo > * {
+    margin-right: 5px;
+}
