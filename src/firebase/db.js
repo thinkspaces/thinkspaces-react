@@ -58,7 +58,7 @@ export const saveProjectChanges = async (project, pid) => {
   // project.team = team;
 
   // temporary fix to prevent EditProjectImages breaking
-  delete project.images
+  delete project.images;
 
   await db
     .collection('projects')
@@ -119,7 +119,9 @@ export const createUserwithFields = async (uid, profileData) => {
   await db
     .collection('users')
     .doc(uid)
-    .set({ ...profileData, profilepicture: '', createdTimestamp: createTimestamp(new Date()) });
+    .set({ ...profileData,
+      profilepicture: '',
+      createdTimestamp: createTimestamp(new Date()) });
 };
 
 export const getUserProfile = async (uid) => {
@@ -158,14 +160,22 @@ export const saveProjectPicture = async (id, url) => {
     .update({ images: [ url ] });
 };
 
-export const createProfilePostWithFields = async (description, timestamp, uid) => {
+export const createProfilePostWithFields = async (
+  description,
+  timestamp,
+  uid,
+) => {
   const docRef = await db
     .collection(`users/${ uid }/posts`)
     .add({ timestamp: createTimestamp(timestamp), description });
   return docRef.id;
 };
 
-export const createProjectPostWithFields = async (description, timestamp, projectId) => {
+export const createProjectPostWithFields = async (
+  description,
+  timestamp,
+  projectId,
+) => {
   const docRef = await db
     .collection(`projects/${ projectId }/posts`)
     .add({ timestamp: createTimestamp(timestamp), description });
@@ -184,7 +194,9 @@ export const getProfilePosts = async (uid) => {
     let timestamp = doc.get('timestamp');
     const date = timestamp.toDate();
     timestamp = `${ date.getMonth() }/${ date.getDate() }/${ date.getFullYear() }`;
-    posts.push({ description: doc.get('description'), timestamp, pid: doc.id });
+    posts.push({ description: doc.get('description'),
+      timestamp,
+      pid: doc.id });
   });
 
   return posts;
@@ -203,7 +215,9 @@ export const getProjectPosts = async (projectId) => {
     let timestamp = doc.get('timestamp');
     const date = timestamp.toDate();
     timestamp = `${ date.getMonth() }/${ date.getDate() }/${ date.getFullYear() }`;
-    posts.push({ description: doc.get('description'), timestamp, pid: doc.id });
+    posts.push({ description: doc.get('description'),
+      timestamp,
+      pid: doc.id });
   });
 
   return posts;
@@ -249,20 +263,22 @@ export const createProjectWithFields = async (project) => {
       images: [],
       likesCount: 0,
       createdTimestamp: createTimestamp(new Date()) });
-  return projectRef.id
+  return projectRef.id;
 };
 
 export const setProjectImages = async (pid, imageURLs) => {
-  await db.collection('projects')
+  await db
+    .collection('projects')
     .doc(pid)
-    .update({ images: imageURLs })
-}
+    .update({ images: imageURLs });
+};
 
 export const setProject = async (pid, obj) => {
-  await db.collection('projects')
+  await db
+    .collection('projects')
     .doc(pid)
-    .set( obj, { merge: true })
-}
+    .set(obj, { merge: true });
+};
 
 export const getProject = async (pid) => {
   const docSnapshot = await db
@@ -270,8 +286,8 @@ export const getProject = async (pid) => {
     .doc(pid)
     .get();
   const data = docSnapshot.data();
-  return data
-}
+  return data;
+};
 
 /**
  * Firebase Tag Bucket interface
@@ -284,23 +300,41 @@ export class TagBucket {
    */
   constructor(tbid, tbDocRef = undefined) {
     if (tbDocRef === undefined) {
-      this.ref = db.collection('tag-buckets').doc(tbid);
+      if (tbid === undefined) {
+        // from new
+        this.ref = db.collection('tag-buckets').doc();
+      } else {
+        // from existing id
+        this.ref = db.collection('tag-buckets').doc(tbid);
+      }
     } else {
+      // from existing reference
       this.ref = tbDocRef;
     }
   }
 
   /**
+   * @param {object} props : an object of properties to update with (low level)
+   */
+  update = async props => this.ref.update(props);
+
+  /**
+   * @param {object} props : an object of properties to create with (low level)
+   */
+  create = async props => this.ref.set(props, { merge: true });
+
+  /**
    * static function (if not using an instance)
    * retrieve and return all buckets
    */
-  static readBuckets = async () => {
+  static readAll = async () => {
     // get all the bucket docs
-    const bucketQuery = await db.collection('tag-buckets').get()
+    const bucketQuery = await db.collection('tag-buckets').get();
     // if non empty
     if (bucketQuery && bucketQuery.docs) {
       // transform the query into actual data
-      const bucketData = bucketQuery.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const bucketData = bucketQuery.docs.map(doc => ({ id: doc.id,
+        ...doc.data() }));
       // compile all the tags
       const allTags = await Promise.all(
         // for each bucket
@@ -312,20 +346,21 @@ export class TagBucket {
             .get();
           // add the tags and construct a final bucket item
           return { ...bucketDataItem,
-            tags: query.docs.map(doc => ({ ...doc.data(), id: doc.id })) };
+            tags: query.docs.map(doc => ({ ...doc.data(),
+              id: doc.id })) };
         }),
       );
       // return all the bucket items (this is an array)
-      return allTags
+      return allTags;
     }
     // if error
-    return undefined
-  }
+    return undefined;
+  };
 
   /**
    * read single bucket
    */
-  readBucket = async () => {
+  read = async () => {
     // retrieve doc from reference
     const bucketQuery = await this.ref.get();
     // access data of retrieved doc
@@ -333,15 +368,17 @@ export class TagBucket {
     // retrieve subcollection doc
     const tagsQuery = await this.ref.collection('tags').get();
     // add subcollection data to existing
-    return [ { ...bucketData,
-      id: bucketQuery.id,
-      tags: tagsQuery.docs.map(doc => ({ ...doc.data(), id: doc.id })) } ]
-  }
+    return [
+      { ...bucketData,
+        id: bucketQuery.id,
+        tags: tagsQuery.docs.map(doc => ({ ...doc.data(), id: doc.id })) },
+    ];
+  };
 
   /**
    * return tbid of tag bucket
    */
-  id = () => this.ref.id
+  id = () => this.ref.id;
 }
 
 /**
@@ -356,34 +393,42 @@ export class Tag {
    */
   constructor(tbid, tid, tDocRef = undefined) {
     if (tDocRef === undefined) {
-      this.ref = db
-        .collection('tag-buckets')
-        .doc(tbid)
-        .collection('tags')
-        .doc(tid);
+      if (tbid === undefined || tid === undefined) {
+        // from new
+        this.ref = db.collection('tag-buckets').doc('miscellaneous').collection('tags').doc();
+      } else {
+        // from existing id
+        this.ref = db.collection('tag-buckets').doc(tbid).collection('tags').doc(tid);
+      }
     } else {
+      // from existing reference
       this.ref = tDocRef;
     }
   }
 
   /**
-  * @param {object} props : an object of properties to update with (low level)
-  */
+   * @param {object} props : an object of properties to update with (low level)
+   */
   update = async props => this.ref.update(props);
+
+  /**
+   * @param {object} props : an object of properties to create with (low level)
+   */
+  create = async props => this.ref.set(props, { merge: true });
 
   /**
    * returns one-level deep data of Tag as object
    */
   read = async () => {
-    const query = await this.ref.get()
-    const data = query.data()
-    return data
-  }
+    const query = await this.ref.get();
+    const data = query.data();
+    return data;
+  };
 
   /**
    * return tid of Tag document
    */
-  id = () => this.ref.id
+  id = () => this.ref.id;
 
   /**
    * helper function to add a new user to the tag's user array
@@ -392,13 +437,13 @@ export class Tag {
   addUser = async (userInstance) => {
     try {
       // add to tag's user array
-      await this.update({ users: FieldValue.arrayUnion(userInstance.ref) })
+      await this.update({ users: FieldValue.arrayUnion(userInstance.ref) });
       // add to user's tag array
       await userInstance.update({ tags: FieldValue.arrayUnion(this.ref) });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   /**
    * helper function to remove a new user from the tag's user array
@@ -407,13 +452,13 @@ export class Tag {
   removeUser = async (userInstance) => {
     try {
       // remove user from tag's user array
-      await this.update({ users: FieldValue.arrayRemove(userInstance.ref) })
+      await this.update({ users: FieldValue.arrayRemove(userInstance.ref) });
       // remove tag from user's tag array
       await userInstance.update({ tags: FieldValue.arrayRemove(this.ref) });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   /**
    * helper function to add a new project to the tag's project array
@@ -422,13 +467,13 @@ export class Tag {
   addProject = async (projectInstance) => {
     try {
       // add to tag's project array
-      await this.update({ projects: FieldValue.arrayUnion(projectInstance.ref) })
+      await this.update({ projects: FieldValue.arrayUnion(projectInstance.ref) });
       // add to project's tag array
       await projectInstance.update({ tags: FieldValue.arrayUnion(this.ref) });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   /**
    * helper function to remove a new project from the tag's project array
@@ -437,13 +482,13 @@ export class Tag {
   removeProject = async (projectInstance) => {
     try {
       // remove project from tag's project array
-      await this.update({ projects: FieldValue.arrayRemove(projectInstance.ref) })
+      await this.update({ projects: FieldValue.arrayRemove(projectInstance.ref) });
       // remove tag from project's tag array
       await projectInstance.update({ tags: FieldValue.arrayRemove(this.ref) });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 }
 
 /**
@@ -457,30 +502,42 @@ export class User {
    */
   constructor(uid, uDocRef = undefined) {
     if (uDocRef === undefined) {
-      this.ref = db.collection('users').doc(uid)
+      if (uid === undefined) {
+        // from new
+        this.ref = db.collection('users').doc();
+      } else {
+        // from existing id
+        this.ref = db.collection('users').doc(uid);
+      }
     } else {
+      // from existing reference
       this.ref = uDocRef;
     }
   }
 
   /**
-  * @param {object} props : an object of properties to update with (low level)
-  */
+   * @param {object} props : an object of properties to update with (low level)
+   */
   update = async props => this.ref.update(props);
 
   /**
-  * return uid of document
-  */
-  id = () => this.ref.id
+   * @param {object} props : an object of properties to create with (low level)
+   */
+  create = async props => this.ref.set(props, { merge: true });
+
+  /**
+   * return uid of document
+   */
+  id = () => this.ref.id;
 
   /**
    * returns one-level deep data of User as object
    */
   read = async () => {
-    const query = await this.ref.get()
-    const data = query.data()
-    return data
-  }
+    const query = await this.ref.get();
+    const data = query.data();
+    return data;
+  };
 }
 
 /**
@@ -494,28 +551,40 @@ export class Project {
    */
   constructor(pid, pDocRef = undefined) {
     if (pDocRef === undefined) {
-      this.ref = db.collection('projects').doc(pid)
+      if (pid === undefined) {
+        // from new
+        this.ref = db.collection('projects').doc();
+      } else {
+        // from existing id
+        this.ref = db.collection('projects').doc(pid);
+      }
     } else {
+      // from existing reference
       this.ref = pDocRef;
     }
   }
 
   /**
-  * @param {object} props : an object of properties to update with (low level)
-  */
+   * @param {object} props : an object of properties to update with (low level)
+   */
   update = async props => this.ref.update(props);
 
   /**
-  * return uid of document
-  */
-  id = () => this.ref.id
+   * @param {object} props : an object of properties to create with (low level)
+   */
+  create = async props => this.ref.set(props, { merge: true });
+
+  /**
+   * return uid of document
+   */
+  id = () => this.ref.id;
 
   /**
    * returns one-level deep data of Project as object
    */
   read = async () => {
-    const query = await this.ref.get()
-    const data = query.data()
-    return data
-  }
+    const query = await this.ref.get();
+    const data = query.data();
+    return data;
+  };
 }
