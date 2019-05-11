@@ -432,7 +432,7 @@ export class Tag {
 
   /**
    * helper function to add a new user to the tag's user array
-   * @param {*} userInstance : User class object
+   * @param {object} userInstance : User class object
    */
   addUser = async (userInstance) => {
     try {
@@ -447,7 +447,7 @@ export class Tag {
 
   /**
    * helper function to remove a new user from the tag's user array
-   * @param {*} userInstance : User class object
+   * @param {object} userInstance : User class object
    */
   removeUser = async (userInstance) => {
     try {
@@ -462,7 +462,7 @@ export class Tag {
 
   /**
    * helper function to add a new project to the tag's project array
-   * @param {*} projectInstance : Project class object
+   * @param {object} projectInstance : Project class object
    */
   addProject = async (projectInstance) => {
     try {
@@ -477,7 +477,7 @@ export class Tag {
 
   /**
    * helper function to remove a new project from the tag's project array
-   * @param {*} projectInstance : Project class object
+   * @param {object} projectInstance : Project class object
    */
   removeProject = async (projectInstance) => {
     try {
@@ -497,8 +497,8 @@ export class Tag {
 export class User {
   /**
    * construct a new User object
-   * @param {*} uid : unique user id OR
-   * @param {*} uDocRef : alternatively, just give the reference to the user
+   * @param {string} uid : unique user id OR
+   * @param {DocumentReference} uDocRef : alternatively, just give the reference to the user
    */
   constructor(uid, uDocRef = undefined) {
     if (uDocRef === undefined) {
@@ -546,8 +546,8 @@ export class User {
 export class Project {
   /**
    * construct a new Project object
-   * @param {*} pid : unique user id OR
-   * @param {*} pDocRef : alternatively, just give the reference to the user
+   * @param {string} pid : unique user id OR
+   * @param {DocumentReference} pDocRef : alternatively, just give the reference to the user
    */
   constructor(pid, pDocRef = undefined) {
     if (pDocRef === undefined) {
