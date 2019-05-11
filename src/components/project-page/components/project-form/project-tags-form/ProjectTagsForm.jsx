@@ -1,63 +1,57 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as Yup from 'yup';
-import styles from './ProjectTagsForm.module.css'
-import { getProject, setProject, getTags, TagBucket, Tag, User, Project } from '../../../../../firebase/db';
+import { TagBucket, Tag, Project } from '../../../../../firebase/db';
+
+import styles from './ProjectTagsForm.module.css';
 
 const ProjectTagsForm = (props) => {
   const { pid } = props
-  const [ allTags, setAllTags ] = useState([]);
+  const project = new Project(pid);
+  const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
+  const [ categoryTags, setCategoryTags ] = useState([]);
+  const [ chosenTags, setChosenTags ] = useState([])
 
-  const handleSave = async (values, actions) => {
-    const project = new Project(pid);
+  const handleSetup = async () => {
+    // set active tags
+    const activeTags = await project.readTags()
+    activeTags.forEach((tag) => {
+      tag.value = tag.id
+      tag.label = tag.name
+    })
+    setChosenTags(activeTags);
 
-    // create two sets of tags, those that were selected (easy),
-    // and those that weren't (wish Formik would make this easier)
-    const selected = Object.keys(values)
-    const unselected = allTags[0].tags.filter(tag => !selected.includes(tag.id))
-    const selectedTags = selected.map(tag => new Tag('project-category', tag))
-    const unselectedTags = unselected.map(tag => new Tag('project-category', tag.id))
+    // set all available tags
+    const bucket = new TagBucket('project-category')
+    const bucketData = await bucket.read()
+    bucketData.tags.forEach((tag) => {
+      tag.value = tag.id
+      tag.label = tag.name
+    })
+    setCategoryTags(bucketData.tags);
+  }
 
-    // update each selected tag with the project
-    selectedTags.map(async tag => tag.addProject(project))
+  const handleChange = (tags) => {
+    setChosenTags(tags)
+  }
 
-    // and each unselected tag too
-    unselectedTags.map(async tag => tag.removeProject(project))
-
-    // console.log(await project.read())
-
+  const handleSave = async () => {
+    // start loading
+    setLoading(true);
+    // delete all previous tags for project
+    project.deleteTags();
+    // set all new tags for project
+    const tags = chosenTags.map(tag => new Tag(undefined, undefined, tag.ref))
+    tags.forEach((tag) => { project.updateTag(tag) })
     // stop loading
-    actions.setSubmitting(false);
+    setLoading(false);
     // show check mark
     setSuccess(true);
     setTimeout(() => {
       setSuccess(false);
     }, 2000);
-  }
-
-  const handleSetup = async () => {
-    // MVP: project category/disciplines : very hacky!
-    const bucket = new TagBucket('project-category')
-    const data = await bucket.read()
-
-    // query project for which tags are active
-    const project = new Project(pid);
-    const projectData = await project.read()
-    const activeTags = projectData.tags.map(tag => tag.id)
-
-    // modify data with active tags
-    data[0].tags.forEach((value, index, array) => {
-      if (activeTags.includes(value.id)) {
-        value.active = true
-      } else {
-        value.active = false
-      }
-    })
-
-    setAllTags(data)
-  }
+  };
 
   useEffect(() => {
     handleSetup();
@@ -67,61 +61,35 @@ const ProjectTagsForm = (props) => {
     <>
       <h2>Tags</h2>
       <div className={styles.wrapper}>
-        <Formik
-          onSubmit={(values, actions) => handleSave(values, actions)}
-          render={({ errors, status, touched, isSubmitting }) => (
-            <Form>
-              {allTags.map(bucket => (
-                <>
-                  <h3>{bucket.name}</h3>
-                  <div className={styles.bucketWrapper}>
-                    {bucket.tags.map(tag => (
-                      <div className={styles.checkboxCombo}>
-                        <Field
-                          checked={tag.active}
-                          type="checkbox"
-                          name={tag.id}
-                        />
-                        <div>{tag.name}</div>
-                      </div>
-                    ))}
-                  </div>
-                  <hr />
-                </>
-              ))}
-              <ErrorMessage
-                name="name"
-                component="div"
-                className={styles.error}
-              />
-
-              {/* status stuff */}
-              {status && status.msg && <div>{status.msg}</div>}
-              <div className={styles.save}>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="defBtn"
-                >
-                    Save
-                </button>
-                {isSubmitting ? (
-                  <div className="fade-in-animation">
-                    <FontAwesomeIcon
-                      icon="circle-notch"
-                      spin
-                    />
-                  </div>
-                ) : null}
-                {success ? (
-                  <div className="fade-in-animation">
-                    <FontAwesomeIcon icon="check-circle" />
-                  </div>
-                ) : null}
-              </div>
-            </Form>
-          )}
+        <h3>Project Category</h3>
+        <Select
+          captureMenuScroll={false}
+          value={chosenTags}
+          isMulti
+          name="category"
+          options={categoryTags}
+          onChange={handleChange}
+          classNamePrefix="select"
         />
+        <div className={styles.save}>
+          <button type="button" className="defBtn" onClick={handleSave}>
+            Save
+          </button>
+          {
+            loading ? (
+              <div className="fade-in-animation">
+                <FontAwesomeIcon icon="circle-notch" spin />
+              </div>
+            ) : null
+        }
+          {
+            success ? (
+              <div className="fade-in-animation">
+                <FontAwesomeIcon icon="check-circle" />
+              </div>
+            ) : null
+        }
+        </div>
       </div>
     </>
   );

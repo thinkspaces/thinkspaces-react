@@ -1,4 +1,3 @@
-import { throws } from 'assert';
 import { db, auth, createTimestamp, FieldValue } from './firebase';
 
 export const getProjects = async () => {
@@ -298,7 +297,7 @@ export class TagBucket {
    * @param {string} tbid : e.g. tag-buckets/location
    * @param {DocumentReference} tbDocRef :
    */
-  constructor(tbid, tbDocRef = undefined) {
+  constructor(tbid = undefined, tbDocRef = undefined) {
     if (tbDocRef === undefined) {
       if (tbid === undefined) {
         // from new
@@ -333,8 +332,10 @@ export class TagBucket {
     // if non empty
     if (bucketQuery && bucketQuery.docs) {
       // transform the query into actual data
-      const bucketData = bucketQuery.docs.map(doc => ({ id: doc.id,
-        ...doc.data() }));
+      const bucketData = bucketQuery.docs.map(doc => (
+        { id: doc.id,
+          ...doc.data() }
+      ));
       // compile all the tags
       const allTags = await Promise.all(
         // for each bucket
@@ -346,8 +347,11 @@ export class TagBucket {
             .get();
           // add the tags and construct a final bucket item
           return { ...bucketDataItem,
-            tags: query.docs.map(doc => ({ ...doc.data(),
-              id: doc.id })) };
+            tags: query.docs.map(doc => (
+              { ...doc.data(),
+                id: doc.id,
+                ref: doc.ref }
+            )) };
         }),
       );
       // return all the bucket items (this is an array)
@@ -368,11 +372,11 @@ export class TagBucket {
     // retrieve subcollection doc
     const tagsQuery = await this.ref.collection('tags').get();
     // add subcollection data to existing
-    return [
-      { ...bucketData,
-        id: bucketQuery.id,
-        tags: tagsQuery.docs.map(doc => ({ ...doc.data(), id: doc.id })) },
-    ];
+    return { ...bucketData,
+      id: bucketQuery.id,
+      tags: tagsQuery.docs.map(doc => (
+        { ...doc.data(), id: doc.id, ref: doc.ref }
+      )) }
   };
 
   /**
@@ -391,7 +395,7 @@ export class Tag {
    * @param {string} tid  : the tag id e.g. "startup"
    * @param {DocumentReference} tDocRef : alternatively, just give the reference to the tag
    */
-  constructor(tbid, tid, tDocRef = undefined) {
+  constructor(tbid = undefined, tid = undefined, tDocRef = undefined) {
     if (tDocRef === undefined) {
       if (tbid === undefined || tid === undefined) {
         // from new
@@ -432,9 +436,9 @@ export class Tag {
 
   /**
    * helper function to add a new user to the tag's user array
-   * @param {object} userInstance : User class object
+   * @param {User} userInstance : User class object
    */
-  addUser = async (userInstance) => {
+  updateUser = async (userInstance) => {
     try {
       // add to tag's user array
       await this.update({ users: FieldValue.arrayUnion(userInstance.ref) });
@@ -447,9 +451,9 @@ export class Tag {
 
   /**
    * helper function to remove a new user from the tag's user array
-   * @param {object} userInstance : User class object
+   * @param {User} userInstance : User class object
    */
-  removeUser = async (userInstance) => {
+  deleteUser = async (userInstance) => {
     try {
       // remove user from tag's user array
       await this.update({ users: FieldValue.arrayRemove(userInstance.ref) });
@@ -462,9 +466,9 @@ export class Tag {
 
   /**
    * helper function to add a new project to the tag's project array
-   * @param {object} projectInstance : Project class object
+   * @param {Project} projectInstance : Project class object
    */
-  addProject = async (projectInstance) => {
+  updateProject = async (projectInstance) => {
     try {
       // add to tag's project array
       await this.update({ projects: FieldValue.arrayUnion(projectInstance.ref) });
@@ -477,9 +481,9 @@ export class Tag {
 
   /**
    * helper function to remove a new project from the tag's project array
-   * @param {object} projectInstance : Project class object
+   * @param {Project} projectInstance : Project class object
    */
-  removeProject = async (projectInstance) => {
+  deleteProject = async (projectInstance) => {
     try {
       // remove project from tag's project array
       await this.update({ projects: FieldValue.arrayRemove(projectInstance.ref) });
@@ -500,7 +504,7 @@ export class User {
    * @param {string} uid : unique user id OR
    * @param {DocumentReference} uDocRef : alternatively, just give the reference to the user
    */
-  constructor(uid, uDocRef = undefined) {
+  constructor(uid = undefined, uDocRef = undefined) {
     if (uDocRef === undefined) {
       if (uid === undefined) {
         // from new
@@ -538,6 +542,18 @@ export class User {
     const data = query.data();
     return data;
   };
+
+  /**
+   * a proxy for Tag().deleteUser()
+   * @param {Tag} tagInstance : a Tag class object
+   */
+  deleteTag = async tagInstance => tagInstance.deleteUser(this)
+
+  /**
+   * a proxy for Tag().updateUser()
+   * @param {Tag} tagInstance : a Tag class object
+   */
+  updateTag = async tagInstance => tagInstance.updateUser(this)
 }
 
 /**
@@ -549,7 +565,7 @@ export class Project {
    * @param {string} pid : unique user id OR
    * @param {DocumentReference} pDocRef : alternatively, just give the reference to the user
    */
-  constructor(pid, pDocRef = undefined) {
+  constructor(pid = undefined, pDocRef = undefined) {
     if (pDocRef === undefined) {
       if (pid === undefined) {
         // from new
@@ -587,4 +603,43 @@ export class Project {
     const data = query.data();
     return data;
   };
+
+  /**
+   * helper function to retrieve and unpack tags for project
+   */
+  readTags = async () => {
+    const data = await this.read()
+    const tagsQuery = await Promise.all(data.tags.map(async tagRef => tagRef.get()))
+    const tags = tagsQuery.map(snapshot => (
+      { ...snapshot.data(), id: snapshot.id, ref: snapshot.ref }
+    ))
+    return tags
+  }
+
+  /**
+   * helper function to drop all tags for a project
+   * useful from a functional standpoint
+   */
+  deleteTags = async () => {
+    // read the document
+    const data = await this.read()
+    // create Tag objects for each document
+    const tags = data.tags.map(tag => new Tag(undefined, undefined, tag))
+    // remove project for each tag
+    tags.forEach((tag) => {
+      tag.deleteProject(this)
+    })
+  }
+
+  /**
+   * a proxy for Tag().deleteProject()
+   * @param {Tag} tagInstance : a Tag class object
+   */
+  deleteTag = async tagInstance => tagInstance.deleteProject(this)
+
+  /**
+   * a proxy for Tag().updateProject()
+   * @param {Tag} tagInstance : a Tag class object
+   */
+  updateTag = async tagInstance => tagInstance.updateProject(this)
 }

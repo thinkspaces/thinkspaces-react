@@ -1,5 +1,5 @@
 .wrapper {
-    width: 60%;
+    width: 80%;
 }
 
 @media (max-width: 768px) {
@@ -9,6 +9,7 @@
 }
 
 .save {
+    margin-top: 10px;
     display: flex;
     align-items: center;
 } 
