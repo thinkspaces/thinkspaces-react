@@ -387,7 +387,6 @@ export class Tag {
 
   /**
    * helper function to add a new user to the tag's user array
-   * @param {*} uid : unique user id OR
    * @param {*} userInstance : User class object
    */
   addUser = async (userInstance) => {
@@ -403,7 +402,6 @@ export class Tag {
 
   /**
    * helper function to remove a new user from the tag's user array
-   * @param {*} uid : unique user id OR
    * @param {*} userInstance : User class object
    */
   removeUser = async (userInstance) => {
@@ -412,6 +410,36 @@ export class Tag {
       await this.update({ users: FieldValue.arrayRemove(userInstance.ref) })
       // remove tag from user's tag array
       await userInstance.update({ tags: FieldValue.arrayRemove(this.ref) });
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  /**
+   * helper function to add a new project to the tag's project array
+   * @param {*} projectInstance : Project class object
+   */
+  addProject = async (projectInstance) => {
+    try {
+      // add to tag's project array
+      await this.update({ projects: FieldValue.arrayUnion(projectInstance.ref) })
+      // add to project's tag array
+      await projectInstance.update({ tags: FieldValue.arrayUnion(this.ref) });
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  /**
+   * helper function to remove a new project from the tag's project array
+   * @param {*} projectInstance : Project class object
+   */
+  removeProject = async (projectInstance) => {
+    try {
+      // remove project from tag's project array
+      await this.update({ projects: FieldValue.arrayRemove(projectInstance.ref) })
+      // remove tag from project's tag array
+      await projectInstance.update({ tags: FieldValue.arrayRemove(this.ref) });
     } catch (e) {
       console.log(e)
     }
@@ -441,12 +469,49 @@ export class User {
   update = async props => this.ref.update(props);
 
   /**
-  * return uid of User document
+  * return uid of document
   */
   id = () => this.ref.id
 
   /**
    * returns one-level deep data of User as object
+   */
+  read = async () => {
+    const query = await this.ref.get()
+    const data = query.data()
+    return data
+  }
+}
+
+/**
+ * Firebase Project interface
+ */
+export class Project {
+  /**
+   * construct a new Project object
+   * @param {*} pid : unique user id OR
+   * @param {*} pDocRef : alternatively, just give the reference to the user
+   */
+  constructor(pid, pDocRef = undefined) {
+    if (pDocRef === undefined) {
+      this.ref = db.collection('projects').doc(pid)
+    } else {
+      this.ref = pDocRef;
+    }
+  }
+
+  /**
+  * @param {object} props : an object of properties to update with (low level)
+  */
+  update = async props => this.ref.update(props);
+
+  /**
+  * return uid of document
+  */
+  id = () => this.ref.id
+
+  /**
+   * returns one-level deep data of Project as object
    */
   read = async () => {
     const query = await this.ref.get()
