@@ -575,7 +575,7 @@ export class Project {
   create = async props => this.ref.set(props, { merge: true });
 
   /**
-   * return uid of document
+   * return pid of document
    */
   id = () => this.ref.id;
 
