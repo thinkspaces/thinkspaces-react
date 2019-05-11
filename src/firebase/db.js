@@ -1,4 +1,5 @@
-import { db, auth, createTimestamp } from './firebase';
+import { throws } from 'assert';
+import { db, auth, createTimestamp, FieldValue } from './firebase';
 
 export const getProjects = async () => {
   // create projects array
@@ -273,7 +274,7 @@ export const getProject = async (pid) => {
 }
 
 /**
- * interface for tag-buckets collection in Firebase
+ * Firebase Tag Bucket interface
  */
 export class TagBucket {
   /**
@@ -282,10 +283,10 @@ export class TagBucket {
    * @param {DocumentReference} tbDocRef :
    */
   constructor(tbid, tbDocRef = undefined) {
-    if (tbDocRef !== undefined) {
-      this.ref = tbDocRef
+    if (tbDocRef === undefined) {
+      this.ref = db.collection('tag-buckets').doc(tbid);
     } else {
-      this.ref = db.collection('tag-buckets').doc(tbid)
+      this.ref = tbDocRef;
     }
   }
 
@@ -335,5 +336,121 @@ export class TagBucket {
     return [ { ...bucketData,
       id: bucketQuery.id,
       tags: tagsQuery.docs.map(doc => ({ ...doc.data(), id: doc.id })) } ]
+  }
+
+  /**
+   * return tbid of tag bucket
+   */
+  id = () => this.ref.id
+}
+
+/**
+ * Firebase Tag interface
+ */
+export class Tag {
+  /**
+   * construct a new Tag object
+   * @param {string} tbid : the tag bucket id e.g. "organization"
+   * @param {string} tid  : the tag id e.g. "startup"
+   * @param {DocumentReference} tDocRef : alternatively, just give the reference to the tag
+   */
+  constructor(tbid, tid, tDocRef = undefined) {
+    if (tDocRef === undefined) {
+      this.ref = db
+        .collection('tag-buckets')
+        .doc(tbid)
+        .collection('tags')
+        .doc(tid);
+    } else {
+      this.ref = tDocRef;
+    }
+  }
+
+  /**
+  * @param {object} props : an object of properties to update with (low level)
+  */
+  update = async props => this.ref.update(props);
+
+  /**
+   * returns one-level deep data of Tag as object
+   */
+  read = async () => {
+    const query = await this.ref.get()
+    const data = query.data()
+    return data
+  }
+
+  /**
+   * return tid of Tag document
+   */
+  id = () => this.ref.id
+
+  /**
+   * helper function to add a new user to the tag's user array
+   * @param {*} uid : unique user id OR
+   * @param {*} userInstance : User class object
+   */
+  addUser = async (userInstance) => {
+    try {
+      // add to tag's user array
+      await this.update({ users: FieldValue.arrayUnion(userInstance.ref) })
+      // add to user's tag array
+      await userInstance.update({ tags: FieldValue.arrayUnion(this.ref) });
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  /**
+   * helper function to remove a new user from the tag's user array
+   * @param {*} uid : unique user id OR
+   * @param {*} userInstance : User class object
+   */
+  removeUser = async (userInstance) => {
+    try {
+      // remove user from tag's user array
+      await this.update({ users: FieldValue.arrayRemove(userInstance.ref) })
+      // remove tag from user's tag array
+      await userInstance.update({ tags: FieldValue.arrayRemove(this.ref) });
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+/**
+ * Firebase User interface
+ */
+export class User {
+  /**
+   * construct a new User object
+   * @param {*} uid : unique user id OR
+   * @param {*} uDocRef : alternatively, just give the reference to the user
+   */
+  constructor(uid, uDocRef = undefined) {
+    if (uDocRef === undefined) {
+      this.ref = db.collection('users').doc(uid)
+    } else {
+      this.ref = uDocRef;
+    }
+  }
+
+  /**
+  * @param {object} props : an object of properties to update with (low level)
+  */
+  update = async props => this.ref.update(props);
+
+  /**
+  * return uid of User document
+  */
+  id = () => this.ref.id
+
+  /**
+   * returns one-level deep data of User as object
+   */
+  read = async () => {
+    const query = await this.ref.get()
+    const data = query.data()
+    return data
   }
 }
