@@ -272,11 +272,28 @@ export const getProject = async (pid) => {
   return data
 }
 
-// tags
+/**
+ * interface for tag-buckets collection in Firebase
+ */
+export class TagBucket {
+  /**
+   * use either parameter to construct a TagBucket object
+   * @param {string} tbid : e.g. tag-buckets/location
+   * @param {DocumentReference} tbDocRef :
+   */
+  constructor(tbid, tbDocRef = undefined) {
+    if (tbDocRef !== undefined) {
+      this.ref = tbDocRef
+    } else {
+      this.ref = db.collection('tag-buckets').doc(tbid)
+    }
+  }
 
-export const getTags = async (bucket = 'all') => {
-  // all buckets
-  if (bucket === 'all') {
+  /**
+   * static function (if not using an instance)
+   * retrieve and return all buckets
+   */
+  static readBuckets = async () => {
     // get all the bucket docs
     const bucketQuery = await db.collection('tag-buckets').get()
     // if non empty
@@ -298,13 +315,25 @@ export const getTags = async (bucket = 'all') => {
         }),
       );
       // return all the bucket items (this is an array)
-      return allTags;
+      return allTags
     }
+    // if error
+    return undefined
   }
 
-  // single bucket only (also returned as an array)
-  const bucketQuery = await db.doc(`tag-buckets/${ bucket }`).get();
-  const bucketData = bucketQuery.data();
-  const tagsQuery = await db.doc(`tag-buckets/${ bucket }`).collection('tags').get();
-  return [ { ...bucketData, id: bucketQuery.id, tags: tagsQuery.docs.map(doc => ({ ...doc.data(), id: doc.id })) } ]
+  /**
+   * read single bucket
+   */
+  readBucket = async () => {
+    // retrieve doc from reference
+    const bucketQuery = await this.ref.get();
+    // access data of retrieved doc
+    const bucketData = bucketQuery.data();
+    // retrieve subcollection doc
+    const tagsQuery = await this.ref.collection('tags').get();
+    // add subcollection data to existing
+    return [ { ...bucketData,
+      id: bucketQuery.id,
+      tags: tagsQuery.docs.map(doc => ({ ...doc.data(), id: doc.id })) } ]
+  }
 }

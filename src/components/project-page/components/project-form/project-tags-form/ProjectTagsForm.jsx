@@ -3,7 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Yup from 'yup';
 import styles from './ProjectTagsForm.module.css'
-import { getProject, setProject, getTags } from '../../../../../firebase/db';
+import { getProject, setProject, getTags, TagBucket } from '../../../../../firebase/db';
 
 const schema = Yup.object().shape({ name: Yup.string()
   .min(2, 'Too Short!')
@@ -28,7 +28,8 @@ const ProjectTagsForm = (props) => {
 
   const handleSetup = async () => {
     const project = await getProject(pid)
-    const tags = await getTags()
+    const tb = new TagBucket('organization')
+    const tags = await tb.readBucket()
     setAllTags(tags)
     console.log(tags)
     // setInitData({ name, description });
