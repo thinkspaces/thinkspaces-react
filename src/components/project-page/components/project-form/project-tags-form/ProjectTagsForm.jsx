@@ -16,20 +16,28 @@ const ProjectTagsForm = (props) => {
   const handleSetup = async () => {
     // set active tags
     const activeTags = await project.readTags()
+
+    // modify for use with react-select
     activeTags.forEach((tag) => {
-      tag.value = tag.id
-      tag.label = tag.name
-    })
+      tag.value = tag.id;
+      tag.label = tag.name;
+    });
+
+    // update state
     setChosenTags(activeTags);
 
     // set all available tags
     const bucket = new TagBucket('project-category')
-    const bucketData = await bucket.read()
-    bucketData.tags.forEach((tag) => {
-      tag.value = tag.id
-      tag.label = tag.name
-    })
-    setCategoryTags(bucketData.tags);
+    const bucketTags = await bucket.readTags()
+
+    // modify for use with react-select
+    bucketTags.forEach((tag) => {
+      tag.value = tag.id;
+      tag.label = tag.name;
+    });
+
+    // update state
+    setCategoryTags(bucketTags);
   }
 
   const handleChange = (tags) => {
@@ -38,19 +46,17 @@ const ProjectTagsForm = (props) => {
 
   const handleSave = async () => {
     // start loading
+    setSuccess(false);
     setLoading(true);
     // delete all previous tags for project
-    project.deleteTags();
+    await project.deleteTags();
     // set all new tags for project
     const tags = chosenTags.map(tag => new Tag(undefined, undefined, tag.ref))
-    tags.forEach((tag) => { project.updateTag(tag) })
+    tags.forEach(async (tag) => { await project.updateTag(tag) })
     // stop loading
     setLoading(false);
     // show check mark
     setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-    }, 2000);
   };
 
   useEffect(() => {

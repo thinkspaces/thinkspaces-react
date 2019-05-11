@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+import { deepCopy } from '@firebase/util';
 import { db, auth, createTimestamp, FieldValue } from './firebase';
 
 export const getProjects = async () => {
@@ -362,7 +364,7 @@ export class TagBucket {
   };
 
   /**
-   * read single bucket
+   * read single bucket one level deep
    */
   read = async () => {
     // retrieve doc from reference
@@ -373,11 +375,21 @@ export class TagBucket {
     const tagsQuery = await this.ref.collection('tags').get();
     // add subcollection data to existing
     return { ...bucketData,
-      id: bucketQuery.id,
-      tags: tagsQuery.docs.map(doc => (
-        { ...doc.data(), id: doc.id, ref: doc.ref }
-      )) }
+      id: this.id(),
+      ref: this.ref,
+      tags: tagsQuery.docs.map(snapshot => snapshot.ref) }
   };
+
+  /**
+   * helper function to retrieve and unpack tags for bucket
+   */
+  readTags = async () => {
+    const data = await this.read()
+    const tags = await Promise.all(
+      data.tags.map(async docRef => (new Tag(undefined, undefined, docRef)).read()),
+    )
+    return tags
+  }
 
   /**
    * return tbid of tag bucket
@@ -426,7 +438,9 @@ export class Tag {
   read = async () => {
     const query = await this.ref.get();
     const data = query.data();
-    return data;
+    return { ...data,
+      id: this.id(),
+      ref: this.ref };
   };
 
   /**
@@ -540,7 +554,9 @@ export class User {
   read = async () => {
     const query = await this.ref.get();
     const data = query.data();
-    return data;
+    return { ...data,
+      id: this.id(),
+      ref: this.ref }
   };
 
   /**
@@ -601,7 +617,9 @@ export class Project {
   read = async () => {
     const query = await this.ref.get();
     const data = query.data();
-    return data;
+    return { ...data,
+      id: this.id(),
+      ref: this.ref }
   };
 
   /**
@@ -609,10 +627,9 @@ export class Project {
    */
   readTags = async () => {
     const data = await this.read()
-    const tagsQuery = await Promise.all(data.tags.map(async tagRef => tagRef.get()))
-    const tags = tagsQuery.map(snapshot => (
-      { ...snapshot.data(), id: snapshot.id, ref: snapshot.ref }
-    ))
+    const tags = await Promise.all(
+      data.tags.map(async docRef => new Tag(undefined, undefined, docRef).read()),
+    );
     return tags
   }
 
@@ -624,11 +641,9 @@ export class Project {
     // read the document
     const data = await this.read()
     // create Tag objects for each document
-    const tags = data.tags.map(tag => new Tag(undefined, undefined, tag))
+    const tags = data.tags.map(docRef => new Tag(undefined, undefined, docRef))
     // remove project for each tag
-    tags.forEach((tag) => {
-      tag.deleteProject(this)
-    })
+    tags.forEach(tag => tag.deleteProject(this) )
   }
 
   /**
