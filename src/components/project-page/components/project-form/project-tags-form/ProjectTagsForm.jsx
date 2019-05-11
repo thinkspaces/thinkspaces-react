@@ -3,14 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Yup from 'yup';
 import styles from './ProjectTagsForm.module.css'
-import { getProject, setProject, getTags, TagBucket } from '../../../../../firebase/db';
-
-const schema = Yup.object().shape({ name: Yup.string()
-  .min(2, 'Too Short!')
-  .max(50, 'Too Long!')
-  .required('Required'),
-description: Yup.string()
-  .required('Required') });
+import { getProject, setProject, getTags, TagBucket, Tag, User, Project } from '../../../../../firebase/db';
 
 const ProjectTagsForm = (props) => {
   const { pid } = props
@@ -18,8 +11,26 @@ const ProjectTagsForm = (props) => {
   const [ success, setSuccess ] = useState(false);
 
   const handleSave = async (values, actions) => {
-    await setProject(pid, values)
+    const project = new Project(pid);
+
+    // create two sets of tags, those that were selected (easy),
+    // and those that weren't (wish Formik would make this easier)
+    const selected = Object.keys(values)
+    const unselected = allTags[0].tags.filter(tag => !selected.includes(tag.id))
+    const selectedTags = selected.map(tag => new Tag('project-category', tag))
+    const unselectedTags = unselected.map(tag => new Tag('project-category', tag.id))
+
+    // update each selected tag with the project
+    selectedTags.map(async tag => tag.addProject(project))
+
+    // and each unselected tag too
+    unselectedTags.map(async tag => tag.removeProject(project))
+
+    // console.log(await project.read())
+
+    // stop loading
     actions.setSubmitting(false);
+    // show check mark
     setSuccess(true);
     setTimeout(() => {
       setSuccess(false);
@@ -27,12 +38,25 @@ const ProjectTagsForm = (props) => {
   }
 
   const handleSetup = async () => {
-    const project = await getProject(pid)
-    const tb = new TagBucket('organization')
-    const tags = await tb.readBucket()
-    setAllTags(tags)
-    console.log(tags)
-    // setInitData({ name, description });
+    // MVP: project category/disciplines : very hacky!
+    const bucket = new TagBucket('project-category')
+    const data = await bucket.read()
+
+    // query project for which tags are active
+    const project = new Project(pid);
+    const projectData = await project.read()
+    const activeTags = projectData.tags.map(tag => tag.id)
+
+    // modify data with active tags
+    data[0].tags.forEach((value, index, array) => {
+      if (activeTags.includes(value.id)) {
+        value.active = true
+      } else {
+        value.active = false
+      }
+    })
+
+    setAllTags(data)
   }
 
   useEffect(() => {
@@ -54,6 +78,7 @@ const ProjectTagsForm = (props) => {
                     {bucket.tags.map(tag => (
                       <div className={styles.checkboxCombo}>
                         <Field
+                          checked={tag.active}
                           type="checkbox"
                           name={tag.id}
                         />
@@ -78,7 +103,7 @@ const ProjectTagsForm = (props) => {
                   disabled={isSubmitting}
                   className="defBtn"
                 >
-                                  Save
+                    Save
                 </button>
                 {isSubmitting ? (
                   <div className="fade-in-animation">
