@@ -14,30 +14,27 @@ const ProjectTagsForm = (props) => {
   const [ chosenTags, setChosenTags ] = useState([])
 
   const handleSetup = async () => {
+    setLoading(true);
     // set active tags
     const activeTags = await project.readTags()
-
     // modify for use with react-select
     activeTags.forEach((tag) => {
       tag.value = tag.id;
       tag.label = tag.name;
     });
-
     // update state
     setChosenTags(activeTags);
-
     // set all available tags
     const bucket = new TagBucket('project-category')
     const bucketTags = await bucket.readTags()
-
     // modify for use with react-select
     bucketTags.forEach((tag) => {
       tag.value = tag.id;
       tag.label = tag.name;
     });
-
     // update state
     setCategoryTags(bucketTags);
+    setLoading(false);
   }
 
   const handleChange = (tags) => {
