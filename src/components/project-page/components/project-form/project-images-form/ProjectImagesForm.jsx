@@ -31,9 +31,11 @@ const ProjectImagesForm = (props) => {
   }
 
   const handleSetup = async () => {
+    setLoading(true);
     if (!pid) { return }
     const { imageFiles } = await downloadProjectImages(pid);
     setFiles(imageFiles);
+    setLoading(false);
   }
 
   const handleUpdateFiles = (fileItems) => {
