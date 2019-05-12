@@ -570,6 +570,13 @@ export class User {
    * @param {Tag} tagInstance : a Tag class object
    */
   updateTag = async tagInstance => tagInstance.updateUser(this)
+
+  /**
+   * a proxy for Project().updateTeam()
+   * team members can edit project details
+   * @param {Tag} projectInstance : a Project class object
+   */
+  updateProject = async projectInstance => projectInstance.updateTeam(this)
 }
 
 /**
@@ -664,4 +671,20 @@ export class Project {
    * @param {Tag} tagInstance : a Tag class object
    */
   updateTag = async tagInstance => tagInstance.updateProject(this)
+
+  /**
+   * add a User to a Project's team
+   * team members can edit project details
+   * @param {Tag} userInstance : a User class object
+   */
+  updateTeam = async (userInstance) => {
+    try {
+      // add to tag's team array
+      await this.update({ team: FieldValue.arrayUnion(userInstance.ref) });
+      // add to user's projects array
+      await userInstance.update({ projects: FieldValue.arrayUnion(this.ref) });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }

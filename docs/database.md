@@ -37,6 +37,7 @@
       - [User().read()](#userread)
       - [User().update(props)](#userupdateprops)
       - [User().updateTag(tagInstance)](#userupdatetagtaginstance)
+      - [User().updateProject(projectInstance)](#userupdateprojectprojectinstance)
       - [User().deleteTag(tagInstance)](#userdeletetagtaginstance)
       - [User().id()](#userid)
   - [Project](#project)
@@ -49,6 +50,7 @@
       - [Project().readTags()](#projectreadtags)
       - [Project().update(props)](#projectupdateprops)
       - [Project().updateTag(tagInstance)](#projectupdatetagtaginstance)
+      - [Project().updateTeam(userInstance)](#projectupdateteamuserinstance)
       - [Project().deleteTag(tagInstance)](#projectdeletetagtaginstance)
       - [Project().deleteTags()](#projectdeletetags)
       - [Project().id()](#projectid)
@@ -305,6 +307,18 @@ Notes:
 
 - You can use either for the same effect.
 
+#### User().updateProject(projectInstance)
+
+Proxies `Project().updateTeam(userInstance)` for convenience.
+
+Arguments:
+
+- `projectInstance`: an instance of the Project class to update the user for.
+
+Notes:
+
+- You can use either for the same effect.
+
 #### User().deleteTag(tagInstance)
 
 Proxies `Tag().deleteUser(userInstance)` for convenience.
@@ -393,6 +407,19 @@ Arguments:
 Notes:
 
 - You can use either for the same effect.
+
+#### Project().updateTeam(userInstance)
+
+Associates user with a project's team in the database.
+
+Arguments:
+
+- `userInstance`: an instance of the User class.
+
+- Notes:
+
+Behind the scenes, the function adds a reference to the user in the Project document's team array.
+It also adds a reference to the project in the User document's projects array.
 
 #### Project().deleteTag(tagInstance)
 
