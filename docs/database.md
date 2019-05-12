@@ -8,18 +8,22 @@
   - [Models](#models)
     - [TagBucket](#tagbucket)
       - [TagBucket properties](#tagbucket-properties)
+        - [TagBucket().ref](#tagbucketref)
       - [TagBucket methods](#tagbucket-methods)
         - [TagBucket(tbid, tbDocRef)](#tagbuckettbid-tbdocref)
     - [Tag](#tag)
       - [Tag properties](#tag-properties)
+        - [Tag().ref](#tagref)
       - [Tag methods](#tag-methods)
         - [Tag(tbid, tid, tDocRef)](#tagtbid-tid-tdocref)
     - [User](#user)
       - [User properties](#user-properties)
+        - [User().ref](#userref)
       - [User methods](#user-methods)
         - [User(uid, uDocRef)](#useruid-udocref)
     - [Project](#project)
       - [Project properties](#project-properties)
+        - [Project().ref](#projectref)
       - [Project methods](#project-methods)
         - [Project(pid, pDocRef)](#projectpid-pdocref)
   - [Recommendations](#recommendations)
@@ -41,6 +45,10 @@ There are also helper functions for each model that simplify common tasks. These
 
 #### TagBucket properties
 
+##### TagBucket().ref
+
+DocumentReference to the TagBucket in Firebase.
+
 #### TagBucket methods
 
 ##### TagBucket(tbid, tbDocRef)
@@ -57,6 +65,10 @@ Leave both arguments blank to create a new TagBucket e.g. `TagBucket()`. This wi
 ### Tag
 
 #### Tag properties
+
+##### Tag().ref
+
+DocumentReference to the Tag in Firebase.
 
 #### Tag methods
 
@@ -76,6 +88,10 @@ Leave all arguments blank to create a new Tag e.g. `Tag()`. This will be assigne
 
 #### User properties
 
+##### User().ref
+
+DocumentReference to the User in Firebase.
+
 #### User methods
 
 ##### User(uid, uDocRef)
@@ -92,6 +108,10 @@ Leave both arguments blank to create a new User e.g. `User()`. This will be assi
 ### Project
 
 #### Project properties
+
+##### Project().ref
+
+DocumentReference to the Project in Firebase.
 
 #### Project methods
 
