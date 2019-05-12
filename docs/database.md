@@ -129,3 +129,6 @@ Leave both arguments blank to create a new Project e.g. `Project()`. This will b
 ## Recommendations
 
 - Use `idx` library to safely access nested properties. Database records may be inconsistent and some fields may be missing. `idx` returns if any of a chain of properties is `null` or `undefined`.
+- If making a new method that does not require use of a class instance, make the method `static`. Static functions are used like this e.g. `TagBucket.myStaticFunction()`. In contrast, recall that non-static methods are used like this e.g. `new TagBucket("location").read()`.
+- Use the CRUD keywords where possible for consistency.
+- Consider extending existing methods (and try to remain consistent) instead of making new ones for special cases.
