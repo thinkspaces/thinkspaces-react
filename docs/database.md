@@ -5,6 +5,7 @@
 - [Database](#database)
   - [Table of contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Recommendations](#recommendations)
   - [TagBucket](#tagbucket)
     - [TagBucket properties](#tagbucket-properties)
       - [TagBucket().ref](#tagbucketref)
@@ -29,7 +30,7 @@
       - [Tag().deleteProject(projectInstance)](#tagdeleteprojectprojectinstance)
       - [Tag().id()](#tagid)
   - [User](#user)
-    - [Firebase structure](#firebase-structure)
+    - [User Firebase structure](#user-firebase-structure)
     - [User properties](#user-properties)
       - [User().ref](#userref)
     - [User methods](#user-methods)
@@ -44,7 +45,7 @@
       - [User().deleteTeam(projectInstance)](#userdeleteteamprojectinstance)
       - [User().id()](#userid)
   - [Project](#project)
-    - [Firebase structure](#firebase-structure-1)
+    - [Project Firebase structure](#project-firebase-structure)
     - [Project properties](#project-properties)
       - [Project().ref](#projectref)
     - [Project methods](#project-methods)
@@ -61,7 +62,6 @@
       - [Project().deleteTeam()](#projectdeleteteam)
       - [Project().deleteTeamUser(userInstance)](#projectdeleteteamuseruserinstance)
       - [Project().id()](#projectid)
-  - [Recommendations](#recommendations)
 
 ## Introduction
 
@@ -73,6 +73,13 @@ The Database models use the CRUD pattern: Create, Read, Update, Delete.
 - Delete: Delete a document.
 
 There are also helper functions for each model that simplify common tasks. These also follow the CRUD pattern.
+
+## Recommendations
+
+- Use `idx` library to safely access nested properties. Database records may be inconsistent and some fields may be missing. `idx` returns if any of a chain of properties is `null` or `undefined`.
+- If making a new method that does not require use of a class instance, make the method `static`. Static functions are used like this e.g. `TagBucket.myStaticFunction()`. In contrast, recall that non-static methods are used like this e.g. `new TagBucket("location").read()`.
+- Use the CRUD keywords where possible for consistency.
+- Consider extending existing methods (and try to remain consistent) instead of making new ones for special cases.
 
 ## TagBucket
 
@@ -251,7 +258,7 @@ Returns the unique string ID of document in the database.
 
 ## User
 
-### Firebase structure
+### User Firebase structure
 
 - username: string
   - optional
@@ -390,7 +397,7 @@ Returns the unique string ID of document in the database.
 
 ## Project
 
-### Firebase structure
+### Project Firebase structure
 
 - tags: [DocumentReference]
   - 0 or more references to tags
@@ -532,10 +539,3 @@ Notes:
 #### Project().id()
 
 Returns the unique string ID of document in the database.
-
-## Recommendations
-
-- Use `idx` library to safely access nested properties. Database records may be inconsistent and some fields may be missing. `idx` returns if any of a chain of properties is `null` or `undefined`.
-- If making a new method that does not require use of a class instance, make the method `static`. Static functions are used like this e.g. `TagBucket.myStaticFunction()`. In contrast, recall that non-static methods are used like this e.g. `new TagBucket("location").read()`.
-- Use the CRUD keywords where possible for consistency.
-- Consider extending existing methods (and try to remain consistent) instead of making new ones for special cases.
