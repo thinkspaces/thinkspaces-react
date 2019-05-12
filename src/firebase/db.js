@@ -579,7 +579,7 @@ export class Project {
   /**
    * construct a new Project object
    * @param {string} pid : unique user id OR
-   * @param {DocumentReference} pDocRef : alternatively, just give the reference to the user
+   * @param {DocumentReference} pDocRef : alternatively, just give the reference to the project
    */
   constructor(pid = undefined, pDocRef = undefined) {
     if (pDocRef === undefined) {
@@ -627,8 +627,13 @@ export class Project {
    */
   readTags = async () => {
     const data = await this.read()
+    // check if tags field exists (edge case)
+    if (!('tags' in data)) {
+      return []
+    }
+    // create Tag objects
     const tags = await Promise.all(
-      data.tags.map(async docRef => new Tag(undefined, undefined, docRef).read()),
+      data.tags.map(async docRef => new Tag(undefined, undefined, docRef).read() ),
     );
     return tags
   }
@@ -640,6 +645,10 @@ export class Project {
   deleteTags = async () => {
     // read the document
     const data = await this.read()
+    // check if tags field exists (edge case)
+    if (!('tags' in data)) {
+      return []
+    }
     // create Tag objects for each document
     const tags = data.tags.map(docRef => new Tag(undefined, undefined, docRef))
     // remove project for each tag
