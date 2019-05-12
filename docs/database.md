@@ -11,21 +11,48 @@
         - [TagBucket().ref](#tagbucketref)
       - [TagBucket methods](#tagbucket-methods)
         - [TagBucket(tbid, tbDocRef)](#tagbuckettbid-tbdocref)
+        - [TagBucket().create(props)](#tagbucketcreateprops)
+        - [TagBucket().read()](#tagbucketread)
+        - [TagBucket().readTags()](#tagbucketreadtags)
+        - [TagBucket().update(props)](#tagbucketupdateprops)
+        - [TagBucket().id()](#tagbucketid)
     - [Tag](#tag)
       - [Tag properties](#tag-properties)
         - [Tag().ref](#tagref)
       - [Tag methods](#tag-methods)
         - [Tag(tbid, tid, tDocRef)](#tagtbid-tid-tdocref)
+        - [Tag().create(props)](#tagcreateprops)
+        - [Tag().read()](#tagread)
+        - [Tag().update(props)](#tagupdateprops)
+        - [Tag().updateUser(userInstance)](#tagupdateuseruserinstance)
+        - [Tag().updateProject(projectInstance)](#tagupdateprojectprojectinstance)
+        - [Tag().deleteUser(userInstance)](#tagdeleteuseruserinstance)
+        - [Tag().deleteProject(projectInstance)](#tagdeleteprojectprojectinstance)
+        - [Tag().id()](#tagid)
     - [User](#user)
       - [User properties](#user-properties)
         - [User().ref](#userref)
       - [User methods](#user-methods)
         - [User(uid, uDocRef)](#useruid-udocref)
+        - [User().create(props)](#usercreateprops)
+        - [User().read()](#userread)
+        - [User().update(props)](#userupdateprops)
+        - [User().updateTag(tagInstance)](#userupdatetagtaginstance)
+        - [User().deleteTag(tagInstance)](#userdeletetagtaginstance)
+        - [User().id()](#userid)
     - [Project](#project)
       - [Project properties](#project-properties)
         - [Project().ref](#projectref)
       - [Project methods](#project-methods)
         - [Project(pid, pDocRef)](#projectpid-pdocref)
+        - [Project().create(props)](#projectcreateprops)
+        - [Project().read()](#projectread)
+        - [Project().readTags()](#projectreadtags)
+        - [Project().update(props)](#projectupdateprops)
+        - [Project().updateTag(tagInstance)](#projectupdatetagtaginstance)
+        - [Project().deleteTag(tagInstance)](#projectdeletetagtaginstance)
+        - [Project().deleteTags()](#projectdeletetags)
+        - [Project().id()](#projectid)
   - [Recommendations](#recommendations)
 
 ## Introduction
@@ -62,6 +89,50 @@ Arguments:
 
 Leave both arguments blank to create a new TagBucket e.g. `TagBucket()`. This will be assigned a random ID.
 
+##### TagBucket().create(props)
+
+Create a new TagBucket in the database.
+
+Arguments:
+
+- `props`: an object of properties corresponding to fields for the document in the database.
+
+Notes:
+
+- Recommended to use with a new instance to create a new document. To update existing documents, use `update()` instead.
+
+##### TagBucket().read()
+
+Get all the data for a TagBucket, put it into an object, and return.
+
+Notes:
+
+- Structure: `{ id, ref, tag references [], all other fields }`
+
+##### TagBucket().readTags()
+
+`TagBucket().read()` gives an array of tag references. But if you want the data for each tag as well, then use `TagBucket().readTags()`. It unpacks each tag reference and puts it into an array.
+
+Notes:
+
+- Structure: `[ tag { id, ref, all other fields } ]`
+
+##### TagBucket().update(props)
+
+Update a TagBucket in the database.
+
+Arguments:
+
+- `props`: an object of properties corresponding to fields for the document in the database.
+
+Notes:
+
+- Can only be used to update existing documents.
+
+##### TagBucket().id()
+
+Returns the unique string ID of document in the database.
+
 ### Tag
 
 #### Tag properties
@@ -84,6 +155,94 @@ Arguments:
 
 Leave all arguments blank to create a new Tag e.g. `Tag()`. This will be assigned a random ID, and will be created inside the `miscellaneous` TagBucket.
 
+##### Tag().create(props)
+
+Create a new Tag in the database.
+
+Arguments:
+
+- `props`: an object of properties corresponding to fields for the document in the database.
+
+Notes:
+
+- Recommended to use with a new instance to create a new document. To update existing documents, use `update()` instead.
+
+##### Tag().read()
+
+Get all the data for a Tag, put it into an object, and return.
+
+Notes:
+
+- Structure: `{ id, ref, all other fields }`
+
+##### Tag().update(props)
+
+Update a Tag in the database.
+
+Arguments:
+
+- `props`: an object of properties corresponding to fields for the document in the database.
+
+Notes:
+
+- Can only be used to update existing documents.
+
+##### Tag().updateUser(userInstance)
+
+Associates the tag with a user in the database.
+
+Arguments:
+
+- `userInstance`: an instance of the User class to update the tag for.
+
+Notes:
+
+- Behind the scenes, the function adds a reference to the user in the Tag document's users array.
+- It also adds a reference to the tag in the User document's tags array.
+
+##### Tag().updateProject(projectInstance)
+
+Associates the tag with a project in the database.
+
+Arguments:
+
+- `projectInstance`: an instance of the Project class to update the tag for.
+
+Notes:
+
+- Behind the scenes, the function adds a reference to the project in the Tag document's users array.
+- It also adds a reference to the tag in the Project document's tags array.
+
+##### Tag().deleteUser(userInstance)
+
+Disassociates the tag with a user in the database.
+
+Arguments:
+
+- `userInstance`: an instance of the User class to delete the tag for.
+
+Notes:
+
+- Behind the scenes, the function removes the reference to the user in the Tag document's users array.
+- It also removes the reference to the tag in the User document's tags array.
+
+##### Tag().deleteProject(projectInstance)
+
+Disassociates the tag with a project in the database.
+
+Arguments:
+
+- `projectInstance`: an instance of the Project class to delete the tag for.
+
+Notes:
+
+- Behind the scenes, the function removes the reference to the project in the Tag document's users array.
+- It also removes the reference to the tag in the Project document's tags array.
+
+##### Tag().id()
+
+Returns the unique string ID of document in the database.
+
 ### User
 
 #### User properties
@@ -105,6 +264,66 @@ Arguments:
 
 Leave both arguments blank to create a new User e.g. `User()`. This will be assigned a random ID.
 
+##### User().create(props)
+
+Create a new User in the database.
+
+Arguments:
+
+- `props`: an object of properties corresponding to fields for the document in the database.
+
+Notes:
+
+- Recommended to use with a new instance to create a new document. To update existing documents, use `update()` instead.
+
+##### User().read()
+
+Get all the data for a User, put it into an object, and return.
+
+Notes:
+
+- Structure: `{ id, ref, all other fields }`
+
+##### User().update(props)
+
+Update a User in the database.
+
+Arguments:
+
+- `props`: an object of properties corresponding to fields for the document in the database.
+
+Notes:
+
+- Can only be used to update existing documents.
+
+##### User().updateTag(tagInstance)
+
+Proxies `Tag().updateUser(userInstance)` for convenience.
+
+Arguments:
+
+- `tagInstance`: an instance of the Tag class to update the user for.
+
+Notes:
+
+- You can use either for the same effect.
+
+##### User().deleteTag(tagInstance)
+
+Proxies `Tag().deleteUser(userInstance)` for convenience.
+
+Arguments:
+
+- `tagInstance`: an instance of the Tag class to delete the user for.
+
+Notes:
+
+- You can use either for the same effect.
+
+##### User().id()
+
+Returns the unique string ID of document in the database.
+
 ### Project
 
 #### Project properties
@@ -125,6 +344,82 @@ Arguments:
 - `pDocRef`: alternatively, supply a DocumentReference to a Project document in Firebase.
 
 Leave both arguments blank to create a new Project e.g. `Project()`. This will be assigned a random ID.
+
+##### Project().create(props)
+
+Create a new Project in the database.
+
+Arguments:
+
+- `props`: an object of properties corresponding to fields for the document in the database.
+
+Notes:
+
+- Recommended to use with a new instance to create a new document. To update existing documents, use `update()` instead.
+
+##### Project().read()
+
+Get all the data for a Project, put it into an object, and return.
+
+Notes:
+
+- Structure: `{ id, ref, all other fields }`
+
+##### Project().readTags()
+
+`Project().read()` gives an array of tag references. But if you want the data for each tag as well, then use `Project().readTags()`. It unpacks each tag reference and puts it into an array.
+
+Notes:
+
+- Structure: `[ tag { id, ref, all other fields } ]`
+
+##### Project().update(props)
+
+Update a Project in the database.
+
+Arguments:
+
+- `props`: an object of properties corresponding to fields for the document in the database.
+
+Notes:
+
+- Can only be used to update existing documents.
+
+##### Project().updateTag(tagInstance)
+
+Proxies `Tag().updateProject(projectInstance)` for convenience.
+
+Arguments:
+
+- `tagInstance`: an instance of the Tag class to update the project for.
+
+Notes:
+
+- You can use either for the same effect.
+
+##### Project().deleteTag(tagInstance)
+
+Proxies `Tag().deleteProject(projectInstance)` for convenience.
+
+Arguments:
+
+- `tagInstance`: an instance of the Tag class to delete the project for.
+
+Notes:
+
+- You can use either for the same effect.
+
+##### Project().deleteTags()
+
+`Project().deleteTag(tagInstance)` deletes a specified tag from the Project. What if you wanted to delete all the tags the project is associated with? That's where `Project().deleteTags()` comes in. It is useful from a functional perspective.
+
+Notes:
+
+- Behind the scenes, this method calls `Project().deleteTag(tagInstance)` on every tag the project document has in its tags array.
+
+##### Project().id()
+
+Returns the unique string ID of document in the database.
 
 ## Recommendations
 
