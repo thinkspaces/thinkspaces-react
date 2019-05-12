@@ -4,6 +4,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 import ProjectImagesForm from '../project-form/project-images-form'
 import ProjectDescriptionForm from '../project-form/project-description-form';
 import ProjectTagsForm from '../project-form/project-tags-form';
+import ProjectTeamForm from '../project-form/project-team-form';
 import styles from './EditProject.module.css'
 
 const EditProject = (props) => {
@@ -20,6 +21,9 @@ const EditProject = (props) => {
         break;
       case 'tags':
         setCurrentForm(<ProjectTagsForm pid={pid} />);
+        break;
+      case 'team':
+        setCurrentForm(<ProjectTeamForm pid={pid} />);
         break;
       default:
         setCurrentForm(<ProjectDescriptionForm pid={pid} />)

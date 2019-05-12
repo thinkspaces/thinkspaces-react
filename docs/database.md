@@ -52,11 +52,13 @@
       - [Project().create(props)](#projectcreateprops)
       - [Project().read()](#projectread)
       - [Project().readTags()](#projectreadtags)
+      - [Project().readTeam()](#projectreadteam)
       - [Project().update(props)](#projectupdateprops)
       - [Project().updateTag(tagInstance)](#projectupdatetagtaginstance)
       - [Project().updateTeamUser(userInstance)](#projectupdateteamuseruserinstance)
       - [Project().deleteTag(tagInstance)](#projectdeletetagtaginstance)
       - [Project().deleteTags()](#projectdeletetags)
+      - [Project().deleteTeam()](#projectdeleteteam)
       - [Project().deleteTeamUser(userInstance)](#projectdeleteteamuseruserinstance)
       - [Project().id()](#projectid)
   - [Recommendations](#recommendations)
@@ -442,6 +444,14 @@ Notes:
 
 - Structure: `[ tag { id, ref, all other fields } ]`
 
+#### Project().readTeam()
+
+`Project().read()` gives a team which is an array of user references. But if you want the data for each user as well, then use `Project().readTeam()`. It unpacks each user reference and puts it into an array.
+
+Notes:
+
+- Structure: `[ user { id, ref, all other fields } ]`
+
 #### Project().update(props)
 
 Update a Project in the database.
@@ -498,6 +508,14 @@ Notes:
 Notes:
 
 - Behind the scenes, this method calls `Project().deleteTag(tagInstance)` on every tag the project document has in its tags array.
+
+#### Project().deleteTeam()
+
+`Project().deleteTeamUser(userInstance)` deletes a specified user from the Project's team. What if you wanted to delete all the users the project team is associated with? That's where `Project().deleteTeam()` comes in. It is useful from a functional perspective.
+
+Notes:
+
+- Behind the scenes, this method calls `Project().deleteTeamUser(userInstance)` on every user the project document has in its team array.
 
 #### Project().deleteTeamUser(userInstance)
 

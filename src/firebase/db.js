@@ -76,21 +76,21 @@ export const getProjectByID = async (id) => {
 
   const data = docSnapshot.data();
 
-  if (data.team) {
-    // get names from team uids, add to data
-    const members = [];
-    await Promise.all(
-      data.team.map(async (uid) => {
-        const docRef = await db
-          .collection('users')
-          .doc(uid)
-          .get();
-        members.push({ uid, name: docRef.get('full_name') });
-      }),
-    );
+  //   if (data.team) {
+  //     // get names from team uids, add to data
+  //     const members = [];
+  //     await Promise.all(
+  //       data.team.map(async (uid) => {
+  //         const docRef = await db
+  //           .collection('users')
+  //           .doc(uid)
+  //           .get();
+  //         members.push({ uid, name: docRef.get('full_name') });
+  //       }),
+  //     );
 
-    data.team = members;
-  }
+  //     // data.team = members;
+  //   }
   return data;
 };
 
@@ -315,53 +315,9 @@ export class TagBucket {
   }
 
   /**
-   * @param {object} props : an object of properties to update with (low level)
-   */
-  update = async props => this.ref.update(props);
-
-  /**
    * @param {object} props : an object of properties to create with (low level)
    */
   create = async props => this.ref.set(props, { merge: true });
-
-  /**
-   * static function (if not using an instance)
-   * retrieve and return all buckets
-   */
-  static readAll = async () => {
-    // get all the bucket docs
-    const bucketQuery = await db.collection('tag-buckets').get();
-    // if non empty
-    if (bucketQuery && bucketQuery.docs) {
-      // transform the query into actual data
-      const bucketData = bucketQuery.docs.map(doc => (
-        { id: doc.id,
-          ...doc.data() }
-      ));
-      // compile all the tags
-      const allTags = await Promise.all(
-        // for each bucket
-        bucketData.map(async (bucketDataItem) => {
-          // get all the tag docs
-          const query = await db
-            .doc(`tag-buckets/${ bucketDataItem.id }`)
-            .collection('tags')
-            .get();
-          // add the tags and construct a final bucket item
-          return { ...bucketDataItem,
-            tags: query.docs.map(doc => (
-              { ...doc.data(),
-                id: doc.id,
-                ref: doc.ref }
-            )) };
-        }),
-      );
-      // return all the bucket items (this is an array)
-      return allTags;
-    }
-    // if error
-    return undefined;
-  };
 
   /**
    * read single bucket one level deep
@@ -390,6 +346,11 @@ export class TagBucket {
     )
     return tags
   }
+
+  /**
+   * @param {object} props : an object of properties to update with (low level)
+   */
+  update = async props => this.ref.update(props);
 
   /**
    * return tbid of tag bucket
@@ -423,11 +384,6 @@ export class Tag {
   }
 
   /**
-   * @param {object} props : an object of properties to update with (low level)
-   */
-  update = async props => this.ref.update(props);
-
-  /**
    * @param {object} props : an object of properties to create with (low level)
    */
   create = async props => this.ref.set(props, { merge: true });
@@ -444,9 +400,9 @@ export class Tag {
   };
 
   /**
-   * return tid of Tag document
+   * @param {object} props : an object of properties to update with (low level)
    */
-  id = () => this.ref.id;
+  update = async props => this.ref.update(props);
 
   /**
    * helper function to add a new user to the tag's user array
@@ -458,21 +414,6 @@ export class Tag {
       await this.update({ users: FieldValue.arrayUnion(userInstance.ref) });
       // add to user's tag array
       await userInstance.update({ tags: FieldValue.arrayUnion(this.ref) });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  /**
-   * helper function to remove a new user from the tag's user array
-   * @param {User} userInstance : User class object
-   */
-  deleteUser = async (userInstance) => {
-    try {
-      // remove user from tag's user array
-      await this.update({ users: FieldValue.arrayRemove(userInstance.ref) });
-      // remove tag from user's tag array
-      await userInstance.update({ tags: FieldValue.arrayRemove(this.ref) });
     } catch (e) {
       console.log(e);
     }
@@ -494,6 +435,21 @@ export class Tag {
   };
 
   /**
+   * helper function to remove a new user from the tag's user array
+   * @param {User} userInstance : User class object
+   */
+  deleteUser = async (userInstance) => {
+    try {
+      // remove user from tag's user array
+      await this.update({ users: FieldValue.arrayRemove(userInstance.ref) });
+      // remove tag from user's tag array
+      await userInstance.update({ tags: FieldValue.arrayRemove(this.ref) });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  /**
    * helper function to remove a new project from the tag's project array
    * @param {Project} projectInstance : Project class object
    */
@@ -507,6 +463,11 @@ export class Tag {
       console.log(e);
     }
   };
+
+  /**
+   * return tid of Tag document
+   */
+  id = () => this.ref.id;
 }
 
 /**
@@ -534,19 +495,9 @@ export class User {
   }
 
   /**
-   * @param {object} props : an object of properties to update with (low level)
-   */
-  update = async props => this.ref.update(props);
-
-  /**
    * @param {object} props : an object of properties to create with (low level)
    */
   create = async props => this.ref.set(props, { merge: true });
-
-  /**
-   * return uid of document
-   */
-  id = () => this.ref.id;
 
   /**
    * returns one-level deep data of User as object
@@ -560,10 +511,26 @@ export class User {
   };
 
   /**
-   * a proxy for Tag().deleteUser()
-   * @param {Tag} tagInstance : a Tag class object
+   *
+   * @param {string} field : e.g. username
+   * @param {string} comparator : e.g. ==, <=
+   * @param {any} value : what to check for
    */
-  deleteTag = async tagInstance => tagInstance.deleteUser(this)
+  static read = async (field, comparator, value) => {
+    const query = db.collection('users').where(field, comparator, value)
+    const querySnapshot = await query.get()
+    const users = querySnapshot.docs.map(queryDocumentSnapshot => (
+      { ...queryDocumentSnapshot.data(),
+        id: queryDocumentSnapshot.id,
+        ref: queryDocumentSnapshot.ref }
+    ))
+    return users
+  }
+
+  /**
+   * @param {object} props : an object of properties to update with (low level)
+   */
+  update = async props => this.ref.update(props);
 
   /**
    * a proxy for Tag().updateUser()
@@ -572,11 +539,28 @@ export class User {
   updateTag = async tagInstance => tagInstance.updateUser(this)
 
   /**
-   * a proxy for Project().updateTeam()
+   * a proxy for Project().updateTeamUser()
    * team members can edit project details
-   * @param {Tag} projectInstance : a Project class object
+   * @param {Project} projectInstance : a Project class object
    */
-  updateProject = async projectInstance => projectInstance.updateTeam(this)
+  updateTeam = async projectInstance => projectInstance.updateTeamUser(this)
+
+  /**
+   * a proxy for Tag().deleteUser()
+   * @param {Tag} tagInstance : a Tag class object
+   */
+  deleteTag = async tagInstance => tagInstance.deleteUser(this)
+
+  /**
+   * a proxy for Project().deleteTeamUser()
+   * @param {Project} projectInstance : a Project class object
+   */
+  deleteTeam = async projectInstance => projectInstance.deleteTeamUser(this)
+
+  /**
+   * return uid of document
+   */
+  id = () => this.ref.id;
 }
 
 /**
@@ -604,19 +588,9 @@ export class Project {
   }
 
   /**
-   * @param {object} props : an object of properties to update with (low level)
-   */
-  update = async props => this.ref.update(props);
-
-  /**
    * @param {object} props : an object of properties to create with (low level)
    */
   create = async props => this.ref.set(props, { merge: true });
-
-  /**
-   * return pid of document
-   */
-  id = () => this.ref.id;
 
   /**
    * returns one-level deep data of Project as object
@@ -645,6 +619,53 @@ export class Project {
   }
 
   /**
+   * returns team members of project by unpacking each User reference
+   */
+  readTeam = async () => {
+    const query = await this.ref.get();
+    const data = query.data();
+    const teamRefs = idx(data, obj => obj.team)
+    if (teamRefs === undefined) { return [] }
+    const team = await Promise.all(
+      teamRefs.map(async docRef => (new User(undefined, docRef)).read()),
+    )
+    return team
+  };
+
+  /**
+   * @param {object} props : an object of properties to update with (low level)
+   */
+  update = async props => this.ref.update(props);
+
+  /**
+   * a proxy for Tag().updateProject()
+   * @param {Tag} tagInstance : a Tag class object
+   */
+  updateTag = async tagInstance => tagInstance.updateProject(this)
+
+  /**
+   * add a User to a Project's team
+   * team members can edit project details
+   * @param {Tag} userInstance : a User class object
+   */
+  updateTeamUser = async (userInstance) => {
+    try {
+      // add to tag's team array
+      await this.update({ team: FieldValue.arrayUnion(userInstance.ref) });
+      // add project to the user's teams array
+      await userInstance.update({ teams: FieldValue.arrayUnion(this.ref) });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /**
+   * a proxy for Tag().deleteProject()
+   * @param {Tag} tagInstance : a Tag class object
+   */
+  deleteTag = async tagInstance => tagInstance.deleteProject(this)
+
+  /**
    * helper function to drop all tags for a project
    * useful from a functional standpoint
    */
@@ -661,30 +682,36 @@ export class Project {
   }
 
   /**
-   * a proxy for Tag().deleteProject()
-   * @param {Tag} tagInstance : a Tag class object
+   * helper function to drop all users for a project team
+   * useful from a functional standpoint
    */
-  deleteTag = async tagInstance => tagInstance.deleteProject(this)
+  deleteTeam = async () => {
+    // read the document
+    const data = await this.read()
+    // check if nested field is defined (edge case)
+    const teamRefs = idx(data, obj => obj.team)
+    if (teamRefs === undefined) { return [] }
+    // remove project for each tag
+    return teamRefs.map(async docRef => this.deleteTeamUser(new User(undefined, docRef)))
+  }
 
   /**
-   * a proxy for Tag().updateProject()
-   * @param {Tag} tagInstance : a Tag class object
+   * remove a user from a project's team array
+   * @param {User} userInstance : a User class object
    */
-  updateTag = async tagInstance => tagInstance.updateProject(this)
-
-  /**
-   * add a User to a Project's team
-   * team members can edit project details
-   * @param {Tag} userInstance : a User class object
-   */
-  updateTeam = async (userInstance) => {
+  deleteTeamUser = async (userInstance) => {
     try {
-      // add to tag's team array
-      await this.update({ team: FieldValue.arrayUnion(userInstance.ref) });
-      // add to user's projects array
-      await userInstance.update({ projects: FieldValue.arrayUnion(this.ref) });
+      // remove user from project's team array
+      await this.update({ team: FieldValue.arrayRemove(userInstance.ref) });
+      // remove project from user's teams array
+      await userInstance.update({ teams: FieldValue.arrayRemove(this.ref) });
     } catch (e) {
       console.log(e);
     }
   }
+
+  /**
+   * return pid of document
+   */
+  id = () => this.ref.id;
 }

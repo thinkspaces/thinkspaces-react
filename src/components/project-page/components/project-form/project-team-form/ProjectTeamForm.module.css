@@ -1,0 +1,20 @@
+.save {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+} 
+
+.save > * {
+    margin-right: 10px;
+}
+
+.icon {
+    border-radius: 1000px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.wrap {
+    display: flex;
+    align-items: center;
+}
