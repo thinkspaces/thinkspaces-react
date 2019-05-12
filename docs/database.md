@@ -29,18 +29,22 @@
       - [Tag().deleteProject(projectInstance)](#tagdeleteprojectprojectinstance)
       - [Tag().id()](#tagid)
   - [User](#user)
+    - [Firebase structure](#firebase-structure)
     - [User properties](#user-properties)
       - [User().ref](#userref)
     - [User methods](#user-methods)
       - [User(uid, uDocRef)](#useruid-udocref)
       - [User().create(props)](#usercreateprops)
       - [User().read()](#userread)
+      - [static User().read(field, comparator, value)](#static-userreadfield-comparator-value)
       - [User().update(props)](#userupdateprops)
       - [User().updateTag(tagInstance)](#userupdatetagtaginstance)
-      - [User().updateProject(projectInstance)](#userupdateprojectprojectinstance)
+      - [User().updateTeam(projectInstance)](#userupdateteamprojectinstance)
       - [User().deleteTag(tagInstance)](#userdeletetagtaginstance)
+      - [User().deleteTeam(projectInstance)](#userdeleteteamprojectinstance)
       - [User().id()](#userid)
   - [Project](#project)
+    - [Firebase structure](#firebase-structure-1)
     - [Project properties](#project-properties)
       - [Project().ref](#projectref)
     - [Project methods](#project-methods)
@@ -50,9 +54,10 @@
       - [Project().readTags()](#projectreadtags)
       - [Project().update(props)](#projectupdateprops)
       - [Project().updateTag(tagInstance)](#projectupdatetagtaginstance)
-      - [Project().updateTeam(userInstance)](#projectupdateteamuserinstance)
+      - [Project().updateTeamUser(userInstance)](#projectupdateteamuseruserinstance)
       - [Project().deleteTag(tagInstance)](#projectdeletetagtaginstance)
       - [Project().deleteTags()](#projectdeletetags)
+      - [Project().deleteTeamUser(userInstance)](#projectdeleteteamuseruserinstance)
       - [Project().id()](#projectid)
   - [Recommendations](#recommendations)
 
@@ -244,6 +249,26 @@ Returns the unique string ID of document in the database.
 
 ## User
 
+### Firebase structure
+
+- username: string
+  - optional
+- teams: [DocumentReference]
+  - 0 or more references to projects that the user is a team member of
+- admin: [DocumentReference]
+  - 0 or more references to projects that the user is an administrator of
+- profilepicture: string
+  - a URL to an image
+- email: string
+- createdTimestamp: timestamp
+- major: string
+- privacy: boolean
+- headline: string
+- graduation: string
+- name: string
+- tags: [DocumentReference]
+  - 0 or more references to tags
+
 ### User properties
 
 #### User().ref
@@ -283,6 +308,20 @@ Notes:
 
 - Structure: `{ id, ref, all other fields }`
 
+#### static User().read(field, comparator, value)
+
+Queries for User documents in the database, and returns them as an array.
+
+Arguments:
+
+- `field`: which field to query against e.g. "username"
+- `comparator`: comparators e.g. "==", "<="
+- `value`: specific value
+
+Notes:
+
+- Wraps the Firebase simpleQuery: <https://firebase.google.com/docs/firestore/query-data/queries>
+
 #### User().update(props)
 
 Update a User in the database.
@@ -307,7 +346,7 @@ Notes:
 
 - You can use either for the same effect.
 
-#### User().updateProject(projectInstance)
+#### User().updateTeam(projectInstance)
 
 Proxies `Project().updateTeam(userInstance)` for convenience.
 
@@ -331,11 +370,30 @@ Notes:
 
 - You can use either for the same effect.
 
+#### User().deleteTeam(projectInstance)
+
+Proxies `Project().deleteTeamUser(userInstance)` for convenience.
+
+Arguments:
+
+- `projectInstance`: an instance of the Project class to remove from the user's projects array.
+
+Notes:
+
+- You can use either for the same effect.
+
 #### User().id()
 
 Returns the unique string ID of document in the database.
 
 ## Project
+
+### Firebase structure
+
+- tags: [DocumentReference]
+  - 0 or more references to tags
+- team: [DocumentReference]
+  - 0 or more references to users that are part of the project's team
 
 ### Project properties
 
@@ -408,7 +466,7 @@ Notes:
 
 - You can use either for the same effect.
 
-#### Project().updateTeam(userInstance)
+#### Project().updateTeamUser(userInstance)
 
 Associates user with a project's team in the database.
 
@@ -440,6 +498,18 @@ Notes:
 Notes:
 
 - Behind the scenes, this method calls `Project().deleteTag(tagInstance)` on every tag the project document has in its tags array.
+
+#### Project().deleteTeamUser(userInstance)
+
+Disassociate a user from a project's team in the database.
+
+Arguments:
+
+- `userInstance`: an instance of the User class to remove from the project's team.
+
+Notes:
+
+- The method deletes the User from the Project's team array. And it also deletes the project from the User's projects array.
 
 #### Project().id()
 
