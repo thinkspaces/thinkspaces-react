@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-// import EditProjectImages from '../../../submit-project/components/edit-project-images'
 import ProjectImagesForm from '../project-form/project-images-form'
 import ProjectDescriptionForm from '../project-form/project-description-form';
 import ProjectTagsForm from '../project-form/project-tags-form';
