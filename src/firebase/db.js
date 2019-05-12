@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { deepCopy } from '@firebase/util';
+import idx from 'idx'
 import { db, auth, createTimestamp, FieldValue } from './firebase';
 
 export const getProjects = async () => {
@@ -627,13 +627,12 @@ export class Project {
    */
   readTags = async () => {
     const data = await this.read()
-    // check if tags field exists (edge case)
-    if (!('tags' in data)) {
-      return []
-    }
+    // check if nested field is defined (edge case)
+    const tagRefs = idx(data, obj => obj.tags)
+    if (tagRefs === undefined) { return [] }
     // create Tag objects
     const tags = await Promise.all(
-      data.tags.map(async docRef => new Tag(undefined, undefined, docRef).read() ),
+      tagRefs.map(async docRef => new Tag(undefined, undefined, docRef).read()),
     );
     return tags
   }
@@ -645,14 +644,13 @@ export class Project {
   deleteTags = async () => {
     // read the document
     const data = await this.read()
-    // check if tags field exists (edge case)
-    if (!('tags' in data)) {
-      return []
-    }
+    // check if nested field is defined (edge case)
+    const tagRefs = idx(data, obj => obj.tags)
+    if (tagRefs === undefined) { return [] }
     // create Tag objects for each document
-    const tags = data.tags.map(docRef => new Tag(undefined, undefined, docRef))
+    const tags = tagRefs.map(docRef => new Tag(undefined, undefined, docRef))
     // remove project for each tag
-    tags.forEach(tag => tag.deleteProject(this) )
+    return tags.forEach(tag => tag.deleteProject(this) )
   }
 
   /**
