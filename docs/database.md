@@ -6,6 +6,10 @@
   - [Table of contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Recommendations](#recommendations)
+    - [Nested properties that may not exist](#nested-properties-that-may-not-exist)
+    - [Static methods](#static-methods)
+    - [Consistency](#consistency)
+    - [Manually deleting documents from the Firebase console](#manually-deleting-documents-from-the-firebase-console)
   - [TagBucket](#tagbucket)
     - [TagBucket properties](#tagbucket-properties)
       - [TagBucket().ref](#tagbucketref)
@@ -76,10 +80,27 @@ There are also helper functions for each model that simplify common tasks. These
 
 ## Recommendations
 
-- Use `idx` library to safely access nested properties. Database records may be inconsistent and some fields may be missing. `idx` returns if any of a chain of properties is `null` or `undefined`.
-- If making a new method that does not require use of a class instance, make the method `static`. Static functions are used like this e.g. `TagBucket.myStaticFunction()`. In contrast, recall that non-static methods are used like this e.g. `new TagBucket("location").read()`.
+### Nested properties that may not exist
+
+Use `idx` library to safely access nested properties. Database records may be inconsistent and some fields may be missing. `idx` returns if any of a chain of properties is `null` or `undefined`.
+
+### Static methods
+
+If making a new method that does not require use of a class instance, make the method `static`. Static functions are used like this e.g. `TagBucket.myStaticFunction()`. In contrast, recall that non-static methods are used like this e.g. `new TagBucket("location").read()`.
+
+### Consistency
+
 - Use the CRUD keywords where possible for consistency.
 - Consider extending existing methods (and try to remain consistent) instead of making new ones for special cases.
+
+### Manually deleting documents from the Firebase console
+
+In general, this is OK, but be aware of the following dependencies:
+
+- If deleting a project, make sure to delete all references to the project by users (and vice versa).
+- If deleting a tag, make sure to delete all references to the tag by projects and users (and vice versa).
+
+Basically, anything which has a reference field to another document needs to be carefully dealt with when deleting.
 
 ## TagBucket
 
