@@ -55,7 +55,7 @@ const ProjectTeamForm = (props) => {
     handleSetup();
   }, []);
 
-  const filterUsers = async (usernameInput: string) => {
+  const filterUsers = async (usernameInput) => {
     const users = await User.read('username', '>=', usernameInput)
     return modifyForReactSelect(users)
   }
@@ -96,7 +96,7 @@ const ProjectTeamForm = (props) => {
 
   return (
     <>
-      <h2>Team</h2>
+      <h2>Manage team</h2>
       <div className={styles.wrapper}>
         <p>Search for users by their username to add them as team members for this project.</p>
         {/* Async Select */}

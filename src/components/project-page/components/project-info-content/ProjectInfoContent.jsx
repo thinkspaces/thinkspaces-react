@@ -67,7 +67,7 @@ const TeamSection = ({ team }) => (
 const ContactSection = ({ links }) => (
   <InfoView title="Links">
     <div>
-      <a href={links}>{links}</a>
+      {/* <a href={links}>{links}</a> */}
     </div>
   </InfoView>
 );

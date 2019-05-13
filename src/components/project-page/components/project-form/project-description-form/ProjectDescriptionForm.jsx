@@ -23,6 +23,7 @@ const ProjectDescriptionForm = (props) => {
   const [ loading, setLoading ] = useState(false);
 
   const handleSave = async (values) => {
+    setSuccess(false)
     setLoading(true)
     await project.update(values)
     setSuccess(true)

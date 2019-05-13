@@ -19,6 +19,7 @@ const ProjectImagesForm = (props) => {
   const [ success, setSuccess ] = useState(false);
 
   const handleSave = async () => {
+    setSuccess(false)
     setLoading(true);
     await deleteProjectImages(pid);
     const imageURLs = await uploadProjectImages(pid, files);

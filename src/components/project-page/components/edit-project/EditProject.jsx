@@ -4,6 +4,7 @@ import ProjectImagesForm from '../project-form/project-images-form'
 import ProjectDescriptionForm from '../project-form/project-description-form';
 import ProjectTagsForm from '../project-form/project-tags-form';
 import ProjectTeamForm from '../project-form/project-team-form';
+import ProjectLinksForm from '../project-form/project-links-form';
 
 import styles from './EditProject.module.css'
 
@@ -24,6 +25,9 @@ const EditProject = (props) => {
         break;
       case 'team':
         setCurrentForm(<ProjectTeamForm pid={pid} />);
+        break;
+      case 'links':
+        setCurrentForm(<ProjectLinksForm pid={pid} />);
         break;
       default:
         setCurrentForm(<ProjectDescriptionForm pid={pid} />)
