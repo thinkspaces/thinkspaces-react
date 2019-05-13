@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Yup from 'yup';
 import SaveButton from '../../../../shared/save-button'
-import styles from './ProjectDescriptionForm.module.css'
 import { Project } from '../../../../../firebase/db';
+
+import styles from './ProjectDescriptionForm.module.css'
 
 const schema = Yup.object().shape(
   { name: Yup.string()
