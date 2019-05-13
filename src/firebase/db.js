@@ -267,22 +267,6 @@ export const createProjectWithFields = async (project) => {
   return projectRef.id;
 };
 
-export const setProject = async (pid, obj) => {
-  await db
-    .collection('projects')
-    .doc(pid)
-    .set(obj, { merge: true });
-};
-
-export const getProject = async (pid) => {
-  const docSnapshot = await db
-    .collection('projects')
-    .doc(pid)
-    .get();
-  const data = docSnapshot.data();
-  return data;
-};
-
 /**
  * Firebase Tag Bucket interface
  */
