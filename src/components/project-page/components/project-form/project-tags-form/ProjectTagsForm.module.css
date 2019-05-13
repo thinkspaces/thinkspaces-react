@@ -8,17 +8,6 @@
     }
 }
 
-.save {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-} 
-
-.save > * {
-    margin-right: 10px;
-}
-
-
 .fieldCombo {
     display: flex;
     align-items: center;

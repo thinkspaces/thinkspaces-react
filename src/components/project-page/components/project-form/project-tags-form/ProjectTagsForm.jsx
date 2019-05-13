@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import SaveButton from '../../../../shared/save-button'
 import { TagBucket, Tag, Project } from '../../../../../firebase/db';
 
 import styles from './ProjectTagsForm.module.css';
@@ -74,25 +74,7 @@ const ProjectTagsForm = (props) => {
           onChange={handleChange}
           classNamePrefix="select"
         />
-        <div className={styles.save}>
-          <button type="button" className="defBtn" onClick={handleSave}>
-            Save
-          </button>
-          {
-            loading ? (
-              <div className="fade-in-animation">
-                <FontAwesomeIcon icon="circle-notch" spin />
-              </div>
-            ) : null
-        }
-          {
-            success ? (
-              <div className="fade-in-animation">
-                <FontAwesomeIcon icon="check-circle" />
-              </div>
-            ) : null
-        }
-        </div>
+        <SaveButton loading={loading} success={success} onClick={handleSave} />
       </div>
     </>
   );

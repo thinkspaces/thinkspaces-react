@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { downloadProjectImages, uploadProjectImages, deleteProjectImages } from '../../../../../firebase/storage';
+import { Project } from '../../../../../firebase/db';
+import SaveButton from '../../../../shared/save-button'
+
 import 'filepond/dist/filepond.min.css';
 import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 import './ProjectImagesForm.css'
-import styles from './ProjectImagesForm.module.css'
-
-import { downloadProjectImages, uploadProjectImages, deleteProjectImages } from '../../../../../firebase/storage';
-import { Project } from '../../../../../firebase/db';
 
 registerPlugin(FilePondPluginImagePreview);
 
@@ -56,25 +55,7 @@ const ProjectImagesForm = (props) => {
         allowMultiple
         files={files}
       />
-      <div className={styles.save}>
-        <button type="button" className="defBtn" onClick={handleSave}>
-            Save
-        </button>
-        {
-            loading ? (
-              <div className="fade-in-animation">
-                <FontAwesomeIcon icon="circle-notch" spin />
-              </div>
-            ) : null
-        }
-        {
-            success ? (
-              <div className="fade-in-animation">
-                <FontAwesomeIcon icon="check-circle" />
-              </div>
-            ) : null
-        }
-      </div>
+      <SaveButton loading={loading} success={success} onClick={handleSave} />
     </>
   );
 }

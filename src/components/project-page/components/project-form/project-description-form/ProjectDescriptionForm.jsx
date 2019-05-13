@@ -2,34 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Yup from 'yup';
+import SaveButton from '../../../../shared/save-button'
 import styles from './ProjectDescriptionForm.module.css'
 import { Project } from '../../../../../firebase/db';
 
-const schema = Yup.object().shape({ name: Yup.string()
-  .min(2, 'Too Short!')
-  .max(50, 'Too Long!')
-  .required('Required'),
-description: Yup.string()
-  .required('Required') });
+const schema = Yup.object().shape(
+  { name: Yup.string()
+    .min(2, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  description: Yup.string()
+    .required('Required') },
+);
 
 const ProjectDescriptionForm = (props) => {
   const { pid } = props
   const project = new Project(pid)
   const [ initData, setInitData ] = useState({ name: '', description: '' })
   const [ success, setSuccess ] = useState(false);
+  const [ loading, setLoading ] = useState(false);
 
-  const handleSave = async (values, actions) => {
+  const handleSave = async (values) => {
+    setLoading(true)
     await project.update(values)
-    actions.setSubmitting(false);
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-    }, 2000);
+    setSuccess(true)
+    setLoading(false)
   }
 
   const handleSetup = async () => {
+    setLoading(true)
     const { name, description } = await project.read();
     setInitData({ name, description });
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -45,7 +49,7 @@ const ProjectDescriptionForm = (props) => {
           validationSchema={schema}
           initialValues={{ name: initData.name,
             description: initData.description }}
-          onSubmit={(values, actions) => handleSave(values, actions)}
+          onSubmit={values => handleSave(values)}
           render={({ errors, status, touched, isSubmitting }) => (
             <Form>
               <h5>Project name</h5>
@@ -68,28 +72,7 @@ const ProjectDescriptionForm = (props) => {
                 <ErrorMessage name="description" component="div" className={styles.error} />
               </div>
               {status && status.msg && <div>{status.msg}</div>}
-              <div className={styles.save}>
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="defBtn"
-                >
-                                  Save
-                </button>
-                {isSubmitting ? (
-                  <div className="fade-in-animation">
-                    <FontAwesomeIcon
-                      icon="circle-notch"
-                      spin
-                    />
-                  </div>
-                ) : null}
-                {success ? (
-                  <div className="fade-in-animation">
-                    <FontAwesomeIcon icon="check-circle" />
-                  </div>
-                ) : null}
-              </div>
+              <SaveButton loading={loading} success={success} type="submit" />
             </Form>
           )}
         />
