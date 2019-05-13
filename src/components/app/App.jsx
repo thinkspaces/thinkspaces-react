@@ -7,7 +7,7 @@ import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faCircleNotch, faTimes, faRandom, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faCircleNotch, faTimes, faRandom, faCheckCircle, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
 import { Container } from 'reactstrap';
 import withAuthentication from '../utils/withAuthentication';
@@ -34,7 +34,7 @@ ReactGA.initialize('UA-128353649-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 // font awesome
-library.add(faPlus, faTimes, faCircleNotch, faRandom, faCheckCircle);
+library.add(faPlus, faTimes, faCircleNotch, faRandom, faCheckCircle, faExternalLinkAlt);
 
 class App extends Component {
   render() {

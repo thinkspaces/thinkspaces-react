@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ProjectImagesForm from '../project-form/project-images-form'
 import ProjectDescriptionForm from '../project-form/project-description-form';
 import ProjectTagsForm from '../project-form/project-tags-form';
 import ProjectTeamForm from '../project-form/project-team-form';
+
 import styles from './EditProject.module.css'
 
 const EditProject = (props) => {
-  const { pid } = props
+  const { pid, saveChanges: close } = props
   const [ currentForm, setCurrentForm ] = useState(<ProjectDescriptionForm pid={pid} />)
 
   const handleSidebar = (event) => {
@@ -31,7 +33,13 @@ const EditProject = (props) => {
 
   return (
     <>
-      <h2>Edit Project</h2>
+      <div className={styles.header}>
+        <h2>Edit Project</h2>
+        <button type="button" className={styles.external} onClick={close}>
+          <span>View project</span>
+          <FontAwesomeIcon icon="external-link-alt" />
+        </button>
+      </div>
       <div className={styles.dashboard}>
         <div className={styles.sidebar}>
           <button type="button" name="description" className={styles.sidebarItem} onClick={handleSidebar}>Description</button>

@@ -54,3 +54,19 @@
 .sidebarItem:hover {
     background-color: var(--color-subtle);
 }
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.external {
+    all: unset;
+    display: flex;
+    align-items: center;
+}
+
+.external > * {
+    margin-left: 10px;
+}
