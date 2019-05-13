@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, Form, Field, FieldArray } from 'formik';
+import { Formik, Form, Field, FieldArray, getIn } from 'formik';
+import * as Yup from 'yup';
 import SaveButton from '../../../../shared/save-button'
 import { Project } from '../../../../../firebase/db';
+
+const schema = Yup.object().shape({ links: Yup.array()
+  .of(
+    Yup.object().shape(
+      { name: Yup.string().max(20, 'Name is too long').required('Name is required'),
+        url: Yup.string().url('Must be a URL').required('URL is required') },
+    ),
+  ) });
 
 const ProjectLinksForm = (props) => {
   const { pid } = props
@@ -49,6 +58,7 @@ const ProjectLinksForm = (props) => {
         listing where possible.
       </p>
       <Formik
+        validationSchema={schema}
         enableReinitialize
         initialValues={{ links }}
         onSubmit={values => handleSave(values)}
@@ -64,7 +74,8 @@ const ProjectLinksForm = (props) => {
                         <Field name={`links[${ index }].url`} placeholder="Link URL e.g. https://google.com" />
                         <Field name={`links[${ index }].name`} placeholder="Description e.g. Our Website. Keep it short!" />
                         <Field name={`links[${ index }].primary`} type="radio" checked={link.primary} value={link.primary} onChange={() => handleRadio(index, values, setValues)} />
-
+                        <ErrorMessage name={`links[${ index }].name`} />
+                        <ErrorMessage name={`links[${ index }].url`} />
                         {/* remove */}
                         <button
                           type="button"
@@ -97,5 +108,16 @@ const ProjectLinksForm = (props) => {
     </div>
   )
 }
+
+const ErrorMessage = ({ name }) => (
+  <Field
+    name={name}
+    render={({ form }) => {
+      const error = getIn(form.errors, name);
+      const touch = getIn(form.touched, name);
+      return touch && error ? error : null;
+    }}
+  />
+);
 
 export default ProjectLinksForm
