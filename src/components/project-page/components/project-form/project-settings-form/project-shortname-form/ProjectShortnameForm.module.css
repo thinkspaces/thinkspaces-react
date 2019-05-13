@@ -1,7 +1,7 @@
 .wrap {
     display: flex;  
     align-items: center;
-    max-width: 80%;
+    width: 80%;
 }
 
 .wrap > * {
@@ -14,3 +14,8 @@
     font-size: 0.8rem;
 }
 
+@media (max-width: 768px) {
+    .wrap {
+        width: 100%
+    }
+}

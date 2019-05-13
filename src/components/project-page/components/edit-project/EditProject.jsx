@@ -5,7 +5,7 @@ import ProjectDescriptionForm from '../project-form/project-description-form';
 import ProjectTagsForm from '../project-form/project-tags-form';
 import ProjectTeamForm from '../project-form/project-team-form';
 import ProjectLinksForm from '../project-form/project-links-form';
-import ProjectShortnameForm from '../project-form/project-shortname-form';
+import ProjectSettingsForm from '../project-form/project-settings-form';
 
 import styles from './EditProject.module.css'
 
@@ -31,7 +31,7 @@ const EditProject = (props) => {
         setCurrentForm(<ProjectLinksForm pid={pid} />);
         break;
       case 'settings':
-        setCurrentForm(<ProjectShortnameForm pid={pid} />);
+        setCurrentForm(<ProjectSettingsForm pid={pid} />);
         break;
       default:
         setCurrentForm(<ProjectDescriptionForm pid={pid} />)

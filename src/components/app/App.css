@@ -1,6 +1,7 @@
 :root {
     /* colors */
     --color-positive: #27ae60;
+    --color-danger: #d63031;
     --color-subtle: #ecf0f1;
     --color-grey: #b2bec3;
 
@@ -33,6 +34,10 @@ body {
     border: none;
     box-shadow: var(--shadow-default);
     transition: box-shadow 0.3s ease-in-out;
+}
+
+.defBtn.danger {
+    background-color: var(--color-danger);
 }
 
 .defBtn:disabled {

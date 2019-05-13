@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import idx from 'idx'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Project } from '../../../../../firebase/db';
-import SaveButton from '../../../../shared/save-button'
+import { Project } from '../../../../../../firebase/db';
+import SaveButton from '../../../../../shared/save-button'
 
 import styles from './ProjectShortnameForm.module.css'
 
@@ -149,6 +149,7 @@ const ProjectShortnameForm = (props) => {
 
   return (
     <>
+      <h3>Set shortname</h3>
       <form>
         <div className={styles.wrap}>
           <input
