@@ -57,12 +57,13 @@ const ProjectShortnameForm = (props) => {
    */
   const validate = () => {
     // check form is valid via ref
-    if (inputRef.current.checkValidity()) {
-      // if valid, set valid state
-      setValid(true)
-    } else {
-      // otherwise, set invalid state
-      setValid(false)
+    const form = idx(inputRef, obj => obj.current)
+    if (form) {
+      if (form.checkValidity()) {
+        setValid(true)
+      } else {
+        setValid(false)
+      }
     }
   }
 
