@@ -3,7 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Yup from 'yup';
 import styles from './ProjectDescriptionForm.module.css'
-import { getProject, setProject } from '../../../../../firebase/db';
+import { Project } from '../../../../../firebase/db';
 
 const schema = Yup.object().shape({ name: Yup.string()
   .min(2, 'Too Short!')
@@ -14,11 +14,12 @@ description: Yup.string()
 
 const ProjectDescriptionForm = (props) => {
   const { pid } = props
+  const project = new Project(pid)
   const [ initData, setInitData ] = useState({ name: '', description: '' })
   const [ success, setSuccess ] = useState(false);
 
   const handleSave = async (values, actions) => {
-    await setProject(pid, values)
+    await project.update(values)
     actions.setSubmitting(false);
     setSuccess(true);
     setTimeout(() => {
@@ -27,8 +28,7 @@ const ProjectDescriptionForm = (props) => {
   }
 
   const handleSetup = async () => {
-    const project = await getProject(pid)
-    const { name, description } = project;
+    const { name, description } = await project.read();
     setInitData({ name, description });
   }
 
