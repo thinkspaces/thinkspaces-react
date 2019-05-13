@@ -5,6 +5,7 @@ import ProjectDescriptionForm from '../project-form/project-description-form';
 import ProjectTagsForm from '../project-form/project-tags-form';
 import ProjectTeamForm from '../project-form/project-team-form';
 import ProjectLinksForm from '../project-form/project-links-form';
+import ProjectShortnameForm from '../project-form/project-shortname-form';
 
 import styles from './EditProject.module.css'
 
@@ -29,6 +30,9 @@ const EditProject = (props) => {
       case 'links':
         setCurrentForm(<ProjectLinksForm pid={pid} />);
         break;
+      case 'settings':
+        setCurrentForm(<ProjectShortnameForm pid={pid} />);
+        break;
       default:
         setCurrentForm(<ProjectDescriptionForm pid={pid} />)
         break;
@@ -51,6 +55,7 @@ const EditProject = (props) => {
           <button type="button" name="images" className={styles.sidebarItem} onClick={handleSidebar}>Images</button>
           <button type="button" name="team" className={styles.sidebarItem} onClick={handleSidebar}>Team</button>
           <button type="button" name="tags" className={styles.sidebarItem} onClick={handleSidebar}>Tags</button>
+          <button type="button" name="settings" className={styles.sidebarItem} onClick={handleSidebar}>Settings</button>
         </div>
         <div className={styles.rightPanel}>
           { currentForm }

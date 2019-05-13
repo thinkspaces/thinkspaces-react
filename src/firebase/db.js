@@ -581,6 +581,23 @@ export class Project {
   };
 
   /**
+   *
+   * @param {string} field : e.g. shortname
+   * @param {string} comparator : e.g. ==, <=
+   * @param {any} value : what to check for
+   */
+  static read = async (field, comparator, value) => {
+    const query = db.collection('projects').where(field, comparator, value)
+    const querySnapshot = await query.get()
+    const projects = querySnapshot.docs.map(queryDocumentSnapshot => (
+      { ...queryDocumentSnapshot.data(),
+        id: queryDocumentSnapshot.id,
+        ref: queryDocumentSnapshot.ref }
+    ))
+    return projects
+  }
+
+  /**
    * helper function to retrieve and unpack tags for project
    */
   readTags = async () => {
