@@ -14,17 +14,20 @@ const ProjectDeleteForm = (props) => {
   /**
    * save the shortname to the project's document in the database
    */
-  const handleSave = async () => {
+  const handleDelete = async () => {
     // reset success and start load
     setSuccess(false)
     setLoading(true)
-
+    // attempt delete
+    await project.delete()
     // stop load and set success
     setLoading(false)
     setSuccess(true)
     setTimeout(() => {
       setSuccess(false)
     }, 1000)
+    // navigate to root
+    window.location.replace('/')
   }
 
   return (
@@ -36,6 +39,7 @@ const ProjectDeleteForm = (props) => {
         all its data, and scrub clean any users that refer to it.
         </span>
         <SaveButton
+          onClick={handleDelete}
           className="defBtn danger"
           text="Delete"
           type="submit"

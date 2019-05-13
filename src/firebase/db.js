@@ -1,6 +1,7 @@
 /* eslint-disable no-use-before-define */
 import idx from 'idx'
 import { db, auth, createTimestamp, FieldValue } from './firebase';
+import { deleteProjectImages } from './storage'
 
 export const getProjects = async () => {
   // create projects array
@@ -651,6 +652,38 @@ export class Project {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  /**
+   * delete a Project entirely from the database and storage
+   */
+  delete = async () => {
+    // get project data
+    const query = await this.ref.get();
+    const data = query.data();
+    // scrub tags
+    const tags = idx(data, obj => obj.tags)
+    if (tags) {
+      await Promise.all(
+        tags.map(docRef => (new Tag(undefined, undefined, docRef)).deleteProject(this)),
+      )
+    }
+    // scrub team members
+    const team = idx(data, obj => obj.team)
+    if (team) {
+      await Promise.all(
+        team.map(docRef => (new User(undefined, docRef)).deleteTeam(this)),
+      )
+    }
+    // NOTE: if adding anything with a DocumentReference to projects in the
+    // future, make to scrub it in the same way as above
+
+    // delete images
+    await deleteProjectImages(this.id())
+    // NOTE: delete all other files in the same way
+
+    // finally, delete the record from the database
+    await this.ref.delete()
   }
 
   /**
