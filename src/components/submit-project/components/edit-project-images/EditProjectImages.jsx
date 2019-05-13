@@ -6,7 +6,6 @@ import styles from './EditProjectImages.module.css';
 import dragReorder from '../../../utils/dragReorder';
 import urlToFile from '../../../utils/urlToFile';
 import { downloadProjectImages, uploadProjectImages, deleteProjectImages } from '../../../../firebase/storage';
-import { setProjectImages } from '../../../../firebase/db';
 
 const EditProjectImages = (props) => {
   const { pid } = props;
@@ -48,7 +47,7 @@ const EditProjectImages = (props) => {
     // upload the new ones to Cloud Storage
     const imageURLs = await uploadProjectImages(pid, imageFilesForSync);
     // update Firestore
-    await setProjectImages(pid, imageURLs);
+    // await setProjectImages(pid, imageURLs);
   }
 
   /**

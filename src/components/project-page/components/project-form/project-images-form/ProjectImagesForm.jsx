@@ -8,12 +8,13 @@ import './ProjectImagesForm.css'
 import styles from './ProjectImagesForm.module.css'
 
 import { downloadProjectImages, uploadProjectImages, deleteProjectImages } from '../../../../../firebase/storage';
-import { setProjectImages } from '../../../../../firebase/db';
+import { Project } from '../../../../../firebase/db';
 
 registerPlugin(FilePondPluginImagePreview);
 
 const ProjectImagesForm = (props) => {
   const { pid } = props
+  const project = new Project(pid);
   const [ files, setFiles ] = useState([])
   const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
@@ -22,7 +23,7 @@ const ProjectImagesForm = (props) => {
     setLoading(true);
     await deleteProjectImages(pid);
     const imageURLs = await uploadProjectImages(pid, files);
-    await setProjectImages(pid, imageURLs);
+    await project.update({ images: imageURLs })
     setLoading(false);
     setSuccess(true);
     setTimeout(() => {

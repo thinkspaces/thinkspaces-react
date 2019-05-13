@@ -267,13 +267,6 @@ export const createProjectWithFields = async (project) => {
   return projectRef.id;
 };
 
-export const setProjectImages = async (pid, imageURLs) => {
-  await db
-    .collection('projects')
-    .doc(pid)
-    .update({ images: imageURLs });
-};
-
 export const setProject = async (pid, obj) => {
   await db
     .collection('projects')
