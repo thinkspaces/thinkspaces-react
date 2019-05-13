@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from './SaveButton.module.css';
 
-const SaveButton = ({ loading, success, error, onClick, type = 'button' }) => (
+const SaveButton = ({ loading, success, error, onClick, type = 'button', disabled = false }) => (
   <div className={styles.save}>
-    <button type={type} className="defBtn" onClick={onClick}>
+    <button type={type} className="defBtn" onClick={onClick} disabled={disabled}>
         Save
     </button>
     {

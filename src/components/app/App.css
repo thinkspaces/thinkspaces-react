@@ -35,6 +35,10 @@ body {
     transition: box-shadow 0.3s ease-in-out;
 }
 
+.defBtn:disabled {
+    background-color: var(--color-grey);
+}
+
 .defBtnLg {
     padding: 5px 15px;
     font-size: 1.5rem;
