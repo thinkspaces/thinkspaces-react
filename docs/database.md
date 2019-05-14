@@ -295,6 +295,10 @@ Returns a TagBucket instance for the bucket the tag belongs to.
 
 ### User Firebase structure
 
+It's intended for this structure to be the single source of truth for all users in the database.
+
+*Disclaimer*: this structure might be incomplete and only contains the most important fields.
+
 - username: string
   - optional
 - teams: [DocumentReference]
@@ -458,12 +462,20 @@ Returns the unique string ID of document in the database.
 
 ### Project Firebase structure
 
+It's intended for this structure to be the single source of truth for all projects in the database.
+
+*Disclaimer*: this structure might be incomplete and only contains the most important fields.
+
 - tags: [DocumentReference]
   - 0 or more references to tags
 - team: [DocumentReference]
   - 0 or more references to users that are part of the project's team
 - admin: [DocumentReference]
   - 0 or more references to users that are part of the project's admin group
+- privacy : { visibleInSearch : bool }
+  - This map/object may be expanded with more properties in the future
+- shortname: string
+  - Unique for every project
 
 ### Project properties
 
