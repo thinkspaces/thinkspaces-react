@@ -5,7 +5,7 @@ import queryString from 'query-string';
 import { Row } from 'reactstrap';
 import { db, auth } from '../../firebase';
 
-import EditProject from './components/edit-project';
+import ProjectDashboard from './components/project-dashboard';
 import SocialContentSection from './components/social-content-section';
 import EditProjectButton from './components/edit-project-button';
 import BannerContent from './components/banner-content';
@@ -56,12 +56,9 @@ class ProjectPage extends Component {
     const { location: { hash } } = this.props;
     if (isEditing) {
       return (
-        <EditProject
+        <ProjectDashboard
           pid={pid}
-          project={project}
           saveChanges={this.saveChanges}
-          onEditChange={this.onEditChange}
-          onCancel={this.onCancel}
         />
       );
     }

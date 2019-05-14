@@ -7,9 +7,9 @@ import ProjectTeamForm from '../project-form/project-team-form';
 import ProjectLinksForm from '../project-form/project-links-form';
 import ProjectSettingsForm from '../project-form/project-settings-form';
 
-import styles from './EditProject.module.css'
+import styles from './ProjectDashboard.module.css'
 
-const EditProject = (props) => {
+const ProjectDashboard = (props) => {
   const { pid, saveChanges: close } = props
   const [ currentForm, setCurrentForm ] = useState(<ProjectDescriptionForm pid={pid} />)
 
@@ -42,7 +42,7 @@ const EditProject = (props) => {
   return (
     <>
       <div className={styles.header}>
-        <h2>Edit Project</h2>
+        <h2>Project Dashboard</h2>
         <button type="button" className={styles.external} onClick={close}>
           <span>View project</span>
           <FontAwesomeIcon icon="external-link-alt" />
@@ -65,4 +65,4 @@ const EditProject = (props) => {
   )
 };
 
-export default EditProject;
+export default ProjectDashboard;
