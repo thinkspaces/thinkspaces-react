@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Form, Field, FieldArray, getIn } from 'formik';
 import * as Yup from 'yup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SaveButton from '../../../../shared/save-button'
 import { Project } from '../../../../../firebase/db';
+import styles from './ProjectLinksForm.module.css'
 
 const schema = Yup.object().shape({ links: Yup.array()
   .of(
@@ -70,30 +72,53 @@ const ProjectLinksForm = (props) => {
                 <div>
                   {values.links && values.links.length > 0 ? (
                     values.links.map((link, index) => (
-                      <div key={index}>
-                        <Field name={`links[${ index }].url`} placeholder="Link URL e.g. https://google.com" />
-                        <Field name={`links[${ index }].name`} placeholder="Description e.g. Our Website. Keep it short!" />
-                        <Field name={`links[${ index }].primary`} type="radio" checked={link.primary} value={link.primary} onChange={() => handleRadio(index, values, setValues)} />
-                        <ErrorMessage name={`links[${ index }].name`} />
-                        <ErrorMessage name={`links[${ index }].url`} />
-                        {/* remove */}
-                        <button
-                          type="button"
-                          onClick={() => arrayHelpers.remove(index)}
-                        >
-                        -
-                        </button>
-                        {/* add */}
-                        <button
-                          type="button"
-                          onClick={() => arrayHelpers.insert(index + 1, { name: '', url: '', primary: false })}
-                        >
-                        +
-                        </button>
+                      <div key={index} className={styles.fields}>
+                        <div className={styles.field}>
+                          {/* name of link */}
+                          <span className="helpText">Name</span>
+                          <Field name={`links[${ index }].name`} placeholder="e.g. Website" className="text-input" />
+                          <span className="helpText"><ErrorMessage name={`links[${ index }].name`} /></span>
+                        </div>
+                        <div className={styles.field}>
+                          {/* url of link */}
+                          <span className="helpText">URL</span>
+                          <Field name={`links[${ index }].url`} placeholder="e.g. https://thinkspaces.org" className="text-input" />
+                          <span className="helpText"><ErrorMessage name={`links[${ index }].url`} /></span>
+                        </div>
+                        <div className={styles.isPrimary}>
+                          {/* primary? */}
+                          <span className="helpText">Primary?</span>
+                          <Field
+                            name={`links[${ index }].primary`}
+                            type="radio"
+                            checked={link.primary}
+                            value={link.primary}
+                            onChange={() => handleRadio(index, values, setValues)}
+                            className={styles.primary}
+                          />
+                        </div>
+                        <div className={styles.addRemove}>
+                          {/* remove */}
+                          <button
+                            type="button"
+                            className="defBtn neutral"
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            <FontAwesomeIcon icon="times" />
+                          </button>
+                          {/* add */}
+                          <button
+                            type="button"
+                            className="defBtn neutral"
+                            onClick={() => arrayHelpers.insert(index + 1, { name: '', url: '', primary: false })}
+                          >
+                            <FontAwesomeIcon icon="plus" />
+                          </button>
+                        </div>
                       </div>
                     ))
                   ) : (
-                    <button type="button" onClick={() => arrayHelpers.push({ name: '', url: '', primary: true })}>
+                    <button type="button" onClick={() => arrayHelpers.push({ name: '', url: '', primary: true })} className="defBtn neutral">
                       {/* show this when user has removed all friends from the list */}
                     Add a link
                     </button>

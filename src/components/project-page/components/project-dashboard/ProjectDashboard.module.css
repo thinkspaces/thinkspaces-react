@@ -16,7 +16,7 @@
     }
 
     .rightPanel {
-        border: 1px solid var(--color-grey);
+        border: 1px solid var(--color-disabled);
         border-radius: 5px;
         border-left-width: 1px!important;
     }
@@ -24,7 +24,7 @@
 }
 
 .sidebar {
-    border: 1px solid var(--color-grey);;
+    border: 1px solid var(--color-disabled);;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     overflow: hidden;
@@ -32,7 +32,7 @@
 
 .rightPanel {
     padding: 25px;
-    border: 1px solid var(--color-grey);
+    border: 1px solid var(--color-disabled);
     border-left-width: 0px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -47,7 +47,7 @@
 }
 
 .sidebarItem:focus {
-    outline-color: var(--color-grey);
+    outline-color: var(--color-disabled);
     outline-width: 3px;
 }
 

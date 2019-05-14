@@ -3,7 +3,8 @@
     --color-positive: #27ae60;
     --color-danger: #d63031;
     --color-subtle: #ecf0f1;
-    --color-grey: #b2bec3;
+    --color-disabled: #b2bec3;
+    --color-neutral: #818a8d;
 
     /* shadows */
     --shadow-default: 0 2px 4px 0 rgba(0,0,0,0.10);
@@ -40,8 +41,12 @@ body {
     background-color: var(--color-danger);
 }
 
+.defBtn.neutral {
+    background-color: var(--color-neutral);
+}
+
 .defBtn:disabled {
-    background-color: var(--color-grey);
+    background-color: var(--color-disabled);
 }
 
 .defBtnLg {
