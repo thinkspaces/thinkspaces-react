@@ -32,7 +32,7 @@ const ProjectDeleteForm = (props) => {
 
   return (
     <>
-      <h3>Delete Project</h3>
+      <h3>Delete project</h3>
       <div className={styles.wrap}>
         <span className={styles.help}>
         Careful! Clicking delete will <b>irreversibly</b> delete your project,
@@ -42,7 +42,6 @@ const ProjectDeleteForm = (props) => {
           onClick={handleDelete}
           className="defBtn danger"
           text="Delete"
-          type="submit"
           loading={loading}
           success={success}
         />

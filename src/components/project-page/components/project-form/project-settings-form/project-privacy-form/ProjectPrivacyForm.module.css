@@ -1,0 +1,24 @@
+.help  {
+    margin-top: 10px;
+    display: block;
+    font-size: 0.8rem;
+}
+
+.wrap {
+    width: 60%
+}
+
+@media (max-width: 768px) {
+    .wrap {
+        width: 100%
+    }
+}
+
+.checkboxCombo {
+    display: flex;
+    align-items: center;
+}
+
+.checkboxCombo > * {
+    margin-right: 5px;
+}
