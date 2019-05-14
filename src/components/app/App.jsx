@@ -34,7 +34,8 @@ ReactGA.initialize('UA-128353649-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 // font awesome
-library.add(faPlus, faTimes, faCircleNotch, faRandom, faCheckCircle, faTimesCircle, faExternalLinkAlt);
+library.add(faPlus, faTimes, faCircleNotch, faRandom,
+  faCheckCircle, faTimesCircle, faExternalLinkAlt);
 
 class App extends Component {
   render() {
