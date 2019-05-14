@@ -37,8 +37,8 @@ class ProjectPage extends Component {
       if (currentUserId) {
         const project = await (new Project(pid)).read()
         this.setState({ project, pid })
-        const teamRefs = idx(project, obj => project.team)
-        const adminRefs = idx(project, obj => project.admin)
+        const teamRefs = idx(project, obj => obj.team)
+        const adminRefs = idx(project, obj => obj.admin)
         if (teamRefs !== undefined && adminRefs !== undefined) {
           const editable = (teamRefs.some(docRef => docRef.id === currentUserId)
           || adminRefs.some(docRef => docRef.id === currentUserId))

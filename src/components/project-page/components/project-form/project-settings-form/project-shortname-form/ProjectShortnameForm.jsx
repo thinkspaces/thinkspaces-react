@@ -50,6 +50,9 @@ const ProjectShortnameForm = (props) => {
     setTimeout(() => {
       setSuccess(false)
     }, 1000)
+
+    // redirect to new page
+    window.location.replace(`/projects/${ input }`)
   }
 
   /**

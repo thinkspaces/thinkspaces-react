@@ -41,12 +41,13 @@ class ExploreProjects extends Component {
                 width={width}
                 key={i}
                 shortname={p.shortname}
+                name={p.name}
                 id={p.id}
-                title={p.title}
-                image={p.images[0]}
-                text={p.card_des}
-                likes={p.likes}
-                updateLikes={likes => this.updateLikes(likes, i)}
+                // title={p.title}
+                // image={p.images[0]}
+                // text={p.card_des}
+                // likes={p.likes}
+                // updateLikes={likes => this.updateLikes(likes, i)}
               />
             </Col>
           ))}

@@ -49,21 +49,21 @@ class ProjectCard extends Component {
   };
 
   render() {
-    const { width, title, likes, updateLikes, image, id, text } = this.props;
+    const { width, name, likes, updateLikes, image, id, text } = this.props;
     return (
       <div>
         <Card width={width} onClick={this.openProject}>
           <Row>
             <Col>
-              <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
+              <CardTitle title={name} likes={likes} pid={id} updateLikes={updateLikes} />
               <CardTag title="tech" />
             </Col>
             {image != null ? <CardImage image={image} /> : <p />}
           </Row>
           <CardBody text={text} />
-          <div className="like-button">
+          {/* <div className="like-button">
             <LikeButton likes={likes} pid={id} updateLikes={updateLikes} />
-          </div>
+          </div> */}
         </Card>
       </div>
     );
