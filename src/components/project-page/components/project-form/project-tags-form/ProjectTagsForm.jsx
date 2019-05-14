@@ -1,6 +1,7 @@
 import React from 'react'
 import ProjectCategoryForm from './project-category-form'
 import ProjectOrganizationForm from './project-organization-form'
+import ProjectReleaseForm from './project-release-form'
 import styles from './ProjectTagsForm.module.css'
 
 const ProjectTagsForm = ({ pid }) => (
@@ -10,9 +11,12 @@ const ProjectTagsForm = ({ pid }) => (
     <div className={styles.form}>
       <ProjectCategoryForm pid={pid} />
     </div>
+    <div className={styles.form}>
+      <ProjectOrganizationForm pid={pid} />
+    </div>
     {/* no classname for the last item because no bottom margin needed */}
     <div>
-      <ProjectOrganizationForm pid={pid} />
+      <ProjectReleaseForm pid={pid} />
     </div>
   </>
 )
