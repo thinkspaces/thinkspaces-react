@@ -34,7 +34,7 @@ const ProjectDeleteForm = (props) => {
     <>
       <h3>Delete project</h3>
       <div className={styles.wrap}>
-        <span className={styles.help}>
+        <span className="helpText">
         Careful! Clicking delete will <b>irreversibly</b> delete your project,
         all its data, and scrub clean any users that refer to it.
         </span>

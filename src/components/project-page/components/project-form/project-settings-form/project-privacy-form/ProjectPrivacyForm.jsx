@@ -87,7 +87,7 @@ const ProjectPrivacyForm = (props) => {
                 <input type="checkbox" name={key} value={privacyState[key]} checked={privacyState[key]} onChange={handleCheck} />
                 <span>{privacySettings[key].name}</span>
               </div>
-              <span className={styles.help} dangerouslySetInnerHTML={{ __html: privacySettings[key].help }} />
+              <span className="helpText" dangerouslySetInnerHTML={{ __html: privacySettings[key].help }} />
             </div>
           ),
         ) }

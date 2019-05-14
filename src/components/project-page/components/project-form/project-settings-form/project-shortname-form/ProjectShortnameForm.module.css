@@ -8,12 +8,6 @@
     margin-right: 10px;
 }
 
-.help  {
-    margin-top: 10px;
-    display: block;
-    font-size: 0.8rem;
-}
-
 @media (max-width: 768px) {
     .wrap {
         width: 100%

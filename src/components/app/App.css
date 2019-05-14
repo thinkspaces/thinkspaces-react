@@ -82,3 +82,9 @@ body {
     display: block;
     width: 100%;
 }
+
+.helpText {
+    margin-top: 10px;
+    display: block;
+    font-size: 0.8rem;
+}

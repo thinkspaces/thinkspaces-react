@@ -167,7 +167,7 @@ const ProjectShortnameForm = (props) => {
           { renderStatus() }
         </div>
         {/* help text */}
-        <span className={styles.help}>
+        <span className="helpText">
           Shortname must be unique.<br />
           It must be between 5-20 characters in length.<br />
           Valid characters include: aA-zZ, 0-9 and underscores.
