@@ -446,6 +446,16 @@ export class Tag {
    * return tid of Tag document
    */
   id = () => this.ref.id;
+
+  /**
+   * returns TagBucket instance for Tag
+   */
+  bucket = () => {
+    const tagsCollectionReference = this.ref.parent
+    const tagBucketDocumentReference = tagsCollectionReference.parent
+    const tagBucketInstance = new TagBucket(undefined, tagBucketDocumentReference)
+    return tagBucketInstance
+  }
 }
 
 /**
@@ -614,15 +624,20 @@ export class Project {
   /**
    * helper function to retrieve and unpack tags for project
    */
-  readTags = async () => {
+  readTags = async (tbid = undefined) => {
     const data = await this.read()
     // check if nested field is defined (edge case)
     const tagRefs = idx(data, obj => obj.tags)
     if (tagRefs === undefined) { return [] }
     // create Tag objects
-    const tags = await Promise.all(
-      tagRefs.map(async docRef => new Tag(undefined, undefined, docRef).read()),
-    );
+    const tagInstances = tagRefs.map(docRef => new Tag(undefined, undefined, docRef))
+    // filter by bucket if necessary
+    let tagInstancesFiltered = tagInstances
+    if (tbid !== undefined) {
+      tagInstancesFiltered = tagInstances.filter(instance => instance.bucket().id() === tbid)
+    }
+    // unpack the tags and return
+    const tags = await Promise.all(tagInstancesFiltered.map(async instance => instance.read()));
     return tags
   }
 
@@ -746,7 +761,7 @@ export class Project {
    * helper function to drop all tags for a project
    * useful from a functional standpoint
    */
-  deleteTags = async () => {
+  deleteTags = async (tbid = undefined) => {
     // read the document
     const data = await this.read()
     // check if nested field is defined (edge case)
@@ -754,8 +769,12 @@ export class Project {
     if (tagRefs === undefined) { return [] }
     // create Tag objects for each document
     const tags = tagRefs.map(docRef => new Tag(undefined, undefined, docRef))
-    // remove project for each tag
-    return tags.forEach(tag => tag.deleteProject(this) )
+    // if no bucket specified, remove project for each tag
+    if (tbid === undefined) { return tags.forEach(async tag => tag.deleteProject(this)) }
+    // otherwise, remove only those tags belonging to the bucket
+    return tags.forEach(async (tag) => {
+      if (tag.bucket().id() === tbid) { await tag.deleteProject(this) }
+    })
   }
 
   /**

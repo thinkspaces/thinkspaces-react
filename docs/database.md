@@ -59,7 +59,7 @@
       - [Project().create(props)](#projectcreateprops)
       - [Project().read()](#projectread)
       - [static Project().read(field, comparator, value)](#static-projectreadfield-comparator-value)
-      - [Project().readTags()](#projectreadtags)
+      - [Project().readTags(tbid)](#projectreadtagstbid)
       - [Project().readTeam()](#projectreadteam)
       - [Project().readAdmin()](#projectreadadmin)
       - [Project().update(props)](#projectupdateprops)
@@ -67,7 +67,7 @@
       - [Project().updateTeamUser(userInstance)](#projectupdateteamuseruserinstance)
       - [Project().updateAdminUser(userInstance)](#projectupdateadminuseruserinstance)
       - [Project().deleteTag(tagInstance)](#projectdeletetagtaginstance)
-      - [Project().deleteTags()](#projectdeletetags)
+      - [Project().deleteTags(tbid)](#projectdeletetagstbid)
       - [Project().deleteTeamUser(userInstance)](#projectdeleteteamuseruserinstance)
       - [Project().deleteTeam()](#projectdeleteteam)
       - [Project().deleteAdminUser(userInstance)](#projectdeleteadminuseruserinstance)
@@ -511,9 +511,13 @@ Notes:
 
 - Wraps the Firebase simpleQuery: <https://firebase.google.com/docs/firestore/query-data/queries>
 
-#### Project().readTags()
+#### Project().readTags(tbid)
 
 `Project().read()` gives an array of tag references. But if you want the data for each tag as well, then use `Project().readTags()`. It unpacks each tag reference and puts it into an array.
+
+Arguments:
+
+- `tbid`: an optional string for the Tag Bucket. If specified, only those project tags belonging to the bucket will be fetched.
 
 Notes:
 
@@ -597,9 +601,13 @@ Notes:
 
 - You can use either for the same effect.
 
-#### Project().deleteTags()
+#### Project().deleteTags(tbid)
 
-`Project().deleteTag(tagInstance)` deletes a specified tag from the Project. What if you wanted to delete all the tags the project is associated with? That's where `Project().deleteTags()` comes in. It is useful from a functional perspective.
+`Project().deleteTag(tagInstance)` deletes a specified tag from the Project. What if you wanted to delete all the tags the project is associated with? That's where `Project().deleteTags(tbid)` comes in. It is useful from a functional perspective.
+
+Arguments:
+
+- `tbid`: an optional string for the Tag Bucket. If specified, only those project tags belonging to the bucket will be deleted.
 
 Notes:
 
