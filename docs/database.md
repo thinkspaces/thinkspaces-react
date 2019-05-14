@@ -455,6 +455,8 @@ Returns the unique string ID of document in the database.
   - 0 or more references to tags
 - team: [DocumentReference]
   - 0 or more references to users that are part of the project's team
+- admin: [DocumentReference]
+  - 0 or more references to users that are part of the project's admin group
 
 ### Project properties
 
