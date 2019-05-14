@@ -524,6 +524,13 @@ export class User {
   updateTeam = async projectInstance => projectInstance.updateTeamUser(this)
 
   /**
+   * a proxy for Project().updateAdminUser()
+   * admin members can edit even more project details
+   * @param {Project} projectInstance : a Project class object
+   */
+  updateAdmin = async projectInstance => projectInstance.updateAdminUser(this)
+
+  /**
    * a proxy for Tag().deleteUser()
    * @param {Tag} tagInstance : a Tag class object
    */
@@ -534,6 +541,12 @@ export class User {
    * @param {Project} projectInstance : a Project class object
    */
   deleteTeam = async projectInstance => projectInstance.deleteTeamUser(this)
+
+  /**
+   * a proxy for Project().deleteAdminUser()
+   * @param {Project} projectInstance : a Project class object
+   */
+  deleteAdmin = async projectInstance => projectInstance.deleteAdminUser(this)
 
   /**
    * return uid of document
@@ -628,6 +641,20 @@ export class Project {
   };
 
   /**
+   * returns admin members of project by unpacking each User reference
+   */
+  readAdmin = async () => {
+    const query = await this.ref.get();
+    const data = query.data();
+    const adminRefs = idx(data, obj => obj.admin)
+    if (adminRefs === undefined) { return [] }
+    const admin = await Promise.all(
+      adminRefs.map(async docRef => (new User(undefined, docRef)).read()),
+    )
+    return admin
+  };
+
+  /**
    * @param {object} props : an object of properties to update with (low level)
    */
   update = async props => this.ref.update(props);
@@ -641,7 +668,7 @@ export class Project {
   /**
    * add a User to a Project's team
    * team members can edit project details
-   * @param {Tag} userInstance : a User class object
+   * @param {User} userInstance : a User class object
    */
   updateTeamUser = async (userInstance) => {
     try {
@@ -649,6 +676,22 @@ export class Project {
       await this.update({ team: FieldValue.arrayUnion(userInstance.ref) });
       // add project to the user's teams array
       await userInstance.update({ teams: FieldValue.arrayUnion(this.ref) });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /**
+   * add a User to a Project's admin
+   * admin members can edit even more project details
+   * @param {User} userInstance : a User class object
+   */
+  updateAdminUser = async (userInstance) => {
+    try {
+      // add to tag's admin array
+      await this.update({ admin: FieldValue.arrayUnion(userInstance.ref) });
+      // add project to the user's admin array
+      await userInstance.update({ admin: FieldValue.arrayUnion(this.ref) });
     } catch (e) {
       console.log(e);
     }
@@ -709,20 +752,6 @@ export class Project {
   }
 
   /**
-   * helper function to drop all users for a project team
-   * useful from a functional standpoint
-   */
-  deleteTeam = async () => {
-    // read the document
-    const data = await this.read()
-    // check if nested field is defined (edge case)
-    const teamRefs = idx(data, obj => obj.team)
-    if (teamRefs === undefined) { return [] }
-    // remove project for each tag
-    return teamRefs.map(async docRef => this.deleteTeamUser(new User(undefined, docRef)))
-  }
-
-  /**
    * remove a user from a project's team array
    * @param {User} userInstance : a User class object
    */
@@ -735,6 +764,49 @@ export class Project {
     } catch (e) {
       console.log(e);
     }
+  }
+
+  /**
+   * helper function to drop all users for a project team
+   * useful from a functional standpoint
+   */
+  deleteTeam = async () => {
+    // read the document
+    const data = await this.read()
+    // check if nested field is defined (edge case)
+    const teamRefs = idx(data, obj => obj.team)
+    if (teamRefs === undefined) { return [] }
+    // remove project for each user
+    return teamRefs.map(async docRef => this.deleteTeamUser(new User(undefined, docRef)))
+  }
+
+  /**
+   * remove a user from a project's admin array
+   * @param {User} userInstance : a User class object
+   */
+  deleteAdminUser = async (userInstance) => {
+    try {
+      // remove user from project's admin array
+      await this.update({ admin: FieldValue.arrayRemove(userInstance.ref) });
+      // remove project from user's admin array
+      await userInstance.update({ admin: FieldValue.arrayRemove(this.ref) });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  /**
+   * helper function to drop all users for a project admin
+   * useful from a functional standpoint
+   */
+  deleteAdmin = async () => {
+    // read the document
+    const data = await this.read()
+    // check if nested field is defined (edge case)
+    const adminRefs = idx(data, obj => obj.admin)
+    if (adminRefs === undefined) { return [] }
+    // remove project for each user
+    return adminRefs.map(async docRef => this.deleteAdminUser(new User(undefined, docRef)))
   }
 
   /**
