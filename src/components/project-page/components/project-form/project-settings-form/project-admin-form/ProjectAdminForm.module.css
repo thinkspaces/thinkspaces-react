@@ -1,0 +1,10 @@
+.icon {
+    border-radius: 1000px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.wrap {
+    display: flex;
+    align-items: center;
+}

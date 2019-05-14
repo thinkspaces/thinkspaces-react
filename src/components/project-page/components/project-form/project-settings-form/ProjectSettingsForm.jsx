@@ -1,7 +1,8 @@
 import React from 'react'
 import ProjectShortnameForm from './project-shortname-form'
-import ProjectDeleteForm from './project-delete-form'
+import ProjectAdminForm from './project-admin-form'
 import ProjectPrivacyForm from './project-privacy-form'
+import ProjectDeleteForm from './project-delete-form'
 import styles from './ProjectSettingsForm.module.css'
 
 const ProjectSettingsForm = ({ pid }) => (
@@ -12,9 +13,13 @@ const ProjectSettingsForm = ({ pid }) => (
       <ProjectShortnameForm pid={pid} />
     </div>
     <div className={styles.form}>
-      <ProjectPrivacyForm pid={pid} />
+      <ProjectAdminForm pid={pid} />
     </div>
     <div className={styles.form}>
+      <ProjectPrivacyForm pid={pid} />
+    </div>
+    {/* no classname for the last item because no bottom margin needed */}
+    <div>
       <ProjectDeleteForm pid={pid} />
     </div>
   </>
