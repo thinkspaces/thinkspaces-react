@@ -66,6 +66,7 @@ const ProjectOrganizationForm = (props) => {
     <>
       <div className={styles.wrapper}>
         <h3>Organization type</h3>
+        <span className="helpText">Choose a tag that best descibes the organizational structure of your project.</span>
         <Select
           captureMenuScroll={false}
           value={chosenTags}

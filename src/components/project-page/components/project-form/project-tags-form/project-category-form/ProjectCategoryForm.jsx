@@ -66,6 +66,7 @@ const ProjectCategoryForm = (props) => {
     <>
       <div className={styles.wrapper}>
         <h3>Category</h3>
+        <span className="helpText">Choose tags that best describe the category or discipline your project falls under.</span>
         <Select
           captureMenuScroll={false}
           value={chosenTags}

@@ -66,6 +66,7 @@ const ProjectReleaseForm = (props) => {
     <>
       <div className={styles.wrapper}>
         <h3>Release status</h3>
+        <span className="helpText">Choose a tag that best descibes how mature your project is.</span>
         <Select
           captureMenuScroll={false}
           value={chosenTags}
