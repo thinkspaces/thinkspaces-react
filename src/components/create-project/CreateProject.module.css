@@ -1,0 +1,41 @@
+.card {
+    box-shadow: var(--shadow-lift);
+    padding: 25px;
+    width: 100%;
+    min-width: 400px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.close {
+}
+
+
+.input {
+    width: 80%!important;
+    /* margin: 0 auto; */
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.button {
+    /* margin: 0 auto; */
+}
+
+.reactModal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.reactModalOverlay {
+    all: unset;
+    z-index: 1;
+}
