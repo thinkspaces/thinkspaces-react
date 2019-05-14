@@ -1,7 +1,6 @@
 /* eslint camelcase: 0 */
 import React, { Component } from 'react';
 import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
-import EditProjectImages from '../edit-project-images';
 import '../../SubmitProjectFlow.css';
 
 class GeneralProjectInfo extends Component {
