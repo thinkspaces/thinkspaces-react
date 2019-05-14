@@ -4,7 +4,17 @@
     margin-right: 10px;
 }
 
-.wrap {
+.optionWrap {
     display: flex;
     align-items: center;
+}
+
+.wrap {
+    width: 80%;
+}
+
+@media (max-width: 768px) {
+    .wrap {
+        width: 100%
+    }
 }

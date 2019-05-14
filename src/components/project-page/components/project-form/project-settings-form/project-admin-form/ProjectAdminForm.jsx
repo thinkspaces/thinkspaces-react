@@ -73,7 +73,7 @@ const ProjectAdminForm = (props) => {
     const { label, icon } = data
     return (
       <components.Option {...props}>
-        <div className={styles.wrap}>
+        <div className={styles.optionWrap}>
           <img src={icon || 'http://www.gravatar.com/avatar'} alt="user icon" className={styles.icon} />
           <span>{ label }</span>
         </div>
@@ -97,12 +97,12 @@ const ProjectAdminForm = (props) => {
   return (
     <>
       <h3>Manage administrators</h3>
-      <div className={styles.wrapper}>
-        <span className="helpText">
+      <span className="helpText">
             Search for users by their username to add them as administrators to this project.
             Administrators can modify project settings and wield special permissions.
-        </span>
-        {/* Async Select */}
+      </span>
+      {/* Async Select */}
+      <div className={styles.wrap}>
         <AsyncSelect
           cacheOptions
           value={adminState}
@@ -112,8 +112,8 @@ const ProjectAdminForm = (props) => {
           isMulti
           loadOptions={promiseOptions}
         />
-        <SaveButton loading={loading} success={success} onClick={handleSave} />
       </div>
+      <SaveButton loading={loading} success={success} onClick={handleSave} />
     </>
   );
 }

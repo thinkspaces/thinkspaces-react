@@ -73,7 +73,7 @@ const ProjectTeamForm = (props) => {
     const { label, icon } = data
     return (
       <components.Option {...props}>
-        <div className={styles.wrap}>
+        <div className={styles.optionWrap}>
           <img src={icon || 'http://www.gravatar.com/avatar'} alt="user icon" className={styles.icon} />
           <span>{ label }</span>
         </div>
@@ -99,9 +99,9 @@ const ProjectTeamForm = (props) => {
   return (
     <>
       <h2>Manage team</h2>
-      <div className={styles.wrapper}>
-        <p>Search for users by their username to add them as team members for this project.</p>
-        {/* Async Select */}
+      <p>Search for users by their username to add them as team members for this project.</p>
+      {/* Async Select */}
+      <div className={styles.wrap}>
         <AsyncSelect
           cacheOptions
           value={teamState}
@@ -111,8 +111,8 @@ const ProjectTeamForm = (props) => {
           isMulti
           loadOptions={promiseOptions}
         />
-        <SaveButton loading={loading} success={success} onClick={handleSave} />
       </div>
+      <SaveButton loading={loading} success={success} onClick={handleSave} />
     </>
   );
 }
