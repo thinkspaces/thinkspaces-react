@@ -1,0 +1,20 @@
+.icon {
+    border-radius: 1000px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.optionWrap {
+    display: flex;
+    align-items: center;
+}
+
+.wrap {
+    width: 80%;
+}
+
+@media (max-width: 768px) {
+    .wrap {
+        width: 100%
+    }
+}

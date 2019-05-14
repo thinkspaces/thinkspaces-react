@@ -1,3 +1,19 @@
+:root {
+    /* colors */
+    --color-positive: #27ae60;
+    --color-danger: #d63031;
+    --color-subtle: #ecf0f1;
+    --color-disabled: #b2bec3;
+    --color-neutral: #818a8d;
+
+    /* shadows */
+    --shadow-default: 0 2px 4px 0 rgba(0,0,0,0.10);
+    --shadow-lift: 0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08);
+
+    /* button sizes */
+}
+
+
 html {
 	position: relative;
 	min-height: 100%;
@@ -6,4 +22,75 @@ html {
 body {
 	/* Margin bottom by footer height */
 	margin-bottom: 60px;
+}
+
+/* buttons */
+
+.defBtn {
+    border-radius: 5px;
+    padding: 5px 15px;
+    font-size: 1rem;
+    color: white;
+    background-color: var(--color-positive);
+    border: none;
+    box-shadow: var(--shadow-default);
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.defBtn.danger {
+    background-color: var(--color-danger);
+}
+
+.defBtn.neutral {
+    background-color: var(--color-neutral);
+}
+
+.defBtn:disabled {
+    background-color: var(--color-disabled);
+}
+
+.defBtnLg {
+    padding: 5px 15px;
+    font-size: 1.5rem;
+}
+
+.defBtn:hover {
+    box-shadow: var(--shadow-lift)
+}
+
+/* animations */
+
+.fade-in-animation {
+	opacity: 1;
+	animation-name: fadeInOpacity;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-duration: 0.5s;
+}
+
+@keyframes fadeInOpacity {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
+/* forms */
+
+.text-input {
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--color-subtle);
+    box-shadow: var(--shadow-default);
+    display: block;
+    width: 100%;
+}
+
+.helpText {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: block;
+    font-size: 0.8rem;
 }

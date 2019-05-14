@@ -40,11 +40,18 @@ const CardBody = ({ headline }) => (
   </div>
 );
 
+const CardTag = ({ tags }) => (
+  <div className="profile-tag">
+    <p>Tag</p>
+  </div>
+);
+
 const ProfileCard = ({ width, picture, title, headline, openProfile }) => (
   <Card width={width} onClick={openProfile}>
     <CardImage image={picture} title={title} />
     <CardTitle title={title} />
     <CardBody headline={headline} />
+    <CardTag />
   </Card>
 );
 

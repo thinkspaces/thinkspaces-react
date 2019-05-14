@@ -1,0 +1,18 @@
+.wrap {
+    width: 60%
+}
+
+@media (max-width: 768px) {
+    .wrap {
+        width: 100%
+    }
+}
+
+.checkboxCombo {
+    display: flex;
+    align-items: center;
+}
+
+.checkboxCombo > * {
+    margin-right: 5px;
+}

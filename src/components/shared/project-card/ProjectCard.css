@@ -1,9 +1,9 @@
 .card {
-  height: 420px;
+  height: 300px;
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(33, 33, 33, 0.2);
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   margin-bottom: 10px;
   min-width: 318px !important;
 }
@@ -17,12 +17,34 @@
   color: #0056b3;
 }
 
+.description-box {
+  color: #808080;
+}
+
+.like-button {
+  padding-left: 20px;
+  padding-bottom: 30px;
+}
+
 .card-border {
-  padding: 20px;
+  padding-left: 20px;
+  padding-top: 30px;
 }
 
 .card-body {
-  margin-top: 20px;
+  margin-top: 10px;
+}
+
+.card-tag {
+  width: min-content;
+  margin: 5px;
+  padding-left: 20px;
+  color: #007bff;
+  /* box-sizing: content-box; */
+  /* width: 30px; */
+  /* border-radius: 0.25rem; */
+  /* justify-content: center; */
+  /* background-color: #c0c0c0; */
 }
 
 .flexed {
@@ -32,17 +54,15 @@
 }
 
 .project-image-container {
-  margin: 0 auto;
-  height: 165px;
-  vertical-align: middle;
+  margin-left: auto;
+  padding-right: 40px;
+  padding-top: 20px;
+  height: 90px;
 }
 
 .project-image-container img {
-  display: block;
-  max-width: 316px;
-  max-height: 165px;
+  max-width: 90px;
+  max-height: 90px;
   width: auto;
   height: auto;
-  padding-left: 10px;
-  padding-right: 10px;
 }

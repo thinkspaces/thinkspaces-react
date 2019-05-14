@@ -1,0 +1,9 @@
+.wrap {
+    width: 60%
+}
+
+@media (max-width: 768px) {
+    .wrap {
+        width: 100%
+    }
+}
