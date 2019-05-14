@@ -1,6 +1,6 @@
 {
   "parser": "babel-eslint",
-  "plugins": ["react"],
+  "plugins": ["react", "react-hooks"],
   "extends": "airbnb",
   "rules": {
     "space-in-parens": [0, "always"],
@@ -29,6 +29,8 @@
     "no-param-reassign": [1],
     "no-shadow": [1],
     "camelcase": [1],
-    "no-underscore-dangle": [0, "always"]
+    "no-underscore-dangle": [0, "always"],
+    "react-hooks/rules-of-hooks": "error", 
+    "react-hooks/exhaustive-deps": "warn" 
   }
 }
