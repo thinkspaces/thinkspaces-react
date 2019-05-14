@@ -45,8 +45,10 @@
       - [User().update(props)](#userupdateprops)
       - [User().updateTag(tagInstance)](#userupdatetagtaginstance)
       - [User().updateTeam(projectInstance)](#userupdateteamprojectinstance)
+      - [User().updateAdmin(projectInstance)](#userupdateadminprojectinstance)
       - [User().deleteTag(tagInstance)](#userdeletetagtaginstance)
       - [User().deleteTeam(projectInstance)](#userdeleteteamprojectinstance)
+      - [User().deleteAdmin(projectInstance)](#userdeleteadminprojectinstance)
       - [User().id()](#userid)
   - [Project](#project)
     - [Project Firebase structure](#project-firebase-structure)
@@ -56,15 +58,20 @@
       - [Project(pid, pDocRef)](#projectpid-pdocref)
       - [Project().create(props)](#projectcreateprops)
       - [Project().read()](#projectread)
+      - [static Project().read(field, comparator, value)](#static-projectreadfield-comparator-value)
       - [Project().readTags()](#projectreadtags)
       - [Project().readTeam()](#projectreadteam)
+      - [Project().readAdmin()](#projectreadadmin)
       - [Project().update(props)](#projectupdateprops)
       - [Project().updateTag(tagInstance)](#projectupdatetagtaginstance)
       - [Project().updateTeamUser(userInstance)](#projectupdateteamuseruserinstance)
+      - [Project().updateAdminUser(userInstance)](#projectupdateadminuseruserinstance)
       - [Project().deleteTag(tagInstance)](#projectdeletetagtaginstance)
       - [Project().deleteTags()](#projectdeletetags)
-      - [Project().deleteTeam()](#projectdeleteteam)
       - [Project().deleteTeamUser(userInstance)](#projectdeleteteamuseruserinstance)
+      - [Project().deleteTeam()](#projectdeleteteam)
+      - [Project().deleteAdminUser(userInstance)](#projectdeleteadminuseruserinstance)
+      - [Project().deleteAdmin()](#projectdeleteadmin)
       - [Project().id()](#projectid)
 
 ## Introduction
@@ -378,7 +385,19 @@ Notes:
 
 #### User().updateTeam(projectInstance)
 
-Proxies `Project().updateTeam(userInstance)` for convenience.
+Proxies `Project().updateTeamUser(userInstance)` for convenience.
+
+Arguments:
+
+- `projectInstance`: an instance of the Project class to update the user for.
+
+Notes:
+
+- You can use either for the same effect.
+
+#### User().updateAdmin(projectInstance)
+
+Proxies `Project().updateAdminUser(userInstance)` for convenience.
 
 Arguments:
 
@@ -406,7 +425,19 @@ Proxies `Project().deleteTeamUser(userInstance)` for convenience.
 
 Arguments:
 
-- `projectInstance`: an instance of the Project class to remove from the user's projects array.
+- `projectInstance`: an instance of the Project class to remove from the user's teams array.
+
+Notes:
+
+- You can use either for the same effect.
+
+#### User().deleteAdmin(projectInstance)
+
+Proxies `Project().deleteAdminUser(userInstance)` for convenience.
+
+Arguments:
+
+- `projectInstance`: an instance of the Project class to remove from the user's admin array.
 
 Notes:
 
@@ -464,6 +495,20 @@ Notes:
 
 - Structure: `{ id, ref, all other fields }`
 
+#### static Project().read(field, comparator, value)
+
+Queries for Project documents in the database, and returns them as an array.
+
+Arguments:
+
+- `field`: which field to query against e.g. "shortname"
+- `comparator`: comparators e.g. "==", "<="
+- `value`: specific value
+
+Notes:
+
+- Wraps the Firebase simpleQuery: <https://firebase.google.com/docs/firestore/query-data/queries>
+
 #### Project().readTags()
 
 `Project().read()` gives an array of tag references. But if you want the data for each tag as well, then use `Project().readTags()`. It unpacks each tag reference and puts it into an array.
@@ -475,6 +520,14 @@ Notes:
 #### Project().readTeam()
 
 `Project().read()` gives a team which is an array of user references. But if you want the data for each user as well, then use `Project().readTeam()`. It unpacks each user reference and puts it into an array.
+
+Notes:
+
+- Structure: `[ user { id, ref, all other fields } ]`
+
+#### Project().readAdmin()
+
+`Project().read()` gives an admin which is an array of user references. But if you want the data for each user as well, then use `Project().readAdmin()`. It unpacks each user reference and puts it into an array.
 
 Notes:
 
@@ -515,7 +568,20 @@ Arguments:
 - Notes:
 
 Behind the scenes, the function adds a reference to the user in the Project document's team array.
-It also adds a reference to the project in the User document's projects array.
+It also adds a reference to the project in the User document's teams array.
+
+#### Project().updateAdminUser(userInstance)
+
+Associates user with a project's admin in the database.
+
+Arguments:
+
+- `userInstance`: an instance of the User class.
+
+- Notes:
+
+Behind the scenes, the function adds a reference to the user in the Project document's admin array.
+It also adds a reference to the project in the User document's admin array.
 
 #### Project().deleteTag(tagInstance)
 
@@ -537,14 +603,6 @@ Notes:
 
 - Behind the scenes, this method calls `Project().deleteTag(tagInstance)` on every tag the project document has in its tags array.
 
-#### Project().deleteTeam()
-
-`Project().deleteTeamUser(userInstance)` deletes a specified user from the Project's team. What if you wanted to delete all the users the project team is associated with? That's where `Project().deleteTeam()` comes in. It is useful from a functional perspective.
-
-Notes:
-
-- Behind the scenes, this method calls `Project().deleteTeamUser(userInstance)` on every user the project document has in its team array.
-
 #### Project().deleteTeamUser(userInstance)
 
 Disassociate a user from a project's team in the database.
@@ -555,7 +613,35 @@ Arguments:
 
 Notes:
 
-- The method deletes the User from the Project's team array. And it also deletes the project from the User's projects array.
+- The method deletes the User from the Project's team array. And it also deletes the project from the User's teams array.
+
+#### Project().deleteTeam()
+
+`Project().deleteTeamUser(userInstance)` deletes a specified user from the Project's team. What if you wanted to delete all the users the project team is associated with? That's where `Project().deleteTeam()` comes in. It is useful from a functional perspective.
+
+Notes:
+
+- Behind the scenes, this method calls `Project().deleteTeamUser(userInstance)` on every user the project document has in its team array.
+
+#### Project().deleteAdminUser(userInstance)
+
+Disassociate a user from a project's admin array in the database.
+
+Arguments:
+
+- `userInstance`: an instance of the User class to remove from the project's admin.
+
+Notes:
+
+- The method deletes the User from the Project's admin array. And it also deletes the project from the User's admin array.
+
+#### Project().deleteAdmin()
+
+`Project().deleteAdminUser(userInstance)` deletes a specified user from the Project's admin. What if you wanted to delete all the users the project admin is associated with? That's where `Project().deleteAdmin()` comes in. It is useful from a functional perspective.
+
+Notes:
+
+- Behind the scenes, this method calls `Project().deleteAdminUser(userInstance)` on every user the project document has in its admin array.
 
 #### Project().id()
 
