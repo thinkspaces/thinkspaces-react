@@ -30,6 +30,6 @@
     "no-shadow": [1],
     "camelcase": [1],
     "no-underscore-dangle": [0, "always"],
-    "react-hooks/rules-of-hooks": "error", 
+    "react-hooks/rules-of-hooks": "error"
   }
 }
