@@ -718,6 +718,13 @@ export class Project {
         team.map(docRef => (new User(undefined, docRef)).deleteTeam(this)),
       )
     }
+    // scrub admin members
+    const admin = idx(data, obj => obj.admin)
+    if (admin) {
+      await Promise.all(
+        admin.map(docRef => (new User(undefined, docRef)).deleteAdmin(this)),
+      )
+    }
     // NOTE: if adding anything with a DocumentReference to projects in the
     // future, make to scrub it in the same way as above
 
