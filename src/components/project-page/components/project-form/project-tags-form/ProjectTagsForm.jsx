@@ -76,7 +76,7 @@ const ProjectTagsForm = (props) => {
           onChange={handleChange}
           classNamePrefix="select"
         />
-        <SaveButton loading={loading} success={success} onClick={handleSave} />
+        <SaveButton loading={loading} disabled={loading} success={success} onClick={handleSave} />
       </div>
     </>
   );

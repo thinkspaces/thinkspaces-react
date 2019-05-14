@@ -98,7 +98,7 @@ const ProjectLinksForm = (props) => {
                     Add a link
                     </button>
                   )}
-                  <SaveButton loading={loading} success={success} type="submit" />
+                  <SaveButton loading={loading} disabled={loading} success={success} type="submit" />
                 </div>
               )}
             />

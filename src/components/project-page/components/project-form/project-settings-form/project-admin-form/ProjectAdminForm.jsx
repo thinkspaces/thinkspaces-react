@@ -113,7 +113,7 @@ const ProjectAdminForm = (props) => {
           loadOptions={promiseOptions}
         />
       </div>
-      <SaveButton loading={loading} success={success} onClick={handleSave} />
+      <SaveButton disabled={loading} loading={loading} success={success} onClick={handleSave} />
     </>
   );
 }

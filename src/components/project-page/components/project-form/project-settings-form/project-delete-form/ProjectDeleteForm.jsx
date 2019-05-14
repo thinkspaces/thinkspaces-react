@@ -44,6 +44,7 @@ const ProjectDeleteForm = (props) => {
           text="Delete"
           loading={loading}
           success={success}
+          disabled={loading}
         />
       </div>
     </>

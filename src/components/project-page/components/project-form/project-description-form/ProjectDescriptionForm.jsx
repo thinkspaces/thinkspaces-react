@@ -73,7 +73,7 @@ const ProjectDescriptionForm = (props) => {
                 <ErrorMessage name="description" component="div" className={styles.error} />
               </div>
               {status && status.msg && <div>{status.msg}</div>}
-              <SaveButton loading={loading} success={success} type="submit" />
+              <SaveButton loading={loading} disabled={loading} success={success} type="submit" />
             </Form>
           )}
         />
