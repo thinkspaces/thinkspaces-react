@@ -33,6 +33,7 @@
       - [Tag().deleteUser(userInstance)](#tagdeleteuseruserinstance)
       - [Tag().deleteProject(projectInstance)](#tagdeleteprojectprojectinstance)
       - [Tag().id()](#tagid)
+      - [Tag().bucket()](#tagbucket)
   - [User](#user)
     - [User Firebase structure](#user-firebase-structure)
     - [User properties](#user-properties)
@@ -66,6 +67,7 @@
       - [Project().updateTag(tagInstance)](#projectupdatetagtaginstance)
       - [Project().updateTeamUser(userInstance)](#projectupdateteamuseruserinstance)
       - [Project().updateAdminUser(userInstance)](#projectupdateadminuseruserinstance)
+      - [Project().delete()](#projectdelete)
       - [Project().deleteTag(tagInstance)](#projectdeletetagtaginstance)
       - [Project().deleteTags(tbid)](#projectdeletetagstbid)
       - [Project().deleteTeamUser(userInstance)](#projectdeleteteamuseruserinstance)
@@ -284,6 +286,10 @@ Notes:
 #### Tag().id()
 
 Returns the unique string ID of document in the database.
+
+#### Tag().bucket()
+
+Returns a TagBucket instance for the bucket the tag belongs to.
 
 ## User
 
@@ -589,6 +595,17 @@ Arguments:
 
 Behind the scenes, the function adds a reference to the user in the Project document's admin array.
 It also adds a reference to the project in the User document's admin array.
+
+#### Project().delete()
+
+Deletes the Project from the database entirely.
+
+Notes:
+
+- Deletes the project document.
+- Deletes any two-way references to users (teams and admin).
+- Deletes any two-way references to tags.
+- Deletes all images.
 
 #### Project().deleteTag(tagInstance)
 
