@@ -43,9 +43,9 @@ const CardTag = ({ title }) => (
 
 class ProjectCard extends Component {
   openProject = () => {
-    const { history, id, title } = this.props;
+    const { history, id, title, shortname } = this.props;
     ReactGA.event({ category: 'Engagement', action: 'Clicked on project', label: title });
-    history.push(`/projects/${ title.replace(/\s+/g, '-') }?id=${ id }`);
+    if (shortname !== undefined) { history.push(`/projects/${ shortname }`) }
   };
 
   render() {

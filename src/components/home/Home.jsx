@@ -59,6 +59,7 @@ class Home extends Component {
                 width={width}
                 key={i}
                 id={p.id}
+                shortname={p.shortname}
                 title={p.title}
                 image={p.images[0]}
                 text={p.card_des}
@@ -81,6 +82,7 @@ class Home extends Component {
                 width={width}
                 key={i}
                 id={p.id}
+                shortname={p.shortname}
                 title={p.title}
                 image={p.images[0]}
                 text={p.card_des}

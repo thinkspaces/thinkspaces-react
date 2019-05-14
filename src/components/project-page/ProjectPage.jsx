@@ -4,6 +4,7 @@ import queryString from 'query-string';
 
 import { Row } from 'reactstrap';
 import { db, auth } from '../../firebase';
+import { Project } from '../../firebase/db'
 
 import ProjectDashboard from './components/project-dashboard';
 import SocialContentSection from './components/social-content-section';
@@ -27,11 +28,14 @@ class ProjectPage extends Component {
   state = { isEditing: false, project: null, isOwner: false, pid: null };
 
   componentDidMount = async () => {
-    const { location } = this.props;
-    const values = queryString.parse(location.search);
-    const project = await db.getProjectByID(values.id);
-    const isOwner = auth.isCurrentAuthUser(project.owner);
-    this.setState({ project, isOwner, pid: values.id });
+    // eslint-disable-next-line react/destructuring-assignment
+    const { shortname } = this.props.match.params
+    const pid = await Project.idFromShortname(shortname)
+    if (pid !== undefined) {
+      const project = await (new Project(pid)).read()
+      const isOwner = auth.isCurrentAuthUser(project.owner);
+      this.setState({ project, isOwner, pid });
+    }
   };
 
   saveChanges = async () => {

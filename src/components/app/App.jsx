@@ -46,7 +46,7 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/about" exact component={About} />
           <Route path="/projects" exact component={ExploreProjects} />
-          <Route path="/projects/:pid" exact component={ProjectPage} />
+          <Route path="/projects/:shortname" exact component={ProjectPage} />
           <Route path="/profiles" exact component={ExploreProfiles} />
           <Route path="/profile/:id" exact component={ProfilePage} />
           <Route path="/signupin" exact component={SignUpIn} />

@@ -820,4 +820,15 @@ export class Project {
    * return pid of document
    */
   id = () => this.ref.id;
+
+  static idFromShortname = async (shortname) => {
+    // query for projects (hopefully one) with the shortname
+    const projects = await Project.read('shortname', '==', shortname)
+    // single project only, none or multiple are disqualified for safety reasons
+    if (projects.length === 1) { return projects[0].id }
+    // error logging
+    if (projects.length > 1) { console.log('Error: ultiple projects with the same shortname') }
+    // return undefined by default
+    return undefined
+  }
 }

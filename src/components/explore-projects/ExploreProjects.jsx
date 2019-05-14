@@ -40,6 +40,7 @@ class ExploreProjects extends Component {
               <ProjectCard
                 width={width}
                 key={i}
+                shortname={p.shortname}
                 id={p.id}
                 title={p.title}
                 image={p.images[0]}
