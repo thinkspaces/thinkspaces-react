@@ -52,8 +52,10 @@ const ProjectTagsForm = (props) => {
     tags.forEach(async (tag) => { await project.updateTag(tag) })
     // stop loading
     setLoading(false);
-    // show check mark
     setSuccess(true);
+    setTimeout(() => {
+      setSuccess(false)
+    }, 1000)
   };
 
   useEffect(() => {
