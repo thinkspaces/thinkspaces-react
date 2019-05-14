@@ -17,7 +17,6 @@ const ProjectCategoryForm = (props) => {
     setLoading(true);
     // set active tags
     const activeTags = await project.readTags('project-category')
-    console.log(activeTags)
     // modify for use with react-select
     activeTags.forEach((tag) => {
       tag.value = tag.id;

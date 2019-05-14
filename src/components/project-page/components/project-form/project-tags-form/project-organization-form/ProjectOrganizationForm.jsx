@@ -17,7 +17,6 @@ const ProjectOrganizationForm = (props) => {
     setLoading(true);
     // set active tags
     const activeTags = await project.readTags('organization')
-    console.log(activeTags)
     // modify for use with react-select
     activeTags.forEach((tag) => {
       tag.value = tag.id;
@@ -62,8 +61,6 @@ const ProjectOrganizationForm = (props) => {
   useEffect(() => {
     handleSetup();
   }, []);
-
-  console.log(chosenTags)
 
   return (
     <>
