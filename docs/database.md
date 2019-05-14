@@ -73,6 +73,7 @@
       - [Project().deleteAdminUser(userInstance)](#projectdeleteadminuseruserinstance)
       - [Project().deleteAdmin()](#projectdeleteadmin)
       - [Project().id()](#projectid)
+      - [static Project.idFromShortname(shortname)](#static-projectidfromshortnameshortname)
 
 ## Introduction
 
@@ -655,4 +656,16 @@ Notes:
 
 #### Project().id()
 
-Returns the unique string ID of document in the database.
+Returns the unique string ID of project document in the database.
+
+#### static Project.idFromShortname(shortname)
+
+Returns the unique ID of a project document in the database.
+
+Arguments:
+
+- `shortname`: a string corresponding to the unique shortname for any project
+
+Notes:
+
+- Useful for routing (creating Project instances using a shortname indirectly when the pid is not known)
