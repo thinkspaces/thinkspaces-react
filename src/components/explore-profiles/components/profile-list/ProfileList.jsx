@@ -4,6 +4,7 @@ import ProfileCard from '../profile-card';
 
 const ProfileList = ({ profiles, width, openProfile }) => (
   <div>
+    <h2 style={{ marginBottom: '20px' }}>Find People</h2>
     <Row>
       {profiles.map((p, i) => (
         <Col sm key={i}>

@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import './ProjectCard.css';
 import ReactGA from 'react-ga';
-import { Row, Col } from 'reactstrap';
 import LikeButton from '../like-button';
 
 const Card = ({ width, children, onClick }) => (
@@ -21,8 +20,14 @@ const CardImage = ({ image }) => (
 
 const CardTitle = ({ title, likes, pid, updateLikes }) => (
   <div className="card-border">
+    <LikeButton
+      style={{ verticalAlign: 'right' }}
+      likes={likes}
+      pid={pid}
+      updateLikes={updateLikes}
+    />
     <div id="project-title">
-      <h4>{title}</h4>
+      <h5>{title}</h5>
     </div>
   </div>
 );
@@ -30,42 +35,26 @@ const CardTitle = ({ title, likes, pid, updateLikes }) => (
 const CardBody = ({ text }) => (
   <div className="card-border card-body flexed">
     <div className="description-box">
-      <h5 style={{ lineHeight: 1.3 }}>{text}</h5>
+      <p>{text}</p>
     </div>
-  </div>
-);
-
-const CardTag = ({ title }) => (
-  <div className="card-tag">
-    <span>#{title}</span>
   </div>
 );
 
 class ProjectCard extends Component {
   openProject = () => {
-    const { history, id, title, shortname } = this.props;
+    const { history, id, title } = this.props;
     ReactGA.event({ category: 'Engagement', action: 'Clicked on project', label: title });
-    if (shortname !== undefined) { history.push(`/projects/${ shortname }`) }
+    history.push(`/projects/${ title.replace(/\s+/g, '-') }?id=${ id }`);
   };
 
   render() {
-    const { width, name, likes, updateLikes, image, id, text } = this.props;
+    const { width, title, likes, updateLikes, image, id, text } = this.props;
     return (
-      <div>
-        <Card width={width} onClick={this.openProject}>
-          <Row>
-            <Col>
-              <CardTitle title={name} likes={likes} pid={id} updateLikes={updateLikes} />
-              <CardTag title="tech" />
-            </Col>
-            {image != null ? <CardImage image={image} /> : <p />}
-          </Row>
-          <CardBody text={text} />
-          {/* <div className="like-button">
-            <LikeButton likes={likes} pid={id} updateLikes={updateLikes} />
-          </div> */}
-        </Card>
-      </div>
+      <Card width={width} onClick={this.openProject}>
+        <CardTitle title={title} likes={likes} pid={id} updateLikes={updateLikes} />
+        <CardImage image={image} />
+        <CardBody text={text} />
+      </Card>
     );
   }
 }

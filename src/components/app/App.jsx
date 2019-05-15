@@ -7,7 +7,7 @@ import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faCircleNotch, faTimes, faRandom, faCheckCircle, faTimesCircle, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faCircleNotch, faTimes, faRandom } from '@fortawesome/free-solid-svg-icons'
 
 import { Container } from 'reactstrap';
 import withAuthentication from '../utils/withAuthentication';
@@ -33,8 +33,7 @@ ReactGA.initialize('UA-128353649-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 // font awesome
-library.add(faPlus, faTimes, faCircleNotch, faRandom,
-  faCheckCircle, faTimesCircle, faExternalLinkAlt);
+library.add(faPlus, faTimes, faCircleNotch, faRandom);
 
 class App extends Component {
   render() {
@@ -45,7 +44,7 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/about" exact component={About} />
           <Route path="/projects" exact component={ExploreProjects} />
-          <Route path="/projects/:shortname" exact component={ProjectPage} />
+          <Route path="/projects/:pid" exact component={ProjectPage} />
           <Route path="/profiles" exact component={ExploreProfiles} />
           <Route path="/profile/:id" exact component={ProfilePage} />
           <Route path="/signupin" exact component={SignUpIn} />

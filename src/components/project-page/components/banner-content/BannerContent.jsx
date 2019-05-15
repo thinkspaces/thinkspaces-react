@@ -12,7 +12,7 @@ const BannerTitle = ({ title }) => (
 
 const BannerImageCarousel = ({ images }) => (
   <div style={headerStyle}>
-    {images && images.length > 0 ? (
+    {images.length > 0 ? (
       <Carousel items={images} />
     ) : (
       <img src="https://via.placeholder.com/300" alt="default cover" />

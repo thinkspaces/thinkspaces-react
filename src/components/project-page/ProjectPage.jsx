@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { SizeMe } from 'react-sizeme';
 import queryString from 'query-string';
-import idx from 'idx'
 
 import { Row } from 'reactstrap';
 import { db, auth } from '../../firebase';
-import { Project } from '../../firebase/db'
 
-import ProjectDashboard from './components/project-dashboard';
+import EditProject from './components/edit-project';
 import SocialContentSection from './components/social-content-section';
 import EditProjectButton from './components/edit-project-button';
 import BannerContent from './components/banner-content';
@@ -26,30 +24,21 @@ const LoadingView = () => (
 );
 
 class ProjectPage extends Component {
-  state = { isEditing: false, project: null, editable: false, pid: null };
+  state = { isEditing: false, project: null, isOwner: false, pid: null };
 
   componentDidMount = async () => {
-    // eslint-disable-next-line react/destructuring-assignment
-    const { shortname } = this.props.match.params
-    const pid = await Project.idFromShortname(shortname)
-    if (pid !== undefined) {
-      const { uid: currentUserId } = auth.getUserInfo()
-      if (currentUserId) {
-        const project = await (new Project(pid)).read()
-        this.setState({ project, pid })
-        const teamRefs = idx(project, obj => obj.team)
-        const adminRefs = idx(project, obj => obj.admin)
-        if (teamRefs !== undefined && adminRefs !== undefined) {
-          const editable = (teamRefs.some(docRef => docRef.id === currentUserId)
-          || adminRefs.some(docRef => docRef.id === currentUserId))
-          this.setState({ editable } )
-        }
-      }
-    }
+    const { location } = this.props;
+    const values = queryString.parse(location.search);
+    const project = await db.getProjectByID(values.id);
+    const isOwner = auth.isCurrentAuthUser(project.owner);
+    this.setState({ project, isOwner, pid: values.id });
   };
 
   saveChanges = async () => {
+    const { project, pid } = this.state;
+
     // ReactGA.event({ category: 'Edit Profile', action: 'Saved', label: uid });
+    await db.saveProjectChanges(project, pid);
     // this.setState({ isEditing: false });
     // temporary, until more streamlined project editing implemented
     window.location.reload();
@@ -66,20 +55,23 @@ class ProjectPage extends Component {
   };
 
   render() {
-    const { isEditing, project, editable, pid } = this.state;
+    const { isEditing, project, isOwner, pid } = this.state;
     const { location: { hash } } = this.props;
     if (isEditing) {
       return (
-        <ProjectDashboard
+        <EditProject
           pid={pid}
+          project={project}
           saveChanges={this.saveChanges}
+          onEditChange={this.onEditChange}
+          onCancel={this.onCancel}
         />
       );
     }
     if (!isEditing && project) {
       return (
         <div>
-          <EditProjectButton isOwner={editable} onEdit={() => this.setState({ isEditing: true })} />
+          <EditProjectButton isOwner={isOwner} onEdit={() => this.setState({ isEditing: true })} />
           <SizeMe>
             {({ size }) => (
               <Row>
@@ -97,7 +89,7 @@ class ProjectPage extends Component {
             )}
           </SizeMe>
           <SocialContentSection
-            isOwner={editable}
+            isOwner={isOwner}
             projectId={pid}
             ourstory={project.about}
             selected={hash}

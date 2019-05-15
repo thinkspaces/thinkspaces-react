@@ -67,7 +67,7 @@ const TeamSection = ({ team }) => (
 const ContactSection = ({ links }) => (
   <InfoView title="Links">
     <div>
-      {/* <a href={links}>{links}</a> */}
+      <a href={links}>{links}</a>
     </div>
   </InfoView>
 );
@@ -96,12 +96,12 @@ const InfoView = ({ title, children }) => (
 const ProjectInfoContent = ({ title, links, contact, about, need, team, projectId }) => (
   <Col>
     <div style={{ marginTop: 150 }} />
-    {/* {title && <SocialSection title={title} id={projectId} />} */}
-    {/* {contact && <ModalSection title={title} contact={contact} projectId={projectId} />} */}
-    {/* {team && <TeamSection team={team} />} */}
-    {/* {links.length > 0 && <ContactSection links={links} />} */}
-    {/* {about && <AboutSection about={about} /> } */}
-    {/* {need && <NeedSection need={need} />} */}
+    {title && <SocialSection title={title} id={projectId} />}
+    {contact && <ModalSection title={title} contact={contact} projectId={projectId} />}
+    {team && <TeamSection team={team} />}
+    {links.length > 0 && <ContactSection links={links} />}
+    {about && <AboutSection about={about} />}
+    {need && <NeedSection need={need} />}
   </Col>
 );
 

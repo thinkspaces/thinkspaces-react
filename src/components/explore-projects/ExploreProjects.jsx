@@ -7,7 +7,6 @@ import { db } from '../../firebase';
 
 // custom components
 import ProjectCard from '../shared/project-card';
-import Filter from './components/filter';
 
 // styles
 const headerStyle = { marginBottom: '20px' };
@@ -32,22 +31,18 @@ class ExploreProjects extends Component {
     return (
       <div>
         <h2 style={headerStyle}>All Projects</h2>
-        <Filter />
-        <br />
         <Row>
           {projects.map((p, i) => (
             <Col sm key={i}>
               <ProjectCard
                 width={width}
                 key={i}
-                shortname={p.shortname}
-                name={p.name}
                 id={p.id}
-                // title={p.title}
-                // image={p.images[0]}
-                // text={p.card_des}
-                // likes={p.likes}
-                // updateLikes={likes => this.updateLikes(likes, i)}
+                title={p.title}
+                image={p.images[0]}
+                text={p.card_des}
+                likes={p.likes}
+                updateLikes={likes => this.updateLikes(likes, i)}
               />
             </Col>
           ))}

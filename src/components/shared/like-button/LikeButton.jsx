@@ -67,7 +67,13 @@ class LikeButton extends Component {
     return (
       <div>
         {isAuthUser ? (
-          <Button outline={!isLiked} color="primary" size="sm" onClick={this.handleLike}>
+          <Button
+            outline={!isLiked}
+            color="primary"
+            className="float-right"
+            size="sm"
+            onClick={this.handleLike}
+          >
             <Icon icon={ic_favorite_border} /> {Object.keys(likes).length}
           </Button>
         ) : (
