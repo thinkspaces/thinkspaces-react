@@ -1,40 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import SaveButton from '../../../../shared/save-button'
+import SaveButton from '../../../../shared/save-button';
 import { Project } from '../../../../../firebase/models';
 
-import styles from './ProjectDescriptionForm.module.css'
+import styles from './ProjectDescriptionForm.module.css';
 
-const schema = Yup.object().shape(
-  { name: Yup.string()
-    .min(2, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  description: Yup.string()
-    .required('Required') },
-);
+const schema = Yup.object().shape({ name: Yup.string()
+  .min(2, 'Too Short!')
+  .max(50, 'Too Long!')
+  .required('Required'),
+description: Yup.string().required('Required') });
 
 const ProjectDescriptionForm = (props) => {
-  const { pid } = props
-  const [ initData, setInitData ] = useState({ name: '', description: '' })
+  const { pid } = props;
+  const [ initData, setInitData ] = useState({ name: '', description: '' });
   const [ success, setSuccess ] = useState(false);
   const [ loading, setLoading ] = useState(false);
 
   const handleSave = async (values) => {
-    setSuccess(false)
-    setLoading(true)
-    await Project.update(pid, values)
-    setSuccess(true)
-    setLoading(false)
-  }
+    setSuccess(false);
+    setLoading(true);
+    await Project.update(pid, values);
+    setSuccess(true);
+    setLoading(false);
+  };
 
   const handleSetup = async () => {
-    setLoading(true)
-    const { name, description } = await Project.get(pid)
+    setLoading(true);
+    const { name, description } = await Project.get(pid);
     setInitData({ name, description });
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   useEffect(() => {
     handleSetup();
@@ -47,18 +44,13 @@ const ProjectDescriptionForm = (props) => {
         <Formik
           enableReinitialize
           validationSchema={schema}
-          initialValues={{ name: initData.name,
-            description: initData.description }}
+          initialValues={{ name: initData.name, description: initData.description }}
           onSubmit={values => handleSave(values)}
           render={({ errors, status, touched, isSubmitting }) => (
             <Form>
               <h5>Project name</h5>
               <div className={styles.fieldCombo}>
-                <Field
-                  name="name"
-                  placeholder="Project name"
-                  className="text-input"
-                />
+                <Field name="name" placeholder="Project name" className="text-input" />
                 <ErrorMessage name="name" component="div" className={styles.error} />
               </div>
               <h5>Description</h5>
@@ -79,6 +71,6 @@ const ProjectDescriptionForm = (props) => {
       </div>
     </>
   );
-}
+};
 
-export default ProjectDescriptionForm
+export default ProjectDescriptionForm;

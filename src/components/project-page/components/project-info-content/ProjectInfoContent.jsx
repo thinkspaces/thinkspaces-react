@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Col, Row } from 'reactstrap';
 import { FacebookIcon,
   FacebookShareButton,
@@ -7,26 +7,30 @@ import { FacebookIcon,
   TwitterShareButton,
   TwitterIcon } from 'react-share';
 
+// import idx from 'idx';
 import ViewProfileButton from '../view-profile-button';
 import ContactModal from '../../../shared/contact-modal';
+import { Project } from '../../../../firebase/models';
 
-const ModalSection = ({ title, contact, projectId }) => (
+// TODO: fix contact section
+// TODO: since contact is not in the project dashboard yet
+const ModalSection = ({ name, contact, pid }) => (
   <InfoView>
     <ContactModal
-      buttonLabel={`Contact ${ title }`}
-      modalBody={<a href={`mailto:${ contact }`}>{contact}</a>}
-      projectId={projectId}
+      buttonLabel={`Contact ${ name }`}
+      modalBody={<a href={`mailto:${ name }`}>{name}</a>}
+      projectId={pid}
       type="project"
     />
   </InfoView>
 );
 
-const SocialSection = ({ title, id }) => (
+const SocialSection = ({ shortname }) => (
   <InfoView>
     <div className="d-flex">
       <FacebookShareButton
         style={{ marginRight: 10 }}
-        url={`https://thinkspaces.org/projects/${ title }?id=${ id }`}
+        url={`https://thinkspaces.org/projects/${ shortname }`}
         className="button is-outlined is-rounded facebook"
       >
         <span className="icon">
@@ -35,7 +39,7 @@ const SocialSection = ({ title, id }) => (
       </FacebookShareButton>
       <TwitterShareButton
         style={{ marginRight: 10 }}
-        url={`https://thinkspaces.org/projects/${ title }?id=${ id }`}
+        url={`https://thinkspaces.org/projects/${ shortname }`}
         className="button is-outlined is-rounded linkedin"
       >
         <span className="icon">
@@ -43,7 +47,7 @@ const SocialSection = ({ title, id }) => (
         </span>
       </TwitterShareButton>
       <LinkedinShareButton
-        url={`https://thinkspaces.org/projects/${ title }?id=${ id }`}
+        url={`https://thinkspaces.org/projects/${ shortname }`}
         className="button is-outlined is-rounded linkedin"
       >
         <span className="icon">
@@ -54,30 +58,46 @@ const SocialSection = ({ title, id }) => (
   </InfoView>
 );
 
-const TeamSection = ({ team }) => (
-  <InfoView title="Team">
-    <div style={{ display: 'inline-grid' }}>
-      {team.map((member, i) => (
-        <ViewProfileButton key={i} uid={member.uid} text={member.name} />
-      ))}
-    </div>
-  </InfoView>
-);
+const TeamSection = ({ pid }) => {
+  const [ teamState, setTeamState ] = useState([]);
+
+  const handleMount = async () => {
+    const team = await Project.getTeam(pid);
+    setTeamState(team);
+  };
+
+  useEffect(() => {
+    handleMount();
+  }, [ pid ]);
+
+  return (
+    <InfoView title="Team">
+      <div style={{ display: 'inline-grid' }}>
+        {teamState.map((member, index) => (
+          <ViewProfileButton key={index} uid={member.id} text={member.full_name} />
+        ))}
+      </div>
+    </InfoView>
+  );
+};
 
 const ContactSection = ({ links }) => (
   <InfoView title="Links">
-    <div>
-      {/* <a href={links}>{links}</a> */}
-    </div>
+    {links.map(link => (
+      <div>
+        <a href={link.url}>{link.name}</a>
+      </div>
+    ))}
   </InfoView>
 );
 
 const AboutSection = ({ about }) => (
-  <InfoView title="About us">
+  <InfoView title="Description and open roles">
     <p>{about}</p>
   </InfoView>
 );
 
+// TODO: need section not yet in database
 const NeedSection = ({ need }) => (
   <InfoView title="Who we need">
     <div>{need}</div>
@@ -93,16 +113,17 @@ const InfoView = ({ title, children }) => (
   </Row>
 );
 
-const ProjectInfoContent = ({ title, links, contact, about, need, team, projectId }) => (
+const ProjectInfoContent = ({ project: { name, shortname, contact, id, links, description } }) => (
   <Col>
     <div style={{ marginTop: 150 }} />
-    {/* {title && <SocialSection title={title} id={projectId} />} */}
-    {/* {contact && <ModalSection title={title} contact={contact} projectId={projectId} />} */}
-    {/* {team && <TeamSection team={team} />} */}
-    {/* {links.length > 0 && <ContactSection links={links} />} */}
-    {/* {about && <AboutSection about={about} /> } */}
+    {shortname && <SocialSection shortname={shortname} />}
+    {contact && <ModalSection name={name} contact={contact} projectId={id} />}
+    <TeamSection pid={id} />
+    {links && <ContactSection links={links} />}
+    {description && <AboutSection about={description} />}
     {/* {need && <NeedSection need={need} />} */}
   </Col>
 );
+// return <div>Loading...</div>;
 
-export default ProjectInfoContent;
+export default memo(ProjectInfoContent);

@@ -1,4 +1,6 @@
 import defaultsDeep from 'lodash/defaultsDeep';
+import isNil from 'lodash/isNil';
+
 import { deleteProjectImages } from '../storage';
 import * as _shared from './shared';
 
@@ -72,6 +74,9 @@ export const destroy = async (projectId) => {
  */
 export const getTags = async (projectId, type) => {
   const data = await get(projectId);
+  if (isNil(data.tags)) {
+    return [];
+  }
   const tags = await _shared.getFromIdsArray('tags', data.tags);
   if (type !== undefined) {
     return tags.filter(tag => tag.type === type);
@@ -101,6 +106,9 @@ export const removeTag = (projectId, tagId) => _shared.removeFromSet('projects',
 export const dropTags = async (projectId, type = undefined) => {
   // read the project
   const data = await get(projectId);
+  if (isNil(data.tags)) {
+    return [];
+  }
   // if no type specified, remove all tags
   if (type === undefined) {
     return update(projectId, { tags: [] });
@@ -120,6 +128,9 @@ export const dropTags = async (projectId, type = undefined) => {
  */
 export const getTeam = async (projectId) => {
   const data = await get(projectId);
+  if (isNil(data.team)) {
+    return [];
+  }
   return _shared.getFromIdsArray('users', data.team);
 };
 
@@ -152,6 +163,9 @@ export const dropTeam = projectId => update(projectId, { team: [] });
  */
 export const getAdmin = async (projectId) => {
   const data = await get(projectId);
+  if (isNil(data.admin)) {
+    return [];
+  }
   return _shared.getFromIdsArray('users', data.admin);
 };
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SizeMe } from 'react-sizeme';
 import some from 'lodash/some';
 
@@ -7,7 +7,6 @@ import { auth } from '../../firebase';
 import { Project } from '../../firebase/models';
 
 import ProjectDashboard from './components/project-dashboard';
-import SocialContentSection from './components/social-content-section';
 import EditProjectButton from './components/edit-project-button';
 import BannerContent from './components/banner-content';
 import ProjectInfoContent from './components/project-info-content';
@@ -24,79 +23,88 @@ const LoadingView = () => (
   </div>
 );
 
-class ProjectPage extends Component {
-  state = { isEditing: false, project: null, editable: false, pid: null };
+const ProjectPage = (props) => {
+  const [ loadingState, setLoadingState ] = useState(false);
+  const [ showDashboardState, setShowDashboardState ] = useState(false);
+  const [ projectDataState, setProjectDataState ] = useState({});
+  const [ editableState, setEditableState ] = useState(false);
+  const [ pidState, setPidState ] = useState(undefined);
 
-  componentDidMount = async () => {
+  /**
+   * on mount:
+   * fetches the project from the database
+   * checks if the user can edit it
+   * updates state accordingly
+   */
+  const handleMount = async () => {
+    setLoadingState(true);
+    // get shortname from router params
     // eslint-disable-next-line react/destructuring-assignment
-    const { shortname } = this.props.match.params;
-    const pid = await Project.getIdFromShortname(shortname);
+    const { shortname } = props.match.params;
+    const pid = await Project.getIdFromShortname(shortname.trim());
     if (pid !== undefined) {
-      const { uid: currentUserId } = auth.getUserInfo();
-      if (currentUserId) {
-        const project = await Project.get(pid);
-        this.setState({ project, pid });
-        const editable = some(project.team, id => id === currentUserId)
-          || some(project.admin, id => id === currentUserId);
-        this.setState({ editable });
+      // read project from database
+      const project = await Project.get(pid);
+      // set both the project and the pid
+      setProjectDataState(project);
+      setPidState(pid);
+      // a project is editable if the user either belongs to the team or the admin
+      if (auth.isLoggedIn()) {
+        const { uid: currentUserId } = auth.getUserInfo();
+        if (currentUserId) {
+          const editable = some(project.team, id => id === currentUserId)
+            || some(project.admin, id => id === currentUserId);
+          // set whether or not editable
+          setEditableState(editable);
+        }
       }
     }
+    setLoadingState(false);
   };
 
-  saveChanges = async () => {
-    // ReactGA.event({ category: 'Edit Profile', action: 'Saved', label: uid });
-    // this.setState({ isEditing: false });
-    // temporary, until more streamlined project editing implemented
+  // call handleMount() once on mount
+  useEffect(() => {
+    handleMount();
+  }, []);
+
+  const handleCloseDashboard = async () => {
     window.location.reload();
   };
 
-  onCancel = () => {
-    // const { uid } = this.state;
-    // ReactGA.event({ category: 'Edit Profile', action: 'Canceled', label: uid });
-    this.setState({ isEditing: false });
+  const handleShowDashboard = async () => {
+    setShowDashboardState(true);
   };
 
-  onEditChange = ({ target: { value, id } }) => {
-    this.setState(prevState => ({ project: { ...prevState.project, [id]: value } }));
+  /**
+   * programmatic display of content
+   */
+  const render = () => {
+    if (loadingState) {
+      return <LoadingView />;
+    }
+    if (pidState && showDashboardState) {
+      return <ProjectDashboard pid={pidState} handleCloseDashboard={handleCloseDashboard} />;
+    }
+    return (
+      <>
+        <EditProjectButton isOwner={editableState} onEdit={handleShowDashboard} />
+        <SizeMe>
+          {({ size }) => (
+            <Row>
+              <BannerContent
+                width={size.width}
+                name={projectDataState.name}
+                images={projectDataState.images}
+              />
+              <ProjectInfoContent project={projectDataState} />
+            </Row>
+          )}
+        </SizeMe>
+      </>
+    );
   };
 
-  render() {
-    const { isEditing, project, editable, pid } = this.state;
-    const { location: { hash } } = this.props;
-    if (isEditing) {
-      return <ProjectDashboard pid={pid} saveChanges={this.saveChanges} />;
-    }
-    if (!isEditing && project) {
-      return (
-        <div>
-          <EditProjectButton isOwner={editable} onEdit={() => this.setState({ isEditing: true })} />
-          <SizeMe>
-            {({ size }) => (
-              <Row>
-                <BannerContent width={size.width} title={project.title} images={project.images} />
-                <ProjectInfoContent
-                  title={project.title}
-                  links={project.links}
-                  contact={project.contact}
-                  about={project.card_des}
-                  need={project.need}
-                  team={project.team}
-                  projectId={pid}
-                />
-              </Row>
-            )}
-          </SizeMe>
-          <SocialContentSection
-            isOwner={editable}
-            projectId={pid}
-            ourstory={project.about}
-            selected={hash}
-          />
-        </div>
-      );
-    }
-    return <LoadingView />;
-  }
-}
+  return <>{render()}</>;
+};
 
 export default ProjectPage;

@@ -10,7 +10,7 @@ import ProjectSettingsForm from '../project-form/project-settings-form';
 import styles from './ProjectDashboard.module.css'
 
 const ProjectDashboard = (props) => {
-  const { pid, saveChanges: close } = props
+  const { pid, handleCloseDashboard } = props
   const [ currentForm, setCurrentForm ] = useState(<ProjectDescriptionForm pid={pid} />)
 
   const handleSidebar = (event) => {
@@ -43,7 +43,7 @@ const ProjectDashboard = (props) => {
     <>
       <div className={styles.header}>
         <h2>Project Dashboard</h2>
-        <button type="button" className={styles.external} onClick={close}>
+        <button type="button" className={styles.external} onClick={handleCloseDashboard}>
           <span>View project</span>
           <FontAwesomeIcon icon="external-link-alt" />
         </button>

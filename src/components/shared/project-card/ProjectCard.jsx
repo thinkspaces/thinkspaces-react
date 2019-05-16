@@ -45,6 +45,7 @@ class ProjectCard extends Component {
   openProject = () => {
     const { history, id, title, shortname } = this.props;
     ReactGA.event({ category: 'Engagement', action: 'Clicked on project', label: title });
+    console.log(shortname)
     if (shortname !== undefined) { history.push(`/projects/${ shortname }`) }
   };
 

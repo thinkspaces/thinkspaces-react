@@ -4,9 +4,9 @@ import Carousel from '../carousel';
 
 const headerStyle = { margin: '50px 0px', textAlign: 'center' };
 
-const BannerTitle = ({ title }) => (
+const BannerTitle = ({ name }) => (
   <div style={headerStyle}>
-    <h1>{title}</h1>
+    <h1>{name}</h1>
   </div>
 );
 
@@ -20,9 +20,9 @@ const BannerImageCarousel = ({ images }) => (
   </div>
 );
 
-const BannerContent = ({ width, title, images }) => (
+const BannerContent = ({ width, name, images }) => (
   <Col style={{ flexBasis: width < 720 ? 'auto' : 0 }}>
-    <BannerTitle title={title} />
+    <BannerTitle name={name} />
     <BannerImageCarousel images={images} />
   </Col>
 );
