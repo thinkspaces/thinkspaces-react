@@ -50,6 +50,8 @@
     "start:staging": "REACT_APP_ENV=staging react-scripts start",
     "start:production": "REACT_APP_ENV=production react-scripts start",
     "build": "REACT_APP_ENV=production react-scripts build",
+    "build:staging": "REACT_APP_ENV=staging react-scripts build",
+    "build:production": "REACT_APP_ENV=production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
