@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { Project } from '../../../../../../firebase/db';
+import { Project } from '../../../../../../firebase/models';
 import SaveButton from '../../../../../shared/save-button'
 import styles from './ProjectDeleteForm.module.css'
 
 const ProjectDeleteForm = (props) => {
   const { pid } = props
-  const project = new Project(pid)
-
   // state used for save button
   const [ loading, setLoading ] = useState(false)
   const [ success, setSuccess ] = useState(false)
@@ -19,7 +17,7 @@ const ProjectDeleteForm = (props) => {
     setSuccess(false)
     setLoading(true)
     // attempt delete
-    await project.delete()
+    await Project.destroy(pid)
     // stop load and set success
     setLoading(false)
     setSuccess(true)

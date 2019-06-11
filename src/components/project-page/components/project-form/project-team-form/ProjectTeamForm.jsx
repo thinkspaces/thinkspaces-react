@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { components } from 'react-select'
 import AsyncSelect from 'react-select/lib/Async';
 import SaveButton from '../../../../shared/save-button'
-import { User, Project } from '../../../../../firebase/db';
+import { Shared, Project } from '../../../../../firebase/models';
 
 import styles from './ProjectTeamForm.module.css';
 
 const ProjectTeamForm = (props) => {
   const { pid } = props
-  const project = new Project(pid);
   const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
   const [ teamState, setTeamState ] = useState([]);
@@ -25,7 +24,7 @@ const ProjectTeamForm = (props) => {
   const handleSetup = async () => {
     setLoading(true);
     // fetch team for project
-    const team = await project.readTeam()
+    const team = await Project.getTeam(pid)
     // modify data for use with react select
     setTeamState(modifyForReactSelect(team))
     setLoading(false);
@@ -40,10 +39,10 @@ const ProjectTeamForm = (props) => {
     setSuccess(false);
     setLoading(true);
     // delete all previous users from team
-    await project.deleteTeam()
+    await Project.dropTeam(pid)
     // save project
     await Promise.all(
-      teamState.map(async user => project.updateTeamUser(new User(undefined, user.ref))),
+      teamState.map(async user => Project.addTeamUser(pid, user.id)),
     )
     // stop loading
     setLoading(false);
@@ -58,7 +57,8 @@ const ProjectTeamForm = (props) => {
   }, []);
 
   const filterUsers = async (usernameInput) => {
-    const users = await User.read('username', '>=', usernameInput)
+    const query = Shared.constructQuery('users').where('username', '>=', usernameInput)
+    const users = await Shared.getFromQuery(query)
     return modifyForReactSelect(users)
   }
 

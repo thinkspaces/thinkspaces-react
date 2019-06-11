@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { SizeMe } from 'react-sizeme';
-import queryString from 'query-string';
-import idx from 'idx'
+import some from 'lodash/some';
 
 import { Row } from 'reactstrap';
-import { db, auth } from '../../firebase';
-import { Project } from '../../firebase/db'
+import { auth } from '../../firebase';
+import { Project } from '../../firebase/models';
 
 import ProjectDashboard from './components/project-dashboard';
 import SocialContentSection from './components/social-content-section';
@@ -30,20 +29,16 @@ class ProjectPage extends Component {
 
   componentDidMount = async () => {
     // eslint-disable-next-line react/destructuring-assignment
-    const { shortname } = this.props.match.params
-    const pid = await Project.idFromShortname(shortname)
+    const { shortname } = this.props.match.params;
+    const pid = await Project.getIdFromShortname(shortname);
     if (pid !== undefined) {
-      const { uid: currentUserId } = auth.getUserInfo()
+      const { uid: currentUserId } = auth.getUserInfo();
       if (currentUserId) {
-        const project = await (new Project(pid)).read()
-        this.setState({ project, pid })
-        const teamRefs = idx(project, obj => obj.team)
-        const adminRefs = idx(project, obj => obj.admin)
-        if (teamRefs !== undefined && adminRefs !== undefined) {
-          const editable = (teamRefs.some(docRef => docRef.id === currentUserId)
-          || adminRefs.some(docRef => docRef.id === currentUserId))
-          this.setState({ editable } )
-        }
+        const project = await Project.get(pid);
+        this.setState({ project, pid });
+        const editable = some(project.team, id => id === currentUserId)
+          || some(project.admin, id => id === currentUserId);
+        this.setState({ editable });
       }
     }
   };
@@ -69,12 +64,7 @@ class ProjectPage extends Component {
     const { isEditing, project, editable, pid } = this.state;
     const { location: { hash } } = this.props;
     if (isEditing) {
-      return (
-        <ProjectDashboard
-          pid={pid}
-          saveChanges={this.saveChanges}
-        />
-      );
+      return <ProjectDashboard pid={pid} saveChanges={this.saveChanges} />;
     }
     if (!isEditing && project) {
       return (

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import SaveButton from '../../../../shared/save-button'
-import { Project } from '../../../../../firebase/db';
+import { Project } from '../../../../../firebase/models';
 
 import styles from './ProjectDescriptionForm.module.css'
 
@@ -17,7 +17,6 @@ const schema = Yup.object().shape(
 
 const ProjectDescriptionForm = (props) => {
   const { pid } = props
-  const project = new Project(pid)
   const [ initData, setInitData ] = useState({ name: '', description: '' })
   const [ success, setSuccess ] = useState(false);
   const [ loading, setLoading ] = useState(false);
@@ -25,14 +24,14 @@ const ProjectDescriptionForm = (props) => {
   const handleSave = async (values) => {
     setSuccess(false)
     setLoading(true)
-    await project.update(values)
+    await Project.update(pid, values)
     setSuccess(true)
     setLoading(false)
   }
 
   const handleSetup = async () => {
     setLoading(true)
-    const { name, description } = await project.read();
+    const { name, description } = await Project.get(pid)
     setInitData({ name, description });
     setLoading(false)
   }

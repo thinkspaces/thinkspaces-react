@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import SaveButton from '../../../../../shared/save-button'
-import { TagBucket, Tag, Project } from '../../../../../../firebase/db';
+import { Tag, Project } from '../../../../../../firebase/models';
 
 import styles from './ProjectCategoryForm.module.css';
 
 const ProjectCategoryForm = (props) => {
   const { pid } = props
-  const project = new Project(pid);
   const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
   const [ categoryTags, setCategoryTags ] = useState([]);
@@ -16,7 +15,7 @@ const ProjectCategoryForm = (props) => {
   const handleSetup = async () => {
     setLoading(true);
     // set active tags
-    const activeTags = await project.readTags('project-category')
+    const activeTags = await Project.getTags(pid, 'project-category')
     // modify for use with react-select
     activeTags.forEach((tag) => {
       tag.value = tag.id;
@@ -25,15 +24,14 @@ const ProjectCategoryForm = (props) => {
     // update state
     setChosenTags(activeTags);
     // set all available tags
-    const bucket = new TagBucket('project-category')
-    const bucketTags = await bucket.readTags()
+    const availableTags = await Tag.getAll('project-category')
     // modify for use with react-select
-    bucketTags.forEach((tag) => {
+    availableTags.forEach((tag) => {
       tag.value = tag.id;
       tag.label = tag.name;
     });
     // update state
-    setCategoryTags(bucketTags);
+    setCategoryTags(availableTags);
     setLoading(false);
   }
 
@@ -46,10 +44,10 @@ const ProjectCategoryForm = (props) => {
     setSuccess(false);
     setLoading(true);
     // delete all previous tags for project
-    await project.deleteTags('project-category');
+    await Project.dropTags(pid, 'project-category');
     // set all new tags for project
-    const tags = chosenTags.map(tag => new Tag(undefined, undefined, tag.ref))
-    tags.forEach(async (tag) => { await project.updateTag(tag) })
+    const tags = chosenTags.map(tag => tag.id)
+    tags.forEach(async (tagId) => { await Project.addTag(pid, tagId) })
     // stop loading
     setLoading(false);
     setSuccess(true);

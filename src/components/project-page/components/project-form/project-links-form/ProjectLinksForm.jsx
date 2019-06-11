@@ -3,7 +3,7 @@ import { Formik, Form, Field, FieldArray, getIn } from 'formik';
 import * as Yup from 'yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SaveButton from '../../../../shared/save-button'
-import { Project } from '../../../../../firebase/db';
+import { Project } from '../../../../../firebase/models';
 import styles from './ProjectLinksForm.module.css'
 
 const schema = Yup.object().shape({ links: Yup.array()
@@ -16,15 +16,13 @@ const schema = Yup.object().shape({ links: Yup.array()
 
 const ProjectLinksForm = (props) => {
   const { pid } = props
-  const project = new Project(pid)
-
   const [ links, setLinks ] = useState([]);
   const [ success, setSuccess ] = useState(false);
   const [ loading, setLoading ] = useState(false);
 
   const handleSetup = async () => {
     setLoading(true)
-    const { links: data } = await project.read();
+    const { links: data } = await Project.get(pid);
     setLinks(data)
     setLoading(false)
   }
@@ -33,7 +31,7 @@ const ProjectLinksForm = (props) => {
     setSuccess(false)
     setLoading(true)
     const { links: data } = values
-    await project.update({ links: data })
+    await Project.update(pid, { links: data })
     setSuccess(true)
     setLoading(false)
   }

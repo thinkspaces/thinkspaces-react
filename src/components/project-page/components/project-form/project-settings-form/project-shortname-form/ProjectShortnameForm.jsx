@@ -1,97 +1,95 @@
-import React, { useState, useEffect, useRef } from 'react'
-import idx from 'idx'
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Project } from '../../../../../../firebase/db';
-import SaveButton from '../../../../../shared/save-button'
+import { Project, Shared } from '../../../../../../firebase/models';
+import SaveButton from '../../../../../shared/save-button';
 
-import styles from './ProjectShortnameForm.module.css'
+import styles from './ProjectShortnameForm.module.css';
 
 const ProjectShortnameForm = (props) => {
-  const { pid } = props
-  const project = new Project(pid)
+  const { pid } = props;
 
   // state used to manage the input
-  const [ init, setInit ] = useState('')
-  const [ input, setInput ] = useState('')
-  const inputRef = useRef(null)
-  const [ valid, setValid ] = useState(true)
+  const [ init, setInit ] = useState('');
+  const [ input, setInput ] = useState('');
+  const inputRef = useRef(null);
+  const [ valid, setValid ] = useState(true);
 
   // state used while searching for projects
-  const [ available, setAvailable ] = useState(true)
-  const [ searching, setSearching ] = useState(false)
+  const [ available, setAvailable ] = useState(true);
+  const [ searching, setSearching ] = useState(false);
 
   // state used for save button
-  const [ loading, setLoading ] = useState(false)
-  const [ success, setSuccess ] = useState(false)
+  const [ loading, setLoading ] = useState(false);
+  const [ success, setSuccess ] = useState(false);
 
   /**
    * save the shortname to the project's document in the database
    */
   const handleSave = async (event) => {
     // prevent default
-    event.preventDefault()
+    event.preventDefault();
 
     // reset success and start load
-    setSuccess(false)
-    setLoading(true)
+    setSuccess(false);
+    setLoading(true);
 
     // check again if shortname is taken
     // only update shortname if it doesn't exist
-    const data = await Project.read('shortname', '==', input)
+    const query = Shared.constructQuery('projects').where('shortname', '==', input);
+    const data = await Shared.getFromQuery(query);
     if (data.length === 0) {
-      await project.update({ shortname: input })
+      await Project.update(pid, { shortname: input });
       // reset "init"
-      setInit(input)
+      setInit(input);
     }
 
     // stop load and set success
-    setLoading(false)
-    setSuccess(true)
+    setLoading(false);
+    setSuccess(true);
     setTimeout(() => {
-      setSuccess(false)
-    }, 1000)
+      setSuccess(false);
+    }, 1000);
 
     // redirect to new page
-    window.location.replace(`/projects/${ input }`)
-  }
+    window.location.replace(`/projects/${ input }`);
+  };
 
   /**
    * validate HTML5 form input
    */
   const validate = () => {
     // check form is valid via ref
-    const form = idx(inputRef, obj => obj.current)
+    const form = inputRef.current;
     if (form) {
       if (form.checkValidity()) {
-        setValid(true)
+        setValid(true);
       } else {
-        setValid(false)
+        setValid(false);
       }
     }
-  }
+  };
 
   /**
    * retrieve already saved shortname on mount if one exists
    */
   const handleSetup = async () => {
     // start search
-    setSearching(true)
+    setSearching(true);
 
     // read shortname for current project
-    const projectData = await project.read()
-    const shortname = idx(projectData, obj => obj.shortname)
+    const project = await Project.get(pid);
 
     // set state accordingly if defined
-    setInput(shortname === undefined ? '' : shortname)
-    setInit(shortname === undefined ? '' : shortname)
+    setInput(project.shortname === undefined ? '' : project.shortname);
+    setInit(project.shortname === undefined ? '' : project.shortname);
 
     // check for validity of existing shortname
     // this will modify the form and button accordingly
-    validate()
+    validate();
 
     // stop search
-    setSearching(false)
-  }
+    setSearching(false);
+  };
 
   // setup on mount
   useEffect(() => {
@@ -105,51 +103,52 @@ const ProjectShortnameForm = (props) => {
   const resolveProjects = async (promise) => {
     // set unavailable while search continues
     // also start search
-    setAvailable(false)
-    setSearching(true)
+    setAvailable(false);
+    setSearching(true);
 
     // resolve data from input
-    const data = await promise
+    const data = await promise;
     if (data.length > 0) {
       // if a project was found
       if (data[0].shortname === init) {
         // if the project is the same as current
-        setAvailable(true)
+        setAvailable(true);
       } else {
         // if the project is some other
-        setAvailable(false)
+        setAvailable(false);
       }
     } else {
       // if no project was found
-      setAvailable(true)
+      setAvailable(true);
     }
 
-    setSearching(false)
-  }
+    setSearching(false);
+  };
 
   /**
    * fired whenever typing into input
    */
   const handleInput = async (event) => {
     // set the current input
-    const sanitized = (event.target.value).trim()
-    setInput(sanitized)
+    const sanitized = event.target.value.trim();
+    setInput(sanitized);
     // send the input off to resolve and search for existing projects
-    const promise = Project.read('shortname', '==', sanitized)
-    resolveProjects(promise)
+    const query = Shared.constructQuery('projects').where('shortname', '==', sanitized);
+    const promise = Shared.getFromQuery(query);
+    resolveProjects(promise);
     // validate the input and set state accordingly
-    validate()
-  }
+    validate();
+  };
 
   const renderStatus = () => {
     if (searching) {
-      return (<FontAwesomeIcon icon="circle-notch" spin />)
+      return <FontAwesomeIcon icon="circle-notch" spin />;
     }
     if (available) {
-      return (<FontAwesomeIcon icon="check-circle" />)
+      return <FontAwesomeIcon icon="check-circle" />;
     }
-    return (<FontAwesomeIcon icon="times-circle" />)
-  }
+    return <FontAwesomeIcon icon="times-circle" />;
+  };
 
   return (
     <>
@@ -167,12 +166,14 @@ const ProjectShortnameForm = (props) => {
             placeholder="Unique shortname e.g. thinkspaces"
           />
           {/* statuses e.g. loading, availability */}
-          { renderStatus() }
+          {renderStatus()}
         </div>
         {/* help text */}
         <span className="helpText">
-          Shortname must be unique.<br />
-          It must be between 5-20 characters in length.<br />
+          Shortname must be unique.
+          <br />
+          It must be between 5-20 characters in length.
+          <br />
           Valid characters include: aA-zZ, 0-9 and underscores.
         </span>
         {/* save button */}
@@ -185,7 +186,7 @@ const ProjectShortnameForm = (props) => {
         />
       </form>
     </>
-  )
-}
+  );
+};
 
-export default ProjectShortnameForm
+export default ProjectShortnameForm;

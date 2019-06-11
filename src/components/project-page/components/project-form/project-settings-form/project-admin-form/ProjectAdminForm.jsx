@@ -2,13 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { components } from 'react-select'
 import AsyncSelect from 'react-select/lib/Async';
 import SaveButton from '../../../../../shared/save-button'
-import { User, Project } from '../../../../../../firebase/db';
+import { Project, Shared } from '../../../../../../firebase/models';
 
 import styles from './ProjectAdminForm.module.css';
 
 const ProjectAdminForm = (props) => {
   const { pid } = props
-  const project = new Project(pid);
   const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
   const [ adminState, setAdminState ] = useState([]);
@@ -25,7 +24,7 @@ const ProjectAdminForm = (props) => {
   const handleSetup = async () => {
     setLoading(true);
     // fetch admin for project
-    const admin = await project.readAdmin()
+    const admin = await Project.getAdmin(pid)
     // modify data for use with react select
     setAdminState(modifyForReactSelect(admin))
     setLoading(false);
@@ -40,10 +39,10 @@ const ProjectAdminForm = (props) => {
     setSuccess(false);
     setLoading(true);
     // delete all previous users from admin
-    await project.deleteAdmin()
+    await Project.dropAdmin(pid)
     // save project
     await Promise.all(
-      adminState.map(async user => project.updateAdminUser(new User(undefined, user.ref))),
+      adminState.map(async user => Project.addAdminUser(pid, user.id)),
     )
     // stop loading
     setLoading(false);
@@ -58,7 +57,8 @@ const ProjectAdminForm = (props) => {
   }, []);
 
   const filterUsers = async (usernameInput) => {
-    const users = await User.read('username', '>=', usernameInput)
+    const query = Shared.constructQuery('users').where('username', '>=', usernameInput)
+    const users = await Shared.getFromQuery(query)
     return modifyForReactSelect(users)
   }
 

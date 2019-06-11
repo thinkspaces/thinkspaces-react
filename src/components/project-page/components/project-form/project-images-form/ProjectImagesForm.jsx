@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import { downloadProjectImages, uploadProjectImages, deleteProjectImages } from '../../../../../firebase/storage';
-import { Project } from '../../../../../firebase/db';
+import { Project } from '../../../../../firebase/models';
 import SaveButton from '../../../../shared/save-button'
 
 import 'filepond/dist/filepond.min.css';
@@ -13,7 +13,6 @@ registerPlugin(FilePondPluginImagePreview);
 
 const ProjectImagesForm = (props) => {
   const { pid } = props
-  const project = new Project(pid);
   const [ files, setFiles ] = useState([])
   const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
@@ -23,7 +22,7 @@ const ProjectImagesForm = (props) => {
     setLoading(true);
     await deleteProjectImages(pid);
     const imageURLs = await uploadProjectImages(pid, files);
-    await project.update({ images: imageURLs })
+    await Project.update(pid, { images: imageURLs })
     setLoading(false);
     setSuccess(true);
     setTimeout(() => {
