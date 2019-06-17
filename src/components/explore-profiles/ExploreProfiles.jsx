@@ -6,6 +6,7 @@ import { db, auth } from '../../firebase';
 
 import ProfileList from './components/profile-list';
 import SignUpModal from '../shared/sign-up-modal';
+import Filter from '../shared/filter';
 
 class ExploreProfiles extends Component {
   state = { profiles: [], modal: false, loggedIn: false };
@@ -43,6 +44,8 @@ class ExploreProfiles extends Component {
     const { profiles, modal } = this.state;
     return (
       <div>
+        <h2 style={{ marginBottom: '20px' }}>Find People</h2>
+        <Filter />
         <SignUpModal isOpen={modal} toggle={this.toggle} signUp={this.gotoSignUp} />
         <ProfileList width={width} profiles={profiles} openProfile={this.openProfile} />
       </div>

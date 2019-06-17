@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Carousel, CarouselItem, CarouselIndicators } from 'reactstrap';
+import { Carousel as RSCarousel, CarouselItem, CarouselIndicators } from 'reactstrap';
 
 const imageStyle = { height: 'auto', maxHeight: '500px' };
 
-class DefCarousel extends Component {
+class Carousel extends Component {
   state = { activeIndex: 0 };
 
   onExiting = () => {
@@ -50,16 +50,16 @@ class DefCarousel extends Component {
     ));
 
     return (
-      <Carousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
+      <RSCarousel activeIndex={activeIndex} next={this.next} previous={this.previous}>
         <CarouselIndicators
           items={items}
           activeIndex={activeIndex}
           onClickHandler={this.goToIndex}
         />
         {slides}
-      </Carousel>
+      </RSCarousel>
     );
   }
 }
 
-export default DefCarousel;
+export default Carousel;

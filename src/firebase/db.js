@@ -1,8 +1,9 @@
+/* eslint-disable no-use-before-define */
 import { db, auth, createTimestamp } from './firebase';
 
 export const getProjects = async () => {
   // create projects array
-  const projects = [];
+  const projects = []
 
   // get collection reference (query snapshot)
   const snapshot = await db.collection('projects').get();
@@ -57,7 +58,7 @@ export const saveProjectChanges = async (project, pid) => {
   // project.team = team;
 
   // temporary fix to prevent EditProjectImages breaking
-  delete project.images
+  delete project.images;
 
   await db
     .collection('projects')
@@ -74,21 +75,21 @@ export const getProjectByID = async (id) => {
 
   const data = docSnapshot.data();
 
-  if (data.team) {
-    // get names from team uids, add to data
-    const members = [];
-    await Promise.all(
-      data.team.map(async (uid) => {
-        const docRef = await db
-          .collection('users')
-          .doc(uid)
-          .get();
-        members.push({ uid, name: docRef.get('full_name') });
-      }),
-    );
+  //   if (data.team) {
+  //     // get names from team uids, add to data
+  //     const members = [];
+  //     await Promise.all(
+  //       data.team.map(async (uid) => {
+  //         const docRef = await db
+  //           .collection('users')
+  //           .doc(uid)
+  //           .get();
+  //         members.push({ uid, name: docRef.get('full_name') });
+  //       }),
+  //     );
 
-    data.team = members;
-  }
+  //     // data.team = members;
+  //   }
   return data;
 };
 
@@ -118,7 +119,9 @@ export const createUserwithFields = async (uid, profileData) => {
   await db
     .collection('users')
     .doc(uid)
-    .set({ ...profileData, profilepicture: '', createdTimestamp: createTimestamp(new Date()) });
+    .set({ ...profileData,
+      profilepicture: '',
+      createdTimestamp: createTimestamp(new Date()) });
 };
 
 export const getUserProfile = async (uid) => {
@@ -157,14 +160,22 @@ export const saveProjectPicture = async (id, url) => {
     .update({ images: [ url ] });
 };
 
-export const createProfilePostWithFields = async (description, timestamp, uid) => {
+export const createProfilePostWithFields = async (
+  description,
+  timestamp,
+  uid,
+) => {
   const docRef = await db
     .collection(`users/${ uid }/posts`)
     .add({ timestamp: createTimestamp(timestamp), description });
   return docRef.id;
 };
 
-export const createProjectPostWithFields = async (description, timestamp, projectId) => {
+export const createProjectPostWithFields = async (
+  description,
+  timestamp,
+  projectId,
+) => {
   const docRef = await db
     .collection(`projects/${ projectId }/posts`)
     .add({ timestamp: createTimestamp(timestamp), description });
@@ -183,7 +194,9 @@ export const getProfilePosts = async (uid) => {
     let timestamp = doc.get('timestamp');
     const date = timestamp.toDate();
     timestamp = `${ date.getMonth() }/${ date.getDate() }/${ date.getFullYear() }`;
-    posts.push({ description: doc.get('description'), timestamp, pid: doc.id });
+    posts.push({ description: doc.get('description'),
+      timestamp,
+      pid: doc.id });
   });
 
   return posts;
@@ -202,7 +215,9 @@ export const getProjectPosts = async (projectId) => {
     let timestamp = doc.get('timestamp');
     const date = timestamp.toDate();
     timestamp = `${ date.getMonth() }/${ date.getDate() }/${ date.getFullYear() }`;
-    posts.push({ description: doc.get('description'), timestamp, pid: doc.id });
+    posts.push({ description: doc.get('description'),
+      timestamp,
+      pid: doc.id });
   });
 
   return posts;
@@ -248,11 +263,5 @@ export const createProjectWithFields = async (project) => {
       images: [],
       likesCount: 0,
       createdTimestamp: createTimestamp(new Date()) });
-  return projectRef.id
+  return projectRef.id;
 };
-
-export const setProjectImages = async (pid, imageURLs) => {
-  await db.collection('projects')
-    .doc(pid)
-    .update({ images: imageURLs })
-}
