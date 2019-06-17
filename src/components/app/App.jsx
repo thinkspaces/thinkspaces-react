@@ -7,7 +7,7 @@ import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 // Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faCircleNotch, faTimes, faRandom } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faCircleNotch, faTimes, faRandom, faCheckCircle, faTimesCircle, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 
 import { Container } from 'reactstrap';
 import withAuthentication from '../utils/withAuthentication';
@@ -20,7 +20,6 @@ import About from '../about';
 import ProjectPage from '../project-page';
 import SignUpIn from '../sign-up-login';
 import ProfilePage from '../profile-page';
-import SubmitProject from '../submit-project';
 import ExploreProfiles from '../explore-profiles';
 import ExploreProjects from '../explore-projects';
 import ForgotPassword from '../forgot-password';
@@ -34,7 +33,8 @@ ReactGA.initialize('UA-128353649-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 // font awesome
-library.add(faPlus, faTimes, faCircleNotch, faRandom);
+library.add(faPlus, faTimes, faCircleNotch, faRandom,
+  faCheckCircle, faTimesCircle, faExternalLinkAlt);
 
 class App extends Component {
   render() {
@@ -45,12 +45,11 @@ class App extends Component {
           <Route path="/" exact component={Home} />
           <Route path="/about" exact component={About} />
           <Route path="/projects" exact component={ExploreProjects} />
-          <Route path="/projects/:pid" exact component={ProjectPage} />
+          <Route path="/projects/:shortname" exact component={ProjectPage} />
           <Route path="/profiles" exact component={ExploreProfiles} />
           <Route path="/profile/:id" exact component={ProfilePage} />
           <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/signupin/forgotpassword" exact component={ForgotPassword} />
-          <Route path="/submitproject" exact component={SubmitProject} />
           <MessengerCustomerChat pageId="1191043211036808" appId="295451067827152" />
         </Container>
         <Footer />
