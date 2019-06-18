@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import sizeMe from 'react-sizeme';
 import ReactGA from 'react-ga';
 
-import { db, auth } from '../../firebase';
+import { auth } from '../../firebase';
+import { Shared } from '../../firebase/models';
 
 import ProfileList from './components/profile-list';
 import SignUpModal from '../shared/sign-up-modal';
@@ -12,7 +13,8 @@ class ExploreProfiles extends Component {
   state = { profiles: [], modal: false, loggedIn: false };
 
   componentDidMount = async () => {
-    const profiles = await db.getProfiles();
+    const query = Shared.constructQuery('users').where('privacy.visibleInSearch', '==', true)
+    const profiles = await Shared.getFromQuery(query)
     this.setState({ profiles, loggedIn: auth.isLoggedIn() });
   };
 

@@ -3,7 +3,7 @@ import sizeMe from 'react-sizeme';
 
 // database
 import { Row, Col } from 'reactstrap';
-import { db } from '../../firebase';
+import { Shared } from '../../firebase/models';
 
 // custom components
 import ProjectCard from '../shared/project-card';
@@ -16,7 +16,8 @@ class ExploreProjects extends Component {
   state = { projects: [], filterTypes: [ 'project-category', 'release-status', 'organization' ] };
 
   componentDidMount = async () => {
-    const projects = await db.getProjects();
+    const query = Shared.constructQuery('projects')
+    const projects = await Shared.getFromQuery(query)
     this.setState({ projects });
   };
 

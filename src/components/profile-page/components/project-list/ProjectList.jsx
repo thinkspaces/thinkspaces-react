@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import sizeMe from 'react-sizeme';
 import { Row, Col } from 'reactstrap';
-import { db } from '../../../../firebase';
+import { User } from '../../../../firebase/models';
 
 import ProjectCard from '../../../shared/project-card';
 import SubmitProjectButton from '../../../shared/submit-project-button';
@@ -30,7 +30,7 @@ class MyProjects extends Component {
 
   componentDidMount = async () => {
     const { uid } = this.props;
-    const projects = await db.getMyProjects(uid);
+    const projects = await User.getProjects(uid);
     this.setState({ projects });
   };
 

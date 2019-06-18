@@ -81,6 +81,26 @@ export const get = async (path, id) => {
  */
 export const getFromIdsArray = (path, ids) => Promise.all(ids.map(async _id => get(path, _id)));
 
+// query management
+
+/**
+ * Yields full control of the firebase reference for querying
+ * @param {string} path : Path to a collection.
+ * @returns {Query}
+ */
+export const constructQuery = path => db.collection(path);
+
+/**
+ *
+ * @param {Query} query
+ * @returns {Object[]}
+ */
+export const getFromQuery = async (query) => {
+  const querySnapshot = await query.get();
+  return querySnapshot.docs.map(queryDocumentSnapshot => ({ ...queryDocumentSnapshot.data(),
+    id: queryDocumentSnapshot.id }));
+};
+
 // set operations
 
 /**
@@ -101,26 +121,6 @@ export const addToSet = (path, id, field, value) => update(path, id, { [field]: 
  * @returns {Promise}
  */
 export const removeFromSet = (path, id, field, value) => update(path, id, { [field]: FieldValue.arrayRemove(value) });
-
-// query management
-
-/**
- * Yields full control of the firebase reference for querying
- * @param {string} path : Path to a collection.
- * @returns {Query}
- */
-export const constructQuery = path => db.collection(path);
-
-/**
- *
- * @param {Query} query
- * @returns {Object[]}
- */
-export const getFromQuery = async (query) => {
-  const querySnapshot = await query.get();
-  return querySnapshot.docs.map(queryDocumentSnapshot => ({ ...queryDocumentSnapshot.data(),
-    id: queryDocumentSnapshot.id }));
-};
 
 // tag management
 

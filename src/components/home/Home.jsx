@@ -3,10 +3,9 @@ import sizeMe from 'react-sizeme';
 
 import { Button, Row, Col } from 'reactstrap';
 import ProjectCard from '../shared/project-card';
-import SubmitProjectButton from '../shared/submit-project-button';
 import CreateProject from '../create-project'
 
-import { db } from '../../firebase';
+import { Shared } from '../../firebase/models';
 import styles from './Home.module.css'
 
 const headerStyle = { margin: '50px 0px', textAlign: 'center' };
@@ -17,7 +16,8 @@ class Home extends Component {
   state = { projects: [] };
 
   componentDidMount = async () => {
-    const projects = await db.getTopProjects();
+    const query = Shared.constructQuery('projects').orderBy('likesCount', 'desc').limit(6)
+    const projects = await Shared.getFromQuery(query)
     this.setState({ projects });
   };
 

@@ -11,6 +11,7 @@ import ContactModal from '../../../shared/contact-modal';
 import { db } from '../../../../firebase';
 
 import EditProfile from '../edit-profile';
+import { User } from '../../../../firebase/models';
 
 const ProfileHeaderBody = ({ headline }) => (
   <div style={{ marginTop: 30 }}>
@@ -103,8 +104,8 @@ class ProfileSummary extends Component {
     const { match } = this.props;
     if (match.params.id) {
       const uid = match.params.id;
-      const profile = await db.getUserProfile(uid);
-      this.setState({ uid, profile: profile.data() });
+      const profile = await User.get(uid)
+      this.setState({ uid, profile });
     }
   };
 
@@ -112,8 +113,8 @@ class ProfileSummary extends Component {
     const { match } = this.props;
     if (prevProps.match.params.id !== match.params.id) {
       const uid = match.params.id;
-      const profile = await db.getUserProfile(uid);
-      this.setState({ uid, profile: profile.data() });
+      const profile = await User.get(uid)
+      this.setState({ uid, profile });
     }
   };
 

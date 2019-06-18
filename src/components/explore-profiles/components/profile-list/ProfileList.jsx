@@ -10,11 +10,11 @@ const ProfileList = ({ profiles, width, openProfile }) => (
           <ProfileCard
             width={width}
             key={i}
-            uid={p.uid}
+            uid={p.id}
             headline={p.headline}
             title={p.full_name}
             picture={p.profilepicture}
-            openProfile={() => openProfile(p.uid, p.major)}
+            openProfile={() => openProfile(p.id, p.major)}
           />
         </Col>
       ))}

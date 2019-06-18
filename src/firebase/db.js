@@ -1,113 +1,6 @@
 /* eslint-disable no-use-before-define */
 import { db, auth, createTimestamp } from './firebase';
 
-export const getProjects = async () => {
-  // create projects array
-  const projects = []
-
-  // get collection reference (query snapshot)
-  const snapshot = await db.collection('projects').get();
-
-  // traverse snapshot for documents in collection, add to array
-  snapshot.forEach((doc) => {
-    projects.push({ ...doc.data(), id: doc.id });
-  });
-
-  return projects;
-};
-
-export const getMyProjects = async (uid) => {
-  const projects = [];
-  try {
-    const querySnapshot = await db
-      .collection('projects')
-      .where('team', 'array-contains', uid)
-      .get();
-
-    querySnapshot.forEach((doc) => {
-      projects.push({ ...doc.data(), id: doc.id });
-    });
-  } catch (error) {
-    console.log('Unable to find projects via uid');
-  }
-
-  return projects;
-};
-
-export const getProfiles = async () => {
-  const profiles = [];
-
-  const snapshot = await db
-    .collection('users')
-    .where('privacy', '==', false)
-    .get();
-
-  snapshot.forEach((doc) => {
-    profiles.push({ ...doc.data(), uid: doc.id });
-  });
-
-  return profiles;
-};
-
-export const saveProjectChanges = async (project, pid) => {
-  const team = [];
-  project.team.forEach((member) => {
-    team.push(member.uid);
-  });
-
-  // project.team = team;
-
-  // temporary fix to prevent EditProjectImages breaking
-  delete project.images;
-
-  await db
-    .collection('projects')
-    .doc(pid)
-    .update({ ...project, team });
-};
-
-export const getProjectByID = async (id) => {
-  // grab data via id from firestore
-  const docSnapshot = await db
-    .collection('projects')
-    .doc(id)
-    .get();
-
-  const data = docSnapshot.data();
-
-  //   if (data.team) {
-  //     // get names from team uids, add to data
-  //     const members = [];
-  //     await Promise.all(
-  //       data.team.map(async (uid) => {
-  //         const docRef = await db
-  //           .collection('users')
-  //           .doc(uid)
-  //           .get();
-  //         members.push({ uid, name: docRef.get('full_name') });
-  //       }),
-  //     );
-
-  //     // data.team = members;
-  //   }
-  return data;
-};
-
-export const getTopProjects = async () => {
-  const projects = [];
-  const snapshot = await db
-    .collection('projects')
-    .orderBy('likesCount', 'desc')
-    .limit(6)
-    .get();
-
-  snapshot.forEach((doc) => {
-    projects.push({ ...doc.data(), id: doc.id });
-  });
-
-  return projects;
-};
-
 export const updateLikes = async (pid, likes) => {
   await db
     .collection('projects')
@@ -122,14 +15,6 @@ export const createUserwithFields = async (uid, profileData) => {
     .set({ ...profileData,
       profilepicture: '',
       createdTimestamp: createTimestamp(new Date()) });
-};
-
-export const getUserProfile = async (uid) => {
-  const snapshot = await db
-    .collection('users')
-    .doc(uid)
-    .get();
-  return snapshot;
 };
 
 // how to determine what data to set and what to add
@@ -250,18 +135,4 @@ export const editProjectPost = async (projectId, pid, description) => {
     .collection(`projects/${ projectId }/posts`)
     .doc(pid)
     .update({ description });
-};
-
-export const createProjectWithFields = async (project) => {
-  const user = auth.currentUser;
-  const projectRef = await db
-    .collection('projects')
-    .add({ ...project,
-      team: [ user.uid ],
-      owner: user.uid,
-      likes: {},
-      images: [],
-      likesCount: 0,
-      createdTimestamp: createTimestamp(new Date()) });
-  return projectRef.id;
 };

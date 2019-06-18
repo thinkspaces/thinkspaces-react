@@ -85,3 +85,33 @@ export const removeTag = (userId, tagId) => _shared.removeTag('users', userId, t
  * @param {String} type : Drop only tags of this certain type.
  */
 export const dropTags = (userId, type = undefined) => _shared.dropTags('users', userId, type);
+
+// project management
+
+/**
+ * Retrieve all projects of which the user is a team member.
+ * @param {String} userId
+ */
+export const getProjectsWithUserInTeam = (userId) => {
+  const query = _shared.constructQuery('projects').where('team', 'array-contains', userId)
+  return _shared.getFromQuery(query)
+}
+
+/**
+ * Retrieve all projects of which the user is an administrator.
+ * @param {String} userId
+ */
+export const getProjectsWithUserInAdmin = (userId) => {
+  const query = _shared.constructQuery('projects').where('admin', 'array-contains', userId)
+  return _shared.getFromQuery(query)
+}
+
+/**
+ * Retrieve all projects with which the user is associated.
+ * @param {String} userId
+ */
+export const getProjects = async (userId) => {
+  const teams = await getProjectsWithUserInTeam(userId)
+  const admin = await getProjectsWithUserInAdmin(userId)
+  return [ ...teams, ...admin ]
+}

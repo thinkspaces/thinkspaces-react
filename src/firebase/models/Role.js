@@ -9,27 +9,27 @@ import * as _shared from './shared';
  * @returns {String} New/created document id.
  */
 export const create = async (props) => {
-    const newId = _shared.getNewId('roles');
+  const newId = _shared.getNewId('roles');
+  // eslint-disable-next-line object-curly-newline
+  const finalProps = defaultsDeep(props, {
+    postedBy: '', // ID of Project or Organization
+    name: '', // e.g. Sales Intern
+    // Markdown will help cater to a variety of requirements and is safer than
+    // HTML. Although people will be able to type whatever they like, the UI
+    // will cue them to separate their writing into logical sections. Links
+    // and images will be embedded within the Markdown using some sort of
+    // editor plugin
+    description: '', // overview of the position in Markdown
+    responsibilities: '', // specific responsibilities in Markdown
+    more: '', // more content in Markdown
+    isCompensated: true,
+    hourRange: '', // how long they will work per week/day?
+    dateRange: '', // start and end dates for work
+    tags: [], // String[] ids
     // eslint-disable-next-line object-curly-newline
-    const finalProps = defaultsDeep(props, {
-      postedBy: '', // ID of Project or Organization
-      name: '', // e.g. Sales Intern
-      // Markdown will help cater to a variety of requirements and is safer than
-      // HTML. Although people will be able to type whatever they like, the UI
-      // will cue them to separate their writing into logical sections. Links
-      // and images will be embedded within the Markdown using some sort of
-      // editor plugin
-      description: '', // overview of the position in Markdown
-      responsibilities: '', // specific responsibilities in Markdown
-      more: '', // more content in Markdown
-      isCompensated: true,
-      hourRange: '', // how long they will work per week/day?
-      dateRange: '', // start and end dates for work
-      tags: [], // String[] ids
-      // eslint-disable-next-line object-curly-newline
-    });
-    return _shared.create('roles', newId, finalProps);
-  };
+  });
+  return _shared.create('roles', newId, finalProps);
+};
 
 /**
  *
