@@ -63,43 +63,25 @@ export const destroy = userId => _shared.destroy('users', userId);
  * @param {String} userId
  * @param {String} type : Retrieve only tags of a certain type.
  */
-export const getTags = async (userId, type) => {
-  const data = await get(userId);
-  const tags = await _shared.getFromIdsArray(data.tags);
-  // filter if necessary
-  if (type !== undefined) {
-    return tags.filter(tag => tag.type === type);
-  }
-  return tags;
-};
+export const getTags = (userId, type) => _shared.getTags('users', userId, type);
 
 /**
  * Associate tag with user.
  * @param {String} userId
  * @param {String} tagId
  */
-export const addTag = (userId, tagId) => _shared.addToSet('users', userId, 'tags', tagId);
+export const addTag = (userId, tagId) => _shared.addTag('users', userId, tagId);
 
 /**
  * Dissociate tag with user.
  * @param {String} userId
  * @param {String} tagId
  */
-export const removeTag = (userId, tagId) => _shared.removeFromSet('users', userId, 'tags', tagId);
+export const removeTag = (userId, tagId) => _shared.removeTag('users', userId, tagId);
 
 /**
  * Drop all tags for the user, or some.
  * @param {String} userId
  * @param {String} type : Drop only tags of this certain type.
  */
-export const dropTags = async (userId, type = undefined) => {
-  const data = await get(userId);
-  // if no type, then remove all tags
-  if (type === undefined) {
-    return update(userId, { tags: [] });
-  }
-  // otherwise remove only a subset of tags
-  const tags = await _shared.getFromIdsArray(data.tags);
-  const filteredTags = tags.filter(tag => tag.type !== type);
-  return update(userId, { tags: filteredTags.map(tag => tag.id) });
-};
+export const dropTags = (userId, type = undefined) => _shared.dropTags('users', userId, type);
