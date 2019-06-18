@@ -115,3 +115,45 @@ export const getProjects = async (userId) => {
   const admin = await getProjectsWithUserInAdmin(userId)
   return [ ...teams, ...admin ]
 }
+
+// reputation management
+
+/**
+ * Upvotes project on behalf of user and tracks changes.
+ * @param {String} userId
+ * @param {String} projectId
+ */
+export const upvoteProject = async (userId, projectId) => {
+  await _shared.addToSet('users', userId, 'upvotedProjects', projectId)
+  return _shared.upvote('projects', projectId)
+}
+
+/**
+ * Downvotes project on behalf of user and tracks changes.
+ * @param {String} userId
+ * @param {String} projectId
+ */
+export const downvoteProject = async (userId, projectId) => {
+  await _shared.removeFromSet('users', userId, 'upvotedProjects', projectId)
+  return _shared.downvote('projects', projectId)
+}
+
+/**
+ * Upvotes user on behalf of user and tracks changes.
+ * @param {String} userId
+ * @param {String} receivingUserId
+ */
+export const upvoteUser = async (userId, receivingUserId) => {
+  await _shared.addToSet('users', userId, 'upvotedUsers', receivingUserId)
+  return _shared.upvote('users', receivingUserId)
+}
+
+/**
+ * Downvotes user on behalf of user and tracks changes.
+ * @param {String} userId
+ * @param {String} receivingUserId
+ */
+export const downvoteUser = async (userId, receivingUserId) => {
+  await _shared.removeFromSet('users', userId, 'upvotedUsers', receivingUserId)
+  return _shared.downvote('users', receivingUserId)
+}

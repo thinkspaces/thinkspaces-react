@@ -179,3 +179,19 @@ export const dropTags = async (path, id, type = undefined) => {
   const filteredTags = tags.filter(tag => tag.type !== type);
   return update(path, id, { tags: filteredTags.map(tag => tag.id) });
 };
+
+// reputation management
+
+/**
+ * Generic upvote for any document, irrespective of whether it has a votes field.
+ * @param {String} path
+ * @param {String} id
+ */
+export const upvote = (path, id) => update(path, id, { votes: FieldValue.increment(1) });
+
+/**
+ * Generic downvote for any document, irrespective of whether it has a votes field.
+ * @param {String} path
+ * @param {String} id
+ */
+export const downvote = (path, id) => update(path, id, { votes: FieldValue.increment(-1) });
