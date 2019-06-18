@@ -1,4 +1,5 @@
 import defaultsDeep from 'lodash/defaultsDeep';
+import isNil from 'lodash/isNil';
 import { db, createTimestamp, FieldValue } from '../firebase';
 
 // identity management
@@ -34,11 +35,7 @@ export const getIdFromRef = ref => ref.id;
  */
 export const create = async (path, id, props) => {
   const ref = getRefFromPathId(path, id);
-  // eslint-disable-next-line object-curly-newline
-  const finalProps = defaultsDeep(props, {
-    createdTimestamp: createTimestamp(new Date()),
-    // eslint-disable-next-line object-curly-newline
-  });
+  const finalProps = defaultsDeep(props, { createdTimestamp: createTimestamp(new Date()) });
   await ref.set(finalProps, { merge: true });
   return id;
 };
@@ -50,7 +47,10 @@ export const create = async (path, id, props) => {
  * @param {Object} props : Properties.
  * @returns {Promise}
  */
-export const update = (path, id, props) => getRefFromPathId(path, id).update(props);
+export const update = (path, id, props) => {
+  const finalProps = defaultsDeep(props, { updatedTimestamp: createTimestamp(new Date()) });
+  return getRefFromPathId(path, id).update(finalProps);
+}
 
 /**
  *
@@ -120,4 +120,62 @@ export const getFromQuery = async (query) => {
   const querySnapshot = await query.get();
   return querySnapshot.docs.map(queryDocumentSnapshot => ({ ...queryDocumentSnapshot.data(),
     id: queryDocumentSnapshot.id }));
+};
+
+// tag management
+
+/**
+ * Retrieve all tags for a document, irrespective of whether it has a tags field.
+ * @param {String} path
+ * @param {String} id
+ * @param {String} type : Retrieve only tags of a certain type.
+ */
+export const getTags = async (path, id, type) => {
+  const data = await get(path, id);
+  if (isNil(data.tags)) {
+    return [];
+  }
+  const tags = await getFromIdsArray('tags', data.tags);
+  if (type !== undefined) {
+    return tags.filter(tag => tag.type === type);
+  }
+  return tags;
+};
+
+/**
+ * Associate tag with document, irrespective of whether it has a tags field.
+ * @param {String} path
+ * @param {String} id
+ * @param {String} tagId
+ */
+export const addTag = (path, id, tagId) => addToSet(path, id, 'tags', tagId);
+
+/**
+ * Dissociate tag with document, irrespective of whether it has a tags field.
+ * @param {String} path
+ * @param {String} id
+ * @param {String} tagId
+ */
+export const removeTag = (path, id, tagId) => removeFromSet(path, id, 'tags', tagId);
+
+/**
+ * Drop all tags for the document, or some, irrespective of whether it has a tags field.
+ * @param {String} path
+ * @param {String} id
+ * @param {String} type : Drop only tags of this certain type.
+ */
+export const dropTags = async (path, id, type = undefined) => {
+  // read the document
+  const data = await get(path, id);
+  if (isNil(data.tags)) {
+    return [];
+  }
+  // if no type specified, remove all tags
+  if (type === undefined) {
+    return update(path, id, { tags: [] });
+  }
+  // otherwise, remove only those tags belonging to the type
+  const tags = await getFromIdsArray('tags', data.tags);
+  const filteredTags = tags.filter(tag => tag.type !== type);
+  return update(path, id, { tags: filteredTags.map(tag => tag.id) });
 };

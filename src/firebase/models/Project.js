@@ -72,52 +72,28 @@ export const destroy = async (projectId) => {
  * @param {String} projectId
  * @param {String} type : Retrieve only tags of a certain type.
  */
-export const getTags = async (projectId, type) => {
-  const data = await get(projectId);
-  if (isNil(data.tags)) {
-    return [];
-  }
-  const tags = await _shared.getFromIdsArray('tags', data.tags);
-  if (type !== undefined) {
-    return tags.filter(tag => tag.type === type);
-  }
-  return tags;
-};
+export const getTags = (projectId, type) => _shared.getTags('projects', projectId, type);
 
 /**
  * Associate tag with project.
  * @param {String} projectId
  * @param {String} tagId
  */
-export const addTag = (projectId, tagId) => _shared.addToSet('projects', projectId, 'tags', tagId);
+export const addTag = (projectId, tagId) => _shared.addTag('projects', projectId, tagId);
 
 /**
  * Dissociate tag with project.
  * @param {String} projectId
  * @param {String} tagId
  */
-export const removeTag = (projectId, tagId) => _shared.removeFromSet('projects', projectId, 'tags', tagId);
+export const removeTag = (projectId, tagId) => _shared.removeTag('projects', projectId, tagId);
 
 /**
  * Drop all tags for the project, or some.
  * @param {String} projectId
  * @param {String} type : Drop only tags of this certain type.
  */
-export const dropTags = async (projectId, type = undefined) => {
-  // read the project
-  const data = await get(projectId);
-  if (isNil(data.tags)) {
-    return [];
-  }
-  // if no type specified, remove all tags
-  if (type === undefined) {
-    return update(projectId, { tags: [] });
-  }
-  // otherwise, remove only those tags belonging to the type
-  const tags = await _shared.getFromIdsArray('tags', data.tags);
-  const filteredTags = tags.filter(tag => tag.type !== type);
-  return update(projectId, { tags: filteredTags.map(tag => tag.id) });
-};
+export const dropTags = (projectId, type = undefined) => _shared.dropTags('projects', projectId, type);
 
 // team management
 
@@ -188,3 +164,19 @@ export const removeAdminUser = (projectId, userId) => _shared.removeFromSet('pro
  * @param {String} projectId
  */
 export const dropAdmin = projectId => update(projectId, { admin: [] });
+
+// role management
+
+/**
+ * Associate a role with a project.
+ * @param {String} projectId
+ * @param {String} roleId
+ */
+export const addRole = (projectId, roleId) => _shared.addToSet('projects', projectId, 'roles', roleId);
+
+/**
+ * Dissociate a role with a project.
+ * @param {String} projectId
+ * @param {String} roleId
+ */
+export const removeRole = (projectId, roleId) => _shared.removeFromSet('projects', projectId, 'roles', roleId);
