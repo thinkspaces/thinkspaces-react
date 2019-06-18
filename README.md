@@ -2,10 +2,10 @@
 
 ## Table of contents
 
-- [Thinkspaces](#thinkspaces)
-  - [Table of contents](#table-of-contents)
-  - [Create React App Guide](#create-react-app-guide)
-  - [Docs](#docs)
+- [Thinkspaces](#Thinkspaces)
+  - [Table of contents](#Table-of-contents)
+  - [Create React App Guide](#Create-React-App-Guide)
+  - [Docs](#Docs)
 
 ## Create React App Guide
 
