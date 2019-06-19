@@ -44,6 +44,13 @@ export const create = (props) => {
 export const get = userId => _shared.get('users', userId);
 
 /**
+ * Get specific field from document (supports deep nesting).
+ * @param {String} userId
+ * @param {String} fieldPath
+ */
+export const getField = async (userId, fieldPath) => _shared.getField('users', userId, fieldPath);
+
+/**
  *
  * @param {String} userId
  * @param {Object} props
@@ -124,8 +131,11 @@ export const getProjects = async (userId) => {
  * @param {String} projectId
  */
 export const upvoteProject = async (userId, projectId) => {
+  const upvotedProjects = await getField(userId, 'upvotedProjects')
+  if (upvotedProjects && upvotedProjects.includes(projectId)) { return false }
   await _shared.addToSet('users', userId, 'upvotedProjects', projectId)
-  return _shared.upvote('projects', projectId)
+  await _shared.upvote('projects', projectId)
+  return true
 }
 
 /**
@@ -134,8 +144,13 @@ export const upvoteProject = async (userId, projectId) => {
  * @param {String} projectId
  */
 export const downvoteProject = async (userId, projectId) => {
-  await _shared.removeFromSet('users', userId, 'upvotedProjects', projectId)
-  return _shared.downvote('projects', projectId)
+  const upvotedProjects = await getField(userId, 'upvotedProjects')
+  if (upvotedProjects && upvotedProjects.includes(projectId)) {
+    await _shared.removeFromSet('users', userId, 'upvotedProjects', projectId)
+    await _shared.downvote('projects', projectId)
+    return true
+  }
+  return false
 }
 
 /**
@@ -144,8 +159,11 @@ export const downvoteProject = async (userId, projectId) => {
  * @param {String} receivingUserId
  */
 export const upvoteUser = async (userId, receivingUserId) => {
+  const upvotedUsers = await getField(userId, 'upvotedUsers')
+  if (upvotedUsers && upvotedUsers.includes(receivingUserId)) { return false }
   await _shared.addToSet('users', userId, 'upvotedUsers', receivingUserId)
-  return _shared.upvote('users', receivingUserId)
+  await _shared.upvote('users', receivingUserId)
+  return true
 }
 
 /**
@@ -154,6 +172,11 @@ export const upvoteUser = async (userId, receivingUserId) => {
  * @param {String} receivingUserId
  */
 export const downvoteUser = async (userId, receivingUserId) => {
-  await _shared.removeFromSet('users', userId, 'upvotedUsers', receivingUserId)
-  return _shared.downvote('users', receivingUserId)
+  const upvotedUsers = await getField(userId, 'upvotedUsers')
+  if (upvotedUsers && upvotedUsers.includes(receivingUserId)) {
+    await _shared.removeFromSet('users', userId, 'upvotedUsers', receivingUserId)
+    await _shared.downvote('users', receivingUserId)
+    return true
+  }
+  return false
 }

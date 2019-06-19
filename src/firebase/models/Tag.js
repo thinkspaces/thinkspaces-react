@@ -27,6 +27,13 @@ export const create = (props) => {
 export const get = tagId => _shared.get('tags', tagId);
 
 /**
+ * Get specific field from document (supports deep nesting).
+ * @param {String} tagId
+ * @param {String} fieldPath
+ */
+export const getField = async (tagId, fieldPath) => _shared.getField('tags', tagId, fieldPath);
+
+/**
  *
  * @param {String} tagId
  * @param {Object} props

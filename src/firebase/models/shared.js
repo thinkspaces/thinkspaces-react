@@ -1,5 +1,4 @@
-import defaultsDeep from 'lodash/defaultsDeep';
-import isNil from 'lodash/isNil';
+import { get as lGet, isNil, defaultsDeep } from 'lodash';
 import { db, createTimestamp, FieldValue } from '../firebase';
 
 // identity management
@@ -72,6 +71,18 @@ export const get = async (path, id) => {
   const documentSnapshot = await getRefFromPathId(path, id).get();
   return { ...documentSnapshot.data(), id };
 };
+
+/**
+ * Get specific field from document (supports deep nesting).
+ * Can be optimized using database specific calls.
+ * @param {String} path
+ * @param {String} id
+ * @param {String} fieldPath
+ */
+export const getField = async (path, id, fieldPath) => {
+  const data = await get(path, id)
+  return lGet(data, fieldPath)
+}
 
 /**
  * Resolves an array of IDs to data objects.

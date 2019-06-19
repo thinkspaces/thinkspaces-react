@@ -50,6 +50,13 @@ export const create = async (props) => {
 export const get = projectId => _shared.get('projects', projectId);
 
 /**
+ * Get specific field from document (supports deep nesting).
+ * @param {String} projectId
+ * @param {String} fieldPath
+ */
+export const getField = async (projectId, fieldPath) => _shared.getField('projects', projectId, fieldPath);
+
+/**
  *
  * @param {String} projectId
  * @param {Object} props

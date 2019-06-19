@@ -39,6 +39,13 @@ export const create = async (props) => {
 export const get = roleId => _shared.get('roles', roleId);
 
 /**
+ * Get specific field from document (supports deep nesting).
+ * @param {String} roleId
+ * @param {String} fieldPath
+ */
+export const getField = async (roleId, fieldPath) => _shared.getField('roles', roleId, fieldPath);
+
+/**
  *
  * @param {String} roleId
  * @param {Object} props
