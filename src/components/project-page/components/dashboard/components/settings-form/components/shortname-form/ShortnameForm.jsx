@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 
-import { Project, Shared } from '../../../../../../../../firebase/models';
+import { db } from '../../../../../../../../firebase';
 import SaveButton from '../../../../../../../shared/save-button';
 
 import Tooltip from './components/Tooltip';
@@ -21,10 +21,9 @@ const ShortnameForm = ({ className, pid }) => {
     // prevent default
     event.preventDefault();
     // only update shortname if it doesn't exist
-    const query = Shared.constructQuery('projects').where('shortname', '==', input);
-    const data = await Shared.getFromQuery(query);
+    const data = await db.getAllByFilter('projects')(db.where('shortname')('==')(input));
     if (data.length === 0) {
-      await Project.update(pid, { shortname: input });
+      await db.update('projects')(pid)({ shortname: input });
       // reset "init"
       setInit(input);
     }
@@ -54,7 +53,7 @@ const ShortnameForm = ({ className, pid }) => {
     // start search
     setSearching(true);
     // read shortname for current project
-    const project = await Project.get(pid);
+    const project = await db.get('projects')(pid);
     // set state accordingly if defined
     setInput(project.shortname === undefined ? '' : project.shortname);
     setInit(project.shortname === undefined ? '' : project.shortname);
@@ -101,8 +100,7 @@ const ShortnameForm = ({ className, pid }) => {
     const sanitized = event.target.value.trim();
     setInput(sanitized);
     // send the input off to resolve and search for existing projects
-    const query = Shared.constructQuery('projects').where('shortname', '==', sanitized);
-    const promise = Shared.getFromQuery(query);
+    const promise = await db.getAllByFilter('projects')(db.where('shortname')('==')(sanitized));
     resolveProjects(promise);
     // validate the input and set state accordingly
     validate();

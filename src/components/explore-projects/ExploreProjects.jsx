@@ -16,7 +16,7 @@ class ExploreProjects extends Component {
   state = { projects: [], filterTypes: [ 'project-category', 'release-status', 'organization' ] };
 
   componentDidMount = async () => {
-    const projects = await db.getProjects();
+    const projects = await db.getAll('projects');
     this.setState({ projects });
   };
 
@@ -28,7 +28,9 @@ class ExploreProjects extends Component {
 
   render() {
     const { projects, filterTypes } = this.state;
-    const { size: { width } } = this.props;
+    const {
+      size: { width },
+    } = this.props;
     return (
       <div>
         <h2 style={headerStyle}>All Projects</h2>

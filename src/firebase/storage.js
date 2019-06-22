@@ -1,6 +1,6 @@
 import uuidv1 from 'uuid/v1';
 import { storage } from './firebase';
-import { getProjectByID } from './db';
+import { db } from './db';
 import urlToFile from '../components/utils/urlToFile';
 
 export const uploadProfileImage = async (uid, file) => {
@@ -37,7 +37,8 @@ export const uploadProjectImages = async (pid, imageFiles) => {
 // therefore, the images must be retrieved from the db
 export const downloadProjectImages = async (pid) => {
   // use the database to fetch the project
-  const project = await getProjectByID(pid);
+  const project = await db.get('projects')(pid);
+  // const project = await getProjectByID(pid);
   // download project images in order
   const imageFiles = await Promise.all(
     project.images.map(async (url) => {
@@ -67,7 +68,8 @@ export const downloadProjectImages = async (pid) => {
 };
 
 export const deleteProjectImages = async (pid) => {
-  const project = await getProjectByID(pid);
+  const project = await db.get('projects')(pid);
+  // const project = await getProjectByID(pid);
   const imageURLs = project.images;
   if (imageURLs) {
     await Promise.all(

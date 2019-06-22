@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import useLoader from './use-loader';
 
-import { downloadProjectImages,
+import {
+  downloadProjectImages,
   uploadProjectImages,
-  deleteProjectImages } from '../firebase/storage';
-import { Project } from '../firebase/models';
+  deleteProjectImages,
+} from '../firebase/storage';
+import { db } from '../firebase';
 
 export default (pid) => {
   const [ files, setFiles ] = useState([]);
@@ -20,7 +22,7 @@ export default (pid) => {
   const saveHandler = async () => {
     await deleteProjectImages(pid);
     const imageURLs = await uploadProjectImages(pid, files);
-    await Project.update(pid, { images: imageURLs });
+    await db.update('projects')(pid)({ images: imageURLs });
   };
 
   const handleUpdateFiles = (fileItems) => {

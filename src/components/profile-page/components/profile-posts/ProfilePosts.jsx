@@ -64,16 +64,18 @@ const AuthPostFeed = ({ posts, onRemovePost, onEditPost }) => (
   </div>
 );
 
-const AuthSocialView = ({ post_details,
+const AuthSocialView = ({
+  post_details,
   createPost,
   onChange,
   posts,
   onRemovePost,
-  onEditPost }) => (
-    <div>
-      <PostInput post_details={post_details} createPost={createPost} onChange={onChange} />
-      <AuthPostFeed posts={posts} onRemovePost={onRemovePost} onEditPost={onEditPost} />
-    </div>
+  onEditPost,
+}) => (
+  <div>
+    <PostInput post_details={post_details} createPost={createPost} onChange={onChange} />
+    <AuthPostFeed posts={posts} onRemovePost={onRemovePost} onEditPost={onEditPost} />
+  </div>
 );
 
 const GuestSocialView = ({ posts }) => (
@@ -101,7 +103,7 @@ class ProfilePosts extends Component {
 
   componentDidMount = async () => {
     const { match } = this.props;
-    const posts = await db.getProfilePosts(match.params.id);
+    const posts = await db.getPosts('users')(match.params.id);
     this.setState({ posts });
   };
 
@@ -110,18 +112,18 @@ class ProfilePosts extends Component {
 
     const { description } = this.state;
     const { uid } = this.props;
-    let date = new Date();
 
-    const docId = await db.createProfilePostWithFields(description, date, uid);
-    date = `${ date.getMonth() }/${ date.getDate() }/${ date.getFullYear() }`;
-    this.setState(prevState => ({ description: '',
-      posts: [ ...prevState.posts, { description, timestamp: date, pid: docId } ] }));
+    const post = await db.createPost('users')(uid)(description);
+    this.setState(prevState => ({
+      description: '',
+      posts: [ ...prevState.posts, post ],
+    }));
   };
 
   onRemovePost = async (index) => {
     const { posts } = this.state;
     const { uid } = this.props;
-    await db.removePost(uid, posts[index].pid);
+    await db.removePost('users')(uid)(posts[index].pid);
     posts.splice(index, 1);
     this.setState({ posts });
   };
@@ -137,7 +139,7 @@ class ProfilePosts extends Component {
     const { uid } = this.props;
 
     this.setState(prevState => ({ editable: !prevState.editable }));
-    await db.editPost(uid, posts[index].pid, description);
+    await db.editPost('users')(uid)(posts[index].pid)(description);
     const newPost = [ ...posts ];
     newPost[index].description = description;
     this.setState({ posts: newPost });
@@ -152,8 +154,10 @@ class ProfilePosts extends Component {
           <SizeMe>
             {({ size }) => (
               <div
-                style={{ paddingLeft: size.width < 720 ? 0 : 50,
-                  paddingRight: size.width < 720 ? 0 : 100 }}
+                style={{
+                  paddingLeft: size.width < 720 ? 0 : 50,
+                  paddingRight: size.width < 720 ? 0 : 100,
+                }}
               >
                 <div>
                   {authUser.uid === uid ? (

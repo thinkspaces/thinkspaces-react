@@ -3,11 +3,11 @@ import sizeMe from 'react-sizeme';
 
 import { Button, Row, Col } from 'reactstrap';
 import ProjectCard from '../shared/project-card';
-import SubmitProjectButton from '../shared/submit-project-button';
-import CreateProject from '../create-project'
+// import SubmitProjectButton from '../shared/submit-project-button';
+import CreateProject from '../create-project';
 
 import { db } from '../../firebase';
-import styles from './Home.module.css'
+import styles from './Home.module.css';
 
 const headerStyle = { margin: '50px 0px', textAlign: 'center' };
 const buttonStyle = { margin: '20px 10px' };
@@ -17,7 +17,10 @@ class Home extends Component {
   state = { projects: [] };
 
   componentDidMount = async () => {
-    const projects = await db.getTopProjects();
+    const projects = await db.getAllByFilter('projects')(
+      db.orderBy('likesCount')('desc'),
+      db.limit(6),
+    );
     this.setState({ projects });
   };
 
@@ -34,14 +37,18 @@ class Home extends Component {
 
   render() {
     const { projects } = this.state;
-    const { size: { width } } = this.props;
+    const {
+      size: { width },
+    } = this.props;
     return (
       <div>
         <div style={headerStyle}>
           <h1>Thinkspaces</h1>
           <h3>Find and work on projects started by Yalies</h3>
           <div className={styles.buttonsWrap}>
-            <Button onClick={this.goToProjects} style={buttonStyle} outline>Browse Projects</Button>
+            <Button onClick={this.goToProjects} style={buttonStyle} outline>
+              Browse Projects
+            </Button>
             <CreateProject />
           </div>
         </div>

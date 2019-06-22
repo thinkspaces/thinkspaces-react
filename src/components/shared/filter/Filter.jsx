@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { Row } from 'reactstrap';
-import { Tag } from '../../../firebase/models';
+import { db } from '../../../firebase';
 
 import FilterDropdown from './components/filter-dropdown';
 import SearchBar from './components/search-bar';
@@ -15,7 +15,8 @@ const Filter = ({ types }) => {
       const _toggles = types.map(() => ({ open: false }));
       setToggles(_toggles);
 
-      let _categories = await types.map(item => Tag.getAll(item));
+      let _categories = await types.map(item =>
+        db.getAllByFilter('tags')(db.where('type')('==')(item)));
       _categories = await Promise.all(
         _categories.map(async (category) => {
           let _category = await category;

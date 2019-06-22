@@ -6,25 +6,28 @@ import Option from '../option';
 import MultiValueLabel from '../multi-value-label';
 import SaveButton from '../../../../../shared/save-button';
 
-import { Shared } from '../../../../../../firebase/models';
+import { db } from '../../../../../../firebase';
 import useProjectTeam from '../../../../../../hooks/use-project-team';
 
 const TeamForm = ({ className, pid }) => {
-  const modifyForReactSelect = arrayOfUsersData => arrayOfUsersData.map(user => ({ value: user.id,
-    label: user.username,
-    icon: user.profilepicture }));
+  const modifyForReactSelect = arrayOfUsersData =>
+    arrayOfUsersData.map(user => ({
+      value: user.id,
+      label: user.username,
+      icon: user.profilepicture,
+    }));
 
-  const promiseOptions = usernameInput => new Promise((resolve) => {
-    const filterUsers = async () => {
-      const query = Shared.constructQuery('users').where('username', '>=', usernameInput);
-      const users = await Shared.getFromQuery(query);
-      return modifyForReactSelect(users);
-    };
+  const promiseOptions = usernameInput =>
+    new Promise((resolve) => {
+      const filterUsers = async () => {
+        const users = await db.getAllByFilter('users')(db.where('username')('>=')(usernameInput));
+        return modifyForReactSelect(users);
+      };
 
-    setTimeout(() => {
-      resolve(filterUsers(usernameInput));
-    }, 1000);
-  });
+      setTimeout(() => {
+        resolve(filterUsers(usernameInput));
+      }, 1000);
+    });
 
   const { team, success, loading, handleSave, handleChange } = useProjectTeam(pid);
 
