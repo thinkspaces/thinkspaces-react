@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 import { Row } from 'reactstrap';
 import { db } from '../../../firebase';
@@ -6,7 +7,11 @@ import { db } from '../../../firebase';
 import FilterDropdown from './components/filter-dropdown';
 import SearchBar from './components/search-bar';
 
-const Filter = ({ types, projects }) => {
+const Container = styled.div`
+  margin-bottom: 10px;
+`;
+
+const Filter = ({ types, onFilter }) => {
   const [ categories, setCategories ] = useState([]);
   const [ toggles, setToggles ] = useState([]);
 
@@ -38,8 +43,6 @@ const Filter = ({ types, projects }) => {
   };
 
   const onSelectTag = (i, j) => {
-    console.log('i', i);
-    console.log('j', j);
     setCategories(prevState => [
       ...prevState.slice(0, i),
       [
@@ -49,10 +52,12 @@ const Filter = ({ types, projects }) => {
       ],
       ...prevState.slice(i + 1),
     ]);
+
+    onFilter(categories[i][j]);
   };
 
   return (
-    <div>
+    <Container>
       <SearchBar categories={categories} handleCancel={onSelectTag} />
       <Row>
         {categories.map((category, i) => (
@@ -65,7 +70,7 @@ const Filter = ({ types, projects }) => {
           />
         ))}
       </Row>
-    </div>
+    </Container>
   );
 };
 

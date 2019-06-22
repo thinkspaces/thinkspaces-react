@@ -1,56 +1,46 @@
-import React, { Component } from 'react';
-import sizeMe from 'react-sizeme';
+import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
-// database
-import { Row, Col } from 'reactstrap';
 import { db } from '../../firebase';
 
-// custom components
-import ProjectCard from '../shared/project-card';
 import Filter from '../shared/filter';
+import ProjectList from './components/project-list';
 
-// styles
-const headerStyle = { marginBottom: '20px' };
+const Header = styled.h2`
+  margin-bottom: 20px;
+`;
 
-class ExploreProjects extends Component {
-  state = { projects: [], filterTypes: [ 'project-category', 'release-status', 'organization' ] };
+const filterTypes = [ 'project-category', 'release-status', 'organization' ];
 
-  componentDidMount = async () => {
-    const projects = await db.getAll('projects');
-    this.setState({ projects });
+const ExploreProjects = () => {
+  const [ appliedTags, setAppliedTags ] = useState([]);
+  const [ projects, setProjects ] = useState([]);
+
+  useEffect(() => {
+    const init = async () => {
+      const _projects = await db.getAll('projects');
+      setProjects(_projects);
+    };
+
+    init();
+  }, []);
+
+  const handleFilter = (tag) => {
+    const index = appliedTags.findIndex(_tag => _tag === tag.id);
+    if (index === -1) {
+      setAppliedTags([ ...appliedTags, tag.id ]);
+    } else {
+      setAppliedTags(prevState => [ ...prevState.slice(0, index), ...prevState.slice(index + 1) ]);
+    }
   };
 
-  updateLikes = (likes, index) => {
-    const { projects } = this.state;
-    projects[index].likes = likes;
-    this.setState({ projects });
-  };
+  return (
+    <div>
+      <Header>All Projects</Header>
+      <Filter types={filterTypes} onFilter={handleFilter} />
+      <ProjectList projects={projects} appliedTags={appliedTags} />
+    </div>
+  );
+};
 
-  render() {
-    const { projects, filterTypes } = this.state;
-    const {
-      size: { width },
-    } = this.props;
-    return (
-      <div>
-        <h2 style={headerStyle}>All Projects</h2>
-        <Filter types={filterTypes} projects={projects} />
-        <Row>
-          {projects.map((p, i) => (
-            <Col sm key={i}>
-              <ProjectCard
-                width={width}
-                key={i}
-                shortname={p.shortname}
-                name={p.name}
-                id={p.id}
-                text={p.card_des}
-              />
-            </Col>
-          ))}
-        </Row>
-      </div>
-    );
-  }
-}
-export default sizeMe()(ExploreProjects);
+export default ExploreProjects;
