@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Project } from '../../firebase/models';
+import { Project, db } from '../../firebase';
 import { getUserInfo } from '../../firebase/auth';
 
 import CreateButton from './components/create-button/CreateButton';
@@ -23,8 +23,8 @@ const CreateProject = () => {
     }
     // create the project with one field only for simplicity
     const pid = await Project.create({ name });
-    Project.addAdminUser(pid, uid);
-    Project.addTeamUser(pid, uid);
+    Project.updateFieldArrayWithId(db.add)('admin')(pid)(uid);
+    Project.updateFieldArrayWithId(db.add)('team')(pid)(uid);
     // redirect
     window.location.replace(`/projects/${ pid }`);
   };

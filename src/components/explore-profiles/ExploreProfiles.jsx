@@ -12,7 +12,9 @@ class ExploreProfiles extends Component {
   state = { profiles: [], modal: false, loggedIn: false };
 
   componentDidMount = async () => {
-    const profiles = await db.getProfiles();
+    const profiles = await db.getAllByFilter('users')(
+      db.where('privacy.visibleInSearch')('==')(true),
+    );
     this.setState({ profiles, loggedIn: auth.isLoggedIn() });
   };
 
@@ -27,20 +29,26 @@ class ExploreProfiles extends Component {
     const { loggedIn } = this.state;
     if (loggedIn) {
       const { history } = this.props;
-      ReactGA.event({ category: 'Engagement',
+      ReactGA.event({
+        category: 'Engagement',
         action: 'Clicked on profile - user was logged in',
-        label: major });
+        label: major,
+      });
       history.push(`/profile/${ uid }`);
     } else {
-      ReactGA.event({ category: 'Engagement',
+      ReactGA.event({
+        category: 'Engagement',
         action: 'Clicked on profile - user was not logged in',
-        label: major });
+        label: major,
+      });
       this.toggle();
     }
   };
 
   render() {
-    const { size: { width } } = this.props;
+    const {
+      size: { width },
+    } = this.props;
     const { profiles, modal } = this.state;
     return (
       <div>

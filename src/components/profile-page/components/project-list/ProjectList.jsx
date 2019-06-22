@@ -30,7 +30,7 @@ class MyProjects extends Component {
 
   componentDidMount = async () => {
     const { uid } = this.props;
-    const projects = await db.getMyProjects(uid);
+    const projects = await db.getAllByFilter('projects')(db.where('team')('array-contains')(uid));
     this.setState({ projects });
   };
 
@@ -42,7 +42,9 @@ class MyProjects extends Component {
 
   render() {
     const { projects } = this.state;
-    const { size: { width } } = this.props;
+    const {
+      size: { width },
+    } = this.props;
     return (
       <div style={{ paddingLeft: width <= '690' ? 0 : 50, paddingRight: width <= '690' ? 0 : 50 }}>
         {projects.length === 0 ? (

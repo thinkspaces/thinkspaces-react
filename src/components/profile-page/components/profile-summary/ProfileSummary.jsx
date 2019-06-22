@@ -103,8 +103,9 @@ class ProfileSummary extends Component {
     const { match } = this.props;
     if (match.params.id) {
       const uid = match.params.id;
-      const profile = await db.getUserProfile(uid);
-      this.setState({ uid, profile: profile.data() });
+      const profile = await db.get('users')(uid);
+      // console.log(profile);
+      this.setState({ uid, profile });
     }
   };
 
@@ -112,26 +113,34 @@ class ProfileSummary extends Component {
     const { match } = this.props;
     if (prevProps.match.params.id !== match.params.id) {
       const uid = match.params.id;
-      const profile = await db.getUserProfile(uid);
-      this.setState({ uid, profile: profile.data() });
+      const profile = await db.get('users')(uid);
+      this.setState({ uid, profile });
     }
   };
 
   saveChanges = async () => {
-    const { profile, uid } = this.state;
+    const {
+      profile: { id, ...values },
+      uid,
+    } = this.state;
 
-    ReactGA.event({ category: 'Acquisition',
+    ReactGA.event({
+      category: 'Acquisition',
       action: 'Sign up - completed profile user flow',
-      label: uid });
-    await db.saveProfileChanges(profile);
+      label: uid,
+    });
+
+    await db.update('users')(id)(values);
     this.setState({ isEditing: false });
   };
 
   onCancel = () => {
     const { uid } = this.state;
-    ReactGA.event({ category: 'Acquisition',
+    ReactGA.event({
+      category: 'Acquisition',
       action: 'Sign up - did not complete profile user flow',
-      label: uid });
+      label: uid,
+    });
     this.setState({ isEditing: false });
   };
 

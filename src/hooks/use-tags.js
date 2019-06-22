@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useLoader from './use-loader';
 
-import { Tag, Project } from '../firebase/models';
+import { db, Project } from '../firebase';
 
 export default (pid, type) => {
   const [ tags, setTags ] = useState([]);
@@ -13,13 +13,15 @@ export default (pid, type) => {
 
   const setup = async () => {
     // set active tags
-    const activeTags = await Project.getTags(pid, type);
+    let activeTags = await Project.getMembersFromFieldArray('tags')('tags')(pid);
+    activeTags = activeTags.filter(tag => tag.type === type);
+
     // modify for use with react-select
     let _tags = activeTags.map(tag => ({ ref: tag.ref, value: tag.id, label: tag.name }));
     // update state
     setChosenTags(_tags);
     // set all available tags
-    const availableTags = await Tag.getAll(type);
+    const availableTags = await db.getAllByFilter('tags')(db.where('type')('==')(type));
     // modify for use with react-select
     _tags = availableTags.map(tag => ({ ref: tag.ref, value: tag.id, label: tag.name }));
     setTags(_tags);
@@ -27,13 +29,16 @@ export default (pid, type) => {
 
   const saveHandler = async () => {
     // delete all previous tags for project
-    await Project.dropTags(pid, type);
+    await Project.dropTags(pid)(type);
     // set all new tags for project
     const _tags = chosenTags.map(tag => tag.value);
     // update Project Tags
-    _tags.forEach(async (tagId) => {
-      await Project.addTag(pid, tagId);
-    });
+
+    await Promise.all(
+      _tags.map(async (tagId) => {
+        await Project.updateFieldArrayWithId(db.add)('tags')(pid)(tagId);
+      }),
+    );
   };
 
   const { success, loading, handleSave } = useLoader(setup, saveHandler);

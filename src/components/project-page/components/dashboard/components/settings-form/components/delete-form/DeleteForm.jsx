@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Project } from '../../../../../../../../firebase/models';
+import { Project } from '../../../../../../../../firebase';
 import SaveButton from '../../../../../../../shared/save-button';
 
 const DeleteForm = ({ className, pid }) => {

@@ -4,7 +4,7 @@ export default () => {
   const [ currentModalId, setModalId ] = useState(null);
 
   const closeModal = useCallback(() => setModalId(null));
-  const openModal = modalId => useCallback(() => setModalId(modalId));
+  const openModal = useCallback(modalId => () => setModalId(modalId));
   const isModalOpen = useCallback(modalId => modalId === currentModalId);
   return { closeModal, openModal, isModalOpen };
 };

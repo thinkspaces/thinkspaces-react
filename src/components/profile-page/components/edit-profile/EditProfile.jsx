@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
-import { storage, db } from '../../../../firebase';
+import { db, storage } from '../../../../firebase';
 import './EditProfile.css';
 
 import placeholder from './placeholder.png';
@@ -60,7 +60,12 @@ const EditForm = ({ saveChanges, profile, onEditChange, onCancel }) => (
       </FormGroup>
       <FormGroup check>
         <Label check>
-          <Input type="checkbox" id="privacy" checked={!profile.privacy} onChange={onEditChange} />
+          <Input
+            type="checkbox"
+            id="privacy"
+            checked={profile.privacy.visibleInSearch}
+            onChange={onEditChange}
+          />
           Make your profile public and let projects find you
         </Label>
       </FormGroup>
@@ -81,19 +86,21 @@ export default class EditProfile extends Component {
   handleRemovePicture = async () => {
     const { uid, onPictureChange } = this.props;
     await storage.removeProfileImage(uid);
-    await db.updateProfilePicture();
+    await db.update('users')(uid)({ profilepicture: '' });
     onPictureChange('');
   };
 
   handleUploadPicture = async (event) => {
-    const { target: { files } } = event;
+    const {
+      target: { files },
+    } = event;
     const { uid, onPictureChange } = this.props;
 
     // upload and overwrite
     const file = files[0];
     this.setState({ working: true });
     const profileURL = await storage.uploadProfileImage(uid, file);
-    await db.updateProfilePicture(profileURL);
+    await db.update('users')(uid)({ profilepicture: profileURL });
     onPictureChange(profileURL);
     this.setState({ working: false });
   };

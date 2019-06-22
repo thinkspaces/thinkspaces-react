@@ -4,11 +4,13 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, FormGroup, Label, Input, Form, FormFeedback } from 'reactstrap';
 import FinishProfileModal from '../finish-profile-modal';
-import { auth, db } from '../../../../firebase';
+import { User, auth } from '../../../../firebase';
 
 class SignUp extends Component {
-  state = { modal: false,
-    profile: { email: '',
+  state = {
+    modal: false,
+    profile: {
+      email: '',
       password: '',
       full_name: '',
       graduation: '',
@@ -16,9 +18,11 @@ class SignUp extends Component {
       privacy: false,
       headline: '',
       major: '',
-      university: '' },
+      university: '',
+    },
     error: null,
-    uid: '' };
+    uid: '',
+  };
 
   toggle = () => this.setState(prevState => ({ modal: !prevState.modal }));
 
@@ -27,7 +31,7 @@ class SignUp extends Component {
     const { profile, uid } = this.state;
     const { history } = this.props;
     delete profile.password;
-    await db.createUserwithFields(uid, profile);
+    await User.create(uid)(profile);
 
     history.push('/');
   };

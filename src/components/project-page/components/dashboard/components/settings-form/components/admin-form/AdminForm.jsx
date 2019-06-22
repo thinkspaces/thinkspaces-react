@@ -6,22 +6,25 @@ import Option from '../../../option';
 import MultiValueLabel from '../../../multi-value-label';
 
 import SaveButton from '../../../../../../../shared/save-button';
-import { Project, Shared } from '../../../../../../../../firebase/models';
+import { Project, db } from '../../../../../../../../firebase';
 
 const AdminForm = ({ className, pid }) => {
   const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
   const [ adminState, setAdminState ] = useState([]);
 
-  const modifyForReactSelect = arrayOfUsersData => arrayOfUsersData.map(user => ({ ...user,
-    value: user.id,
-    label: user.username,
-    icon: user.profilepicture }));
+  const modifyForReactSelect = arrayOfUsersData =>
+    arrayOfUsersData.map(user => ({
+      ...user,
+      value: user.id,
+      label: user.username,
+      icon: user.profilepicture,
+    }));
 
   const handleSetup = async () => {
     setLoading(true);
     // fetch admin for project
-    const admin = await Project.getAdmin(pid);
+    const admin = await Project.getMembersFromFieldArray('admin')('users')(pid);
     // modify data for use with react select
     setAdminState(modifyForReactSelect(admin));
     setLoading(false);
@@ -36,9 +39,11 @@ const AdminForm = ({ className, pid }) => {
     setSuccess(false);
     setLoading(true);
     // delete all previous users from admin
-    await Project.dropAdmin(pid);
+    await db.update('projects')(pid)({ admin: [] });
     // save project
-    await Promise.all(adminState.map(async user => Project.addAdminUser(pid, user.id)));
+    await Promise.all(
+      adminState.map(async user => Project.updateFieldArrayWithId(db.add)('admin')(pid)(user.id)),
+    );
     // stop loading
     setLoading(false);
     setSuccess(true);
@@ -52,16 +57,16 @@ const AdminForm = ({ className, pid }) => {
   }, []);
 
   const filterUsers = async (usernameInput) => {
-    const query = Shared.constructQuery('users').where('username', '>=', usernameInput);
-    const users = await Shared.getFromQuery(query);
+    const users = await db.getAllByFilter('users')(db.where('username')('>=')(usernameInput));
     return modifyForReactSelect(users);
   };
 
-  const promiseOptions = usernameInput => new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(filterUsers(usernameInput));
-    }, 1000);
-  });
+  const promiseOptions = usernameInput =>
+    new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(filterUsers(usernameInput));
+      }, 1000);
+    });
 
   return (
     <section className={className}>

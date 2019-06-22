@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { SizeMe } from 'react-sizeme';
 import some from 'lodash/some';
+import { withRouter } from 'react-router-dom';
 
 import { Row } from 'reactstrap';
-import { auth } from '../../firebase';
-import { Project } from '../../firebase/models';
+import { db, auth } from '../../firebase';
 
 import Dashboard from './components/dashboard';
 import EditProjectButton from './components/edit-project-button';
 import BannerContent from './components/banner-content';
 import ProjectInfoContent from './components/project-info-content';
+import SocialContentSection from './components/social-content-section';
 
 const LoadingView = () => (
   <div
-    style={{ display: 'flex',
+    style={{
+      display: 'flex',
       height: '70vh',
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center' }}
+      alignItems: 'center',
+    }}
   >
     Loading ...
   </div>
@@ -30,24 +33,18 @@ const ProjectPage = (props) => {
   const [ editableState, setEditableState ] = useState(false);
   const [ pidState, setPidState ] = useState(undefined);
 
-  /**
-   * on mount:
-   * fetches the project from the database
-   * checks if the user can edit it
-   * updates state accordingly
-   */
   const handleMount = async () => {
     setLoadingState(true);
-    // get shortname from router params
-    // eslint-disable-next-line react/destructuring-assignment
+
     const { shortname } = props.match.params;
-    const pid = await Project.getIdFromShortname(shortname.trim());
-    if (pid !== undefined) {
-      // read project from database
-      const project = await Project.get(pid);
-      // set both the project and the pid
+    const projects = await db.getAllByFilter('projects')(
+      db.where('shortname')('==')(shortname.trim()),
+    );
+
+    if (projects !== undefined && projects.length === 1) {
+      const project = projects[0];
       setProjectDataState(project);
-      setPidState(pid);
+      setPidState(project.id);
       // a project is editable if the user either belongs to the team or the admin
       if (auth.isLoggedIn()) {
         const { uid: currentUserId } = auth.getUserInfo();
@@ -63,49 +60,44 @@ const ProjectPage = (props) => {
     setLoadingState(false);
   };
 
-  // call handleMount() once on mount
   useEffect(() => {
     handleMount();
   }, []);
 
-  const handleCloseDashboard = async () => {
-    window.location.reload();
-  };
+  const toggleDashboard = toggle => () => setShowDashboardState(toggle);
+  const {
+    location: { hash },
+  } = props;
 
-  const handleShowDashboard = async () => {
-    setShowDashboardState(true);
-  };
-
-  /**
-   * programmatic display of content
-   */
-  const render = () => {
-    if (loadingState) {
-      return <LoadingView />;
-    }
-    if (pidState && showDashboardState) {
-      return <Dashboard pid={pidState} handleCloseDashboard={handleCloseDashboard} />;
-    }
-    return (
-      <>
-        <EditProjectButton isOwner={editableState} onEdit={handleShowDashboard} />
-        <SizeMe>
-          {({ size }) => (
-            <Row>
-              <BannerContent
-                width={size.width}
-                name={projectDataState.name}
-                images={projectDataState.images}
-              />
-              <ProjectInfoContent project={projectDataState} />
-            </Row>
-          )}
-        </SizeMe>
-      </>
-    );
-  };
-
-  return <>{render()}</>;
+  if (loadingState) {
+    return <LoadingView />;
+  }
+  if (pidState && showDashboardState) {
+    return <Dashboard pid={pidState} handleCloseDashboard={toggleDashboard(false)} />;
+  }
+  return (
+    <>
+      <EditProjectButton isOwner={editableState} onEdit={toggleDashboard(true)} />
+      <SizeMe>
+        {({ size }) => (
+          <Row>
+            <BannerContent
+              width={size.width}
+              name={projectDataState.name}
+              images={projectDataState.images}
+            />
+            <ProjectInfoContent project={projectDataState} />
+          </Row>
+        )}
+      </SizeMe>
+      <SocialContentSection
+        isOwner={editableState}
+        projectId={pidState}
+        ourstory={projectDataState.about ? projectDataState.about : ''}
+        selected={hash}
+      />
+    </>
+  );
 };
 
-export default ProjectPage;
+export default withRouter(ProjectPage);

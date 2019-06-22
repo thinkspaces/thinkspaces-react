@@ -1,16 +1,18 @@
 import React, { useState, useEffect, memo } from 'react';
 import { Col, Row } from 'reactstrap';
-import { FacebookIcon,
+import {
+  FacebookIcon,
   FacebookShareButton,
   LinkedinShareButton,
   LinkedinIcon,
   TwitterShareButton,
-  TwitterIcon } from 'react-share';
+  TwitterIcon,
+} from 'react-share';
 
 // import idx from 'idx';
 import ViewProfileButton from '../view-profile-button';
 import ContactModal from '../../../shared/contact-modal';
-import { Project } from '../../../../firebase/models';
+import { Project } from '../../../../firebase';
 
 // TODO: fix contact section
 // TODO: since contact is not in the project dashboard yet
@@ -62,7 +64,7 @@ const TeamSection = ({ pid }) => {
   const [ teamState, setTeamState ] = useState([]);
 
   const handleMount = async () => {
-    const team = await Project.getTeam(pid);
+    const team = await Project.getMembersFromFieldArray('team')('users')(pid);
     setTeamState(team);
   };
 

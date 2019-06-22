@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import { Project } from '../../../../../../../../firebase/models';
+import { db } from '../../../../../../../../firebase';
 import SaveButton from '../../../../../../../shared/save-button';
 
 const PrivacyForm = ({ pid, className }) => {
@@ -15,11 +15,15 @@ const PrivacyForm = ({ pid, className }) => {
   // 2. it reduces unnecessary fields on Project creation
   // when rendering, the privacy fields in the db will be undefined, so rendering
   // should be done as if the privacy settings were lenient
-  const privacySettings = { visibleInSearch: { name: 'Visible in search',
-    help: `This setting prevents your project showing in search 
+  const privacySettings = {
+    visibleInSearch: {
+      name: 'Visible in search',
+      help: `This setting prevents your project showing in search 
       results, however it will continue to be available at 
       <a href="${ window.location.href }">${ window.location.href }</a>`,
-    checked: false } };
+      checked: false,
+    },
+  };
 
   /**
    * takes the hardcoded structure above and simplifies it for use with the db
@@ -39,7 +43,7 @@ const PrivacyForm = ({ pid, className }) => {
   const handleSetup = async () => {
     setLoading(true);
     // fetch project
-    const project = await Project.get(pid);
+    const project = await db.get('projects')(pid);
     // if it exists and has some settings, initialize them (otherwise start anew)
     const privacy = project.privacy && Object.keys(project.privacy).length > 0
       ? project.privacy
@@ -54,7 +58,7 @@ const PrivacyForm = ({ pid, className }) => {
     setSuccess(false);
     setLoading(true);
     // attempt save
-    await Project.update(pid, { privacy: privacyState });
+    await db.update('projects')(pid)({ privacy: privacyState });
     // stop load and set success
     setLoading(false);
     setSuccess(true);

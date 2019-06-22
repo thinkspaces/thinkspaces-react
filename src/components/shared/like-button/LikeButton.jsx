@@ -5,7 +5,7 @@ import { Icon } from 'react-icons-kit';
 import { ic_favorite_border } from 'react-icons-kit/md/ic_favorite_border';
 import { withRouter } from 'react-router-dom';
 import ReactGA from 'react-ga';
-import { auth, db } from '../../../firebase';
+import { db, auth } from '../../../firebase';
 import CantLikeModal from '../cant-like-modal';
 
 class LikeButton extends Component {
@@ -36,16 +36,18 @@ class LikeButton extends Component {
     if (likes[user.uid]) {
       // remove like
       delete likes[user.uid];
-      await db.updateLikes(pid, likes);
+      await db.update('projects')(pid)({ likes, likesCount: Object.keys(likes).length });
       updateLikes(likes);
       this.setState({ isLiked: false });
     } else {
       // give like
-      ReactGA.event({ category: 'Engagement',
+      ReactGA.event({
+        category: 'Engagement',
         action: 'Clicked on project',
-        label: user.displayName });
+        label: user.displayName,
+      });
       likes[user.uid] = true;
-      await db.updateLikes(pid, likes);
+      await db.update('projects')(pid)({ likes, likesCount: Object.keys(likes).length });
       updateLikes(likes);
       this.setState({ isLiked: true });
     }
