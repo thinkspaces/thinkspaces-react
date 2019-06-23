@@ -1,9 +1,9 @@
 .save {
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-} 
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
 
 .save > * {
-    margin-right: 10px;
+  margin-right: 10px;
 }

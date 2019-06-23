@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 
 import { withRouter, Link } from 'react-router-dom';
 
-import { Button, FormGroup, Label, Input, Form, FormFeedback } from 'reactstrap';
+import { FormGroup, Label, Input, Form, FormFeedback } from 'reactstrap';
 import { auth } from '../../../../firebase';
+import Button from '../../../shared/button';
 
 class Login extends Component {
   state = { email: '', password: '', error: null };
@@ -53,7 +54,7 @@ class Login extends Component {
             />
             <FormFeedback>{error}</FormFeedback>
           </FormGroup>
-          <Button disabled={!isEnabled} color="danger">
+          <Button disabled={!isEnabled} variant="filled" color="#384EFA">
             Submit
           </Button>
           <Link style={{ marginLeft: 10 }} to={`${ match.url }/forgotpassword`}>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Button, FormGroup, Label, Input, Form } from 'reactstrap';
+import { FormGroup, Label, Input, Form } from 'reactstrap';
+import Button from '../shared/button';
 import { auth } from '../../firebase';
 
 class ForgotPassword extends Component {
@@ -29,9 +30,7 @@ class ForgotPassword extends Component {
               onChange={event => this.setState({ email: event.target.value })}
             />
           </FormGroup>
-          <Button outline color="primary" onClick={this.handlePassword}>
-            Send Reset Email
-          </Button>
+          <Button onClick={this.handlePassword}>Send Reset Email</Button>
         </Form>
       </div>
     );

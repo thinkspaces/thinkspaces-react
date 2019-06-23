@@ -4,13 +4,15 @@ import some from 'lodash/some';
 import { withRouter } from 'react-router-dom';
 
 import { Row } from 'reactstrap';
-import { db, auth } from '../../firebase';
+import { auth } from '../../firebase';
+import { Project } from '../../firebase/models';
 
 import Dashboard from './components/dashboard';
-import EditProjectButton from './components/edit-project-button';
+// import EditProjectButton from './components/edit-project-button';
 import BannerContent from './components/banner-content';
 import ProjectInfoContent from './components/project-info-content';
 import SocialContentSection from './components/social-content-section';
+import Button from '../shared/button';
 
 const LoadingView = () => (
   <div
@@ -23,6 +25,24 @@ const LoadingView = () => (
     }}
   >
     Loading ...
+  </div>
+);
+
+const EditProjectBanner = ({ onEdit }) => (
+  <div
+    style={{
+      backgroundColor: '#ff6e6e',
+      color: 'white',
+      padding: 40,
+      fontWeight: 'bold',
+      display: 'flex',
+      justifyContent: 'space-around',
+    }}
+  >
+    <h5 style={{ marginTop: 10 }}>You are viewing the live version of your project.</h5>
+    <Button variant="outlined" onClick={onEdit}>
+      Edit Project
+    </Button>
   </div>
 );
 
@@ -64,10 +84,42 @@ const ProjectPage = (props) => {
     handleMount();
   }, []);
 
-  const toggleDashboard = toggle => () => setShowDashboardState(toggle);
-  const {
-    location: { hash },
-  } = props;
+  const handleCloseDashboard = async () => {
+    window.location.reload();
+  };
+
+  const handleShowDashboard = async () => {
+    setShowDashboardState(true);
+  };
+
+  /**
+   * programmatic display of content
+   */
+  const render = () => {
+    if (loadingState) {
+      return <LoadingView />;
+    }
+    if (pidState && showDashboardState) {
+      return <Dashboard pid={pidState} handleCloseDashboard={handleCloseDashboard} />;
+    }
+    return (
+      <>
+        {editableState ? <EditProjectBanner onEdit={handleShowDashboard} /> : <div />}
+        <SizeMe>
+          {({ size }) => (
+            <Row>
+              <BannerContent
+                width={size.width}
+                name={projectDataState.name}
+                images={projectDataState.images}
+              />
+              <ProjectInfoContent project={projectDataState} />
+            </Row>
+          )}
+        </SizeMe>
+      </>
+    );
+  };
 
   if (loadingState) {
     return <LoadingView />;

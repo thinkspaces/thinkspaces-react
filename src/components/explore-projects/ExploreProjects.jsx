@@ -34,8 +34,7 @@ class ExploreProjects extends Component {
     return (
       <div>
         <h2 style={headerStyle}>All Projects</h2>
-        <Filter types={filterTypes} />
-        <br />
+        <Filter types={filterTypes} projects={projects} />
         <Row>
           {projects.map((p, i) => (
             <Col sm key={i}>
@@ -45,11 +44,7 @@ class ExploreProjects extends Component {
                 shortname={p.shortname}
                 name={p.name}
                 id={p.id}
-                // title={p.title}
-                // image={p.images[0]}
-                // text={p.card_des}
-                // likes={p.likes}
-                // updateLikes={likes => this.updateLikes(likes, i)}
+                text={p.card_des}
               />
             </Col>
           ))}

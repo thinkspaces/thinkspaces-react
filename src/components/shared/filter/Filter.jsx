@@ -6,7 +6,7 @@ import { db } from '../../../firebase';
 import FilterDropdown from './components/filter-dropdown';
 import SearchBar from './components/search-bar';
 
-const Filter = ({ types }) => {
+const Filter = ({ types, projects }) => {
   const [ categories, setCategories ] = useState([]);
   const [ toggles, setToggles ] = useState([]);
 
@@ -38,6 +38,8 @@ const Filter = ({ types }) => {
   };
 
   const onSelectTag = (i, j) => {
+    console.log('i', i);
+    console.log('j', j);
     setCategories(prevState => [
       ...prevState.slice(0, i),
       [

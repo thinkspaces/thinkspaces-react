@@ -1,17 +1,42 @@
 import React, { Component } from 'react';
 import sizeMe from 'react-sizeme';
+import styled from 'styled-components';
 
-import { Button, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
+import Button from '../shared/button';
 import ProjectCard from '../shared/project-card';
-// import SubmitProjectButton from '../shared/submit-project-button';
 import CreateProject from '../create-project';
 
 import { db } from '../../firebase';
-import styles from './Home.module.css';
 
-const headerStyle = { margin: '50px 0px', textAlign: 'center' };
-const buttonStyle = { margin: '20px 10px' };
-const trendingStyle = { padding: '5px' };
+const Header = styled.div`
+  margin: 50 0;
+`;
+
+const SectionTitle = styled.h3`
+  padding: 5px;
+`;
+
+const BannerContainer = styled.div`
+  span {
+    font-size: 20px;
+    color: #ff6e6e;
+  }
+`;
+
+const HomeBanner = ({ goToProjects, goToAbout }) => (
+  <BannerContainer>
+    <Button variant="link" onClick={goToAbout}>
+      Learn More
+    </Button>
+    <span>&emsp; | &emsp;</span>
+    <CreateProject />
+    <span>&emsp; | &emsp;</span>
+    <Button variant="link" onClick={goToProjects}>
+      Sign Up
+    </Button>
+  </BannerContainer>
+);
 
 class Home extends Component {
   state = { projects: [] };
@@ -35,6 +60,11 @@ class Home extends Component {
     history.push('/projects');
   };
 
+  goToAbout = () => {
+    const { history } = this.props;
+    history.push('/about');
+  };
+
   render() {
     const { projects } = this.state;
     const {
@@ -42,23 +72,17 @@ class Home extends Component {
     } = this.props;
     return (
       <div>
-        <div style={headerStyle}>
-          <h1>Thinkspaces</h1>
-          <h3>Find and work on projects started by Yalies</h3>
-          <div className={styles.buttonsWrap}>
-            <Button onClick={this.goToProjects} style={buttonStyle} outline>
-              Browse Projects
-            </Button>
-            <CreateProject />
-          </div>
-        </div>
+        <Header>
+          <h1>Find any opportunity anytime. </h1>
+          <HomeBanner goToProjects={this.goToProjects} goToAbout={this.goToAbout} />
+        </Header>
         <br />
-        <h3 style={trendingStyle}>
+        <SectionTitle>
           <span role="img" aria-label="Fire">
             🔥
           </span>
           &nbsp;Noteworthy
-        </h3>
+        </SectionTitle>
         <Row>
           {projects.slice(0, 3).map((p, i) => (
             <Col sm key={i}>
@@ -67,7 +91,7 @@ class Home extends Component {
                 key={i}
                 id={p.id}
                 shortname={p.shortname}
-                title={p.title}
+                name={p.name}
                 image={p.images[0]}
                 text={p.card_des}
                 likes={p.likes}
@@ -76,12 +100,12 @@ class Home extends Component {
             </Col>
           ))}
         </Row>
-        <h3 style={trendingStyle}>
+        <SectionTitle>
           <span role="img" aria-label="BikingMan">
             🚴‍
           </span>
           &nbsp;Up and Coming
-        </h3>
+        </SectionTitle>
         <Row>
           {projects.slice(3, 6).map((p, i) => (
             <Col sm key={i}>

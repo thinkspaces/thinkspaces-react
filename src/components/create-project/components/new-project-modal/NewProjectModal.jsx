@@ -35,6 +35,7 @@ const NewProjectModal = ({ className, open, onClose, onCreate, loading }) => {
           placeholder="e.g. Thinkspaces"
         />
         <SaveButton
+          disabled={name.trim().length === 0}
           type="button"
           loading={loading}
           text="Get started"

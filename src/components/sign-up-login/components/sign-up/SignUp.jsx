@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 
 import { withRouter } from 'react-router-dom';
-import { Button, FormGroup, Label, Input, Form, FormFeedback } from 'reactstrap';
+import { FormGroup, Label, Input, Form, FormFeedback } from 'reactstrap';
 import FinishProfileModal from '../finish-profile-modal';
 import { User, auth } from '../../../../firebase';
+import Button from '../../../shared/button';
 
 class SignUp extends Component {
   state = {
@@ -111,10 +112,11 @@ class SignUp extends Component {
             onChange={this.onValueChange}
           />
           <Button
+            variant="filled"
             onClick={this.createProfile}
             style={{ marginTop: 10 }}
             disabled={!isEnabled}
-            color="danger"
+            color="#384EFA"
           >
             Submit
           </Button>

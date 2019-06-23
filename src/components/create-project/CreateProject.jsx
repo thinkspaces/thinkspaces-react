@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Project, db } from '../../firebase';
 import { getUserInfo } from '../../firebase/auth';
 
-import CreateButton from './components/create-button/CreateButton';
 import NewProjectModal from './components/new-project-modal/NewProjectModal';
+import Button from '../shared/button';
 
 import useModal from '../../hooks/use-modal';
 
@@ -17,21 +17,24 @@ const CreateProject = () => {
   const handleCreate = name => async () => {
     setLoading(true);
     // fetch current logged in user
-    const { uid } = getUserInfo();
-    if (!uid) {
+    const user = getUserInfo();
+    if (!user) {
+      setLoading(false);
       return;
     }
     // create the project with one field only for simplicity
     const pid = await Project.create({ name });
-    Project.updateFieldArrayWithId(db.add)('admin')(pid)(uid);
-    Project.updateFieldArrayWithId(db.add)('team')(pid)(uid);
+    Project.updateFieldArrayWithId(db.add)('admin')(pid)(user.uid);
+    Project.updateFieldArrayWithId(db.add)('team')(pid)(user.uid);
     // redirect
     window.location.replace(`/projects/${ pid }`);
   };
 
   return (
     <>
-      <CreateButton onClick={openModal(NEW_PROJECT_MODAL_ID)}>Create Project</CreateButton>
+      <Button variant="link" onClick={openModal(NEW_PROJECT_MODAL_ID)}>
+        Submit a Project
+      </Button>
       <NewProjectModal
         open={isModalOpen(NEW_PROJECT_MODAL_ID)}
         onClose={closeModal}
