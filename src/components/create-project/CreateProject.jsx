@@ -5,6 +5,7 @@ import { getUserInfo } from '../../firebase/auth';
 
 import CreateButton from './components/create-button/CreateButton';
 import NewProjectModal from './components/new-project-modal/NewProjectModal';
+import { BannerContainer, StyledLink } from '../../design-language/design-language';
 
 import useModal from '../../hooks/use-modal';
 
@@ -31,7 +32,9 @@ const CreateProject = () => {
 
   return (
     <>
-      <CreateButton onClick={openModal(NEW_PROJECT_MODAL_ID)}>Create Project</CreateButton>
+      <BannerContainer>
+        <StyledLink onClick={openModal(NEW_PROJECT_MODAL_ID)}> Create a Project </StyledLink>
+      </BannerContainer>
       <NewProjectModal
         open={isModalOpen(NEW_PROJECT_MODAL_ID)}
         onClose={closeModal}
