@@ -6,6 +6,7 @@ import './ProjectCard.css';
 import ReactGA from 'react-ga';
 import { Row, Col } from 'reactstrap';
 import LikeButton from '../like-button';
+import { CardProjectName } from '../../../design-language/design-language';
 
 const Card = ({ width, children, onClick }) => (
   <div onClick={onClick} className="card" style={{ width: width <= 690 ? 'auto' : '318px' }}>
@@ -22,7 +23,7 @@ const CardImage = ({ image }) => (
 const CardTitle = ({ title, likes, pid, updateLikes }) => (
   <div className="card-border">
     <div id="project-title">
-      <h4>{title}</h4>
+      <CardProjectName>{title}</CardProjectName>
     </div>
   </div>
 );
@@ -45,8 +46,10 @@ class ProjectCard extends Component {
   openProject = () => {
     const { history, id, title, shortname } = this.props;
     ReactGA.event({ category: 'Engagement', action: 'Clicked on project', label: title });
-    console.log(shortname)
-    if (shortname !== undefined) { history.push(`/projects/${ shortname }`) }
+    console.log(shortname);
+    if (shortname !== undefined) {
+      history.push(`/projects/${ shortname }`);
+    }
   };
 
   render() {

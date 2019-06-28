@@ -6,8 +6,14 @@ import ReactGA from 'react-ga';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 // Font Awesome
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faPlus, faCircleNotch, faTimes, faRandom, faCheckCircle, faTimesCircle, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPlus,
+  faCircleNotch,
+  faTimes,
+  faRandom,
+  faCheckCircle,
+  faTimesCircle,
+  faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { Container } from 'reactstrap';
 import withAuthentication from '../utils/withAuthentication';
@@ -33,13 +39,24 @@ ReactGA.initialize('UA-128353649-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 // font awesome
-library.add(faPlus, faTimes, faCircleNotch, faRandom,
-  faCheckCircle, faTimesCircle, faExternalLinkAlt);
+library.add(
+  faPlus,
+  faTimes,
+  faCircleNotch,
+  faRandom,
+  faCheckCircle,
+  faTimesCircle,
+  faExternalLinkAlt,
+);
 
 class App extends Component {
   render() {
     return (
       <div className="App">
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans:700&display=swap"
+          rel="stylesheet"
+        />
         <Navbar />
         <Container style={mainContainerStyle}>
           <Route path="/" exact component={Home} />

@@ -8,7 +8,7 @@ export const StyledLink = styled('a')`
   font-size: 20px;
 `;
 
-export const GeneralButton = styled.button`
+export const GeneralButtonOutline = styled.button`
   background: transparent;
   border-radius: 3px;
   border: 2px solid #ff6e6e;
@@ -18,7 +18,22 @@ export const GeneralButton = styled.button`
 
   ${ props => props.primary
     && css`
-      background: palevioletred;
+      background: #ff6e6e;
+      color: white;
+    ` }
+`;
+
+export const GeneralButtonFilled = styled.button`
+  background: #ff6e6e;
+  border-radius: 3px;
+  border: 2px solid #ff6e6e;
+  color: white;
+  margin: 0.5em 1em;
+  padding: 0.25em 1em;
+
+  ${ props => props.primary
+    && css`
+      background: #ff6e6e;
       color: white;
     ` }
 `;
@@ -27,4 +42,9 @@ export const BannerContainer = styled.div`
   color: #ff6e6e;
   display: flex;
   flex-direction: row;
+`;
+
+export const CardProjectName = styled.h4`
+  font-weight: bold;
+  color: #2b2b2b;
 `;

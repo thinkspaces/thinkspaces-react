@@ -12,6 +12,7 @@ import { Collapse,
   DropdownToggle,
   DropdownItem,
   DropdownMenu } from 'reactstrap';
+import CreateProject from '../../create-project';
 import logo from '../../../assets/logo-circle.png';
 import AuthUserContext from '../../utils/AuthUserContext';
 import { auth } from '../../../firebase';
@@ -52,10 +53,10 @@ export default class DefNavbar extends Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/projects">Projects</NavLink>
+                <NavLink href="/projects">Explore Projects</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/profiles">People</NavLink>
+                <NavLink href={<CreateProject />}>Submit a Project</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/about">About</NavLink>

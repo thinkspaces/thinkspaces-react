@@ -33,7 +33,7 @@ const CreateProject = () => {
   return (
     <>
       <BannerContainer>
-        <StyledLink onClick={openModal(NEW_PROJECT_MODAL_ID)}> Create a Project </StyledLink>
+        <StyledLink onClick={openModal(NEW_PROJECT_MODAL_ID)}> Submit a Project </StyledLink>
       </BannerContainer>
       <NewProjectModal
         open={isModalOpen(NEW_PROJECT_MODAL_ID)}

@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import sizeMe from 'react-sizeme';
 
 import { Button, Row, Col } from 'reactstrap';
-import { BannerContainer, GeneralButton, StyledLink } from '../../design-language/design-language';
+import { BannerContainer,
+  GeneralButtonOutline,
+  GeneralButtonFilled,
+  StyledLink,
+  Title1 } from '../../design-language/design-language';
 import ProjectCard from '../shared/project-card';
 import SubmitProjectButton from '../shared/submit-project-button';
 import CreateProject from '../create-project';
@@ -33,6 +37,11 @@ class Home extends Component {
     history.push('/projects');
   };
 
+  goToAbout = () => {
+    const { history } = this.props;
+    history.push('/about');
+  };
+
   render() {
     const { projects } = this.state;
     const { size: { width } } = this.props;
@@ -43,7 +52,7 @@ class Home extends Component {
           <BannerContainer>
             <StyledLink onClick={this.goToProjects}> Sign Up &emsp;| &emsp;</StyledLink>
             <CreateProject />
-            <StyledLink onClick={this.goToProjects}> &emsp; | &emsp; Learn More </StyledLink>
+            <StyledLink onClick={this.goToAbout}> &emsp; | &emsp; Learn More </StyledLink>
           </BannerContainer>
         </div>
         <br />
