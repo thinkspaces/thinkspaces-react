@@ -28,6 +28,7 @@ class ExploreProjects extends Component {
 
   render() {
     const { projects, filterTypes } = this.state;
+    console.log(projects);
     const { size: { width } } = this.props;
     return (
       <div>
@@ -45,7 +46,7 @@ class ExploreProjects extends Component {
                 id={p.id}
                 // title={p.title}
                 // image={p.images[0]}
-                // text={p.card_des}
+                text={p.card_des}
                 // likes={p.likes}
                 // updateLikes={likes => this.updateLikes(likes, i)}
               />

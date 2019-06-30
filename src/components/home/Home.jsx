@@ -6,7 +6,7 @@ import { BannerContainer,
   GeneralButtonOutline,
   GeneralButtonFilled,
   StyledLink,
-  Title1 } from '../../design-language/design-language';
+  Title1 } from '../../design-language';
 import ProjectCard from '../shared/project-card';
 import SubmitProjectButton from '../shared/submit-project-button';
 import CreateProject from '../create-project';
@@ -70,7 +70,7 @@ class Home extends Component {
                 key={i}
                 id={p.id}
                 shortname={p.shortname}
-                title={p.title}
+                name={p.name}
                 image={p.images[0]}
                 text={p.card_des}
                 likes={p.likes}

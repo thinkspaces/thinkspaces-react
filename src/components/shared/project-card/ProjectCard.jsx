@@ -6,7 +6,7 @@ import './ProjectCard.css';
 import ReactGA from 'react-ga';
 import { Row, Col } from 'reactstrap';
 import LikeButton from '../like-button';
-import { CardProjectName } from '../../../design-language/design-language';
+import { CardProjectName } from '../../../design-language';
 
 const Card = ({ width, children, onClick }) => (
   <div onClick={onClick} className="card" style={{ width: width <= 690 ? 'auto' : '318px' }}>

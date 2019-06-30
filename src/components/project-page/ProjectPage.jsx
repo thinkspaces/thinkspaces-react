@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SizeMe } from 'react-sizeme';
 import some from 'lodash/some';
 
-import { Row } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import { auth } from '../../firebase';
 import { Project } from '../../firebase/models';
 
@@ -10,6 +10,7 @@ import Dashboard from './components/dashboard';
 import EditProjectButton from './components/edit-project-button';
 import BannerContent from './components/banner-content';
 import ProjectInfoContent from './components/project-info-content';
+import { InverseButtonOutline } from '../../design-language/design-language';
 
 const LoadingView = () => (
   <div
@@ -20,6 +21,20 @@ const LoadingView = () => (
       alignItems: 'center' }}
   >
     Loading ...
+  </div>
+);
+
+const EditProjectBanner = ({ onEdit }) => (
+  <div
+    style={{ backgroundColor: '#ff6e6e',
+      color: 'white',
+      padding: 40,
+      fontWeight: 'bold',
+      display: 'flex',
+      justifyContent: 'space-around' }}
+  >
+    <h5 style={{ marginTop: 10 }}>You are viewing the live version of your project.</h5>
+    <InverseButtonOutline onClick={onEdit}> Edit Project </InverseButtonOutline>
   </div>
 );
 
@@ -88,7 +103,7 @@ const ProjectPage = (props) => {
     }
     return (
       <>
-        <EditProjectButton isOwner={editableState} onEdit={handleShowDashboard} />
+        {editableState ? <EditProjectBanner onEdit={handleShowDashboard} /> : <div />}
         <SizeMe>
           {({ size }) => (
             <Row>
