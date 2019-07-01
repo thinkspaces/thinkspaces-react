@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { BlueButtonFilled } from '../../../design-language/design-language';
+import { GeneralButtonFilled } from '../../../design-language/design-language';
 
 import styles from './SaveButton.module.css';
 
@@ -13,10 +13,10 @@ const SaveButton = ({ loading,
   type = 'button',
   disabled = false,
   text = 'Save' }) => (
-    <div>
-      <BlueButtonFilled type={type} onClick={onClick} disabled={disabled}>
+    <div className={styles.save}>
+      <GeneralButtonFilled type={type} onClick={onClick} disabled={disabled}>
         {text}
-      </BlueButtonFilled>
+      </GeneralButtonFilled>
       {loading ? (
         <div className="fade-in-animation">
           <FontAwesomeIcon icon="circle-notch" spin />

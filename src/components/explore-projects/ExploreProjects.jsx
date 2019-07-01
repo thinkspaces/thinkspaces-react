@@ -33,8 +33,7 @@ class ExploreProjects extends Component {
     return (
       <div>
         <h2 style={headerStyle}>All Projects</h2>
-        <Filter types={filterTypes} />
-        <br />
+        <Filter types={filterTypes} projects={projects} />
         <Row>
           {projects.map((p, i) => (
             <Col sm key={i}>

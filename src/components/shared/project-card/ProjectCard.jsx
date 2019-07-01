@@ -23,7 +23,7 @@ const CardImage = ({ image }) => (
 const CardTitle = ({ title, likes, pid, updateLikes }) => (
   <div className="card-border">
     <div id="project-title">
-      <CardProjectName>{title}</CardProjectName>
+      <h4>{title}</h4>
     </div>
   </div>
 );
