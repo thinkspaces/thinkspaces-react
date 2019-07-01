@@ -52,9 +52,7 @@ const Filter = ({ types, projects }) => {
 
   return (
     <div>
-      <Row>
-        <SearchBar categories={categories} handleCancel={onSelectTag} />
-      </Row>
+      <SearchBar categories={categories} handleCancel={onSelectTag} />
       <Row>
         {categories.map((category, i) => (
           <FilterDropdown
