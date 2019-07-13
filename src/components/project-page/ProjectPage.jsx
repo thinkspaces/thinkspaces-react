@@ -37,7 +37,7 @@ class ProjectPage extends Component {
   saveChanges = async () => {
     const { project, pid } = this.state;
 
-    ReactGA.event({ category: 'Edit Project', action: 'Saved', label: uid });
+    ReactGA.event({ category: 'Engagement', action: 'Edit Project', label: project.title });
     await db.saveProjectChanges(project, pid);
     this.setState({ isEditing: false });
   };
