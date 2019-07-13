@@ -3,8 +3,8 @@ import { SizeMe } from 'react-sizeme';
 import queryString from 'query-string';
 
 import { Row } from 'reactstrap';
+import ReactGA from 'react-ga';
 import { db, auth } from '../../firebase';
-
 import EditProject from './components/edit-project';
 import SocialContentSection from './components/social-content-section';
 import EditProjectButton from './components/edit-project-button';
@@ -37,7 +37,7 @@ class ProjectPage extends Component {
   saveChanges = async () => {
     const { project, pid } = this.state;
 
-    // ReactGA.event({ category: 'Edit Profile', action: 'Saved', label: uid });
+    ReactGA.event({ category: 'Edit Project', action: 'Saved', label: uid });
     await db.saveProjectChanges(project, pid);
     this.setState({ isEditing: false });
   };
