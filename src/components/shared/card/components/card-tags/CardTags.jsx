@@ -23,6 +23,7 @@ const CardTags = ({ tags, allTags }) => {
 
 CardTags.defaultProps = {
   tags: [],
+  allTags: [],
 };
 
 export default CardTags;

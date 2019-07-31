@@ -67,7 +67,7 @@ const ProjectPage = ({ match, location }) => {
     return <Dashboard pid={pidState} handleCloseDashboard={toggleDashboard(false)} />;
   }
   return (
-    <>
+    <section>
       {editableState ? <EditProjectBanner onEdit={toggleDashboard(true)} /> : <div />}
       <Row>
         <BannerContent name={projectDataState.name} images={projectDataState.images} />
@@ -79,7 +79,7 @@ const ProjectPage = ({ match, location }) => {
         ourstory={projectDataState.about ? projectDataState.about : ''}
         selected={location.hash}
       />
-    </>
+    </section>
   );
 };
 

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import sizeMe from 'react-sizeme';
 import styled from 'styled-components';
 
 import { Row, Col } from 'reactstrap';
 import Banner from './components/banner';
-import ProjectCard from '../shared/project-card';
+import Card from '../shared/card';
 
 import { db } from '../../firebase';
 
@@ -16,8 +15,9 @@ const SectionTitle = styled.h3`
   padding: 5px;
 `;
 
-const Home = ({ size, history }) => {
+const Home = ({ history }) => {
   const [ projects, setProjects ] = useState([]);
+  const [ allTags, setAllTags ] = useState([]);
 
   useEffect(() => {
     const init = async () => {
@@ -25,18 +25,16 @@ const Home = ({ size, history }) => {
         db.orderBy('likesCount')('desc'),
         db.limit(6),
       );
+
+      const _tags = await db.getAll('tags');
+
+      setAllTags(_tags);
       setProjects(_projects);
     };
 
     init();
   }, []);
 
-  const updateLikes = (likes, index) => {
-    projects[index].likes = likes;
-    setProjects(projects);
-  };
-
-  const { width } = size;
   return (
     <div>
       <Header>
@@ -56,16 +54,13 @@ const Home = ({ size, history }) => {
       <Row>
         {projects.slice(0, 3).map((p, i) => (
           <Col sm key={i}>
-            <ProjectCard
-              width={width}
-              key={i}
-              id={p.id}
-              shortname={p.shortname}
+            <Card
               name={p.name}
-              image={p.images[0]}
-              text={p.card_des}
-              likes={p.likes}
-              updateLikes={likes => updateLikes(likes, i)}
+              shortname={p.shortname}
+              description={p.description}
+              image={p.images && p.images[0]}
+              tags={p.tags}
+              allTags={allTags}
             />
           </Col>
         ))}
@@ -79,16 +74,13 @@ const Home = ({ size, history }) => {
       <Row>
         {projects.slice(3, 6).map((p, i) => (
           <Col sm key={i}>
-            <ProjectCard
-              width={width}
-              key={i}
-              id={p.id}
+            <Card
+              name={p.name}
               shortname={p.shortname}
-              title={p.title}
-              image={p.images[0]}
-              text={p.card_des}
-              likes={p.likes}
-              updateLikes={likes => this.updateLikes(likes, i)}
+              description={p.description}
+              image={p.images && p.images[0]}
+              tags={p.tags}
+              allTags={allTags}
             />
           </Col>
         ))}
@@ -97,4 +89,4 @@ const Home = ({ size, history }) => {
   );
 };
 
-export default sizeMe()(Home);
+export default Home;
