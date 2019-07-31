@@ -1,152 +1,83 @@
 import React, { useState, useEffect } from 'react';
-import { SizeMe } from 'react-sizeme';
+import styled from 'styled-components';
 import some from 'lodash/some';
 import { withRouter } from 'react-router-dom';
 
 import { Row } from 'reactstrap';
-import { auth } from '../../firebase';
-import { Project } from '../../firebase/models';
+import { auth, db } from '../../firebase';
 
 import Dashboard from './components/dashboard';
-// import EditProjectButton from './components/edit-project-button';
 import BannerContent from './components/banner-content';
 import ProjectInfoContent from './components/project-info-content';
 import SocialContentSection from './components/social-content-section';
-import Button from '../shared/button';
+import EditProjectBanner from './components/edit-project-banner';
 
-const LoadingView = () => (
-  <div
-    style={{
-      display: 'flex',
-      height: '70vh',
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }}
-  >
-    Loading ...
-  </div>
-);
+const LoadingView = styled.div`
+  display: flex;
+  height: 70vh;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
 
-const EditProjectBanner = ({ onEdit }) => (
-  <div
-    style={{
-      backgroundColor: '#ff6e6e',
-      color: 'white',
-      padding: 40,
-      fontWeight: 'bold',
-      display: 'flex',
-      justifyContent: 'space-around',
-    }}
-  >
-    <h5 style={{ marginTop: 10 }}>You are viewing the live version of your project.</h5>
-    <Button variant="outlined" onClick={onEdit}>
-      Edit Project
-    </Button>
-  </div>
-);
-
-const ProjectPage = (props) => {
+const ProjectPage = ({ match, location }) => {
   const [ loadingState, setLoadingState ] = useState(false);
   const [ showDashboardState, setShowDashboardState ] = useState(false);
   const [ projectDataState, setProjectDataState ] = useState({});
   const [ editableState, setEditableState ] = useState(false);
-  const [ pidState, setPidState ] = useState(undefined);
-
-  const handleMount = async () => {
-    setLoadingState(true);
-
-    const { shortname } = props.match.params;
-    const projects = await db.getAllByFilter('projects')(
-      db.where('shortname')('==')(shortname.trim()),
-    );
-
-    if (projects !== undefined && projects.length === 1) {
-      const project = projects[0];
-      setProjectDataState(project);
-      setPidState(project.id);
-      // a project is editable if the user either belongs to the team or the admin
-      if (auth.isLoggedIn()) {
-        const { uid: currentUserId } = auth.getUserInfo();
-        if (currentUserId) {
-          const editable = some(project.team, id => id === currentUserId)
-            || some(project.admin, id => id === currentUserId)
-            || project.owner === currentUserId;
-          // set whether or not editable
-          setEditableState(editable);
-        }
-      }
-    }
-    setLoadingState(false);
-  };
+  const [ pidState, setPidState ] = useState(null);
 
   useEffect(() => {
-    handleMount();
+    const init = async () => {
+      setLoadingState(true);
+
+      const { shortname } = match.params;
+      const projects = await db.getAllByFilter('projects')(
+        db.where('shortname')('==')(shortname.trim()),
+      );
+
+      if (projects !== undefined && projects.length === 1) {
+        const project = projects[0];
+        setProjectDataState(project);
+        setPidState(project.id);
+        // a project is editable if the user either belongs to the team or the admin
+        if (auth.isLoggedIn()) {
+          const { uid: currentUserId } = auth.getUserInfo();
+          if (currentUserId) {
+            const editable = some(project.team, id => id === currentUserId)
+              || some(project.admin, id => id === currentUserId)
+              || project.owner === currentUserId;
+            // set whether or not editable
+            setEditableState(editable);
+          }
+        }
+      }
+      setLoadingState(false);
+    };
+
+    init();
   }, []);
 
-  const handleCloseDashboard = async () => {
-    window.location.reload();
-  };
-
-  const handleShowDashboard = async () => {
-    setShowDashboardState(true);
-  };
-
-  /**
-   * programmatic display of content
-   */
-  const render = () => {
-    if (loadingState) {
-      return <LoadingView />;
-    }
-    if (pidState && showDashboardState) {
-      return <Dashboard pid={pidState} handleCloseDashboard={handleCloseDashboard} />;
-    }
-    return (
-      <>
-        {editableState ? <EditProjectBanner onEdit={handleShowDashboard} /> : <div />}
-        <SizeMe>
-          {({ size }) => (
-            <Row>
-              <BannerContent
-                width={size.width}
-                name={projectDataState.name}
-                images={projectDataState.images}
-              />
-              <ProjectInfoContent project={projectDataState} />
-            </Row>
-          )}
-        </SizeMe>
-      </>
-    );
-  };
+  const toggleDashboard = toggle => () => setShowDashboardState(toggle);
 
   if (loadingState) {
-    return <LoadingView />;
+    return <LoadingView>Loading ...</LoadingView>;
   }
   if (pidState && showDashboardState) {
     return <Dashboard pid={pidState} handleCloseDashboard={toggleDashboard(false)} />;
   }
   return (
     <>
-      <EditProjectButton isOwner={editableState} onEdit={toggleDashboard(true)} />
-      <SizeMe>
-        {({ size }) => (
-          <Row>
-            <BannerContent
-              width={size.width}
-              name={projectDataState.name}
-              images={projectDataState.images}
-            />
-            <ProjectInfoContent project={projectDataState} />
-          </Row>
-        )}
-      </SizeMe>
+      {editableState ? <EditProjectBanner onEdit={toggleDashboard(true)} /> : <div />}
+      <Row>
+        <BannerContent name={projectDataState.name} images={projectDataState.images} />
+        <ProjectInfoContent project={projectDataState} />
+      </Row>
       <SocialContentSection
         isOwner={editableState}
         projectId={pidState}
         ourstory={projectDataState.about ? projectDataState.about : ''}
-        selected={hash}
+        selected={location.hash}
       />
     </>
   );

@@ -9,7 +9,6 @@ import {
   TwitterIcon,
 } from 'react-share';
 
-// import idx from 'idx';
 import ViewProfileButton from '../view-profile-button';
 import ContactModal from '../../../shared/contact-modal';
 import { Project } from '../../../../firebase';
@@ -63,13 +62,12 @@ const SocialSection = ({ shortname }) => (
 const TeamSection = ({ pid }) => {
   const [ teamState, setTeamState ] = useState([]);
 
-  const handleMount = async () => {
-    const team = await Project.getMembersFromFieldArray('team')('users')(pid);
-    setTeamState(team);
-  };
-
   useEffect(() => {
-    handleMount();
+    const init = async () => {
+      const team = await Project.getMembersFromFieldArray('team')('users')(pid);
+      setTeamState(team);
+    };
+    init();
   }, [ pid ]);
 
   return (
@@ -100,11 +98,11 @@ const AboutSection = ({ about }) => (
 );
 
 // TODO: need section not yet in database
-const NeedSection = ({ need }) => (
-  <InfoView title="Who we need">
-    <div>{need}</div>
-  </InfoView>
-);
+// const NeedSection = ({ need }) => (
+//   <InfoView title="Who we need">
+//     <div>{need}</div>
+//   </InfoView>
+// );
 
 const InfoView = ({ title, children }) => (
   <Row style={{ marginBottom: 20 }}>
@@ -115,17 +113,18 @@ const InfoView = ({ title, children }) => (
   </Row>
 );
 
-const ProjectInfoContent = ({ project: { name, shortname, contact, id, links, description } }) => (
+const ProjectInfoContent = ({
+  project: { name, shortname, contact, id, links, description, team },
+}) => (
   <Col>
     <div style={{ marginTop: 150 }} />
     {shortname && <SocialSection shortname={shortname} />}
     {contact && <ModalSection name={name} contact={contact} projectId={id} />}
-    <TeamSection pid={id} />
+    {team && <TeamSection pid={id} />}
     {links && <ContactSection links={links} />}
     {description && <AboutSection about={description} />}
     {/* {need && <NeedSection need={need} />} */}
   </Col>
 );
-// return <div>Loading...</div>;
 
 export default memo(ProjectInfoContent);

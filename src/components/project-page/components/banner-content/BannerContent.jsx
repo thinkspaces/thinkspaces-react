@@ -20,8 +20,8 @@ const BannerImageCarousel = ({ images }) => (
   </div>
 );
 
-const BannerContent = ({ width, name, images }) => (
-  <Col style={{ flexBasis: width < 720 ? 'auto' : 0 }}>
+const BannerContent = ({ name, images }) => (
+  <Col>
     <BannerTitle name={name} />
     <BannerImageCarousel images={images} />
   </Col>
