@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import getStore from './utils/redux-utils';
 import ScrollToTop from './components/utils/ScrollToTop';
 
 import './index.css';
@@ -8,10 +10,14 @@ import App from './components/app';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+const store = getStore();
+
 const app = (
   <BrowserRouter>
     <ScrollToTop>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </ScrollToTop>
   </BrowserRouter>
 );

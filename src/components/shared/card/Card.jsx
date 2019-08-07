@@ -36,7 +36,7 @@ const CardHeader = styled.div`
   max-height: min-content;
 `;
 
-const Card = ({ history, name, shortname, description, image, tags, allTags }) => {
+const Card = ({ history, name, shortname, description, image, tags }) => {
   const openProject = () => {
     if (shortname !== undefined) {
       history.push(`/projects/${ shortname }`);
@@ -49,7 +49,7 @@ const Card = ({ history, name, shortname, description, image, tags, allTags }) =
         <CardTitle title={name} />
         <CardImage image={image} />
       </CardHeader>
-      <CardTags tags={tags} allTags={allTags} />
+      <CardTags tags={tags} />
       <CardBody>{description}</CardBody>
     </Container>
   );

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -10,20 +10,12 @@ const Container = styled.div`
   padding: 10px 20px;
 `;
 
-const CardTags = ({ tags, allTags }) => {
-  const _tags = useMemo(() => allTags.filter(tag => tags.includes(tag.id)), [ tags, allTags ]);
-  return (
-    <Container>
-      {_tags.map(tag => (
-        <span>#{tag.name}</span>
-      ))}
-    </Container>
-  );
-};
+const CardTags = ({ tags }) => (
+  <Container>{tags.map(tag => tag && <span>#{tag.name}</span>)}</Container>
+);
 
 CardTags.defaultProps = {
   tags: [],
-  allTags: [],
 };
 
 export default CardTags;

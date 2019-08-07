@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import { Row, Col } from 'reactstrap';
 import Banner from './components/banner';
 import Card from '../shared/card';
 
-import { db } from '../../firebase';
+import useProjects from '../../hooks/use-projects';
 
 const Header = styled.div`
   margin: 50 0;
@@ -16,25 +16,7 @@ const SectionTitle = styled.h3`
 `;
 
 const Home = ({ history }) => {
-  const [ projects, setProjects ] = useState([]);
-  const [ allTags, setAllTags ] = useState([]);
-
-  useEffect(() => {
-    const init = async () => {
-      const _projects = await db.getAllByFilter('projects')(
-        db.orderBy('likesCount')('desc'),
-        db.limit(6),
-      );
-
-      const _tags = await db.getAll('tags');
-
-      setAllTags(_tags);
-      setProjects(_projects);
-    };
-
-    init();
-  }, []);
-
+  const projects = useProjects();
   return (
     <div>
       <Header>
@@ -60,7 +42,6 @@ const Home = ({ history }) => {
               description={p.description}
               image={p.images && p.images[0]}
               tags={p.tags}
-              allTags={allTags}
             />
           </Col>
         ))}
@@ -80,7 +61,6 @@ const Home = ({ history }) => {
               description={p.description}
               image={p.images && p.images[0]}
               tags={p.tags}
-              allTags={allTags}
             />
           </Col>
         ))}
