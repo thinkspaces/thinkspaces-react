@@ -2,22 +2,20 @@ import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import { db } from '../../../../firebase';
 
-import ProjectCard from '../../../shared/project-card';
+import Card from '../../../shared/card';
 import SubmitProjectButton from '../../../shared/submit-project-button';
 
-const ProjectGrid = ({ width, projects, updateLikes }) => (
+const ProjectGrid = ({ projects }) => (
   <Row>
     {projects.map((p, i) => (
       <Col sm key={i}>
-        <ProjectCard
-          width={width}
-          key={i}
-          id={p.id}
-          title={p.title}
-          image={p.images[0]}
-          text={p.card_des}
-          likes={p.likes}
-          updateLikes={likes => updateLikes(likes, i)}
+        <Card
+          name={p.name}
+          shortname={p.shortname}
+          description={p.description}
+          image={p.images && p.images[0]}
+          // likes={p.likes}
+          // updateLikes={likes => updateLikes(likes, i)}
         />
       </Col>
     ))}
@@ -29,6 +27,7 @@ class MyProjects extends Component {
 
   componentDidMount = async () => {
     const { uid } = this.props;
+    if (!uid) return;
     const projects = await db.getAllByFilter('projects')(db.where('team')('array-contains')(uid));
     this.setState({ projects });
   };
