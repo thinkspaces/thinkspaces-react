@@ -1,6 +1,5 @@
 /* eslint camelcase: 0 */
 import React, { Component } from 'react';
-import { SizeMe } from 'react-sizeme';
 import { Button, FormGroup, Input, Form } from 'reactstrap';
 import PostDropdown from '../../../shared/post-dropdown';
 import EditPostModal from '../../../shared/edit-post-modal';
@@ -144,42 +143,33 @@ class ProjectPosts extends Component {
     const { isOwner } = this.props;
     const { posts, description, editable, index } = this.state;
     return (
-      <SizeMe>
-        {({ size }) => (
-          <div
-            style={{
-              paddingLeft: size.width < 720 ? 0 : 50,
-              paddingRight: size.width < 720 ? 0 : 100,
-            }}
-          >
-            {editable ? (
-              <EditPostModal
-                post={posts[index].pid}
-                onSavePost={this.onSavePost}
-                description={description}
+      <div>
+        {editable ? (
+          <EditPostModal
+            post={posts[index].pid}
+            onSavePost={this.onSavePost}
+            description={description}
+            onChange={event => this.setState({ description: event.target.value })}
+            editable={editable}
+            toggle={() => this.setState({ editable: !editable })}
+          />
+        ) : (
+          <>
+            {isOwner ? (
+              <AuthSocialView
+                post_details={description}
+                createPost={this.createPost}
                 onChange={event => this.setState({ description: event.target.value })}
-                editable={editable}
-                toggle={() => this.setState({ editable: !editable })}
+                posts={posts}
+                onRemovePost={this.onRemovePost}
+                onEditPost={this.onEditPost}
               />
             ) : (
-              <div>
-                {isOwner ? (
-                  <AuthSocialView
-                    post_details={description}
-                    createPost={this.createPost}
-                    onChange={event => this.setState({ description: event.target.value })}
-                    posts={posts}
-                    onRemovePost={this.onRemovePost}
-                    onEditPost={this.onEditPost}
-                  />
-                ) : (
-                  <GuestSocialView posts={posts} />
-                )}
-              </div>
+              <GuestSocialView posts={posts} />
             )}
-          </div>
+          </>
         )}
-      </SizeMe>
+      </div>
     );
   }
 }

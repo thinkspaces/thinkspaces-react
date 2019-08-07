@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import sizeMe from 'react-sizeme';
 import ReactGA from 'react-ga';
 
 import { db, auth } from '../../firebase';
@@ -46,19 +45,16 @@ class ExploreProfiles extends Component {
   };
 
   render() {
-    const {
-      size: { width },
-    } = this.props;
     const { profiles, modal } = this.state;
     return (
       <div>
         <h2 style={{ marginBottom: '20px' }}>Find People</h2>
         <Filter />
         <SignUpModal isOpen={modal} toggle={this.toggle} signUp={this.gotoSignUp} />
-        <ProfileList width={width} profiles={profiles} openProfile={this.openProfile} />
+        {/* <ProfileList width={width} profiles={profiles} openProfile={this.openProfile} /> */}
       </div>
     );
   }
 }
 
-export default sizeMe()(ExploreProfiles);
+export default ExploreProfiles;

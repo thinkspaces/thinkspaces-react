@@ -5,7 +5,6 @@ import ReactGA from 'react-ga';
 import { Button, Row, Col } from 'reactstrap';
 import Avatar from 'react-avatar';
 
-import { SizeMe } from 'react-sizeme';
 import { withRouter } from 'react-router-dom';
 import ContactModal from '../../../shared/contact-modal';
 import { db } from '../../../../firebase';
@@ -51,17 +50,15 @@ const ProfileImage = ({ profilepicture, full_name }) => (
   </div>
 );
 
-const ProfileHeader = ({ profile, width }) => (
-  <Col style={{ flexBasis: width < 720 ? 'auto' : 0, marginBottom: width < 720 ? '80px' : 0 }}>
-    <div style={{ marginLeft: width < 720 ? 0 : '15%' }}>
-      <ProfileHeaderImage
-        profilepicture={profile.profilepicture}
-        full_name={profile.full_name}
-        email={profile.email}
-        graduation={profile.graduation}
-      />
-      <ProfileHeaderBody headline={profile.headline} />
-    </div>
+const ProfileHeader = ({ profile }) => (
+  <Col>
+    <ProfileHeaderImage
+      profilepicture={profile.profilepicture}
+      full_name={profile.full_name}
+      email={profile.email}
+      graduation={profile.graduation}
+    />
+    <ProfileHeaderBody headline={profile.headline} />
   </Col>
 );
 
@@ -104,7 +101,6 @@ class ProfileSummary extends Component {
     if (match.params.id) {
       const uid = match.params.id;
       const profile = await db.get('users')(uid);
-      // console.log(profile);
       this.setState({ uid, profile });
     }
   };
@@ -172,24 +168,18 @@ class ProfileSummary extends Component {
       );
     }
     return (
-      <div>
+      <>
         {profile && (
-          <div>
-            <SizeMe>
-              {({ size }) => (
-                <Row>
-                  <ProfileHeader profile={profile} width={size.width} />
-                  <ProfileDetails
-                    isMyProfile={uid === authUser.uid}
-                    profile={profile}
-                    toggleEdit={this.toggleEdit}
-                  />
-                </Row>
-              )}
-            </SizeMe>
-          </div>
+          <Row>
+            <ProfileHeader profile={profile} />
+            <ProfileDetails
+              isMyProfile={uid === authUser.uid}
+              profile={profile}
+              toggleEdit={this.toggleEdit}
+            />
+          </Row>
         )}
-      </div>
+      </>
     );
   }
 }

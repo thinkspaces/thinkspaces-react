@@ -1,17 +1,17 @@
 import React from 'react';
+import styled from 'styled-components';
 
-import './Footer.css';
-import { Container } from 'reactstrap';
-import sizeMe from 'react-sizeme';
+const Container = styled.footer`
+  padding-left: 5%
+  height: 60px;
+  line-height: 60px;
+  background-color: #f5f5f5;
 
-const Footer = ({ size }) => (
-  <footer className="footerStyle">
-    <Container>
-      <span className={`text-muted text-style ${ size.width < 375 && 'mobile' }`}>
-          © Thinkspaces 2018. All rights reserved.
-      </span>
-    </Container>
-  </footer>
-);
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+`;
 
-export default sizeMe()(Footer);
+const Footer = () => <Container>©Thinkspaces 2018. All rights reserved.</Container>;
+
+export default Footer;

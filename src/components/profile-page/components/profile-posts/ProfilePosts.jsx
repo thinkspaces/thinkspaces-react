@@ -1,6 +1,5 @@
 /* eslint camelcase: 0 */
 import React, { Component } from 'react';
-import { SizeMe } from 'react-sizeme';
 import { Button, FormGroup, Input, Form } from 'reactstrap';
 import PostDropdown from '../../../shared/post-dropdown';
 import EditPostModal from '../../../shared/edit-post-modal';
@@ -151,38 +150,27 @@ class ProfilePosts extends Component {
     return (
       <AuthUserContext.Consumer>
         {authUser => (
-          <SizeMe>
-            {({ size }) => (
-              <div
-                style={{
-                  paddingLeft: size.width < 720 ? 0 : 50,
-                  paddingRight: size.width < 720 ? 0 : 100,
-                }}
-              >
-                <div>
-                  {authUser.uid === uid ? (
-                    <AuthSocialView
-                      post_details={description}
-                      createPost={this.createPost}
-                      onChange={event => this.setState({ description: event.target.value })}
-                      posts={posts}
-                      onRemovePost={this.onRemovePost}
-                      onEditPost={this.onEditPost}
-                    />
-                  ) : (
-                    <GuestSocialView posts={posts} />
-                  )}
-                </div>
-                <EditPostModal
-                  onSavePost={this.onSavePost}
-                  description={description}
-                  onChange={event => this.setState({ description: event.target.value })}
-                  editable={editable}
-                  toggle={() => this.setState({ editable: !editable })}
-                />
-              </div>
+          <>
+            {authUser.uid === uid ? (
+              <AuthSocialView
+                post_details={description}
+                createPost={this.createPost}
+                onChange={event => this.setState({ description: event.target.value })}
+                posts={posts}
+                onRemovePost={this.onRemovePost}
+                onEditPost={this.onEditPost}
+              />
+            ) : (
+              <GuestSocialView posts={posts} />
             )}
-          </SizeMe>
+            <EditPostModal
+              onSavePost={this.onSavePost}
+              description={description}
+              onChange={event => this.setState({ description: event.target.value })}
+              editable={editable}
+              toggle={() => this.setState({ editable: !editable })}
+            />
+          </>
         )}
       </AuthUserContext.Consumer>
     );

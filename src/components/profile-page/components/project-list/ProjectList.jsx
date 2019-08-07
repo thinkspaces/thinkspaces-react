@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import sizeMe from 'react-sizeme';
 import { Row, Col } from 'reactstrap';
 import { db } from '../../../../firebase';
 
@@ -42,22 +41,19 @@ class MyProjects extends Component {
 
   render() {
     const { projects } = this.state;
-    const {
-      size: { width },
-    } = this.props;
     return (
-      <div style={{ paddingLeft: width <= '690' ? 0 : 50, paddingRight: width <= '690' ? 0 : 50 }}>
+      <section>
         {projects.length === 0 ? (
           <div>
             <h3>No projects yet. Change that by submitting an idea!</h3>
             <SubmitProjectButton />
           </div>
         ) : (
-          <ProjectGrid width={width} projects={projects} updateLikes={this.updateLikes} />
+          <ProjectGrid projects={projects} updateLikes={this.updateLikes} />
         )}
-      </div>
+      </section>
     );
   }
 }
 
-export default sizeMe()(MyProjects);
+export default MyProjects;
