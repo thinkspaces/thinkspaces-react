@@ -9,6 +9,7 @@ const renderProjects = projects =>
   projects.map((p, i) => (
     <Col sm key={i}>
       <Card
+        id={p.id}
         name={p.name}
         shortname={p.shortname}
         description={p.description}

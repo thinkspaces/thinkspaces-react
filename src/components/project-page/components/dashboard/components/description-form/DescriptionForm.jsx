@@ -2,14 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 
+import useProject from '../../../../../../hooks/use-project';
 import SaveButton from '../../../../../shared/save-button';
-import useFirestoreProject from '../../../../../../hooks/use-firestore-project';
 import { DescriptionSchema } from '../../validation';
 
-const initialValues = { name: '', description: '' };
-
 const DescriptionForm = ({ className, pid }) => {
-  const { values, success, loading, handleSave } = useFirestoreProject(pid, initialValues);
+  const { project, handleSave, success, loading } = useProject(pid);
   return (
     <section className={className}>
       <h2>Description</h2>
@@ -17,8 +15,8 @@ const DescriptionForm = ({ className, pid }) => {
         <Formik
           enableReinitialize
           validationSchema={DescriptionSchema}
-          initialValues={{ name: values.name, description: values.description }}
-          onSubmit={vals => handleSave(vals)}
+          initialValues={{ name: project.name, description: project.description }}
+          onSubmit={values => handleSave(values)}
           render={({ status }) => (
             <Form>
               <h5>Project name</h5>

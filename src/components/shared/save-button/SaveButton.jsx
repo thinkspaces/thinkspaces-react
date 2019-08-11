@@ -16,7 +16,7 @@ const SaveButton = ({
   text = 'Save',
 }) => (
   <div className={styles.save}>
-    <Button variant="filled" color="#384EFA" onClick={onClick} disabled={disabled}>
+    <Button type={type} variant="filled" color="#384EFA" onClick={onClick} disabled={disabled}>
       {text}
     </Button>
     {loading ? (

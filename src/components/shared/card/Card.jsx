@@ -36,10 +36,10 @@ const CardHeader = styled.div`
   max-height: min-content;
 `;
 
-const Card = ({ history, name, shortname, description, image, tags }) => {
+const Card = ({ id, history, name, shortname, description, image, tags }) => {
   const openProject = () => {
     if (shortname !== undefined) {
-      history.push(`/projects/${ shortname }`);
+      history.push(`/projects/${ shortname }`, { id });
     }
   };
 

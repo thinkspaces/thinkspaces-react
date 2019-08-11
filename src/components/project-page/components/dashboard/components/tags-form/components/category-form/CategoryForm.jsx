@@ -1,30 +1,50 @@
 import React from 'react';
+import { Formik } from 'formik';
 import styled from 'styled-components';
 import Select from 'react-select';
 import SaveButton from '../../../../../../../shared/save-button';
-import useTags from '../../../../../../../../hooks/use-tags';
+import useTag from '../../../../../../../../hooks/use-tag';
 
 const CategoryForm = ({ className, pid }) => {
-  const { handleSave, handleChange, success, loading, tags, chosenTags } = useTags(
-    pid,
-    'project-category',
-  );
+  const { tags, chosenTags, handleSave } = useTag(pid, 'project-category');
+  const submitForm = (values, { setSubmitting, setStatus }) => {
+    handleSave(values.chosenTags.map(tag => tag.id));
+    setSubmitting(false);
+    setStatus({ success: true });
+  };
+
   return (
     <article className={className}>
-      <h3>Category</h3>
-      <span className="helpText">
-        Choose tags that best describe the category or discipline your project falls under.
-      </span>
-      <Select
-        captureMenuScroll={false}
-        value={chosenTags}
-        isMulti
-        name="category"
-        options={tags}
-        onChange={handleChange}
-        classNamePrefix="select"
+      <Formik
+        enableReinitialize
+        initialValues={{ chosenTags }}
+        onSubmit={submitForm}
+        render={({ values, setFieldValue, handleSubmit, isSubmitting, status }) => (
+          <form onSubmit={handleSubmit}>
+            <h3>Category</h3>
+            <span className="helpText">
+              Choose tags that best describe the category or discipline your project falls under.
+            </span>
+            <Select
+              captureMenuScroll={false}
+              value={values.chosenTags}
+              getOptionLabel={option => option.name}
+              getOptionValue={option => option.id}
+              isMulti
+              name="category"
+              options={tags}
+              onChange={value => setFieldValue('chosenTags', value)}
+              classNamePrefix="select"
+            />
+            <SaveButton
+              type="submit"
+              disabled={isSubmitting}
+              success={status && status.success}
+              loading={isSubmitting}
+            />
+          </form>
+        )}
       />
-      <SaveButton loading={loading} disabled={loading} success={success} onClick={handleSave} />
     </article>
   );
 };

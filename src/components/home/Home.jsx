@@ -37,6 +37,7 @@ const Home = ({ history }) => {
         {projects.slice(0, 3).map((p, i) => (
           <Col sm key={i}>
             <Card
+              id={p.id}
               name={p.name}
               shortname={p.shortname}
               description={p.description}
@@ -56,6 +57,7 @@ const Home = ({ history }) => {
         {projects.slice(3, 6).map((p, i) => (
           <Col sm key={i}>
             <Card
+              id={p.id}
               name={p.name}
               shortname={p.shortname}
               description={p.description}
