@@ -8,9 +8,9 @@ const SettingsForm = ({ pid }) => (
   <page>
     <h2>Settings</h2>
     <hr />
-    <ShortnameForm pid={pid} />
-    <AdminForm pid={pid} />
-    <PrivacyForm pid={pid} />
+    <ShortnameForm />
+    <AdminForm />
+    <PrivacyForm />
     <DeleteForm pid={pid} />
   </page>
 );

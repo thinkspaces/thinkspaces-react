@@ -97,7 +97,7 @@ export const deleteDocument = ref => ref.delete();
  * @returns Updated Props
  */
 export const updateProps = props =>
-  defaultsDeep(props, { updatedTimestamp: createTimestamp(new Date()) });
+  defaultsDeep({ updatedTimestamp: createTimestamp(new Date()) }, props);
 
 /**
  * Normalizes Document Snapshot into Timeline Post format

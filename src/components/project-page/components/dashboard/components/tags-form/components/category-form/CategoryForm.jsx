@@ -1,54 +1,31 @@
 import React from 'react';
-import { Formik } from 'formik';
 import styled from 'styled-components';
 import Select from 'react-select';
-import SaveButton from '../../../../../../../shared/save-button';
 import useTag from '../../../../../../../../hooks/use-tag';
 
-const CategoryForm = ({ className, pid }) => {
-  const { tags, chosenTags, handleSave } = useTag(pid, 'project-category');
-  const submitForm = (values, { setSubmitting, setStatus }) => {
-    handleSave(values.chosenTags.map(tag => tag.id));
-    setSubmitting(false);
-    setStatus({ success: true });
-  };
+const CategoryForm = ({ className, field, form }) => {
+  const { allTags, chosenTags, handleChanges } = useTag(field.value, 'project-category', form);
 
   return (
     <article className={className}>
-      <Formik
-        enableReinitialize
-        initialValues={{ chosenTags }}
-        onSubmit={submitForm}
-        render={({ values, setFieldValue, handleSubmit, isSubmitting, status }) => (
-          <form onSubmit={handleSubmit}>
-            <h3>Category</h3>
-            <span className="helpText">
-              Choose tags that best describe the category or discipline your project falls under.
-            </span>
-            <Select
-              captureMenuScroll={false}
-              value={values.chosenTags}
-              getOptionLabel={option => option.name}
-              getOptionValue={option => option.id}
-              isMulti
-              name="category"
-              options={tags}
-              onChange={value => setFieldValue('chosenTags', value)}
-              classNamePrefix="select"
-            />
-            <SaveButton
-              type="submit"
-              disabled={isSubmitting}
-              success={status && status.success}
-              loading={isSubmitting}
-            />
-          </form>
-        )}
+      <h3>Category</h3>
+      <span className="helpText">
+        Choose tags that best describe the category or discipline your project falls under.
+      </span>
+      <Select
+        captureMenuScroll={false}
+        value={chosenTags}
+        getOptionLabel={option => option.name}
+        getOptionValue={option => option.id}
+        isMulti
+        name="category"
+        options={allTags}
+        onChange={handleChanges}
+        classNamePrefix="select"
       />
     </article>
   );
 };
-
 export default styled(CategoryForm)`
   margin-bottom: 50px;
   width: 80%;

@@ -2,18 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Options = ({ className, onRemove, onAdd }) => (
-  <div className={className}>
-    <button type="button" className="defBtn neutral" onClick={onRemove}>
-      <FontAwesomeIcon icon="times" />
-    </button>
-    <button type="button" className="defBtn neutral" onClick={onAdd}>
-      <FontAwesomeIcon icon="plus" />
-    </button>
-  </div>
-);
-
-export default styled(Options)`
+const Container = styled.div`
   margin-top: 25px;
   align-self: center;
   display: flex;
@@ -23,3 +12,16 @@ export default styled(Options)`
     margin-right: 5px;
   }
 `;
+
+const Options = ({ onRemove, onAdd }) => (
+  <Container>
+    <button type="button" className="defBtn neutral" onClick={onRemove}>
+      <FontAwesomeIcon icon="times" />
+    </button>
+    <button type="button" className="defBtn neutral" onClick={onAdd}>
+      <FontAwesomeIcon icon="plus" />
+    </button>
+  </Container>
+);
+
+export default Options;

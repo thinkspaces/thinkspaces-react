@@ -1,37 +1,30 @@
-import { useState } from 'react';
-import useLoader from './use-loader';
+import { useState, useEffect } from 'react';
 
-import {
-  downloadProjectImages,
-  uploadProjectImages,
-  deleteProjectImages,
-} from '../firebase/storage';
-import { db } from '../firebase';
+import { downloadProjectImages } from '../firebase/storage';
 
-export default (pid) => {
+export default ({ field, form }) => {
   const [ files, setFiles ] = useState([]);
 
-  const setup = async () => {
-    if (!pid) {
-      return;
-    }
-    const { imageFiles } = await downloadProjectImages(pid);
-    setFiles(imageFiles);
-  };
-
-  const saveHandler = async () => {
-    await deleteProjectImages(pid);
-    const imageURLs = await uploadProjectImages(pid, files);
-    await db.update('projects')(pid)({ images: imageURLs });
-  };
+  useEffect(() => {
+    const init = async () => {
+      if (field.value && field.value.length > 0) {
+        if (field.value[0] instanceof File) {
+          setFiles(field.value);
+        } else {
+          const imageFiles = await downloadProjectImages(field.value);
+          form.setFieldValue('images', imageFiles);
+          setFiles(imageFiles);
+        }
+      }
+    };
+    init();
+  }, []);
 
   const handleUpdateFiles = (fileItems) => {
-    if (!fileItems) {
-      return;
-    }
-    setFiles(fileItems.map(fileItem => fileItem.file));
+    const updatedImages = fileItems.map(fileItem => fileItem.file);
+    form.setFieldValue('images', updatedImages);
+    setFiles(updatedImages);
   };
 
-  const { success, loading, handleSave } = useLoader(setup, saveHandler);
-  return { files, loading, success, handleSave, handleUpdateFiles };
+  return { files, handleUpdateFiles };
 };

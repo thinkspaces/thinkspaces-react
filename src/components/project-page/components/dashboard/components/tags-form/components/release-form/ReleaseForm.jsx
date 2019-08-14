@@ -1,16 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import SaveButton from '../../../../../../../shared/save-button';
+import useTag from '../../../../../../../../hooks/use-tag';
 
-import useTags from '../../../../../../../../hooks/use-tags';
-
-const ReleaseForm = ({ className, pid }) => {
-  const { handleSave, handleChange, success, loading, tags, chosenTags } = useTags(
-    pid,
-    'release-status',
-  );
-
+const ReleaseForm = ({ className, field, form }) => {
+  const { allTags, chosenTags, handleChanges } = useTag(field.value, 'release-status', form);
   return (
     <article className={className}>
       <h3>Release status</h3>
@@ -19,11 +13,12 @@ const ReleaseForm = ({ className, pid }) => {
         captureMenuScroll={false}
         value={chosenTags}
         name="release-status"
-        options={tags}
-        onChange={tag => handleChange([ tag ])}
+        options={allTags}
+        getOptionLabel={option => option.name}
+        getOptionValue={option => option.id}
+        onChange={handleChanges}
         classNamePrefix="select"
       />
-      <SaveButton loading={loading} disabled={loading} success={success} onClick={handleSave} />
     </article>
   );
 };

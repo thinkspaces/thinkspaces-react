@@ -22,14 +22,13 @@ const defaultProps = {
   shortname: '',
   name: '',
   description: '',
-  logo: '', // URL
   images: [], // URLs
   links: [], // { name: '', URL: '', primary: bool }
   tags: [], // String[] ids
   team: [], // String[] ids
   admin: [], // String[] ids
   roles: [], // { compensation: '', meetings: '', description: '', title: '', etc. }
-  privacy: { visibleInSearch: true },
+  privacy: false,
 };
 
 /**

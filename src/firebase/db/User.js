@@ -14,7 +14,7 @@ const defaultProps = {
   description: '', // more text
   experience: [], // { name: '', image: '', description: '', startDate: '', endDate: '', },
   tags: [], // String[] ids
-  privacy: { visibleInSearch: true },
+  privacy: false,
   interests: '',
   skills: '',
   courses: '',

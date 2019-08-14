@@ -5,17 +5,19 @@ import RadioField from './RadioField';
 import LinkField from './LinkField';
 import Options from './Options';
 
-const ProjectLink = ({ index, primary, onRemove, onAdd, handleRadio, className }) => (
-  <div key={index} className={className}>
-    <LinkField title="Name" type="name" index={index} placeholder="e.g. Website" />
-    <LinkField title="URL" type="url" index={index} placeholder="e.g. https://thinkspaces.org" />
-    <RadioField index={index} primary={primary} onChange={handleRadio} />
-    <Options onRemove={onRemove} onAdd={onAdd} />
-  </div>
-);
-
-export default styled(ProjectLink)`
+const Container = styled.div`
   width: 100%;
   display: flex;
   align-items: baseline;
 `;
+
+const ProjectLink = ({ index, primary, onRemove, onAdd, handleRadio }) => (
+  <Container key={index}>
+    <LinkField title="Name" type="name" index={index} placeholder="e.g. Website" />
+    <LinkField title="URL" type="url" index={index} placeholder="e.g. https://thinkspaces.org" />
+    <RadioField index={index} primary={primary} onChange={handleRadio} />
+    <Options onRemove={onRemove} onAdd={onAdd} />
+  </Container>
+);
+
+export default ProjectLink;

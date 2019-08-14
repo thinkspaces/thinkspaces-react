@@ -1,17 +1,28 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import { Project } from '../../../../../../../../firebase';
 import SaveButton from '../../../../../../../shared/save-button';
 
-const DeleteForm = ({ className, pid }) => {
+const Container = styled.section`
+  margin-bottom: 50px;
+
+  .wrap {
+    width: 60%;
+  }
+
+  @media (max-width: 768px) {
+    .wrap {
+      width: 100%;
+    }
+  }
+`;
+
+const DeleteForm = ({ history, pid }) => {
   const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
 
-  /**
-   * save the shortname to the project's document in the database
-   */
   const handleDelete = async () => {
-    // reset success and start load
     setSuccess(false);
     setLoading(true);
     // attempt delete
@@ -23,11 +34,11 @@ const DeleteForm = ({ className, pid }) => {
       setSuccess(false);
     }, 1000);
     // navigate to root
-    window.location.replace('/');
+    history.replace('/');
   };
 
   return (
-    <section className={className}>
+    <Container>
       <h3>Delete project</h3>
       <div className="wrap">
         <span className="helpText">
@@ -43,20 +54,8 @@ const DeleteForm = ({ className, pid }) => {
           disabled={loading}
         />
       </div>
-    </section>
+    </Container>
   );
 };
 
-export default styled(DeleteForm)`
-  margin-bottom: 50px;
-
-  .wrap {
-    width: 60%;
-  }
-
-  @media (max-width: 768px) {
-    .wrap {
-      width: 100%;
-    }
-  }
-`;
+export default withRouter(DeleteForm);

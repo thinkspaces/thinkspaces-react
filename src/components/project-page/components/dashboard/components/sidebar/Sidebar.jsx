@@ -25,13 +25,13 @@ const Sidebar = ({ className, onSelectCategory }) => (
 );
 
 export default styled(Sidebar)`
+  grid-area: menu;
   @media (max-width: 768px) {
+    border: 1px solid var(--color-disabled);
     border-radius: 5px;
   }
 
-  border: 1px solid var(--color-disabled);
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
+  border-right: 1px solid var(--color-disabled);
   overflow: hidden;
 
   .sidebarItem {

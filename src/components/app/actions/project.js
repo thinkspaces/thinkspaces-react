@@ -1,7 +1,7 @@
 import { normalize } from 'normalizr';
 import { createAction } from 'redux-actions';
 import { schema } from '../../../utils';
-import { db, Project } from '../../../firebase';
+import { db, Project, storage } from '../../../firebase';
 
 export const createProject = createAction('CREATE_PROJECT', async (values) => {
   const response = await Project.create(values);
@@ -19,6 +19,15 @@ export const getProject = createAction('GET_PROJECT', async (pid) => {
 });
 
 export const updateProject = createAction('UPDATE_PROJECT', async ({ pid, values }) => {
-  await db.update('projects')(pid)(values);
-  return normalize({ ...values }, schema.project);
+  let imageURLs = [ ...values.images ];
+  if (values.images.length > 0 && values.images[0] instanceof File) {
+    await storage.deleteProjectImages(pid);
+    imageURLs = await storage.uploadProjectImages(pid, imageURLs);
+  }
+  // update Project
+  await db.update('projects')(pid)({
+    ...values,
+    images: imageURLs,
+  });
+  return normalize({ ...values, images: imageURLs }, schema.project);
 });

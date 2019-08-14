@@ -1,68 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-
+import { Field } from 'formik';
 import AsyncSelect from 'react-select/lib/Async';
+
+import { map, isString } from 'lodash';
 import Option from '../../../option';
 import MultiValueLabel from '../../../multi-value-label';
 
-import SaveButton from '../../../../../../../shared/save-button';
-import { Project, db } from '../../../../../../../../firebase';
+import { db } from '../../../../../../../../firebase';
 
-const AdminForm = ({ className, pid }) => {
-  const [ loading, setLoading ] = useState(false);
-  const [ success, setSuccess ] = useState(false);
-  const [ adminState, setAdminState ] = useState([]);
-
-  const modifyForReactSelect = arrayOfUsersData =>
-    arrayOfUsersData.map(user => ({
-      ...user,
-      value: user.id,
-      label: user.username,
-      icon: user.profilepicture,
-    }));
-
-  const handleSetup = async () => {
-    setLoading(true);
-    // fetch admin for project
-    const admin = await Project.getMembersFromFieldArray('admin')('users')(pid);
-    // modify data for use with react select
-    setAdminState(modifyForReactSelect(admin));
-    setLoading(false);
-  };
-
-  const handleChange = (users) => {
-    setAdminState(users);
-  };
-
-  const handleSave = async () => {
-    // start loading
-    setSuccess(false);
-    setLoading(true);
-    // delete all previous users from admin
-    await db.update('projects')(pid)({ admin: [] });
-    // save project
-    await Promise.all(
-      adminState.map(async user => Project.updateFieldArrayWithId(db.add)('admin')(pid)(user.id)),
-    );
-    // stop loading
-    setLoading(false);
-    setSuccess(true);
-    setTimeout(() => {
-      setSuccess(false);
-    }, 1000);
-  };
-
-  useEffect(() => {
-    handleSetup();
-  }, []);
-
-  const filterUsers = async (usernameInput) => {
-    const users = await db.getAllByFilter('users')(db.where('username')('>=')(usernameInput));
-    return modifyForReactSelect(users);
-  };
-
+const AdminForm = ({ className }) => {
   const promiseOptions = usernameInput =>
     new Promise((resolve) => {
+      const filterUsers = async () => {
+        const users = await db.getAllByFilter('users')(db.where('username')('>=')(usernameInput));
+        return users;
+      };
+
       setTimeout(() => {
         resolve(filterUsers(usernameInput));
       }, 1000);
@@ -75,18 +29,26 @@ const AdminForm = ({ className, pid }) => {
         Search for users by their username to add them as administrators to this project.
         Administrators can modify project settings and wield special permissions.
       </span>
-      <div className="wrap">
-        <AsyncSelect
-          cacheOptions
-          value={adminState}
-          name="admin"
-          components={{ Option, MultiValueLabel }}
-          onChange={handleChange}
-          isMulti
-          loadOptions={promiseOptions}
-        />
-      </div>
-      <SaveButton disabled={loading} loading={loading} success={success} onClick={handleSave} />
+      <Field
+        name="admin"
+        render={({ field, form }) => (
+          <div className="wrap">
+            <AsyncSelect
+              defaultOptions
+              cacheOptions
+              value={field.value}
+              name="admin"
+              components={{ Option, MultiValueLabel }}
+              onChange={value =>
+                form.setFieldValue('admin', map(value, user => (isString(user) ? user : user.id)))
+              }
+              isMulti
+              getOptionValue={option => (isString(option) ? option : option.id)}
+              loadOptions={promiseOptions}
+            />
+          </div>
+        )}
+      />
     </section>
   );
 };

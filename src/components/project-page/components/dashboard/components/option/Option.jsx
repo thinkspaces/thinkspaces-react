@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import { components } from 'react-select';
 
 const Option = ({ className, data, ...props }) => {
-  const { label, icon } = data;
+  const { full_name, profilepicture } = data;
   return (
     <components.Option {...props}>
       <div className={className}>
-        <img src={icon || 'http://www.gravatar.com/avatar'} alt="user icon" className="icon" />
-        <span>{label}</span>
+        <img
+          src={profilepicture || 'http://www.gravatar.com/avatar'}
+          alt="user icon"
+          className="icon"
+        />
+        <span>{full_name}</span>
       </div>
     </components.Option>
   );

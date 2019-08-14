@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { Field } from 'formik';
 import { FilePond, registerPlugin } from 'react-filepond';
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
-import SaveButton from '../../../../../shared/save-button';
 
 import useFirebaseStorage from '../../../../../../hooks/use-firebase-storage';
 
@@ -12,22 +11,12 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
 
 registerPlugin(FilePondPluginImagePreview);
 
-const ImagesForm = ({ className, pid }) => {
-  const { files, loading, success, handleSave, handleUpdateFiles } = useFirebaseStorage(pid);
-  return (
-    <section className={className}>
-      <h3>Upload images</h3>
-      <FilePond
-        onupdatefiles={fileItems => handleUpdateFiles(fileItems)}
-        allowMultiple
-        files={files}
-      />
-      <SaveButton loading={loading} disabled={loading} success={success} onClick={handleSave} />
-    </section>
-  );
+const FilePondField = ({ field, form }) => {
+  const { files, handleUpdateFiles } = useFirebaseStorage({ field, form });
+  return <FilePond onupdatefiles={handleUpdateFiles} allowMultiple files={files} />;
 };
 
-export default styled(ImagesForm)`
+const Container = styled.div`
   @media (min-width: 30em) {
     .filepond--item {
       width: calc(50% - 0.5em);
@@ -40,3 +29,12 @@ export default styled(ImagesForm)`
     }
   }
 `;
+
+const ImagesForm = () => (
+  <Container>
+    <h3>Upload images</h3>
+    <Field name="images" component={FilePondField} />
+  </Container>
+);
+
+export default ImagesForm;

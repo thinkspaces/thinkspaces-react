@@ -1,15 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import Select from 'react-select';
-import SaveButton from '../../../../../../../shared/save-button';
-import useTags from '../../../../../../../../hooks/use-tags';
+import useTag from '../../../../../../../../hooks/use-tag';
 
-const OrganizationForm = ({ className, pid }) => {
-  const { handleSave, handleChange, success, loading, tags, chosenTags } = useTags(
-    pid,
-    'organization',
-  );
-
+const OrganizationForm = ({ className, field, form }) => {
+  const { allTags, chosenTags, handleChanges } = useTag(field.value, 'organization', form);
   return (
     <article className={className}>
       <h3>Organization type</h3>
@@ -20,11 +15,12 @@ const OrganizationForm = ({ className, pid }) => {
         captureMenuScroll={false}
         value={chosenTags}
         name="organization"
-        options={tags}
-        onChange={tag => handleChange([ tag ])}
+        options={allTags}
+        getOptionLabel={option => option.name}
+        getOptionValue={option => option.id}
+        onChange={handleChanges}
         classNamePrefix="select"
       />
-      <SaveButton loading={loading} disabled={loading} success={success} onClick={handleSave} />
     </article>
   );
 };

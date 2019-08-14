@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
+import { Field } from 'formik';
 import CategoryForm from './components/category-form';
 import OrganizationForm from './components/organization-form';
 import ReleaseForm from './components/release-form';
 
 import { getTags } from '../../../../../app/actions';
 
-const TagsForm = ({ pid }) => {
+const TagsForm = () => {
   const dispatch = useDispatch();
   const actions = bindActionCreators({ getTags }, dispatch);
   useEffect(() => {
@@ -18,9 +19,16 @@ const TagsForm = ({ pid }) => {
     <section>
       <h2>Tags</h2>
       <hr />
-      <CategoryForm pid={pid} />
-      <OrganizationForm pid={pid} />
-      <ReleaseForm pid={pid} />
+      <Field
+        name="tags"
+        render={({ field, form }) => (
+          <>
+            <CategoryForm field={field} form={form} />
+            <OrganizationForm field={field} form={form} />
+            <ReleaseForm field={field} form={form} />
+          </>
+        )}
+      />
     </section>
   );
 };

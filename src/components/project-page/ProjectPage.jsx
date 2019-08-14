@@ -3,9 +3,6 @@ import { some, get, isNil } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
 import { Row } from 'reactstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { getProject } from '../app/actions';
 import { auth } from '../../firebase';
 
 import Dashboard from './components/dashboard';
@@ -14,18 +11,14 @@ import ProjectInfoContent from './components/project-info-content';
 import SocialContentSection from './components/social-content-section';
 import EditProjectBanner from './components/edit-project-banner';
 
+import useProject from '../../hooks/use-project';
+
 const ProjectPage = ({ location }) => {
   const [ showDashboard, setShowDashboard ] = useState(false);
   const [ editable, setEditable ] = useState(false);
 
   const pid = get(location, 'state.id', null);
-  const project = useSelector(state => state.data.projects[pid]);
-  const dispatch = useDispatch();
-  const actions = bindActionCreators({ getProject }, dispatch);
-
-  useEffect(() => {
-    actions.getProject(pid);
-  }, []);
+  const { project } = useProject({ pid });
 
   useEffect(() => {
     const info = auth.getUserInfo();
@@ -43,7 +36,7 @@ const ProjectPage = ({ location }) => {
     return <div>Loading...</div>;
   }
   if (showDashboard) {
-    return <Dashboard pid={pid} handleCloseDashboard={toggleDashboard(false)} />;
+    return <Dashboard pid={pid} onClose={toggleDashboard(false)} />;
   }
   return (
     <section>
