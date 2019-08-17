@@ -1,5 +1,5 @@
 /* eslint no-param-reassign: 0, camelcase: 0 */
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import ReactGA from 'react-ga';
 import { Button, Row, Col } from 'reactstrap';
@@ -89,37 +89,24 @@ const DetailView = ({ type, value, inline }) => (
   </div>
 );
 
-class ProfileSummary extends Component {
-  state = { profile: null, isEditing: false };
+const ProfileSummary = ({ uid, authUser }) => {
+  const [ profile, setProfile ] = useState(null);
+  const [ editing, setEditing ] = useState(false);
 
-  toggleEdit = () => {
-    this.setState(prevState => ({ isEditing: !prevState.isEditing }));
-  };
+  const toggleEdit = () => setEditing(prevState => !prevState);
 
-  componentDidMount = async () => {
-    const { match } = this.props;
-    if (match.params.id) {
-      const uid = match.params.id;
-      const profile = await db.get('users')(uid);
-      this.setState({ uid, profile });
-    }
-  };
+  useEffect(() => {
+    const init = async () => {
+      if (uid) {
+        const _profile = await db.get('users')(uid);
+        setProfile(_profile);
+      }
+    };
+    init();
+  }, [ uid ]);
 
-  componentDidUpdate = async (prevProps) => {
-    const { match } = this.props;
-    if (prevProps.match.params.id !== match.params.id) {
-      const uid = match.params.id;
-      const profile = await db.get('users')(uid);
-      this.setState({ uid, profile });
-    }
-  };
-
-  saveChanges = async () => {
-    const {
-      profile: { id, ...values },
-      uid,
-    } = this.state;
-
+  const saveChanges = async () => {
+    const { id, ...values } = profile;
     ReactGA.event({
       category: 'Acquisition',
       action: 'Sign up - completed profile user flow',
@@ -127,61 +114,53 @@ class ProfileSummary extends Component {
     });
 
     await db.update('users')(id)(values);
-    this.setState({ isEditing: false });
+    setEditing(false);
   };
 
-  onCancel = () => {
-    const { uid } = this.state;
+  const onCancel = () => {
     ReactGA.event({
       category: 'Acquisition',
       action: 'Sign up - did not complete profile user flow',
       label: uid,
     });
-    this.setState({ isEditing: false });
+    setEditing(false);
   };
 
-  onEditChange = ({ target: { type, checked, value, id } }) => {
+  const onEditChange = ({ target: { type, checked, value, id } }) => {
     if (type === 'checkbox') {
       value = !checked;
     }
-
-    this.setState(prevState => ({ profile: { ...prevState.profile, [id]: value } }));
+    setProfile({ ...profile, [id]: value });
   };
 
-  onPictureChange = (profilepicture = '') => {
-    this.setState(prevState => ({ profile: { ...prevState.profile, profilepicture } }));
-  };
+  const onPictureChange = (profilepicture = '') => setProfile({ ...profile, profilepicture });
 
-  render() {
-    const { profile, isEditing, uid } = this.state;
-    const { authUser } = this.props;
-    if (isEditing) {
-      return (
-        <EditProfile
-          saveChanges={this.saveChanges}
-          profile={profile}
-          onEditChange={this.onEditChange}
-          onCancel={this.onCancel}
-          onPictureChange={this.onPictureChange}
-          uid={uid}
-        />
-      );
-    }
+  if (editing) {
     return (
-      <>
-        {profile && (
-          <Row>
-            <ProfileHeader profile={profile} />
-            <ProfileDetails
-              isMyProfile={uid === authUser.uid}
-              profile={profile}
-              toggleEdit={this.toggleEdit}
-            />
-          </Row>
-        )}
-      </>
+      <EditProfile
+        saveChanges={saveChanges}
+        profile={profile}
+        onEditChange={onEditChange}
+        onCancel={onCancel}
+        onPictureChange={onPictureChange}
+        uid={uid}
+      />
     );
   }
-}
+  return (
+    <section>
+      {profile && (
+        <Row>
+          <ProfileHeader profile={profile} />
+          <ProfileDetails
+            isMyProfile={authUser ? uid === authUser.id : false}
+            profile={profile}
+            toggleEdit={toggleEdit}
+          />
+        </Row>
+      )}
+    </section>
+  );
+};
 
 export default withRouter(ProfileSummary);

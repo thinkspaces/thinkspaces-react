@@ -62,7 +62,7 @@ const ContentPanel = styled.div`
 `;
 
 const Dashboard = ({ pid, onClose }) => {
-  const { project, updateProject } = useProject({ pid });
+  const { project, updateProject } = useProject(pid);
   const [ currentForm, setCurrentForm ] = useState(<DescriptionForm />);
 
   const handleSidebar = (event) => {

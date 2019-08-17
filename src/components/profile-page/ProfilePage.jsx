@@ -1,42 +1,19 @@
-import React, { Component } from 'react';
-
-import AuthUserContext from '../utils/AuthUserContext';
-import withAuthorization from '../utils/withAuthorization';
+import React from 'react';
+import { get } from 'lodash';
 import Overview from './components/profile-summary';
 import SocialContentSection from './components/social-content-section';
+import useUser from '../../hooks/use-user';
 
-class ProfilePage extends Component {
-  state = { uid: null };
+const ProfilePage = ({ match, location }) => {
+  const { user } = useUser();
+  const id = get(match, 'params.id', null);
 
-  componentDidMount = () => {
-    const { match } = this.props;
-    if (match.params.id) {
-      this.setState({ uid: match.params.id });
-    }
-  };
+  return (
+    <div>
+      <Overview authUser={user} uid={id} />
+      <SocialContentSection uid={id} authUser={user} selected={location.hash} />
+    </div>
+  );
+};
 
-  componentDidUpdate = (prevProps) => {
-    const { match } = this.props;
-    if (prevProps.match.params.id !== match.params.id) {
-      this.setState({ uid: match.params.id });
-    }
-  };
-
-  render() {
-    const { uid } = this.state;
-    const { location: { hash } } = this.props;
-    return (
-      <AuthUserContext.Consumer>
-        {authUser => (
-          <div>
-            <Overview authUser={authUser} />
-            <SocialContentSection uid={uid} selected={hash} />
-          </div>
-        )}
-      </AuthUserContext.Consumer>
-    );
-  }
-}
-
-const authCondition = authUser => !!authUser;
-export default withAuthorization(authCondition)(ProfilePage);
+export default ProfilePage;

@@ -4,7 +4,6 @@ import { Button, FormGroup, Input, Form } from 'reactstrap';
 import PostDropdown from '../../../shared/post-dropdown';
 import EditPostModal from '../../../shared/edit-post-modal';
 
-import withAuthorization from '../../../utils/withAuthorization';
 import { db } from '../../../../firebase';
 
 const PostInput = ({ createPost, post_details, onChange }) => (
@@ -174,5 +173,4 @@ class ProjectPosts extends Component {
   }
 }
 
-const authCondition = authUser => !!authUser;
-export default withAuthorization(authCondition)(ProjectPosts);
+export default ProjectPosts;

@@ -1,13 +1,12 @@
 /* eslint react/prefer-stateless-function: 0 */
 /* eslint no-undef: 0 */
-import React, { Component } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 import ReactGA from 'react-ga';
 import MessengerCustomerChat from 'react-messenger-customer-chat';
 
 import { ThemeProvider } from 'styled-components';
 
-// Font Awesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faPlus,
@@ -20,8 +19,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import { Container } from 'reactstrap';
-import withAuthentication from '../utils/withAuthentication';
-
 import Navbar from '../shared/navbar';
 import Footer from '../shared/footer';
 
@@ -35,6 +32,7 @@ import ExploreProjects from '../explore-projects';
 import ForgotPassword from '../forgot-password';
 
 import './App.css';
+import useUser from '../../hooks/use-user';
 
 const mainContainerStyle = { marginBottom: '100px', marginTop: '50px' };
 
@@ -53,32 +51,31 @@ library.add(
   faExternalLinkAlt,
 );
 
-class App extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={{ mode: 'bubbly' }}>
-        <div className="App">
-          <link
-            href="https://fonts.googleapis.com/css?family=Open+Sans:700&display=swap"
-            rel="stylesheet"
-          />
-          <Navbar />
-          <Container style={mainContainerStyle}>
-            <Route path="/" exact component={Home} />
-            <Route path="/about" exact component={About} />
-            <Route path="/projects" exact component={ExploreProjects} />
-            <Route path="/projects/:shortname" exact component={ProjectPage} />
-            <Route path="/profiles" exact component={ExploreProfiles} />
-            <Route path="/profile/:id" exact component={ProfilePage} />
-            <Route path="/signupin" exact component={SignUpIn} />
-            <Route path="/signupin/forgotpassword" exact component={ForgotPassword} />
-            <MessengerCustomerChat pageId="1191043211036808" appId="295451067827152" />
-          </Container>
-          <Footer />
-        </div>
-      </ThemeProvider>
-    );
-  }
-}
+const App = () => {
+  useUser(true);
+  return (
+    <ThemeProvider theme={{ mode: 'bubbly' }}>
+      <div className="App">
+        <link
+          href="https://fonts.googleapis.com/css?family=Open+Sans:700&display=swap"
+          rel="stylesheet"
+        />
+        <Navbar />
+        <Container style={mainContainerStyle}>
+          <Route path="/" exact component={Home} />
+          <Route path="/about" exact component={About} />
+          <Route path="/projects" exact component={ExploreProjects} />
+          <Route path="/projects/:shortname" exact component={ProjectPage} />
+          <Route path="/profiles" exact component={ExploreProfiles} />
+          <Route path="/profile/:id" exact component={ProfilePage} />
+          <Route path="/signupin" exact component={SignUpIn} />
+          <Route path="/signupin/forgotpassword" exact component={ForgotPassword} />
+          <MessengerCustomerChat pageId="1191043211036808" appId="295451067827152" />
+        </Container>
+        <Footer />
+      </div>
+    </ThemeProvider>
+  );
+};
 
-export default withAuthentication(App);
+export default App;

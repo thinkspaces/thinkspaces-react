@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import {
   Collapse,
-  Navbar,
+  Navbar as RSNavbar,
   NavbarToggler,
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   Container,
   UncontrolledDropdown,
   DropdownToggle,
@@ -16,90 +16,84 @@ import {
 } from 'reactstrap';
 
 import logo from '../../../assets/logo-circle.png';
-import AuthUserContext from '../../utils/AuthUserContext';
-import { auth } from '../../../firebase';
+import useUser from '../../../hooks/use-user';
 
-export default class DefNavbar extends Component {
-  // constructor
-  constructor(props) {
-    super(props);
-    this.toggle = this.toggle.bind(this);
-    this.state = { isOpen: false };
+const NavLink = styled(Link)`
+  display: block;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.5);
   }
+`;
 
-  // toggle method
-  toggle() {
-    this.setState(prevState => ({ isOpen: !prevState.isOpen }));
-  }
+const Navbar = () => {
+  const { user, logoutUser } = useUser();
+  const [ isOpen, setIsOpen ] = useState(false);
+  const toggle = () => setIsOpen(prevState => !prevState);
 
-  // render method
-  render() {
-    const { isOpen } = this.state;
-    return (
-      <Navbar color="inverse" light expand="md">
-        <Container>
-          <Link to="/">
-            <NavbarBrand>
-              <div style={{ display: 'flex', flex: 1 }}>
-                <img
-                  width="30px"
-                  height="30px"
-                  className="align-top rounded"
-                  style={{ marginRight: 10 }}
-                  src={logo}
-                  alt="Logo"
-                />
-                <div style={{ color: 'rgba(0,0,0,.9)' }}>Thinkspaces</div>
-              </div>
-            </NavbarBrand>
-          </Link>
-          <NavbarToggler onClick={this.toggle} />
-          <Collapse isOpen={isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <Link to="/projects">
-                  <NavLink>Explore Projects</NavLink>
-                </Link>
+  return (
+    <RSNavbar color="inverse" light expand="md">
+      <Container>
+        <Link to="/">
+          <NavbarBrand>
+            <div style={{ display: 'flex', flex: 1 }}>
+              <img
+                width="30px"
+                height="30px"
+                className="align-top rounded"
+                style={{ marginRight: 10 }}
+                src={logo}
+                alt="Logo"
+              />
+              <div style={{ color: 'rgba(0,0,0,.9)' }}>Thinkspaces</div>
+            </div>
+          </NavbarBrand>
+        </Link>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink className="nav" to="/projects">
+                Explore Projects
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="nav" to="/">
+                Submit a Project
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink className="nav" to="/about">
+                About
+              </NavLink>
+            </NavItem>
+            {user ? (
+              <UncontrolledDropdown nav inNavbar>
+                <DropdownToggle nav caret>
+                  {user.preferred_name}
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <Link style={{ textDecoration: 'none' }} to={`/profile/${ user.id }`}>
+                    <DropdownItem>My Profile</DropdownItem>
+                  </Link>
+                  <DropdownItem divider />
+                  <DropdownItem onClick={logoutUser}>Sign Out</DropdownItem>
+                </DropdownMenu>
+              </UncontrolledDropdown>
+            ) : (
+              <NavItem color="danger">
+                <NavLink className="nav" to="/signupin">
+                  Login/Sign Up
+                </NavLink>
               </NavItem>
-              <NavItem>
-                <Link to="/">
-                  <NavLink>Submit a Project</NavLink>
-                </Link>
-              </NavItem>
-              <NavItem>
-                <Link to="/about">
-                  <NavLink>About</NavLink>
-                </Link>
-              </NavItem>
+            )}
+          </Nav>
+        </Collapse>
+      </Container>
+    </RSNavbar>
+  );
+};
 
-              <AuthUserContext.Consumer>
-                {authUser =>
-                  (authUser ? (
-                    <UncontrolledDropdown nav inNavbar>
-                      <DropdownToggle nav caret>
-                        {authUser.displayName}
-                      </DropdownToggle>
-                      <DropdownMenu right>
-                        <Link style={{ textDecoration: 'none' }} to={`/profile/${ authUser.uid }`}>
-                          <DropdownItem>My Profile</DropdownItem>
-                        </Link>
-                        <DropdownItem divider />
-                        <DropdownItem onClick={auth.signOutUser}>Sign Out</DropdownItem>
-                      </DropdownMenu>
-                    </UncontrolledDropdown>
-                  ) : (
-                    <NavItem color="danger">
-                      <Link to="/signupin">
-                        <NavLink>Login/Sign Up</NavLink>
-                      </Link>
-                    </NavItem>
-                  ))
-                }
-              </AuthUserContext.Consumer>
-            </Nav>
-          </Collapse>
-        </Container>
-      </Navbar>
-    );
-  }
-}
+export default Navbar;

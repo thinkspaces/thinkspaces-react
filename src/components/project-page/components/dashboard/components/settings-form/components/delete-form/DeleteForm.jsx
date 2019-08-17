@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { Project } from '../../../../../../../../firebase';
 import SaveButton from '../../../../../../../shared/save-button';
+import useProject from '../../../../../../../../hooks/use-project';
 
 const Container = styled.section`
   margin-bottom: 50px;
@@ -19,14 +19,15 @@ const Container = styled.section`
 `;
 
 const DeleteForm = ({ history, pid }) => {
+  const { deleteProject } = useProject();
   const [ loading, setLoading ] = useState(false);
   const [ success, setSuccess ] = useState(false);
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     setSuccess(false);
     setLoading(true);
     // attempt delete
-    await Project.destroy(pid);
+    deleteProject(pid);
     // stop load and set success
     setLoading(false);
     setSuccess(true);

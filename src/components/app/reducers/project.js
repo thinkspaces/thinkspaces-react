@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
-
-import { createProject, getProjects, getProject, updateProject } from '../actions';
+import { omit } from 'lodash';
+import { createProject, getProjects, getProject, updateProject, deleteProject } from '../actions';
 
 const reducer = handleActions(
   {
@@ -13,6 +13,9 @@ const reducer = handleActions(
           [id]: { ...state[id], ...values },
         };
       },
+    },
+    [deleteProject]: {
+      FULFILLED: (state, { payload }) => omit(state, [ payload.result ]),
     },
     [getProjects]: {
       FULFILLED: (state, { payload }) => ({

@@ -3,7 +3,7 @@ import ReactGA from 'react-ga';
 
 import { db, auth } from '../../firebase';
 
-import ProfileList from './components/profile-list';
+// import ProfileList from './components/profile-list';
 import SignUpModal from '../shared/sign-up-modal';
 import Filter from '../shared/filter';
 
@@ -45,7 +45,7 @@ class ExploreProfiles extends Component {
   };
 
   render() {
-    const { profiles, modal } = this.state;
+    const { modal } = this.state;
     return (
       <div>
         <h2 style={{ marginBottom: '20px' }}>Find People</h2>

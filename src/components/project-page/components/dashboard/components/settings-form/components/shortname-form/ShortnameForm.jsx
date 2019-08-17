@@ -33,7 +33,7 @@ const ShortInput = ({ field, inputRef, available, searching, handleInput }) => {
 
 const ShortnameForm = ({ className }) => {
   const inputRef = useRef(null);
-  const [ valid, setValid ] = useState(true);
+  // const [ valid, setValid ] = useState(true);
   const [ available, setAvailable ] = useState(true);
   const [ searching, setSearching ] = useState(false);
 
@@ -41,11 +41,12 @@ const ShortnameForm = ({ className }) => {
     // check form is valid via ref
     const form = inputRef.current;
     if (form) {
-      if (form.checkValidity()) {
-        setValid(true);
-      } else {
-        setValid(false);
-      }
+      form.checkValidity();
+      // if (form.checkValidity()) {
+      //   setValid(true);
+      // } else {
+      //   setValid(false);
+      // }
     }
   };
 

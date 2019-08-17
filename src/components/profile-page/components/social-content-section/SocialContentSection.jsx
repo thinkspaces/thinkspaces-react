@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import MyProjects from '../project-list';
 import ProfilePosts from '../profile-posts';
 
-const SocialContentSection = ({ uid, selected }) => (
+const SocialContentSection = ({ uid, selected, authUser }) => (
   <div style={{ marginTop: 70 }}>
     <div className="d-flex">
       <Link to="#updates">
@@ -18,7 +18,7 @@ const SocialContentSection = ({ uid, selected }) => (
     <hr />
     <div>
       {selected.length === 0 || selected === '#updates' ? (
-        <ProfilePosts uid={uid} />
+        <ProfilePosts uid={uid} isOwner={authUser ? authUser.id === uid : false} />
       ) : (
         <MyProjects uid={uid} />
       )}

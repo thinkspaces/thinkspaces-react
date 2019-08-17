@@ -1,33 +1,33 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
-import { Project, db } from '../../firebase';
-import { getUserInfo } from '../../firebase/auth';
+import { auth } from '../../firebase';
 
-import NewProjectModal from './components/new-project-modal/NewProjectModal';
+import NewProjectModal from './components/new-project-modal';
 import Button from '../shared/button';
-
 import useModal from '../../hooks/use-modal';
+import useProject from '../../hooks/use-project';
 
 const NEW_PROJECT_MODAL_ID = 'NEW_PROJECT_MODAL_ID';
 
-const CreateProject = () => {
+const CreateProject = ({ history }) => {
+  const { createProject } = useProject();
   const { closeModal, openModal, isModalOpen } = useModal();
   const [ loading, setLoading ] = useState(false);
 
   const handleCreate = name => async () => {
     setLoading(true);
     // fetch current logged in user
-    const user = getUserInfo();
+    const user = auth.getUserInfo();
     if (!user) {
       setLoading(false);
       return;
     }
-    // create the project with one field only for simplicity
-    const pid = await Project.create({ name });
-    Project.updateFieldArrayWithId(db.add)('admin')(pid)(user.uid);
-    Project.updateFieldArrayWithId(db.add)('team')(pid)(user.uid);
-    // redirect
-    window.location.replace(`/projects/${ pid }`);
+
+    const payload = await createProject({ name, team: [ user.uid ], admin: [ user.uid ] });
+    if (payload) {
+      history.replace(`/projects/${ payload.value.result }`, { id: payload.value.result });
+    }
   };
 
   return (
@@ -45,4 +45,4 @@ const CreateProject = () => {
   );
 };
 
-export default CreateProject;
+export default withRouter(CreateProject);

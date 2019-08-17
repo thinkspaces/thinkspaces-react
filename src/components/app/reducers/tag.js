@@ -1,6 +1,6 @@
 import { handleActions } from 'redux-actions';
 
-import { getTags, getTag, updateTags } from '../actions';
+import { getTags, getTag } from '../actions';
 
 const reducer = handleActions(
   {
@@ -20,16 +20,6 @@ const reducer = handleActions(
         };
       },
     },
-    // [updateTags]: {
-    //   FULFILLED: (state, { payload }) => {
-    //     const id = payload.result;
-    //     const values = payload.entities.projects[id].tags;
-    //     return {
-    //       ...state,
-    //       [id]: { ...state[id], ...values },
-    //     };
-    //   },
-    // },
   },
   {},
 );

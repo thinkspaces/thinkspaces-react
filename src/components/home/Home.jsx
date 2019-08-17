@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Row, Col } from 'reactstrap';
 import Banner from './components/banner';
 import Card from '../shared/card';
-
 import useProjects from '../../hooks/use-projects';
 
 const Header = styled.div`

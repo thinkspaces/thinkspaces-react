@@ -4,8 +4,13 @@ import { schema } from '../../../utils';
 import { db, Project, storage } from '../../../firebase';
 
 export const createProject = createAction('CREATE_PROJECT', async (values) => {
-  const response = await Project.create(values);
-  return response;
+  const id = await Project.create(values);
+  return normalize({ id, ...values }, schema.project);
+});
+
+export const deleteProject = createAction('DELETE_PROJECT', async (pid) => {
+  await Project.destroy(pid);
+  return normalize({ id: pid }, schema.project);
 });
 
 export const getProjects = createAction('GET_PROJECTS', async () => {

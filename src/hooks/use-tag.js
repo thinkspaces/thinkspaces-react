@@ -27,10 +27,6 @@ const useTag = (fieldValues, type, form) => {
     form.setFieldValue('tags', _chosenTags);
   };
 
-  // const handleSave = (values) => {
-  //   actions.updateTags({ pid, tags: values, type });
-  // };
-
   return { allTags, chosenTags, otherTags, handleChanges };
 };
 
