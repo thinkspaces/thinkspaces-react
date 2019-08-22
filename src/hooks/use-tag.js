@@ -17,7 +17,6 @@ const useTag = (fieldValues, type, form) => {
     ));
 
   const handleChanges = (value) => {
-    console.log(value);
     let _chosenTags = [];
     if (isArray(value)) {
       _chosenTags = concat(map(otherTags, tag => tag.id), map(value, tag => tag.id));

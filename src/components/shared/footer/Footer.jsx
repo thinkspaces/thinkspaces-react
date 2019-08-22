@@ -12,6 +12,6 @@ const Container = styled.footer`
   }
 `;
 
-const Footer = () => <Container>©Thinkspaces 2018. All rights reserved.</Container>;
+const Footer = () => <Container>©Thinkspaces 2019. All rights reserved.</Container>;
 
 export default Footer;

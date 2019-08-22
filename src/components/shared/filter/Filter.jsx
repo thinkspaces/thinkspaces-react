@@ -9,6 +9,7 @@ import SearchBar from './components/search-bar';
 
 const Container = styled.div`
   margin-bottom: 10px;
+  padding: 15px 20px;
 `;
 
 const Filter = ({ types, onFilter }) => {

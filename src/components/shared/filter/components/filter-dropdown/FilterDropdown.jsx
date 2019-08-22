@@ -1,11 +1,13 @@
 import React from 'react';
-import { Dropdown,
+import {
+  Dropdown,
   DropdownMenu,
   DropdownToggle,
   DropdownItem,
   Col,
   Label,
-  Input } from 'reactstrap';
+  Input,
+} from 'reactstrap';
 
 const DropdownElement = ({ checked, index, label, onSelect }) => (
   <DropdownItem onClick={() => onSelect(index)}>
@@ -16,15 +18,26 @@ const DropdownElement = ({ checked, index, label, onSelect }) => (
   </DropdownItem>
 );
 
-const MenuModifiers = { setMaxHeight: { enabled: true,
-  order: 890,
-  fn: data => ({ ...data, styles: { ...data.styles, overflow: 'auto', maxHeight: 200 } }) } };
+const titles = {
+  'project-category': 'Discipline',
+  'release-status': 'Status',
+  organization: 'Organization Type',
+};
+const getMappedTitle = title => titles[title];
+
+const MenuModifiers = {
+  setMaxHeight: {
+    enabled: true,
+    order: 890,
+    fn: data => ({ ...data, styles: { ...data.styles, overflow: 'auto', maxHeight: 200 } }),
+  },
+};
 
 const FilterDropdown = ({ isOpen, toggle, title, filterItems, onSelect }) => (
   <Col>
     <Dropdown style={{ marginTop: 5 }} isOpen={isOpen} toggle={toggle}>
       <DropdownToggle caret tag="span" style={{ cursor: 'pointer' }}>
-        {title}
+        {getMappedTitle(title)}
       </DropdownToggle>
       <DropdownMenu modifiers={MenuModifiers}>
         {filterItems.map((item, i) => (

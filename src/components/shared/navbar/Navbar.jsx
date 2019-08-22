@@ -60,7 +60,7 @@ const Navbar = () => {
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink className="nav" to="/">
+              <NavLink className="nav" to="/submitproject">
                 Submit a Project
               </NavLink>
             </NavItem>

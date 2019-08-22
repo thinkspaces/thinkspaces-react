@@ -6,7 +6,7 @@ import ProjectList from './components/project-list';
 import useProjects from '../../hooks/use-projects';
 
 const Header = styled.h2`
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 `;
 
 const filterTypes = [ 'project-category', 'release-status', 'organization' ];

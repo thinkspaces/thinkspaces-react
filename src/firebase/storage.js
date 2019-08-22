@@ -1,7 +1,7 @@
 import uuidv1 from 'uuid/v1';
 import { storage } from './firebase';
 import { db } from './db';
-import urlToFile from '../components/utils/urlToFile';
+import urlToFile from '../utils/urlToFile';
 
 export const uploadProfileImage = async (uid, file) => {
   const pictureRef = storage.ref(`images/users/${ uid }/profile`);

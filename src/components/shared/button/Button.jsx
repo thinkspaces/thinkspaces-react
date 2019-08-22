@@ -8,7 +8,6 @@ const buttonStyle = theme.variants('mode', 'variant', {
       border: 2px solid ${ props => props.color || '#ff6e6e' };
       color: ${ props => props.color || '#ff6e6e' };
       font-weight: bold;
-
       :focus {
         outline: 0;
         box-shadow: 0 0 0 0.2rem #d7d9e8;
@@ -51,9 +50,10 @@ const buttonStyle = theme.variants('mode', 'variant', {
 });
 
 const Button = styled.button`
-  padding: 0.2em 1em;
+  padding: 0.4em 1em;
   font-family: HelveticaNeue;
   border-radius: 3px;
+  background: white;
   ${ buttonStyle }
 `;
 

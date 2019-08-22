@@ -92,8 +92,7 @@ const Dashboard = ({ pid, onClose }) => {
   };
 
   const handleSubmit = (values) => {
-    const { id, ...rest } = values;
-    updateProject({ pid, values: rest });
+    updateProject({ values });
     setTimeout(onClose, 3000);
   };
 

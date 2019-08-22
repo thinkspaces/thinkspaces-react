@@ -12,8 +12,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(33, 33, 33, 0.2);
-  border-radius: 0.5rem;
-  margin-bottom: 10px;
+  border-radius: 2rem;
+  margin-bottom: 30px;
   min-width: 318px;
   max-width: 320px;
 

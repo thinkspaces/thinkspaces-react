@@ -21,6 +21,7 @@ const Home = ({ history }) => {
       <Header>
         <h1>Find any opportunity anytime. </h1>
         <Banner
+          gotoSubmit={() => history.push('/submitproject')}
           goToSignUp={() => history.push('/signupin')}
           goToAbout={() => history.push('/about')}
         />

@@ -30,9 +30,11 @@ import ProfilePage from '../profile-page';
 import ExploreProfiles from '../explore-profiles';
 import ExploreProjects from '../explore-projects';
 import ForgotPassword from '../forgot-password';
+import SubmitProject from '../submit-project';
 
 import './App.css';
 import useUser from '../../hooks/use-user';
+import useProjects from '../../hooks/use-projects';
 
 const mainContainerStyle = { marginBottom: '100px', marginTop: '50px' };
 
@@ -53,6 +55,8 @@ library.add(
 
 const App = () => {
   useUser(true);
+  useProjects(true);
+
   return (
     <ThemeProvider theme={{ mode: 'bubbly' }}>
       <div className="App">
@@ -70,6 +74,7 @@ const App = () => {
           <Route path="/profile/:id" exact component={ProfilePage} />
           <Route path="/signupin" exact component={SignUpIn} />
           <Route path="/signupin/forgotpassword" exact component={ForgotPassword} />
+          <Route path="/submitproject" exact component={SubmitProject} />
           <MessengerCustomerChat pageId="1191043211036808" appId="295451067827152" />
         </Container>
         <Footer />

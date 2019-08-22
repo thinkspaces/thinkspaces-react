@@ -12,7 +12,7 @@ const Container = styled.div`
 
 const CardImage = ({ image }) => (
   <Container>
-    <img src={image || 'https://via.placeholder.com/300'} alt="project cover" />
+    {image && <img src={image || 'https://via.placeholder.com/300'} alt="project cover" />}
   </Container>
 );
 

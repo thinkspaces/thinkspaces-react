@@ -23,15 +23,16 @@ export const getProject = createAction('GET_PROJECT', async (pid) => {
   return normalize(response, schema.project);
 });
 
-export const updateProject = createAction('UPDATE_PROJECT', async ({ pid, values }) => {
+export const updateProject = createAction('UPDATE_PROJECT', async ({ values }) => {
   let imageURLs = [ ...values.images ];
   if (values.images.length > 0 && values.images[0] instanceof File) {
-    await storage.deleteProjectImages(pid);
-    imageURLs = await storage.uploadProjectImages(pid, imageURLs);
+    await storage.deleteProjectImages(values.id);
+    imageURLs = await storage.uploadProjectImages(values.id, imageURLs);
   }
   // update Project
-  await db.update('projects')(pid)({
-    ...values,
+  const { id, ...rest } = values;
+  await db.update('projects')(values.id)({
+    ...rest,
     images: imageURLs,
   });
   return normalize({ ...values, images: imageURLs }, schema.project);
