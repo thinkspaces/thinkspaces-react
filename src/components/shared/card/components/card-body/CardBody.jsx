@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  margin: 0px 20px 30px;
+  margin: 0px 20px;
   // padding-top: 10px;
   overflow: hidden;
   display: -webkit-box;

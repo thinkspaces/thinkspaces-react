@@ -7,6 +7,7 @@ import DescriptionForm from './components/description-form';
 import TagsForm from './components/tags-form';
 import TeamForm from './components/team-form';
 import LinksForm from './components/links-form';
+import RolesForm from './components/roles-form';
 import SettingsForm from './components/settings-form';
 import Header from './components/header';
 import Sidebar from './components/sidebar';
@@ -19,7 +20,7 @@ const Container = styled.div`
   .dashboard {
     display: grid;
     grid-template-columns: 0.3fr 1fr;
-    grid-template-rows: 1fr 45px;
+    grid-template-rows: 1fr 50px;
     grid-template-areas:
       'menu forms'
       'menu toolbar';
@@ -82,6 +83,9 @@ const Dashboard = ({ pid, onClose }) => {
       case 'links':
         setCurrentForm(<LinksForm />);
         break;
+      case 'roles':
+        setCurrentForm(<RolesForm />);
+        break;
       case 'settings':
         setCurrentForm(<SettingsForm pid={pid} />);
         break;
@@ -92,7 +96,7 @@ const Dashboard = ({ pid, onClose }) => {
   };
 
   const handleSubmit = (values) => {
-    updateProject({ values });
+    updateProject(values);
     setTimeout(onClose, 3000);
   };
 
@@ -103,7 +107,7 @@ const Dashboard = ({ pid, onClose }) => {
         enableReinitialize
         initialValues={{ ...project }}
         onSubmit={handleSubmit}
-        render={() => (
+        render={({ values }) => (
           <Form>
             <section className="dashboard">
               <Sidebar onSelectCategory={handleSidebar} />

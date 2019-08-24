@@ -6,6 +6,7 @@ import CardImage from './components/card-image';
 import CardTitle from './components/card-title';
 import CardBody from './components/card-body';
 import CardTags from './components/card-tags';
+import LikeButton from '../like-button/LikeButton';
 
 const Container = styled.div`
   height: 300px;
@@ -24,6 +25,13 @@ const Container = styled.div`
   :hover #project-title {
     text-decoration: underline;
     color: #0056b3;
+  }
+
+  .like-button {
+    margin-top: auto
+    margin-left: auto;
+    margin-right: 20px;
+    margin-bottom: 20px;
   }
 `;
 
@@ -51,6 +59,9 @@ const Card = ({ id, history, name, shortname, description, image, tags }) => {
       </CardHeader>
       <CardTags tags={tags} />
       <CardBody>{description}</CardBody>
+      <div className="like-button">
+        <LikeButton pid={id} />
+      </div>
     </Container>
   );
 };

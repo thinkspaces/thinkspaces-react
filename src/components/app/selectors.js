@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 
 const getTags = state => state.data.tags;
 
-const getProjects = state => orderBy(state.data.projects, [ 'title' ], [ 'asc' ]);
+const getProjects = state => orderBy(state.data.projects, [ 'name' ], [ 'asc' ]);
 
 export default createSelector(
   [ getTags, getProjects ],

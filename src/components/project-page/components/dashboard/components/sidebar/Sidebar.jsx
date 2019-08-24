@@ -12,6 +12,9 @@ const Sidebar = ({ className, onSelectCategory }) => (
     <button type="button" name="images" className="sidebarItem" onClick={onSelectCategory}>
       Images
     </button>
+    <button type="button" name="roles" className="sidebarItem" onClick={onSelectCategory}>
+      Roles
+    </button>
     <button type="button" name="team" className="sidebarItem" onClick={onSelectCategory}>
       Team
     </button>

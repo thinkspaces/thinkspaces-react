@@ -9,6 +9,8 @@ const Container = styled.div`
   font-weight: bold;
   display: flex;
   justify-content: space-around;
+  grid-area: banner;
+  margin-bottom: 50px;
 
   h5 {
     margin-top: 10px;

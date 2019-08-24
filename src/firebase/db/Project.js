@@ -29,6 +29,9 @@ const defaultProps = {
   admin: [], // String[] ids
   roles: [], // { compensation: '', meetings: '', description: '', title: '', etc. }
   privacy: false,
+  likes: {},
+  about: '',
+  contact: '',
 };
 
 /**

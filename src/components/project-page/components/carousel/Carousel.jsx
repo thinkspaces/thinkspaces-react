@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Carousel as RSCarousel, CarouselItem, CarouselIndicators } from 'reactstrap';
 
-const imageStyle = { height: 'auto', maxHeight: '500px' };
+const imageStyle = {
+  height: '320px',
+  objectFit: 'contain',
+  width: '100%',
+  paddingLeft: '15%',
+  paddingRight: '15%',
+};
 
 class Carousel extends Component {
   state = { activeIndex: 0 };

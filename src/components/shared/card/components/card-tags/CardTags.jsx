@@ -6,7 +6,7 @@ const Container = styled.div`
   flex: 1;
   display: flex;
   flex-wrap: wrap;
-  color: #007bff;
+  color: steelblue;
   padding: 10px 20px;
 `;
 

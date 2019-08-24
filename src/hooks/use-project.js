@@ -6,6 +6,7 @@ import { getProject, updateProject, createProject, deleteProject } from '../comp
 export default (pid = null) => {
   const dispatch = useDispatch();
   const project = useSelector(state => state.data.projects[pid]);
+  const tags = useSelector(state => project && project.tags.map(tag => state.data.tags[tag]));
   const actions = bindActionCreators(
     { getProject, updateProject, createProject, deleteProject },
     dispatch,
@@ -17,5 +18,5 @@ export default (pid = null) => {
     }
   }, [ pid ]);
 
-  return { project, ...actions };
+  return { project, tags, ...actions };
 };

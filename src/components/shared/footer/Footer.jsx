@@ -2,6 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.footer`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  
   padding-left: 5%
   height: 60px;
   line-height: 60px;

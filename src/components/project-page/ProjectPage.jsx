@@ -1,58 +1,74 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
 import { some, get, isNil } from 'lodash';
 import { withRouter } from 'react-router-dom';
 
-import { Row } from 'reactstrap';
-
 import Dashboard from './components/dashboard';
-import BannerContent from './components/banner-content';
-import ProjectInfoContent from './components/project-info-content';
-import SocialContentSection from './components/social-content-section';
 import EditProjectBanner from './components/edit-project-banner';
-
+import Info from './components/info';
+import Need from './components/need';
+import About from './components/about';
+import Image from './components/image';
+import Likes from './components/likes';
+import ContactModal from '../shared/contact-modal';
 import useProject from '../../hooks/use-project';
 import useUser from '../../hooks/use-user';
+import useModal from '../../hooks/use-modal';
+
+const Container = styled.section`
+  display: grid;
+  grid-template-columns: 20% 1fr 20%;
+  grid-template-rows: auto auto auto auto;
+  grid-template-areas: 'banner banner banner' 'image info likes' '. need .' '. about .';
+`;
+
+const CONTACT_MODAL_ID = 'CONTACT_MODAL_ID';
 
 const ProjectPage = ({ location }) => {
   const [ showDashboard, setShowDashboard ] = useState(false);
   const [ editable, setEditable ] = useState(false);
 
   const pid = get(location, 'state.id', null);
-  const { project } = useProject(pid);
+  const { project, tags } = useProject(pid);
   const { user } = useUser();
+  const { closeModal, openModal, isModalOpen } = useModal();
 
   useEffect(() => {
     if (project && user) {
-      const _editable = some(project.team, id => id === user.id)
-        || some(project.admin, id => id === user.id)
-        || project.owner === user.id;
+      const _editable = some(project.admin, id => id === user.id) || project.owner === user.id;
       setEditable(_editable);
     }
   }, [ project, user ]);
-
-  const toggleDashboard = toggle => () => setShowDashboard(toggle);
 
   if (isNil(project)) {
     return <div>Loading...</div>;
   }
   if (showDashboard) {
-    return <Dashboard pid={pid} onClose={toggleDashboard(false)} />;
+    return <Dashboard pid={pid} onClose={() => setShowDashboard(false)} />;
   }
   return (
-    <section>
-      {editable ? <EditProjectBanner onEdit={toggleDashboard(true)} /> : <div />}
-      <Row>
-        <BannerContent name={project.name} images={project.images} />
-        <ProjectInfoContent project={project} />
-      </Row>
-      <SocialContentSection
-        isOwner={editable}
-        projectId={pid}
-        ourstory={project.about ? project.about : ''}
-        selected={location.hash}
+    <Container>
+      {editable && <EditProjectBanner onEdit={() => setShowDashboard(true)} />}
+      <Image images={project.images} />
+      <Info name={project.name} description={project.description} tags={tags} />
+      <Likes pid={pid} />
+      <Need roles={project.roles} onContact={openModal(CONTACT_MODAL_ID)} />
+      <About about={project.about} images={project.images} links={project.links} />
+      <ContactModal
+        open={isModalOpen(CONTACT_MODAL_ID)}
+        toggle={closeModal}
+        buttonLabel={`Contact ${ project.name }`}
+        modalBody={<a href={`mailto:${ project.contact }`}>{project.contact}</a>}
       />
-    </section>
+    </Container>
   );
 };
 
 export default withRouter(ProjectPage);
+
+/* <SocialContentSection
+        isOwner={editable}
+        projectId={pid}
+        ourstory={project.about ? project.about : ''}
+        selected={location.hash}
+      /> */

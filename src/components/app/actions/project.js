@@ -23,7 +23,7 @@ export const getProject = createAction('GET_PROJECT', async (pid) => {
   return normalize(response, schema.project);
 });
 
-export const updateProject = createAction('UPDATE_PROJECT', async ({ values }) => {
+export const updateProject = createAction('UPDATE_PROJECT', async (values) => {
   let imageURLs = [ ...values.images ];
   if (values.images.length > 0 && values.images[0] instanceof File) {
     await storage.deleteProjectImages(values.id);

@@ -59,10 +59,10 @@ const FieldContainer = styled.div`
   }
 `;
 
-const ValueField = ({ title, name, component }) => (
+const ValueField = ({ title, name, component, placeholder }) => (
   <FieldContainer>
     <span>{title}</span>
-    <Field name={name} className="input" component={component} />
+    <Field name={name} className="input" placeholder={placeholder} component={component} />
   </FieldContainer>
 );
 
@@ -89,14 +89,30 @@ const SubmitProject = ({ history }) => {
       <Formik
         initialValues={{ name: '', description: '', tags: [] }}
         onSubmit={handleSubmit}
-        render={({ values }) => (
+        render={() => (
           <Form>
             <section>
               <div className="details">
                 <h5>Step 1: Basic Info</h5>
               </div>
-              <ValueField title="Project Name" name="name" component="input" />
-              <ValueField title="Description" name="description" component="textarea" />
+              <ValueField
+                title="Project Name"
+                name="name"
+                component="input"
+                placeholder="e.g Thinkspaces"
+              />
+              <ValueField
+                title="Description"
+                name="description"
+                component="input"
+                placeholder="e.g. A community of creators!"
+              />
+              <ValueField
+                title="About"
+                name="about"
+                component="textarea"
+                placeholder="e.g. Welcome to our platform, we connect teams..."
+              />
             </section>
             <section>
               <div className="details">
