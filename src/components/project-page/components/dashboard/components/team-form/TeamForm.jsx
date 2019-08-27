@@ -31,7 +31,7 @@ const TeamForm = ({ className }) => {
   const promiseOptions = usernameInput =>
     new Promise((resolve) => {
       const filterUsers = async () => {
-        const users = await db.getAllByFilter('users')(db.where('username')('>=')(usernameInput));
+        const users = await db.getAllByFilter('users')(db.where('full_name')('>=')(usernameInput));
         return users;
       };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { get } from 'lodash';
 import Overview from './components/profile-summary';
-import SocialContentSection from './components/social-content-section';
+// import SocialContentSection from './components/social-content-section';
 import useUser from '../../hooks/use-user';
 
 const ProfilePage = ({ match, location }) => {
@@ -11,7 +11,7 @@ const ProfilePage = ({ match, location }) => {
   return (
     <div>
       <Overview authUser={user} uid={id} />
-      <SocialContentSection uid={id} authUser={user} selected={location.hash} />
+      {/* <SocialContentSection uid={id} authUser={user} selected={location.hash} /> */}
     </div>
   );
 };
