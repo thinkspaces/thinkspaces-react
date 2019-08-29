@@ -33,7 +33,6 @@ class SignUp extends Component {
     const { history } = this.props;
     delete profile.password;
     await User.create(uid)(profile);
-
     history.push('/');
   };
 

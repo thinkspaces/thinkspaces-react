@@ -1,5 +1,5 @@
 import { handleActions } from 'redux-actions';
-import { setUser, loginUser, logoutUser } from '../actions';
+import { setUser, loginUser, logoutUser, createUser } from '../actions';
 
 const reducer = handleActions(
   {
@@ -11,6 +11,9 @@ const reducer = handleActions(
     },
     [logoutUser]: {
       FULFILLED: () => ({}),
+    },
+    [createUser]: {
+      FULFILLED: (state, action) => action.payload,
     },
   },
   {},

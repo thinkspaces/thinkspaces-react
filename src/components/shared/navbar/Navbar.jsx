@@ -15,6 +15,7 @@ import {
   DropdownMenu,
 } from 'reactstrap';
 
+import { isEmpty } from 'lodash';
 import logo from '../../../assets/logo-circle.png';
 import useUser from '../../../hooks/use-user';
 
@@ -72,7 +73,7 @@ const Navbar = () => {
             {user ? (
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  {user.preferred_name}
+                  {isEmpty(user.preferred_name) ? user.full_name : user.preferred_name}
                 </DropdownToggle>
                 <DropdownMenu right>
                   <Link style={{ textDecoration: 'none' }} to={`/profile/${ user.id }`}>

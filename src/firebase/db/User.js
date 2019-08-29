@@ -1,3 +1,4 @@
+/* eslint import/prefer-default-export: 0 */
 import { compose, formatProps, getRefFromPath, finalizeDocument } from './shared';
 
 /**
@@ -29,4 +30,4 @@ const create = userId => props =>
     getRefFromPath('users'),
   )(userId);
 
-export default { create };
+export { create };
