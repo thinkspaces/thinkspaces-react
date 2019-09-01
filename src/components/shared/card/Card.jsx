@@ -30,8 +30,8 @@ const Container = styled.div`
   .like-button {
     margin-top: auto
     margin-left: auto;
-    margin-right: 20px;
-    margin-bottom: 20px;
+    margin-right: 30px;
+    margin-bottom: 30px;
   }
 `;
 
@@ -40,7 +40,7 @@ const CardHeader = styled.div`
   flex: 1;
   justify-content: space-between;
 
-  padding: 30px 20px 0px;
+  padding: 30px 25px 15px;
   max-height: min-content;
 `;
 
@@ -54,10 +54,12 @@ const Card = ({ id, history, name, shortname, description, image, tags }) => {
   return (
     <Container onClick={openProject}>
       <CardHeader>
+      <div>
         <CardTitle title={name} />
+        <CardTags tags={tags} />
+        </div>
         <CardImage image={image} />
       </CardHeader>
-      <CardTags tags={tags} />
       <CardBody>{description}</CardBody>
       <div className="like-button">
         <LikeButton pid={id} />

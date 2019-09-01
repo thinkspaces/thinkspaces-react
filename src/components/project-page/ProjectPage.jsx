@@ -19,7 +19,16 @@ const Container = styled.section`
   display: grid;
   grid-template-columns: 20% 1fr 20%;
   grid-template-rows: auto auto auto auto;
-  grid-template-areas: 'banner banner banner' 'image info likes' '. need .' '. about .';
+  grid-template-areas: "banner banner banner" "image info likes" ". need ." ". about .";
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr 0.3fr;
+    grid-template-areas:
+      "banner ."
+      "image ."
+      "info likes"
+      "need ."
+      "about .";
+  }
 `;
 
 const CONTACT_MODAL_ID = 'CONTACT_MODAL_ID';
@@ -35,7 +44,7 @@ const ProjectPage = ({ location }) => {
 
   useEffect(() => {
     if (project && user) {
-      const _editable = some(project.admin, id => id === user.id) || project.owner === user.id;
+      const _editable =        some(project.admin, id => id === user.id) || project.owner === user.id;
       setEditable(_editable);
     }
   }, [ project, user ]);
@@ -53,7 +62,11 @@ const ProjectPage = ({ location }) => {
       <Info name={project.name} description={project.description} tags={tags} />
       <Likes pid={pid} />
       <Need roles={project.roles} onContact={openModal(CONTACT_MODAL_ID)} />
-      <About about={project.about} images={project.images} links={project.links} />
+      <About
+        about={project.about}
+        images={project.images}
+        links={project.links}
+      />
       <ContactModal
         open={isModalOpen(CONTACT_MODAL_ID)}
         toggle={closeModal}

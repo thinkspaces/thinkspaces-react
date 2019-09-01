@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  margin: 0px 20px;
+  margin: 0px 25px;
   // padding-top: 10px;
   overflow: hidden;
   display: -webkit-box;
@@ -14,7 +14,7 @@ const Container = styled.div`
 const Text = styled.div`
   line-height: 1.3;
   font-size: 1.25rem;
-  color: lightslategrey;
+  color: #707070;
 `;
 
 const CardBody = ({ children }) => (

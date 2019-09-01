@@ -7,11 +7,11 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   color: steelblue;
-  padding: 10px 20px;
+  padding-top: 10px;
 `;
 
 const CardTags = ({ tags }) => (
-  <Container>{tags.map(tag => tag && <span>#{tag.name}</span>)}</Container>
+  <Container>{tags.map(tag => tag && <span>#{tag.name} &nbsp;</span>)}</Container>
 );
 
 CardTags.defaultProps = {
