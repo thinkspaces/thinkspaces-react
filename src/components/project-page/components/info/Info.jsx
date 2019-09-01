@@ -2,14 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  border-bottom: 1px solid lightgray
+  border-bottom: 1px solid lightgray;
   grid-area: info;
   padding-bottom: 50px;
 
   p {
     margin-bottom: 0px;
   }
-  
+
   .tags {
     color: steelblue;
   }
