@@ -21,13 +21,14 @@ const Home = ({ history }) => {
   return (
     <div>
       <Header>
-        <h1>Find any opportunity anytime. </h1>
+        <h1>Find and work on projects by Yalies</h1>
         <Banner
           gotoSubmit={() => history.push('/submitproject')}
           goToSignUp={() => history.push('/signupin')}
           goToAbout={() => history.push('/about')}
         />
       </Header>
+      <br />
       <br />
       <SectionTitle>
         <span role="img" aria-label="Fire">
@@ -49,6 +50,7 @@ const Home = ({ history }) => {
           </Col>
         ))}
       </Row>
+      <br />
       <SectionTitle>
         <span role="img" aria-label="BikingMan">
           🚴‍
