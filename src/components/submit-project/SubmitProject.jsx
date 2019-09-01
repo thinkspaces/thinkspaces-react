@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Field, Form, Formik } from 'formik';
+import { Link } from 'react-router-dom';
 import Button from '../shared/button';
 
 import useUser from '../../hooks/use-user';
@@ -18,7 +19,11 @@ const Container = styled.div`
 
   h2 {
     padding-left: 10%;
-    margin-bottom: 50px;
+    /* margin-bottom: 50px; */
+  }
+
+  .loginNotice {
+    padding-left: 10%;
   }
 
   section {
@@ -62,7 +67,12 @@ const FieldContainer = styled.div`
 const ValueField = ({ title, name, component, placeholder }) => (
   <FieldContainer>
     <span>{title}</span>
-    <Field name={name} className="input" placeholder={placeholder} component={component} />
+    <Field
+      name={name}
+      className="input"
+      placeholder={placeholder}
+      component={component}
+    />
   </FieldContainer>
 );
 
@@ -78,7 +88,9 @@ const SubmitProject = ({ history }) => {
         admin: [ user.id ],
       });
       if (payload) {
-        history.replace(`/projects/${ payload.value.result }`, { id: payload.value.result });
+        history.replace(`/projects/${ payload.value.result }`, {
+          id: payload.value.result,
+        });
       }
     }
   };
@@ -86,76 +98,87 @@ const SubmitProject = ({ history }) => {
   return (
     <Container>
       <h2>Submit a Project</h2>
-      <Formik
-        initialValues={{ name: '', description: '', tags: [] }}
-        onSubmit={handleSubmit}
-        render={() => (
-          <Form>
-            <section>
-              <div className="details">
-                <h5>Step 1: Basic Info</h5>
-              </div>
-              <ValueField
-                title="Project Name"
-                name="name"
-                component="input"
-                placeholder="e.g Thinkspaces"
-              />
-              <ValueField
-                title="Description"
-                name="description"
-                component="input"
-                placeholder="e.g. A community of creators!"
-              />
-              <ValueField
-                title="About"
-                name="about"
-                component="textarea"
-                placeholder="e.g. Welcome to our platform, we connect teams..."
-              />
-            </section>
-            <section>
-              <div className="details">
-                <h5>Step 2: Project Tags</h5>
-                <span>These tags will help users find your project</span>
-              </div>
-              <Field
-                name="tags"
-                render={({ field, form }) => (
-                  <>
-                    <FieldContainer>
-                      <span>Discipline</span>
-                      <DisciplineSelect field={field} form={form} />
-                    </FieldContainer>
-                    <FieldContainer>
-                      <span>Organization</span>
-                      <OrganizationSelect field={field} form={form} />
-                    </FieldContainer>
-                    <FieldContainer>
-                      <span>Status</span>
-                      <StatusSelect field={field} form={form} />
-                    </FieldContainer>
-                  </>
-                )}
-              />
-            </section>
-            {/* <section>
-            <div className="details">
-              <h5>Step 3: Who you need</h5>
-              <span>These tags will help users find your project</span>
-            </div>
-            <ValueField title="Role" name="role" component="input" />
-            <ValueField
-              title="Description of Responsibilities"
-              name="responsibilities"
-              component="textarea"
-            />
-          </section> */}
-            <Button type="submit">Submit Project</Button>
-            {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
-          </Form>
-        )}
-      />
+      {!user ? (
+        <p className="loginNotice">
+          You need to be <Link to="/signupin">logged in</Link>, in order to
+          submit a new project.
+        </p>
+      ) : (
+        <>
+          <br />
+          <br />
+          <Formik
+            initialValues={{ name: '', description: '', tags: [] }}
+            onSubmit={handleSubmit}
+            render={() => (
+              <Form>
+                <section>
+                  <div className="details">
+                    <h5>Step 1: Basic Info</h5>
+                  </div>
+                  <ValueField
+                    title="Project Name"
+                    name="name"
+                    component="input"
+                    placeholder="e.g Thinkspaces"
+                  />
+                  <ValueField
+                    title="Description"
+                    name="description"
+                    component="input"
+                    placeholder="e.g. A community of creators!"
+                  />
+                  <ValueField
+                    title="About"
+                    name="about"
+                    component="textarea"
+                    placeholder="e.g. Welcome to our platform, we connect teams..."
+                  />
+                </section>
+                <section>
+                  <div className="details">
+                    <h5>Step 2: Project Tags</h5>
+                    <span>These tags will help users find your project</span>
+                  </div>
+                  <Field
+                    name="tags"
+                    render={({ field, form }) => (
+                      <>
+                        <FieldContainer>
+                          <span>Discipline</span>
+                          <DisciplineSelect field={field} form={form} />
+                        </FieldContainer>
+                        <FieldContainer>
+                          <span>Organization</span>
+                          <OrganizationSelect field={field} form={form} />
+                        </FieldContainer>
+                        <FieldContainer>
+                          <span>Status</span>
+                          <StatusSelect field={field} form={form} />
+                        </FieldContainer>
+                      </>
+                    )}
+                  />
+                </section>
+                {/* <section>
+          <div className="details">
+            <h5>Step 3: Who you need</h5>
+            <span>These tags will help users find your project</span>
+          </div>
+          <ValueField title="Role" name="role" component="input" />
+          <ValueField
+            title="Description of Responsibilities"
+            name="responsibilities"
+            component="textarea"
+          />
+        </section> */}
+                <Button type="submit">Submit Project</Button>
+                {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+              </Form>
+            )}
+          />
+        </>
+      )}
     </Container>
   );
 };
