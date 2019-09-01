@@ -6,9 +6,15 @@ const Container = styled.div`
   // align-self: flex-end;
 `;
 
+const Text = styled.div`
+  line-height: 1.3;
+  font-size: 1.25rem;
+  font-weight: bold;
+`;
+
 const CardTitle = ({ title }) => (
   <Container id="project-title">
-    <h4>{title}</h4>
+    <Text>{title}</Text>
   </Container>
 );
 
