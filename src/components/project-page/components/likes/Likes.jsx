@@ -5,6 +5,11 @@ import LikeButton from '../../../shared/like-button/LikeButton';
 const Container = styled.section`
   padding-left: 30px;
   grid-area: likes;
+
+  @media (max-width: 768px) {
+    padding-left: 0;
+    text-align: center;
+  }
 `;
 
 const Likes = ({ pid }) => (
