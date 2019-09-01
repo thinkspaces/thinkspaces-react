@@ -24,7 +24,7 @@ const LikeButton = ({ pid }) => {
     }
   };
   return (
-    <Button color="steelblue" onClick={addLike}>
+    <Button variant="outlined" color="#0058FF" onClick={addLike}>
       <Icon icon={ic_favorite_border} /> {Object.keys(project && project.likes).length}
     </Button>
   );

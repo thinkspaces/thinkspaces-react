@@ -5,9 +5,10 @@ import theme from 'styled-theming';
 const buttonStyle = theme.variants('mode', 'variant', {
   outlined: {
     bubbly: css`
-      border: 2px solid ${ props => props.color || '#ff6e6e' };
+      border: 1px solid ${ props => props.color || '#ff6e6e' };
       color: ${ props => props.color || '#ff6e6e' };
       font-weight: bold;
+      padding: 0.2em 0.5em;
       :focus {
         outline: 0;
         box-shadow: 0 0 0 0.2rem #d7d9e8;
@@ -20,6 +21,7 @@ const buttonStyle = theme.variants('mode', 'variant', {
       font-weight: bold;
       border: 2px solid transparent;
       color: ${ props => props.color || '#ff6e6e' };
+      padding: 0.4em 1em;
 
       :hover {
         text-decoration: underline;
@@ -36,6 +38,7 @@ const buttonStyle = theme.variants('mode', 'variant', {
       background: ${ props => props.color || '#ff6e6e' };
       color: white;
       font-weight: bold;
+      padding: 0.4em 1em;
 
       :hover {
         filter: brightness(95%);
@@ -50,7 +53,6 @@ const buttonStyle = theme.variants('mode', 'variant', {
 });
 
 const Button = styled.button`
-  padding: 0.4em 1em;
   font-family: HelveticaNeue;
   border-radius: 3px;
   background: white;
