@@ -90,6 +90,7 @@ const SubmitProject = ({ history }) => {
       if (payload) {
         history.replace(`/projects/${ payload.value.result }`, {
           id: payload.value.result,
+          showDashboard: true
         });
       }
     }

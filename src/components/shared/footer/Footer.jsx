@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.footer`
   position: absolute;
@@ -17,6 +17,8 @@ const Container = styled.footer`
   }
 `;
 
-const Footer = () => <Container>©Thinkspaces 2019. All rights reserved.</Container>;
+const Footer = () => (
+  <Container>©Thinkspaces 2020. All rights reserved.</Container>
+);
 
 export default Footer;
