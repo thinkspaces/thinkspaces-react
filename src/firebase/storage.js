@@ -1,16 +1,17 @@
-import uuidv1 from 'uuid/v1';
-import { storage } from './firebase';
-import { db } from './db';
-import urlToFile from '../utils/urlToFile';
+/* eslint import/no-cycle: 0, consistent-return: 0 */
+import uuidv1 from "uuid/v1";
+import { storage } from "./firebase";
+import { db } from "./db";
+import urlToFile from "../utils/urlToFile";
 
 export const uploadProfileImage = async (uid, file) => {
-  const pictureRef = storage.ref(`images/users/${ uid }/profile`);
+  const pictureRef = storage.ref(`images/users/${uid}/profile`);
   await pictureRef.put(file);
   return pictureRef.getDownloadURL();
 };
 
 export const removeProfileImage = async (uid) => {
-  const pictureRef = storage.ref(`images/users/${ uid }/profile`);
+  const pictureRef = storage.ref(`images/users/${uid}/profile`);
   await pictureRef.delete();
 };
 
@@ -26,9 +27,9 @@ export const uploadProjectImages = async (pid, imageFiles) => {
   }
   const imageURLs = await Promise.all(
     imageFiles.map(async (file) => {
-      const path = `images/projects/${ pid }/listing/${ uuidv1() }`;
+      const path = `images/projects/${pid}/listing/${uuidv1()}`;
       return genericUpload(path, file);
-    }),
+    })
   );
   return imageURLs;
 };
@@ -69,7 +70,7 @@ export const uploadProjectImages = async (pid, imageFiles) => {
 
 // unfortunately, Cloud Storage cannot list all files in a directory
 // therefore, the images must be retrieved from the db
-export const downloadProjectImages = imageUrls =>
+export const downloadProjectImages = (imageUrls) =>
   Promise.all(
     imageUrls.map(async (url) => {
       const ref = storage.refFromURL(url);
@@ -79,11 +80,11 @@ export const downloadProjectImages = imageUrls =>
       if (metadata) {
         return urlToFile(url, metadata.name, metadata.contentType);
       }
-    }),
+    })
   );
 
 export const deleteProjectImages = async (pid) => {
-  const project = await db.get('projects')(pid);
+  const project = await db.get("projects")(pid);
   // const project = await getProjectByID(pid);
   const imageURLs = project.images;
   if (imageURLs) {
@@ -95,7 +96,7 @@ export const deleteProjectImages = async (pid) => {
         } catch (e) {
           console.log(e);
         }
-      }),
+      })
     );
   }
 };

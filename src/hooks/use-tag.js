@@ -1,11 +1,12 @@
-import { useSelector } from 'react-redux';
-import { filter, map, reduce, isNil, isArray, concat } from 'lodash';
+// Libraries
+import { useSelector } from "react-redux";
+import { filter, map, reduce, isNil, isArray, concat } from "lodash";
 
 const useTag = (fieldValues, type, form) => {
-  const allTags = useSelector(state => filter(state.data.tags, { type }));
-  const { chosenTags, otherTags } = useSelector(state =>
+  const allTags = useSelector((state) => filter(state.data.tags, { type }));
+  const { chosenTags, otherTags } = useSelector((state) =>
     reduce(
-      map(fieldValues, tagId => state.data.tags[tagId]),
+      map(fieldValues, (tagId) => state.data.tags[tagId]),
       (result, tag) => {
         if (!isNil(tag)) {
           if (tag.type === type) result.chosenTags.push(tag);
@@ -13,17 +14,24 @@ const useTag = (fieldValues, type, form) => {
         }
         return result;
       },
-      { chosenTags: [], otherTags: [] },
-    ));
+      { chosenTags: [], otherTags: [] }
+    )
+  );
 
   const handleChanges = (value) => {
     let _chosenTags = [];
     if (isArray(value)) {
-      _chosenTags = concat(map(otherTags, tag => tag.id), map(value, tag => tag.id));
+      _chosenTags = concat(
+        map(otherTags, (tag) => tag.id),
+        map(value, (tag) => tag.id)
+      );
     } else {
-      _chosenTags = concat(map(otherTags, tag => tag.id), value.id);
+      _chosenTags = concat(
+        map(otherTags, (tag) => tag.id),
+        value.id
+      );
     }
-    form.setFieldValue('tags', _chosenTags);
+    form.setFieldValue("tags", _chosenTags);
   };
 
   return { allTags, chosenTags, otherTags, handleChanges };

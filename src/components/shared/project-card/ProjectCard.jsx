@@ -1,25 +1,33 @@
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
-import './ProjectCard.css';
-import ReactGA from 'react-ga';
-import { Row, Col } from 'reactstrap';
-import LikeButton from '../like-button';
+// Libraries
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
+import ReactGA from "react-ga";
+
+// Components
+import { Row, Col } from "reactstrap";
+
+// Styles
+import "./ProjectCard.css";
 
 const Card = ({ width, children, onClick }) => (
-  <div onClick={onClick} className="card" style={{ width: width <= 690 ? 'auto' : '318px' }}>
+  <div
+    onClick={onClick}
+    className="card"
+    style={{ width: width <= 690 ? "auto" : "318px" }}
+  >
     {children}
   </div>
 );
 
 const CardImage = ({ image }) => (
   <div className="project-image-container">
-    <img src={image || 'https://via.placeholder.com/300'} alt="project cover" />
+    <img src={image || "https://via.placeholder.com/300"} alt="project cover" />
   </div>
 );
 
-const CardTitle = ({ title, likes, pid, updateLikes }) => (
+const CardTitle = ({ title }) => (
   <div className="card-border">
     <div id="project-title">
       <h4>{title}</h4>
@@ -43,10 +51,14 @@ const CardTag = ({ title }) => (
 
 class ProjectCard extends Component {
   openProject = () => {
-    const { history, id, title, shortname } = this.props;
-    ReactGA.event({ category: 'Engagement', action: 'Clicked on project', label: title });
+    const { history, title, shortname } = this.props;
+    ReactGA.event({
+      category: "Engagement",
+      action: "Clicked on project",
+      label: title,
+    });
     if (shortname !== undefined) {
-      history.push(`/projects/${ shortname }`);
+      history.push(`/projects/${shortname}`);
     }
   };
 
@@ -57,7 +69,12 @@ class ProjectCard extends Component {
         <Card width={width} onClick={this.openProject}>
           <Row>
             <Col>
-              <CardTitle title={name} likes={likes} pid={id} updateLikes={updateLikes} />
+              <CardTitle
+                title={name}
+                likes={likes}
+                pid={id}
+                updateLikes={updateLikes}
+              />
               <CardTag title="tech" />
             </Col>
             {image != null ? <CardImage image={image} /> : <p />}

@@ -11,11 +11,14 @@ const About = () => (
         <p>
           <br />
           <h5>
-            Welcome to Thinkspaces! We're here to make collaboration easier by
-            connecting you with other Yalies who get things done, just like you.
+            Welcome to Thinkspaces! We<span>&apos;</span>re here to make
+            collaboration easier by connecting you with other Yalies who get
+            things done, just like you.
           </h5>
           <br />
-          <h4>Here's how it works:</h4>
+          <h4>
+            Here<span>&apos;</span>s how it works:
+          </h4>
           <br />
           <h5 style={{ fontWeight: "bold" }}>
             If you are looking for teammates,
@@ -38,7 +41,7 @@ const About = () => (
         <br />
         <h5>
           If you have any other questions, check out our FAQ below and contact
-          us at teamthinkspaces@gmail.com{" "}
+          us at teamthinkspaces@gmail.com
         </h5>
         <br />
       </Col>
@@ -61,7 +64,8 @@ const About = () => (
           <h4>Frequently Asked Questions </h4>
           <br />
           <h5 style={{ fontWeight: "bold" }}>
-            Who's posting on Thinkspaces and what type of projects will I find?
+            Who<span>&apos;</span>s posting on Thinkspaces and what type of
+            projects will I find?
           </h5>
           <br />
           <h5>
@@ -99,8 +103,9 @@ const About = () => (
           <br />
           <br />
           <h5 style={{ fontWeight: "bold" }}>
-            I'm a college student, but I don't have a ton of concrete skills.
-            Should I still apply to projects?
+            I<span>&apos;</span>m a college student, but I don
+            <span>&apos;</span>t have a ton of concrete skills. Should I still
+            apply to projects?
           </h5>
           <br />
           <h5>
@@ -132,7 +137,7 @@ const About = () => (
             not fret, there is a place for you on Thinkspaces. A lot of projects
             and opportunities are looking for people with a background in
             business, art, design, engineering, econ, etc. or even just someone
-            with a strong interest in the project's topic.
+            with a strong interest in the project<span>&apos;</span>s topic.
           </h5>
           <br />
           <h5>

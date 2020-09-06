@@ -1,18 +1,19 @@
-import React from 'react';
-import styled from 'styled-components';
-import { components } from 'react-select';
+// Libraries
+import React from "react";
+import styled from "styled-components";
+import { components } from "react-select";
 
 const Option = ({ className, data, ...props }) => {
-  const { full_name, profilepicture } = data;
+  const { full_name: fullName, profilepicture } = data;
   return (
     <components.Option {...props}>
       <div className={className}>
         <img
-          src={profilepicture || 'http://www.gravatar.com/avatar'}
+          src={profilepicture || "http://www.gravatar.com/avatar"}
           alt="user icon"
           className="icon"
         />
-        <span>{full_name}</span>
+        <span>{fullName}</span>
       </div>
     </components.Option>
   );

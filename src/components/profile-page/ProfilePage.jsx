@@ -1,12 +1,17 @@
-import React from 'react';
-import { get } from 'lodash';
-import Overview from './components/profile-summary';
-// import SocialContentSection from './components/social-content-section';
-import useUser from '../../hooks/use-user';
+// Libraries
+import React from "react";
+import { get } from "lodash";
 
-const ProfilePage = ({ match, location }) => {
+// Components
+import Overview from "components/profile-page/components/profile-summary";
+// import SocialContentSection from './components/social-content-section';
+
+// Hooks
+import useUser from "hooks/use-user";
+
+const ProfilePage = ({ match }) => {
   const { user } = useUser();
-  const id = get(match, 'params.id', null);
+  const id = get(match, "params.id", null);
 
   return (
     <div>

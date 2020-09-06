@@ -11,7 +11,8 @@
     "build:prod": "REACT_APP_ENV=production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "commit": "commit"
+    "commit": "commit",
+    "lint": "eslint --ext .js,.jsx src/"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.17",

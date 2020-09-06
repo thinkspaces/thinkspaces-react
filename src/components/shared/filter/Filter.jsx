@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 
-import { Row } from 'reactstrap';
-import { db } from '../../../firebase';
+import { Row } from "reactstrap";
+import { db } from "../../../firebase";
 
-import FilterDropdown from './components/filter-dropdown';
-import SearchBar from './components/search-bar';
+import FilterDropdown from "./components/filter-dropdown";
+import SearchBar from "./components/search-bar";
 
 const Container = styled.div`
   margin-bottom: 10px;
@@ -13,30 +13,31 @@ const Container = styled.div`
 `;
 
 const Filter = ({ types, onFilter }) => {
-  const [ categories, setCategories ] = useState([]);
-  const [ toggles, setToggles ] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [toggles, setToggles] = useState([]);
 
   useEffect(() => {
     const init = async () => {
       const _toggles = types.map(() => ({ open: false }));
       setToggles(_toggles);
 
-      let _categories = await types.map(item =>
-        db.getAllByFilter('tags')(db.where('type')('==')(item)));
+      let _categories = await types.map((item) =>
+        db.getAllByFilter("tags")(db.where("type")("==")(item))
+      );
       _categories = await Promise.all(
         _categories.map(async (category) => {
           let _category = await category;
-          _category = _category.map(item => ({ ...item, checked: false }));
+          _category = _category.map((item) => ({ ...item, checked: false }));
           return _category;
-        }),
+        })
       );
       setCategories(_categories);
     };
     init();
-  }, []);
+  }, [types]);
 
-  const toggle = i => () => {
-    setToggles(prevState => [
+  const toggle = (i) => () => {
+    setToggles((prevState) => [
       ...prevState.slice(0, i),
       { ...prevState[i], open: !prevState[i].open },
       ...prevState.slice(i + 1),
@@ -44,7 +45,7 @@ const Filter = ({ types, onFilter }) => {
   };
 
   const onSelectTag = (i, j) => {
-    setCategories(prevState => [
+    setCategories((prevState) => [
       ...prevState.slice(0, i),
       [
         ...prevState[i].slice(0, j),
@@ -67,7 +68,7 @@ const Filter = ({ types, onFilter }) => {
             toggle={toggle(i)}
             title={category[0].type}
             filterItems={category}
-            onSelect={j => onSelectTag(i, j)}
+            onSelect={(j) => onSelectTag(i, j)}
           />
         ))}
       </Row>

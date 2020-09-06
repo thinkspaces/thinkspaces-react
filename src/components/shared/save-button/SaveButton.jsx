@@ -1,22 +1,29 @@
-/* eslint-disable react/button-has-type */
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from '../button';
+// Libraries
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import styles from './SaveButton.module.css';
+// Components
+import Button from "components/shared/button";
+
+// Styles
+import styles from "./SaveButton.module.css";
 
 const SaveButton = ({
   loading,
   success,
-  error,
-  className = 'defBtn',
   onClick,
-  type = 'button',
+  type = "button",
   disabled = false,
-  text = 'Save',
+  text = "Save",
 }) => (
   <div className={styles.save}>
-    <Button type={type} variant="filled" color="#384EFA" onClick={onClick} disabled={disabled}>
+    <Button
+      type={type}
+      variant="filled"
+      color="#384EFA"
+      onClick={onClick}
+      disabled={disabled}
+    >
       {text}
     </Button>
     {loading ? (

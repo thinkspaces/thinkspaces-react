@@ -1,17 +1,17 @@
-import React, { useState, useRef, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState, useRef, useEffect } from "react";
+import styled from "styled-components";
 
-import { Field } from 'formik';
-import { db } from '../../../../../../../../firebase';
+import { Field } from "formik";
+import { db } from "../../../../../../../../firebase";
 
-import Tooltip from './components/Tooltip';
-import StatusIndicator from './components/StatusIndicator';
+import Tooltip from "./components/Tooltip";
+import StatusIndicator from "./components/StatusIndicator";
 
 const ShortInput = ({ field, inputRef, available, searching, handleInput }) => {
-  const [ init, setInit ] = useState('');
+  const [init, setInit] = useState("");
   useEffect(() => {
     setInit(field.value);
-  }, []);
+  }, [field.value]);
 
   return (
     <div className="wrap">
@@ -34,8 +34,8 @@ const ShortInput = ({ field, inputRef, available, searching, handleInput }) => {
 const ShortnameForm = ({ className }) => {
   const inputRef = useRef(null);
   // const [ valid, setValid ] = useState(true);
-  const [ available, setAvailable ] = useState(true);
-  const [ searching, setSearching ] = useState(false);
+  const [available, setAvailable] = useState(true);
+  const [searching, setSearching] = useState(false);
 
   const validate = () => {
     // check form is valid via ref
@@ -50,7 +50,7 @@ const ShortnameForm = ({ className }) => {
     }
   };
 
-  const resolveProjects = init => async (promise) => {
+  const resolveProjects = (init) => async (promise) => {
     setAvailable(false);
     setSearching(true);
     const projects = await promise;
@@ -67,10 +67,12 @@ const ShortnameForm = ({ className }) => {
     setSearching(false);
   };
 
-  const handleInput = field => init => async (event) => {
+  const handleInput = (field) => (init) => async (event) => {
     const sanitized = event.target.value.trim();
     field.onChange(event);
-    const promise = db.getAllByFilter('projects')(db.where('shortname')('==')(sanitized));
+    const promise = db.getAllByFilter("projects")(
+      db.where("shortname")("==")(sanitized)
+    );
     resolveProjects(init)(promise);
     validate();
   };

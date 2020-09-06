@@ -1,14 +1,14 @@
 /* eslint jsx-a11y/click-events-have-key-events: 0 */
 /* eslint jsx-a11y/no-static-element-interactions: 0 */
-import React from 'react';
-import './ProfileCard.css';
-import Avatar from 'react-avatar';
+import React from "react";
+import "./ProfileCard.css";
+import Avatar from "react-avatar";
 
 const Card = ({ width, children, onClick }) => (
   <div
     onClick={onClick}
     className="profile-card"
-    style={{ width: width <= 690 ? 'auto' : '318px' }}
+    style={{ width: width <= 690 ? "auto" : "318px" }}
   >
     {children}
   </div>
@@ -40,7 +40,7 @@ const CardBody = ({ headline }) => (
   </div>
 );
 
-const CardTag = ({ tags }) => (
+const CardTag = () => (
   <div className="profile-tag">
     <p>Tag</p>
   </div>

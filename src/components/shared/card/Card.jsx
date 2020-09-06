@@ -1,12 +1,12 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
+import React from "react";
+import { withRouter } from "react-router-dom";
+import styled from "styled-components";
 
-import CardImage from './components/card-image';
-import CardTitle from './components/card-title';
-import CardBody from './components/card-body';
-import CardTags from './components/card-tags';
-import LikeButton from '../like-button/LikeButton';
+import CardImage from "./components/card-image";
+import CardTitle from "./components/card-title";
+import CardBody from "./components/card-body";
+import CardTags from "./components/card-tags";
+import LikeButton from "../like-button/LikeButton";
 
 const Container = styled.div`
   height: 300px;
@@ -47,16 +47,16 @@ const CardHeader = styled.div`
 const Card = ({ id, history, name, shortname, description, image, tags }) => {
   const openProject = () => {
     if (shortname !== undefined) {
-      history.push(`/projects/${ shortname }`, { id });
+      history.push(`/projects/${shortname}`, { id });
     }
   };
 
   return (
     <Container onClick={openProject}>
       <CardHeader>
-      <div>
-        <CardTitle title={name} />
-        <CardTags tags={tags} />
+        <div>
+          <CardTitle title={name} />
+          <CardTags tags={tags} />
         </div>
         <CardImage image={image} />
       </CardHeader>
@@ -69,7 +69,7 @@ const Card = ({ id, history, name, shortname, description, image, tags }) => {
 };
 
 Card.defaultProps = {
-  description: '',
+  description: "",
 };
 
 export default withRouter(Card);

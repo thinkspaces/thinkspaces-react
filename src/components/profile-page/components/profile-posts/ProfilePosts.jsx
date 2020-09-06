@@ -1,10 +1,10 @@
 /* eslint camelcase: 0 */
-import React, { useState, useEffect } from 'react';
-import { Button, FormGroup, Input, Form } from 'reactstrap';
-import PostDropdown from '../../../shared/post-dropdown';
-import EditPostModal from '../../../shared/edit-post-modal';
+import React, { useState, useEffect } from "react";
+import { Button, FormGroup, Input, Form } from "reactstrap";
+import PostDropdown from "../../../shared/post-dropdown";
+import EditPostModal from "../../../shared/edit-post-modal";
 
-import { db } from '../../../../firebase';
+import { db } from "../../../../firebase";
 
 const PostInput = ({ createPost, post_details, onChange }) => (
   <Form onSubmit={createPost}>
@@ -23,16 +23,18 @@ const PostInput = ({ createPost, post_details, onChange }) => (
 );
 
 const Post = ({ children, index }) => (
-  <div style={{ padding: '0px 20px' }}>
-    {typeof index !== 'undefined' ? index > 0 && <hr /> : <hr />}
+  <div style={{ padding: "0px 20px" }}>
+    {typeof index !== "undefined" ? index > 0 && <hr /> : <hr />}
     {children}
   </div>
 );
 
 const PostHeader = ({ timestamp, onRemovePost, canEdit, onEditPost }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+  <div style={{ display: "flex", justifyContent: "space-between" }}>
     <p>{timestamp}</p>
-    {canEdit !== false && <PostDropdown onRemovePost={onRemovePost} onEditPost={onEditPost} />}
+    {canEdit !== false && (
+      <PostDropdown onRemovePost={onRemovePost} onEditPost={onEditPost} />
+    )}
   </div>
 );
 
@@ -69,8 +71,16 @@ const AuthSocialView = ({
   onEditPost,
 }) => (
   <div>
-    <PostInput post_details={post_details} createPost={createPost} onChange={onChange} />
-    <AuthPostFeed posts={posts} onRemovePost={onRemovePost} onEditPost={onEditPost} />
+    <PostInput
+      post_details={post_details}
+      createPost={createPost}
+      onChange={onChange}
+    />
+    <AuthPostFeed
+      posts={posts}
+      onRemovePost={onRemovePost}
+      onEditPost={onEditPost}
+    />
   </div>
 );
 
@@ -95,25 +105,25 @@ const GuestSocialView = ({ posts }) => (
 );
 
 const ProfilePosts = ({ uid, isOwner }) => {
-  const [ posts, setPosts ] = useState([]);
-  const [ description, setDescription ] = useState('');
-  const [ editable, setEditable ] = useState(false);
-  const [ index, setIndex ] = useState(0);
+  const [posts, setPosts] = useState([]);
+  const [description, setDescription] = useState("");
+  const [editable, setEditable] = useState(false);
+  const [index, setIndex] = useState(0);
   // state = { description: '', posts: [], editable: false, index: 0 };
 
   useEffect(() => {
     const init = async () => {
-      const _posts = await db.getPosts('users')(uid);
+      const _posts = await db.getPosts("users")(uid);
       setPosts(_posts);
     };
     init();
-  }, []);
+  }, [uid]);
 
   const createPost = async (event) => {
     event.preventDefault();
-    const post = await db.createPost('users')(uid)(description);
-    setDescription('');
-    setPosts([ ...posts, post ]);
+    const post = await db.createPost("users")(uid)(description);
+    setDescription("");
+    setPosts([...posts, post]);
     // this.setState(prevState => ({
     //   description: '',
     //   posts: [ ...prevState.posts, post ],
@@ -121,7 +131,7 @@ const ProfilePosts = ({ uid, isOwner }) => {
   };
 
   const onRemovePost = async (idx) => {
-    await db.removePost('users')(uid)(posts[idx].pid);
+    await db.removePost("users")(uid)(posts[idx].pid);
     posts.splice(idx, 1);
     setPosts(posts);
     // this.setState({ posts });
@@ -129,7 +139,7 @@ const ProfilePosts = ({ uid, isOwner }) => {
 
   const onEditPost = async (idx) => {
     // const { editable, posts } = this.state;
-    setEditable(prevState => !prevState);
+    setEditable((prevState) => !prevState);
     setDescription(posts[idx].description);
     setIndex(idx);
     // this.setState({ editable: !editable, description: posts[index].description });
@@ -137,10 +147,10 @@ const ProfilePosts = ({ uid, isOwner }) => {
   };
 
   const onSavePost = async () => {
-    setEditable(prevState => !prevState);
+    setEditable((prevState) => !prevState);
     // this.setState(prevState => ({ editable: !prevState.editable }));
-    await db.editPost('users')(uid)(posts[index].pid)(description);
-    const newPost = [ ...posts ];
+    await db.editPost("users")(uid)(posts[index].pid)(description);
+    const newPost = [...posts];
     newPost[index].description = description;
     setPosts(newPost);
     // this.setState({ posts: newPost });
@@ -152,7 +162,7 @@ const ProfilePosts = ({ uid, isOwner }) => {
         <AuthSocialView
           post_details={description}
           createPost={createPost}
-          onChange={event => setDescription(event.target.value)}
+          onChange={(event) => setDescription(event.target.value)}
           posts={posts}
           onRemovePost={onRemovePost}
           onEditPost={onEditPost}
@@ -163,9 +173,9 @@ const ProfilePosts = ({ uid, isOwner }) => {
       <EditPostModal
         onSavePost={onSavePost}
         description={description}
-        onChange={event => setDescription(event.target.value)}
+        onChange={(event) => setDescription(event.target.value)}
         editable={editable}
-        toggle={() => setEditable(prevState => !prevState)}
+        toggle={() => setEditable((prevState) => !prevState)}
       />
     </>
   );

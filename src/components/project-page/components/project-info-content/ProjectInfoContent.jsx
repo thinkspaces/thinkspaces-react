@@ -1,5 +1,6 @@
-import React, { useState, useEffect, memo } from 'react';
-import { Col, Row } from 'reactstrap';
+// Libraries
+import React, { useState, useEffect, memo } from "react";
+import { Col, Row } from "reactstrap";
 import {
   FacebookIcon,
   FacebookShareButton,
@@ -7,19 +8,22 @@ import {
   LinkedinIcon,
   TwitterShareButton,
   TwitterIcon,
-} from 'react-share';
+} from "react-share";
 
-import ViewProfileButton from '../view-profile-button';
-import ContactModal from '../../../shared/contact-modal';
-import { Project } from '../../../../firebase';
+// Components
+import ViewProfileButton from "components/project-page/components/view-profile-button";
+import ContactModal from "components/shared/contact-modal";
+
+// Utilities
+import { Project } from "../../../../firebase";
 
 // TODO: fix contact section
 // TODO: since contact is not in the project dashboard yet
-const ModalSection = ({ name, contact, pid }) => (
+const ModalSection = ({ name, pid }) => (
   <InfoView>
     <ContactModal
-      buttonLabel={`Contact ${ name }`}
-      modalBody={<a href={`mailto:${ name }`}>{name}</a>}
+      buttonLabel={`Contact ${name}`}
+      modalBody={<a href={`mailto:${name}`}>{name}</a>}
       projectId={pid}
       type="project"
     />
@@ -31,7 +35,7 @@ const SocialSection = ({ shortname }) => (
     <div className="d-flex">
       <FacebookShareButton
         style={{ marginRight: 10 }}
-        url={`https://thinkspaces.org/projects/${ shortname }`}
+        url={`https://thinkspaces.org/projects/${shortname}`}
         className="button is-outlined is-rounded facebook"
       >
         <span className="icon">
@@ -40,7 +44,7 @@ const SocialSection = ({ shortname }) => (
       </FacebookShareButton>
       <TwitterShareButton
         style={{ marginRight: 10 }}
-        url={`https://thinkspaces.org/projects/${ shortname }`}
+        url={`https://thinkspaces.org/projects/${shortname}`}
         className="button is-outlined is-rounded linkedin"
       >
         <span className="icon">
@@ -48,7 +52,7 @@ const SocialSection = ({ shortname }) => (
         </span>
       </TwitterShareButton>
       <LinkedinShareButton
-        url={`https://thinkspaces.org/projects/${ shortname }`}
+        url={`https://thinkspaces.org/projects/${shortname}`}
         className="button is-outlined is-rounded linkedin"
       >
         <span className="icon">
@@ -60,21 +64,25 @@ const SocialSection = ({ shortname }) => (
 );
 
 const TeamSection = ({ pid }) => {
-  const [ teamState, setTeamState ] = useState([]);
+  const [teamState, setTeamState] = useState([]);
 
   useEffect(() => {
     const init = async () => {
-      const team = await Project.getMembersFromFieldArray('team')('users')(pid);
+      const team = await Project.getMembersFromFieldArray("team")("users")(pid);
       setTeamState(team);
     };
     init();
-  }, [ pid ]);
+  }, [pid]);
 
   return (
     <InfoView title="Team">
-      <div style={{ display: 'inline-grid' }}>
+      <div style={{ display: "inline-grid" }}>
         {teamState.map((member, index) => (
-          <ViewProfileButton key={index} uid={member.id} text={member.full_name} />
+          <ViewProfileButton
+            key={index}
+            uid={member.id}
+            text={member.full_name}
+          />
         ))}
       </div>
     </InfoView>
@@ -83,7 +91,7 @@ const TeamSection = ({ pid }) => {
 
 const ContactSection = ({ links }) => (
   <InfoView title="Links">
-    {links.map(link => (
+    {links.map((link) => (
       <div>
         <a href={link.url}>{link.name}</a>
       </div>
