@@ -9,9 +9,10 @@ module.exports = {
   env: {
     es6: true,
     browser: true,
+    node: true,
   },
   plugins: ["react", "react-hooks"],
-  extends: ["eslint:recommended", "airbnb", "prettier", "prettier/react"],
+  extends: ["airbnb", "prettier", "prettier/react"],
   rules: {
     "space-in-parens": [0, "always"],
     "object-curly-spacing": [2, "always"],

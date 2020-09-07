@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   max-height: min-content;
@@ -11,7 +11,9 @@ const Container = styled.div`
 `;
 
 const CardTags = ({ tags }) => (
-  <Container>{tags.map(tag => tag && <span>#{tag.name} &nbsp;</span>)}</Container>
+  <Container>
+    {tags.map((tag, idx) => tag && <span key={idx}>#{tag.name} &nbsp;</span>)}
+  </Container>
 );
 
 CardTags.defaultProps = {

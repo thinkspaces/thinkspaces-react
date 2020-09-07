@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { Link } from "react-router-dom";
 import {
   Collapse,
   Navbar as RSNavbar,
@@ -13,11 +13,11 @@ import {
   DropdownToggle,
   DropdownItem,
   DropdownMenu,
-} from 'reactstrap';
+} from "reactstrap";
 
-import { isEmpty } from 'lodash';
-import logo from '../../../assets/logo-circle.png';
-import useUser from '../../../hooks/use-user';
+import { isEmpty } from "lodash";
+import logo from "../../../assets/logo-circle.png";
+import useUser from "../../../hooks/use-user";
 
 const NavLink = styled(Link)`
   display: block;
@@ -31,27 +31,25 @@ const NavLink = styled(Link)`
 
 const Navbar = () => {
   const { user, logoutUser } = useUser();
-  const [ isOpen, setIsOpen ] = useState(false);
-  const toggle = () => setIsOpen(prevState => !prevState);
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen((prevState) => !prevState);
 
   return (
     <RSNavbar color="inverse" light expand="md">
       <Container>
-        <Link to="/">
-          <NavbarBrand>
-            <div style={{ display: 'flex', flex: 1 }}>
-              <img
-                width="30px"
-                height="30px"
-                className="align-top rounded"
-                style={{ marginRight: 10 }}
-                src={logo}
-                alt="Logo"
-              />
-              <div style={{ color: 'rgba(0,0,0,.9)' }}>Thinkspaces</div>
-            </div>
-          </NavbarBrand>
-        </Link>
+        <NavbarBrand tag={Link} to="/">
+          <div style={{ display: "flex", flex: 1 }}>
+            <img
+              width="30px"
+              height="30px"
+              className="align-top rounded"
+              style={{ marginRight: 10 }}
+              src={logo}
+              alt="Logo"
+            />
+            <div style={{ color: "rgba(0,0,0,.9)" }}>Thinkspaces</div>
+          </div>
+        </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
@@ -73,10 +71,15 @@ const Navbar = () => {
             {user ? (
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  {isEmpty(user.preferred_name) ? user.full_name : user.preferred_name}
+                  {isEmpty(user.preferred_name)
+                    ? user.full_name
+                    : user.preferred_name}
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <Link style={{ textDecoration: 'none' }} to={`/profile/${ user.id }`}>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={`/profile/${user.id}`}
+                  >
                     <DropdownItem>My Profile</DropdownItem>
                   </Link>
                   <DropdownItem divider />
