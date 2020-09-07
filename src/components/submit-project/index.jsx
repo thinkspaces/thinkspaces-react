@@ -1,15 +1,15 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Field, Form, Formik } from 'formik';
-import { Link } from 'react-router-dom';
-import Button from '../shared/button';
+import React from "react";
+import styled from "styled-components";
+import { Field, Form, Formik } from "formik";
+import { Link } from "react-router-dom";
+import Button from "../shared/button";
 
-import useUser from '../../hooks/use-user';
-import useProject from '../../hooks/use-project';
+import useUser from "../../hooks/use-user";
+import useProject from "../../hooks/use-project";
 
-import DisciplineSelect from './components/discipline-select';
-import OrganizationSelect from './components/organization-select';
-import StatusSelect from './components/status-select';
+import DisciplineSelect from "./components/discipline-select";
+import OrganizationSelect from "./components/organization-select";
+import StatusSelect from "./components/status-select";
 
 const Container = styled.div`
   form {
@@ -84,13 +84,13 @@ const SubmitProject = ({ history }) => {
     if (user) {
       const payload = await createProject({
         ...values,
-        team: [ user.id ],
-        admin: [ user.id ],
+        team: [user.id],
+        admin: [user.id],
       });
       if (payload) {
-        history.replace(`/projects/${ payload.value.result }`, {
+        history.replace(`/projects/${payload.value.result}`, {
           id: payload.value.result,
-          showDashboard: true
+          showDashboard: true,
         });
       }
     }
@@ -109,7 +109,7 @@ const SubmitProject = ({ history }) => {
           <br />
           <br />
           <Formik
-            initialValues={{ name: '', description: '', tags: [] }}
+            initialValues={{ name: "", description: "", tags: [] }}
             onSubmit={handleSubmit}
             render={() => (
               <Form>

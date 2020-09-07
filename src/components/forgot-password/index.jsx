@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { FormGroup, Label, Input, Form } from 'reactstrap';
-import Button from '../shared/button';
-import { auth } from '../../firebase';
+import React, { Component } from "react";
+import { FormGroup, Label, Input, Form } from "reactstrap";
+import Button from "../shared/button";
+import { auth } from "../../firebase";
 
 class ForgotPassword extends Component {
-  state = { email: '' };
+  state = { email: "" };
 
   handlePassword = () => {
     const { email } = this.state;
@@ -27,7 +27,7 @@ class ForgotPassword extends Component {
               name="email"
               type="email"
               value={email}
-              onChange={event => this.setState({ email: event.target.value })}
+              onChange={(event) => this.setState({ email: event.target.value })}
             />
           </FormGroup>
           <Button onClick={this.handlePassword}>Send Reset Email</Button>

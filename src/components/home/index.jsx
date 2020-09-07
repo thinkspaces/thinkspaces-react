@@ -1,11 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { Row, Col } from 'reactstrap';
-import { orderBy } from 'lodash';
-import Banner from './components/banner';
-import Card from '../shared/card';
-import useProjects from '../../hooks/use-projects';
+import { Row, Col } from "reactstrap";
+import { orderBy } from "lodash";
+import Banner from "./components/banner";
+import Card from "../shared/card";
+import useProjects from "../../hooks/use-projects";
 
 const Header = styled.div`
   margin: 50 0;
@@ -17,15 +17,15 @@ const SectionTitle = styled.h3`
 
 const Home = ({ history }) => {
   let projects = useProjects();
-  projects = orderBy(projects, p => Object.keys(p.likes).length, [ 'desc' ]);
+  projects = orderBy(projects, (p) => Object.keys(p.likes).length, ["desc"]);
   return (
     <div>
       <Header>
         <h1>Find and work on projects by Yalies</h1>
         <Banner
-          gotoSubmit={() => history.push('/submitproject')}
-          goToSignUp={() => history.push('/signupin')}
-          goToAbout={() => history.push('/about')}
+          gotoSubmit={() => history.push("/submitproject")}
+          goToSignUp={() => history.push("/signupin")}
+          goToAbout={() => history.push("/about")}
         />
       </Header>
       <br />

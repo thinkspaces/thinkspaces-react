@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { withRouter } from 'react-router-dom';
-import Login from './components/login';
-import SignUp from './components/sign-up';
+import { withRouter } from "react-router-dom";
+import Login from "./components/login";
+import SignUp from "./components/sign-up";
 
 const SignUpIn = () => (
   <div>
