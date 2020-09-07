@@ -40,7 +40,7 @@ module.exports = {
     camelcase: [1],
     "no-underscore-dangle": [0, "always"],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn",
+    //"react-hooks/exhaustive-deps": "warn",
   },
   settings: {
     "import/resolver": {

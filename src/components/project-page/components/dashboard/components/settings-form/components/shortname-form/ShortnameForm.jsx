@@ -11,7 +11,7 @@ const ShortInput = ({ field, inputRef, available, searching, handleInput }) => {
   const [init, setInit] = useState("");
   useEffect(() => {
     setInit(field.value);
-  }, [field.value]);
+  }, []);
 
   return (
     <div className="wrap">

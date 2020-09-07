@@ -13,7 +13,7 @@ const TagsForm = () => {
   const actions = bindActionCreators({ getTags }, dispatch);
   useEffect(() => {
     actions.getTags();
-  }, [actions]);
+  }, []);
 
   return (
     <section>

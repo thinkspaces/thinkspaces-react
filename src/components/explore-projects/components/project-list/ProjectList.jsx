@@ -29,7 +29,7 @@ const ProjectList = ({ projects, appliedTags }) => {
           .length === 0
     );
     setFilteredProjects(filtered);
-  }, [appliedTags, projects]);
+  }, [appliedTags]);
 
   return (
     <Row>

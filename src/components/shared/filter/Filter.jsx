@@ -34,7 +34,7 @@ const Filter = ({ types, onFilter }) => {
       setCategories(_categories);
     };
     init();
-  }, [types]);
+  }, []);
 
   const toggle = (i) => () => {
     setToggles((prevState) => [

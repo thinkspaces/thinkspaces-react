@@ -20,7 +20,7 @@ export default ({ field, form }) => {
       }
     };
     init();
-  }, [field.value, form]);
+  }, []);
 
   const handleUpdateFiles = (fileItems) => {
     const updatedImages = fileItems.map((fileItem) => fileItem.file);

@@ -17,7 +17,7 @@ const useProjects = (firstRender = false) => {
       actions.getProjects();
       actions.getTags();
     }
-  }, [actions, firstRender]);
+  }, []);
 
   return projects;
 };
