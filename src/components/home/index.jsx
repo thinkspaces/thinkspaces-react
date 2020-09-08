@@ -1,11 +1,15 @@
+// Libraries
 import React from "react";
 import styled from "styled-components";
-
-import { Row, Col } from "reactstrap";
 import { orderBy } from "lodash";
-import Banner from "./components/banner";
-import Card from "../shared/card";
-import useProjects from "../../hooks/use-projects";
+
+// Components
+import { Row, Col } from "reactstrap";
+import Banner from "components/home/components/banner";
+import Card from "components/shared/card";
+
+// Hooks
+import useProjects from "hooks/use-projects";
 
 const Header = styled.div`
   margin: 50 0;

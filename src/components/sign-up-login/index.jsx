@@ -1,8 +1,10 @@
+// Libraries
 import React from "react";
-
 import { withRouter } from "react-router-dom";
-import Login from "./components/login";
-import SignUp from "./components/sign-up";
+
+// Components
+import Login from "components/sign-up-login/components/login";
+import SignUp from "components/sign-up-login/components/sign-up";
 
 const SignUpIn = () => (
   <div>

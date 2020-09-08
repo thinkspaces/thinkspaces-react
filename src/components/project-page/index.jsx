@@ -1,19 +1,23 @@
+// Libraries
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { some, get, isNil } from "lodash";
 import { withRouter } from "react-router-dom";
 
-import Dashboard from "./components/dashboard";
-import EditProjectBanner from "./components/edit-project-banner";
-import Info from "./components/info";
-import Need from "./components/need";
-import About from "./components/about";
-import Image from "./components/image";
-import Likes from "./components/likes";
-import ContactModal from "../shared/contact-modal";
-import useProject from "../../hooks/use-project";
-import useUser from "../../hooks/use-user";
-import useModal from "../../hooks/use-modal";
+// Components
+import Dashboard from "components/project-page/components/dashboard";
+import EditProjectBanner from "components/project-page/components/edit-project-banner";
+import Info from "components/project-page/components/info";
+import Need from "components/project-page/components/need";
+import About from "components/project-page/components/about";
+import Image from "components/project-page/components/image";
+import Likes from "components/project-page/components/likes";
+import ContactModal from "components/shared/contact-modal";
+
+// Hooks
+import useProject from "hooks/use-project";
+import useUser from "hooks/use-user";
+import useModal from "hooks/use-modal";
 
 const Container = styled.section`
   display: grid;

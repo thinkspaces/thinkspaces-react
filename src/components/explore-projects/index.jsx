@@ -1,9 +1,13 @@
+// Libraries
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import Filter from "../shared/filter";
-import ProjectList from "./components/project-list";
-import useProjects from "../../hooks/use-projects";
+// Components
+import Filter from "components/shared/filter";
+import ProjectList from "components/explore-projects/components/project-list";
+
+// Hooks
+import useProjects from "hooks/use-projects";
 
 const Header = styled.h2`
   margin-bottom: 0px;

@@ -4,7 +4,6 @@ import { get } from "lodash";
 
 // Components
 import Overview from "components/profile-page/components/profile-summary";
-// import SocialContentSection from './components/social-content-section';
 
 // Hooks
 import useUser from "hooks/use-user";
@@ -16,7 +15,6 @@ const ProfilePage = ({ match }) => {
   return (
     <div>
       <Overview authUser={user} uid={id} />
-      {/* <SocialContentSection uid={id} authUser={user} selected={location.hash} /> */}
     </div>
   );
 };

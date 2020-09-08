@@ -1,6 +1,11 @@
+// Libraries
 import React, { Component } from "react";
+
+// Components
 import { FormGroup, Label, Input, Form } from "reactstrap";
-import Button from "../shared/button";
+import Button from "components/shared/button";
+
+// Utilities
 import { auth } from "../../firebase";
 
 class ForgotPassword extends Component {

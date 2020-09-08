@@ -1,15 +1,18 @@
+// Libraries
 import React from "react";
 import styled from "styled-components";
 import { Field, Form, Formik } from "formik";
 import { Link } from "react-router-dom";
-import Button from "../shared/button";
 
-import useUser from "../../hooks/use-user";
-import useProject from "../../hooks/use-project";
+// Components
+import Button from "components/shared/button";
+import DisciplineSelect from "components/submit-project/components/discipline-select";
+import OrganizationSelect from "components/submit-project/components/organization-select";
+import StatusSelect from "components/submit-project/components/status-select";
 
-import DisciplineSelect from "./components/discipline-select";
-import OrganizationSelect from "./components/organization-select";
-import StatusSelect from "./components/status-select";
+// Hooks
+import useUser from "hooks/use-user";
+import useProject from "hooks/use-project";
 
 const Container = styled.div`
   form {

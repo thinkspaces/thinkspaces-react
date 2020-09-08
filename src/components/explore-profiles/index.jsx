@@ -1,12 +1,14 @@
 /* eslint react/no-unused-state: 0 */
+// Libraries
 import React, { Component } from "react";
 import ReactGA from "react-ga";
 
-import { db, auth } from "../../firebase";
+// Components
+import SignUpModal from "components/shared/sign-up-modal";
+import Filter from "components/shared/filter";
 
-// import ProfileList from './components/profile-list';
-import SignUpModal from "../shared/sign-up-modal";
-import Filter from "../shared/filter";
+// Utilities
+import { db, auth } from "../../firebase";
 
 class ExploreProfiles extends Component {
   state = { profiles: [], modal: false, loggedIn: false };
