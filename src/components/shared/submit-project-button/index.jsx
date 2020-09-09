@@ -1,23 +1,26 @@
-import React, { Component } from 'react';
+// Libraries
+import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
-import { Button } from 'reactstrap';
-import { withRouter } from 'react-router-dom';
-import SignUpModal from '../sign-up-modal';
+// Components
+import { Button } from "reactstrap";
+import SignUpModal from "components/shared/sign-up-modal";
 
-import { auth } from '../../../firebase';
+// Utilities
+import { auth } from "../../../firebase";
 
-const buttonStyle = { margin: '20px 10px' };
+const buttonStyle = { margin: "20px 10px" };
 
 class SubmitProjectButton extends Component {
   state = { modal: false };
 
   toggle = () => {
-    this.setState(prevState => ({ modal: !prevState.modal }));
+    this.setState((prevState) => ({ modal: !prevState.modal }));
   };
 
   gotoSignUp = () => {
     const { history } = this.props;
-    history.push('/signupin');
+    history.push("/signupin");
   };
 
   render() {
@@ -32,7 +35,11 @@ class SubmitProjectButton extends Component {
     }
     return (
       <div className="d-inline">
-        <SignUpModal isOpen={modal} toggle={this.toggle} signUp={this.gotoSignUp} />
+        <SignUpModal
+          isOpen={modal}
+          toggle={this.toggle}
+          signUp={this.gotoSignUp}
+        />
         <Button onClick={this.toggle} style={buttonStyle} color="danger">
           Submit a Project
         </Button>

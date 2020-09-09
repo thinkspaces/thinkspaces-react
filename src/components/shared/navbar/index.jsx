@@ -1,6 +1,10 @@
+// Libraries
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { isEmpty } from "lodash";
+
+// Components
 import {
   Collapse,
   Navbar as RSNavbar,
@@ -15,9 +19,11 @@ import {
   DropdownMenu,
 } from "reactstrap";
 
-import { isEmpty } from "lodash";
-import logo from "../../../assets/logo-circle.png";
-import useUser from "../../../hooks/use-user";
+// Utilities
+import useUser from "hooks/use-user";
+
+// Assets
+import logo from "assets/logo-circle.png";
 
 const NavLink = styled(Link)`
   display: block;

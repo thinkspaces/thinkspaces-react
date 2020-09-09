@@ -1,10 +1,12 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import styled from 'styled-components';
+// Libraries
+import React from "react";
+import styled from "styled-components";
+import { ic_clear } from "react-icons-kit/md/ic_clear";
 
-import { Icon } from 'react-icons-kit';
-import { ic_clear } from 'react-icons-kit/md/ic_clear';
-import Button from '../../../button';
+// Components
+import { Icon } from "react-icons-kit";
+import Button from "components/shared/button";
 
 const Tag = ({ text, handleCancel, className }) => (
   <Button color="#A6A7AB" onClick={handleCancel} className={className}>

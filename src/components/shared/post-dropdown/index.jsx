@@ -1,16 +1,22 @@
 /* eslint-disable camelcase */
-import React, { Component } from 'react';
+// Libraries
+import React, { Component } from "react";
+import { more_2 } from "react-icons-kit/ikons/more_2";
 
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
-
-import { Icon } from 'react-icons-kit';
-import { more_2 } from 'react-icons-kit/ikons/more_2';
+// Components
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownToggle,
+} from "reactstrap";
+import { Icon } from "react-icons-kit";
 
 class PostDropdown extends Component {
   state = { dropdown: false };
 
   toggle = () => {
-    this.setState(prevState => ({ dropdown: !prevState.dropdown }));
+    this.setState((prevState) => ({ dropdown: !prevState.dropdown }));
   };
 
   render() {

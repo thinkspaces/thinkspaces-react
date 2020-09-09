@@ -1,12 +1,14 @@
+// Libraries
 import React from "react";
 import { withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-import CardImage from "./components/card-image";
-import CardTitle from "./components/card-title";
-import CardBody from "./components/card-body";
-import CardTags from "./components/card-tags";
-import LikeButton from "../like-button/LikeButton";
+// Components
+import CardImage from "components/shared/card/components/card-image";
+import CardTitle from "components/shared/card/components/card-title";
+import CardBody from "components/shared/card/components/card-body";
+import CardTags from "components/shared/card/components/card-tags";
+import LikeButton from "components/shared/like-button";
 
 const Container = styled.div`
   height: 300px;

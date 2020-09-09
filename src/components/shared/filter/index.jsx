@@ -1,11 +1,14 @@
+// Libraries
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
+// Components
 import { Row } from "reactstrap";
-import { db } from "../../../firebase";
+import FilterDropdown from "components/shared/filter/components/filter-dropdown";
+import SearchBar from "components/shared/filter/components/search-bar";
 
-import FilterDropdown from "./components/filter-dropdown";
-import SearchBar from "./components/search-bar";
+// Utilities
+import { db } from "../../../firebase";
 
 const Container = styled.div`
   margin-bottom: 10px;

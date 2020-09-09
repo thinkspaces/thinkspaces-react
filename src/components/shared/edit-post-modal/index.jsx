@@ -1,14 +1,25 @@
-import React from 'react';
-import { Button,
+// Libraries
+import React from "react";
+
+// Components
+import {
+  Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
   Form,
   FormGroup,
-  Input } from 'reactstrap';
+  Input,
+} from "reactstrap";
 
-const EditPostModal = ({ onSavePost, description, onChange, editable, toggle }) => (
+const EditPostModal = ({
+  onSavePost,
+  description,
+  onChange,
+  editable,
+  toggle,
+}) => (
   <Modal isOpen={editable} toggle={toggle} keyboard={false} backdrop="static">
     <ModalHeader>Edit post</ModalHeader>
     <ModalBody>

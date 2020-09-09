@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "components/shared/button";
 
 // Styles
-import styles from "./SaveButton.module.css";
+import styles from "components/shared/save-button/styles.css";
 
 const SaveButton = ({
   loading,

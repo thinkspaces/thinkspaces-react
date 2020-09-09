@@ -1,5 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
+// Libraries
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   img {
@@ -12,7 +13,12 @@ const Container = styled.div`
 
 const CardImage = ({ image }) => (
   <Container>
-    {image && <img src={image || 'https://via.placeholder.com/300'} alt="project cover" />}
+    {image && (
+      <img
+        src={image || "https://via.placeholder.com/300"}
+        alt="project cover"
+      />
+    )}
   </Container>
 );
 

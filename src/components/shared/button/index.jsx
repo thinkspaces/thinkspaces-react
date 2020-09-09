@@ -1,12 +1,13 @@
-import { oneOf } from 'prop-types';
-import styled, { css } from 'styled-components';
-import theme from 'styled-theming';
+// Libraries
+import { oneOf } from "prop-types";
+import styled, { css } from "styled-components";
+import theme from "styled-theming";
 
-const buttonStyle = theme.variants('mode', 'variant', {
+const buttonStyle = theme.variants("mode", "variant", {
   outlined: {
     bubbly: css`
-      border: 1px solid ${ props => props.color || '#ff6e6e' };
-      color: ${ props => props.color || '#ff6e6e' };
+      border: 1px solid ${(props) => props.color || "#ff6e6e"};
+      color: ${(props) => props.color || "#ff6e6e"};
       font-weight: bold;
       padding: 0.2em 0.5em;
       :focus {
@@ -20,7 +21,7 @@ const buttonStyle = theme.variants('mode', 'variant', {
       font-size: 20px;
       font-weight: bold;
       border: 2px solid transparent;
-      color: ${ props => props.color || '#ff6e6e' };
+      color: ${(props) => props.color || "#ff6e6e"};
       padding: 0.4em 1em;
 
       :hover {
@@ -34,8 +35,8 @@ const buttonStyle = theme.variants('mode', 'variant', {
   },
   filled: {
     bubbly: css`
-      border: 2px solid ${ props => props.color || '#ff6e6e' };
-      background: ${ props => props.color || '#ff6e6e' };
+      border: 2px solid ${(props) => props.color || "#ff6e6e"};
+      background: ${(props) => props.color || "#ff6e6e"};
       color: white;
       font-weight: bold;
       padding: 0.4em 1em;
@@ -56,15 +57,15 @@ const Button = styled.button`
   font-family: HelveticaNeue;
   border-radius: 3px;
   background: white;
-  ${ buttonStyle }
+  ${buttonStyle}
 `;
 
 Button.propTypes = {
-  variant: oneOf([ 'outlined', 'link', 'filled' ]),
+  variant: oneOf(["outlined", "link", "filled"]),
 };
 
 Button.defaultProps = {
-  variant: 'filled',
+  variant: "filled",
 };
 
 export default Button;

@@ -1,4 +1,7 @@
-import React from 'react';
+// Libraries
+import React from "react";
+
+// Components
 import {
   Dropdown,
   DropdownMenu,
@@ -7,7 +10,7 @@ import {
   Col,
   Label,
   Input,
-} from 'reactstrap';
+} from "reactstrap";
 
 const DropdownElement = ({ checked, index, label, onSelect }) => (
   <DropdownItem onClick={() => onSelect(index)}>
@@ -19,24 +22,27 @@ const DropdownElement = ({ checked, index, label, onSelect }) => (
 );
 
 const titles = {
-  'project-category': 'Discipline',
-  'release-status': 'Status',
-  organization: 'Organization Type',
+  "project-category": "Discipline",
+  "release-status": "Status",
+  organization: "Organization Type",
 };
-const getMappedTitle = title => titles[title];
+const getMappedTitle = (title) => titles[title];
 
 const MenuModifiers = {
   setMaxHeight: {
     enabled: true,
     order: 890,
-    fn: data => ({ ...data, styles: { ...data.styles, overflow: 'auto', maxHeight: 200 } }),
+    fn: (data) => ({
+      ...data,
+      styles: { ...data.styles, overflow: "auto", maxHeight: 200 },
+    }),
   },
 };
 
 const FilterDropdown = ({ isOpen, toggle, title, filterItems, onSelect }) => (
   <Col>
     <Dropdown style={{ marginTop: 5 }} isOpen={isOpen} toggle={toggle}>
-      <DropdownToggle caret tag="span" style={{ cursor: 'pointer' }}>
+      <DropdownToggle caret tag="span" style={{ cursor: "pointer" }}>
         {getMappedTitle(title)}
       </DropdownToggle>
       <DropdownMenu modifiers={MenuModifiers}>
