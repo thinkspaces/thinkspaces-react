@@ -1,19 +1,24 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Field } from 'formik';
-import { FilePond, registerPlugin } from 'react-filepond';
-import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+// Libraries
+import React from "react";
+import styled from "styled-components";
+import { Field } from "formik";
+import { FilePond, registerPlugin } from "react-filepond";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 
-import useFirebaseStorage from '../../../../../../hooks/use-firebase-storage';
+// Hooks
+import useFirebaseStorage from "hooks/use-firebase-storage";
 
-import 'filepond/dist/filepond.min.css';
-import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css';
+// Styles
+import "filepond/dist/filepond.min.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 registerPlugin(FilePondPluginImagePreview);
 
 const FilePondField = ({ field, form }) => {
   const { files, handleUpdateFiles } = useFirebaseStorage({ field, form });
-  return <FilePond onupdatefiles={handleUpdateFiles} allowMultiple files={files} />;
+  return (
+    <FilePond onupdatefiles={handleUpdateFiles} allowMultiple files={files} />
+  );
 };
 
 const Container = styled.div`

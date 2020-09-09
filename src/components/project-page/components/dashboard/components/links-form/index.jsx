@@ -1,6 +1,9 @@
-import React from 'react';
-import { FieldArray, Field } from 'formik';
-import ProjectLink from './components/ProjectLink';
+// Libraries
+import React from "react";
+import { FieldArray, Field } from "formik";
+
+// Components
+import ProjectLink from "./components/ProjectLink";
 
 const AddLink = ({ onClick }) => (
   <button type="button" onClick={onClick} className="defBtn neutral">
@@ -11,7 +14,7 @@ const AddLink = ({ onClick }) => (
 const LinksArray = ({ field, handleRadio, form }) => (
   <FieldArray
     name="links"
-    render={arrayHelpers => (
+    render={(arrayHelpers) => (
       <div>
         {field.value && field.value.length > 0 ? (
           field.value.map((link, index) => (
@@ -20,11 +23,21 @@ const LinksArray = ({ field, handleRadio, form }) => (
               index={index}
               handleRadio={handleRadio(index, field.value, form)}
               onRemove={() => arrayHelpers.remove(index)}
-              onAdd={() => arrayHelpers.insert(index + 1, { name: '', url: '', primary: false })}
+              onAdd={() =>
+                arrayHelpers.insert(index + 1, {
+                  name: "",
+                  url: "",
+                  primary: false,
+                })
+              }
             />
           ))
         ) : (
-          <AddLink onClick={() => arrayHelpers.push({ name: '', url: '', primary: true })} />
+          <AddLink
+            onClick={() =>
+              arrayHelpers.push({ name: "", url: "", primary: true })
+            }
+          />
         )}
       </div>
     )}
@@ -47,8 +60,9 @@ const LinksForm = () => {
       <div>
         <h2>Add links</h2>
         <p>
-          Link to external websites, social platforms, YouTube videos and more. We will parse each
-          link, and show rich previews and icons on your project listing where possible.
+          Link to external websites, social platforms, YouTube videos and more.
+          We will parse each link, and show rich previews and icons on your
+          project listing where possible.
         </p>
       </div>
       <Field component={LinksArray} name="links" handleRadio={handleRadio} />

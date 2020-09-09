@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import styled from 'styled-components';
-import SaveButton from '../../../../../../../shared/save-button';
-import useProject from '../../../../../../../../hooks/use-project';
+// Libraries
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
+import styled from "styled-components";
+
+// Components
+import SaveButton from "components/shared/save-button";
+
+// Hooks
+import useProject from "hooks/use-project";
 
 const Container = styled.section`
   margin-bottom: 50px;
@@ -20,8 +25,8 @@ const Container = styled.section`
 
 const DeleteForm = ({ history, pid }) => {
   const { deleteProject } = useProject();
-  const [ loading, setLoading ] = useState(false);
-  const [ success, setSuccess ] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleDelete = () => {
     setSuccess(false);
@@ -35,7 +40,7 @@ const DeleteForm = ({ history, pid }) => {
       setSuccess(false);
     }, 1000);
     // navigate to root
-    history.replace('/');
+    history.replace("/");
   };
 
   return (
@@ -43,8 +48,8 @@ const DeleteForm = ({ history, pid }) => {
       <h3>Delete project</h3>
       <div className="wrap">
         <span className="helpText">
-          Careful! Clicking delete will <b>irreversibly</b> delete your project, all its data, and
-          scrub clean any users that refer to it.
+          Careful! Clicking delete will <b>irreversibly</b> delete your project,
+          all its data, and scrub clean any users that refer to it.
         </span>
         <SaveButton
           onClick={handleDelete}

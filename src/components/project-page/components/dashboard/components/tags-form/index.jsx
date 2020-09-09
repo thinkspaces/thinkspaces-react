@@ -1,7 +1,10 @@
+// Libraries
 import React, { useEffect } from "react";
 import { bindActionCreators } from "redux";
 import { useDispatch } from "react-redux";
 import { Field } from "formik";
+
+// Components
 import CategoryForm from "./components/category-form";
 import OrganizationForm from "./components/organization-form";
 import ReleaseForm from "./components/release-form";

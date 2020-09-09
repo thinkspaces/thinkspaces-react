@@ -1,11 +1,14 @@
+// Libraries
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
-
 import { Field } from "formik";
-import { db } from "../../../../../../../../firebase";
 
+// Components
 import Tooltip from "./components/Tooltip";
 import StatusIndicator from "./components/StatusIndicator";
+
+// Utilities
+import { db } from "../../../../../../../../firebase";
 
 const ShortInput = ({ field, inputRef, available, searching, handleInput }) => {
   const [init, setInit] = useState("");

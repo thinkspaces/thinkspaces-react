@@ -1,7 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { find } from 'lodash';
-import { components } from 'react-select';
+// Libraries
+import React from "react";
+import styled from "styled-components";
+import { find } from "lodash";
+import { components } from "react-select";
 
 const MultiValueLabel = ({ className, data, selectProps, ...props }) => {
   const { options } = selectProps;
@@ -14,7 +15,7 @@ const MultiValueLabel = ({ className, data, selectProps, ...props }) => {
     <components.MultiValueLabel {...props}>
       <div className={className}>
         <img
-          src={user.profilepicture || 'http://www.gravatar.com/avatar'}
+          src={user.profilepicture || "http://www.gravatar.com/avatar"}
           alt="user icon"
           className="icon"
         />
