@@ -7,3 +7,7 @@ export const fontWeight = (value) => css`
 export const fontStyle = (value) => css`
   font-style: ${value};
 `;
+
+export const pa = (value) => css`
+  padding: ${value}px;
+`;
