@@ -15,3 +15,7 @@ export const pa = (value) => css`
 export const mb = (value) => css`
   margin-bottom: ${value}px;
 `;
+
+export const color = (value) => css`
+  color: ${value};
+`;

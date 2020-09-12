@@ -1,4 +1,10 @@
+// Libraries
 import React from "react";
+import {} from "styled-components/macro";
+
+// Utilities
+import { color } from "styles/utilities";
+import tokens from "design-tokens";
 
 const Title = ({ level = 1, className, children }) => {
   const Tag = `h${level}`;
@@ -6,7 +12,11 @@ const Title = ({ level = 1, className, children }) => {
 };
 
 const Text = ({ className, children }) => {
-  return <span className={className}>{children}</span>;
+  return (
+    <span css={color(tokens.colorScheme.text.primary)} className={className}>
+      {children}
+    </span>
+  );
 };
 
 export { Title, Text };

@@ -23,6 +23,7 @@ module.exports = {
     "no-use-before-define": [2, { functions: false }],
     semi: [0, "never"],
     "prefer-const": 1,
+    "react/require-default-props": 0,
     "react/prefer-es6-class": 0,
     "react/prefer-stateless-function": [1],
     "react/jsx-filename-extension": 0,
