@@ -1,3 +1,5 @@
+import colors from "design-tokens/colors";
+
 const designTokens = {
   font: {
     bold: "bold",
@@ -5,11 +7,11 @@ const designTokens = {
   },
   colorScheme: {
     title: {
-      primary: "#262626",
+      primary: colors.neutralColors.gray[10],
     },
     text: {
-      primary: "#434343",
-      secondary: "#8c8c8c",
+      primary: colors.neutralColors.gray[9],
+      secondary: colors.neutralColors.gray[7],
     },
   },
 };
