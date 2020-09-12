@@ -6,9 +6,17 @@ import {} from "styled-components/macro";
 import { color } from "styles/utilities";
 import tokens from "design-tokens";
 
-const Title = ({ level = 1, className, children }) => {
+const InnerTitleWrapper = ({ level = 1, className, children }) => {
   const Tag = `h${level}`;
   return <Tag className={className}>{children}</Tag>;
+};
+
+const Title = ({ children, ...props }) => {
+  return (
+    <InnerTitleWrapper css={color(tokens.colorScheme.title.primary)} {...props}>
+      {children}
+    </InnerTitleWrapper>
+  );
 };
 
 const Text = ({ className, children }) => {

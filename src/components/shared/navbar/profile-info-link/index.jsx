@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import { Link } from "react-router-dom";
+import {} from "styled-components/macro";
 
 // Components
 import {
@@ -12,9 +13,14 @@ import {
   DropdownItem,
   DropdownMenu,
 } from "reactstrap";
+import { Text } from "components/shared/typography";
 
 // Styles
 import { NavLink } from "components/shared/navbar/styles";
+
+// Utilities
+import { color } from "styles/utilities";
+import tokens from "design-tokens";
 
 const ProfileInfoLink = ({ user, logoutUser }) => {
   return user ? (
@@ -33,7 +39,9 @@ const ProfileInfoLink = ({ user, logoutUser }) => {
   ) : (
     <NavItem color="danger">
       <NavLink className="nav" to="/signupin">
-        Login/Sign Up
+        <Text css={color(tokens.colorScheme.text.secondary)}>
+          Login/Sign Up
+        </Text>
       </NavLink>
     </NavItem>
   );
