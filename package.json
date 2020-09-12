@@ -1,7 +1,9 @@
 {
-  "name": "thinkspaces-react",
+  "name": "@thinkspaces/thinkspaces-react",
+  "repository": {
+    "url": "git://github.com/thinkspaces/thinkspaces-react.git"
+  },
   "version": "0.1.0",
-  "private": true,
   "scripts": {
     "start": "REACT_APP_ENV=staging react-scripts start",
     "start:staging": "REACT_APP_ENV=staging react-scripts start",
