@@ -11,3 +11,7 @@ export const fontStyle = (value) => css`
 export const pa = (value) => css`
   padding: ${value}px;
 `;
+
+export const mb = (value) => css`
+  margin-bottom: ${value}px;
+`;
