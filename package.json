@@ -3,7 +3,7 @@
   "repository": {
     "url": "git://github.com/thinkspaces/thinkspaces-react.git"
   },
-  "version": "0.1.0",
+  "version": "2.1.0",
   "scripts": {
     "start": "REACT_APP_ENV=staging react-scripts start",
     "start:staging": "REACT_APP_ENV=staging react-scripts start",
@@ -14,7 +14,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "commit": "commit",
-    "lint": "eslint --ext .js,.jsx src/"
+    "lint": "eslint --ext .js,.jsx src/",
+    "release": "standard-version"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.17",
@@ -80,7 +81,8 @@
     "eslint-plugin-react-hooks": "^1.6.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.3.0",
-    "prettier": "^2.1.1"
+    "prettier": "^2.1.1",
+    "standard-version": "^9.0.0"
   },
   "husky": {
     "hooks": {
